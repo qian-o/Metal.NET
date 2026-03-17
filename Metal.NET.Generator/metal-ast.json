@@ -36071,7 +36071,9 @@
           "returnType": "void",
           "returnNullability": null,
           "parameters": [],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Objective-C garbage collection is no longer supported"
         },
         {
           "selector": "copy",
@@ -66231,11 +66233,455 @@
       ]
     },
     {
+      "name": "MTLOrigin",
+      "fields": [
+        {
+          "name": "x",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "y",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "z",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTLSize",
+      "fields": [
+        {
+          "name": "width",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "height",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "depth",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTLRegion",
+      "fields": [
+        {
+          "name": "origin",
+          "type": "MTLOrigin"
+        },
+        {
+          "name": "size",
+          "type": "MTLSize"
+        }
+      ]
+    },
+    {
+      "name": "MTLSamplePosition",
+      "fields": [
+        {
+          "name": "x",
+          "type": "float"
+        },
+        {
+          "name": "y",
+          "type": "float"
+        }
+      ]
+    },
+    {
       "name": "MTLResourceID",
       "fields": [
         {
           "name": "_impl",
           "type": "uint64_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLTextureSwizzleChannels",
+      "fields": [
+        {
+          "name": "red",
+          "type": "MTLTextureSwizzle"
+        },
+        {
+          "name": "green",
+          "type": "MTLTextureSwizzle"
+        },
+        {
+          "name": "blue",
+          "type": "MTLTextureSwizzle"
+        },
+        {
+          "name": "alpha",
+          "type": "MTLTextureSwizzle"
+        }
+      ]
+    },
+    {
+      "name": "MTLCounterResultTimestamp",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "uint64_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLCounterResultStageUtilization",
+      "fields": [
+        {
+          "name": "totalCycles",
+          "type": "uint64_t"
+        },
+        {
+          "name": "vertexCycles",
+          "type": "uint64_t"
+        },
+        {
+          "name": "tessellationCycles",
+          "type": "uint64_t"
+        },
+        {
+          "name": "postTessellationVertexCycles",
+          "type": "uint64_t"
+        },
+        {
+          "name": "fragmentCycles",
+          "type": "uint64_t"
+        },
+        {
+          "name": "renderTargetCycles",
+          "type": "uint64_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLCounterResultStatistic",
+      "fields": [
+        {
+          "name": "tessellationInputPatches",
+          "type": "uint64_t"
+        },
+        {
+          "name": "vertexInvocations",
+          "type": "uint64_t"
+        },
+        {
+          "name": "postTessellationVertexInvocations",
+          "type": "uint64_t"
+        },
+        {
+          "name": "clipperInvocations",
+          "type": "uint64_t"
+        },
+        {
+          "name": "clipperPrimitivesOut",
+          "type": "uint64_t"
+        },
+        {
+          "name": "fragmentInvocations",
+          "type": "uint64_t"
+        },
+        {
+          "name": "fragmentsPassed",
+          "type": "uint64_t"
+        },
+        {
+          "name": "computeKernelInvocations",
+          "type": "uint64_t"
+        }
+      ]
+    },
+    {
+      "name": "MTL4TimestampHeapEntry",
+      "fields": [
+        {
+          "name": "timestamp",
+          "type": "uint64_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLAccelerationStructureSizes",
+      "fields": [
+        {
+          "name": "accelerationStructureSize",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "buildScratchBufferSize",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "refitScratchBufferSize",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTLSizeAndAlign",
+      "fields": [
+        {
+          "name": "size",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "align",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTLMapIndirectArguments",
+      "fields": [
+        {
+          "name": "regionOriginX",
+          "type": "uint32_t"
+        },
+        {
+          "name": "regionOriginY",
+          "type": "uint32_t"
+        },
+        {
+          "name": "regionOriginZ",
+          "type": "uint32_t"
+        },
+        {
+          "name": "regionSizeWidth",
+          "type": "uint32_t"
+        },
+        {
+          "name": "regionSizeHeight",
+          "type": "uint32_t"
+        },
+        {
+          "name": "regionSizeDepth",
+          "type": "uint32_t"
+        },
+        {
+          "name": "mipMapLevel",
+          "type": "uint32_t"
+        },
+        {
+          "name": "sliceId",
+          "type": "uint32_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLClearColor",
+      "fields": [
+        {
+          "name": "red",
+          "type": "double"
+        },
+        {
+          "name": "green",
+          "type": "double"
+        },
+        {
+          "name": "blue",
+          "type": "double"
+        },
+        {
+          "name": "alpha",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "MTLDispatchThreadgroupsIndirectArguments",
+      "fields": [
+        {
+          "name": "threadgroupsPerGrid",
+          "type": "uint32_t[3]"
+        }
+      ]
+    },
+    {
+      "name": "MTLDispatchThreadsIndirectArguments",
+      "fields": [
+        {
+          "name": "threadsPerGrid",
+          "type": "uint32_t[3]"
+        },
+        {
+          "name": "threadsPerThreadgroup",
+          "type": "uint32_t[3]"
+        }
+      ]
+    },
+    {
+      "name": "MTLStageInRegionIndirectArguments",
+      "fields": [
+        {
+          "name": "stageInOrigin",
+          "type": "uint32_t[3]"
+        },
+        {
+          "name": "stageInSize",
+          "type": "uint32_t[3]"
+        }
+      ]
+    },
+    {
+      "name": "MTLScissorRect",
+      "fields": [
+        {
+          "name": "x",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "y",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "width",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "height",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTLViewport",
+      "fields": [
+        {
+          "name": "originX",
+          "type": "double"
+        },
+        {
+          "name": "originY",
+          "type": "double"
+        },
+        {
+          "name": "width",
+          "type": "double"
+        },
+        {
+          "name": "height",
+          "type": "double"
+        },
+        {
+          "name": "znear",
+          "type": "double"
+        },
+        {
+          "name": "zfar",
+          "type": "double"
+        }
+      ]
+    },
+    {
+      "name": "MTLDrawPrimitivesIndirectArguments",
+      "fields": [
+        {
+          "name": "vertexCount",
+          "type": "uint32_t"
+        },
+        {
+          "name": "instanceCount",
+          "type": "uint32_t"
+        },
+        {
+          "name": "vertexStart",
+          "type": "uint32_t"
+        },
+        {
+          "name": "baseInstance",
+          "type": "uint32_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLDrawIndexedPrimitivesIndirectArguments",
+      "fields": [
+        {
+          "name": "indexCount",
+          "type": "uint32_t"
+        },
+        {
+          "name": "instanceCount",
+          "type": "uint32_t"
+        },
+        {
+          "name": "indexStart",
+          "type": "uint32_t"
+        },
+        {
+          "name": "baseVertex",
+          "type": "int32_t"
+        },
+        {
+          "name": "baseInstance",
+          "type": "uint32_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLVertexAmplificationViewMapping",
+      "fields": [
+        {
+          "name": "viewportArrayIndexOffset",
+          "type": "uint32_t"
+        },
+        {
+          "name": "renderTargetArrayIndexOffset",
+          "type": "uint32_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLDrawPatchIndirectArguments",
+      "fields": [
+        {
+          "name": "patchCount",
+          "type": "uint32_t"
+        },
+        {
+          "name": "instanceCount",
+          "type": "uint32_t"
+        },
+        {
+          "name": "patchStart",
+          "type": "uint32_t"
+        },
+        {
+          "name": "baseInstance",
+          "type": "uint32_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLQuadTessellationFactorsHalf",
+      "fields": [
+        {
+          "name": "edgeTessellationFactor",
+          "type": "uint16_t[4]"
+        },
+        {
+          "name": "insideTessellationFactor",
+          "type": "uint16_t[2]"
+        }
+      ]
+    },
+    {
+      "name": "MTLTriangleTessellationFactorsHalf",
+      "fields": [
+        {
+          "name": "edgeTessellationFactor",
+          "type": "uint16_t[3]"
+        },
+        {
+          "name": "insideTessellationFactor",
+          "type": "uint16_t"
         }
       ]
     },
@@ -66301,6 +66747,326 @@
         {
           "name": "max",
           "type": "MTLPackedFloat3"
+        }
+      ]
+    },
+    {
+      "name": "MTLComponentTransform",
+      "fields": [
+        {
+          "name": "scale",
+          "type": "MTLPackedFloat3"
+        },
+        {
+          "name": "shear",
+          "type": "MTLPackedFloat3"
+        },
+        {
+          "name": "pivot",
+          "type": "MTLPackedFloat3"
+        },
+        {
+          "name": "rotation",
+          "type": "MTLPackedFloatQuaternion"
+        },
+        {
+          "name": "translation",
+          "type": "MTLPackedFloat3"
+        }
+      ]
+    },
+    {
+      "name": "MTLAccelerationStructureInstanceDescriptor",
+      "fields": [
+        {
+          "name": "transformationMatrix",
+          "type": "MTLPackedFloat4x3"
+        },
+        {
+          "name": "options",
+          "type": "MTLAccelerationStructureInstanceOptions"
+        },
+        {
+          "name": "mask",
+          "type": "uint32_t"
+        },
+        {
+          "name": "intersectionFunctionTableOffset",
+          "type": "uint32_t"
+        },
+        {
+          "name": "accelerationStructureIndex",
+          "type": "uint32_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLAccelerationStructureUserIDInstanceDescriptor",
+      "fields": [
+        {
+          "name": "transformationMatrix",
+          "type": "MTLPackedFloat4x3"
+        },
+        {
+          "name": "options",
+          "type": "MTLAccelerationStructureInstanceOptions"
+        },
+        {
+          "name": "mask",
+          "type": "uint32_t"
+        },
+        {
+          "name": "intersectionFunctionTableOffset",
+          "type": "uint32_t"
+        },
+        {
+          "name": "accelerationStructureIndex",
+          "type": "uint32_t"
+        },
+        {
+          "name": "userID",
+          "type": "uint32_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLAccelerationStructureMotionInstanceDescriptor",
+      "fields": [
+        {
+          "name": "options",
+          "type": "MTLAccelerationStructureInstanceOptions"
+        },
+        {
+          "name": "mask",
+          "type": "uint32_t"
+        },
+        {
+          "name": "intersectionFunctionTableOffset",
+          "type": "uint32_t"
+        },
+        {
+          "name": "accelerationStructureIndex",
+          "type": "uint32_t"
+        },
+        {
+          "name": "userID",
+          "type": "uint32_t"
+        },
+        {
+          "name": "motionTransformsStartIndex",
+          "type": "uint32_t"
+        },
+        {
+          "name": "motionTransformsCount",
+          "type": "uint32_t"
+        },
+        {
+          "name": "motionStartBorderMode",
+          "type": "MTLMotionBorderMode"
+        },
+        {
+          "name": "motionEndBorderMode",
+          "type": "MTLMotionBorderMode"
+        },
+        {
+          "name": "motionStartTime",
+          "type": "float"
+        },
+        {
+          "name": "motionEndTime",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "MTLIndirectAccelerationStructureInstanceDescriptor",
+      "fields": [
+        {
+          "name": "transformationMatrix",
+          "type": "MTLPackedFloat4x3"
+        },
+        {
+          "name": "options",
+          "type": "MTLAccelerationStructureInstanceOptions"
+        },
+        {
+          "name": "mask",
+          "type": "uint32_t"
+        },
+        {
+          "name": "intersectionFunctionTableOffset",
+          "type": "uint32_t"
+        },
+        {
+          "name": "userID",
+          "type": "uint32_t"
+        },
+        {
+          "name": "accelerationStructureID",
+          "type": "MTLResourceID"
+        }
+      ]
+    },
+    {
+      "name": "MTLIndirectAccelerationStructureMotionInstanceDescriptor",
+      "fields": [
+        {
+          "name": "options",
+          "type": "MTLAccelerationStructureInstanceOptions"
+        },
+        {
+          "name": "mask",
+          "type": "uint32_t"
+        },
+        {
+          "name": "intersectionFunctionTableOffset",
+          "type": "uint32_t"
+        },
+        {
+          "name": "userID",
+          "type": "uint32_t"
+        },
+        {
+          "name": "accelerationStructureID",
+          "type": "MTLResourceID"
+        },
+        {
+          "name": "motionTransformsStartIndex",
+          "type": "uint32_t"
+        },
+        {
+          "name": "motionTransformsCount",
+          "type": "uint32_t"
+        },
+        {
+          "name": "motionStartBorderMode",
+          "type": "MTLMotionBorderMode"
+        },
+        {
+          "name": "motionEndBorderMode",
+          "type": "MTLMotionBorderMode"
+        },
+        {
+          "name": "motionStartTime",
+          "type": "float"
+        },
+        {
+          "name": "motionEndTime",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "MTL4UpdateSparseTextureMappingOperation",
+      "fields": [
+        {
+          "name": "mode",
+          "type": "MTLSparseTextureMappingMode"
+        },
+        {
+          "name": "textureRegion",
+          "type": "MTLRegion"
+        },
+        {
+          "name": "textureLevel",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "textureSlice",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "heapOffset",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTL4CopySparseTextureMappingOperation",
+      "fields": [
+        {
+          "name": "sourceRegion",
+          "type": "MTLRegion"
+        },
+        {
+          "name": "sourceLevel",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "sourceSlice",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "destinationOrigin",
+          "type": "MTLOrigin"
+        },
+        {
+          "name": "destinationLevel",
+          "type": "NSUInteger"
+        },
+        {
+          "name": "destinationSlice",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTL4UpdateSparseBufferMappingOperation",
+      "fields": [
+        {
+          "name": "mode",
+          "type": "MTLSparseTextureMappingMode"
+        },
+        {
+          "name": "bufferRange",
+          "type": "NSRange"
+        },
+        {
+          "name": "heapOffset",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTL4CopySparseBufferMappingOperation",
+      "fields": [
+        {
+          "name": "sourceRange",
+          "type": "NSRange"
+        },
+        {
+          "name": "destinationOffset",
+          "type": "NSUInteger"
+        }
+      ]
+    },
+    {
+      "name": "MTLIndirectCommandBufferExecutionRange",
+      "fields": [
+        {
+          "name": "location",
+          "type": "uint32_t"
+        },
+        {
+          "name": "length",
+          "type": "uint32_t"
+        }
+      ]
+    },
+    {
+      "name": "MTLIntersectionFunctionBufferArguments",
+      "fields": [
+        {
+          "name": "intersectionFunctionBuffer",
+          "type": "uint64_t"
+        },
+        {
+          "name": "intersectionFunctionBufferSize",
+          "type": "uint64_t"
+        },
+        {
+          "name": "intersectionFunctionStride",
+          "type": "uint64_t"
         }
       ]
     }
