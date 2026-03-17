@@ -3,11 +3,15 @@
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   extract:
     runs-on: macos-26
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Print environment
         run: |
@@ -47,11 +51,11 @@ jobs:
           rm -f "$TEMP_HEADER"
           echo "Raw AST: $(du -h "$RAW_AST" | cut -f1)"
 
-          echo "Filtering to Metal API..."
+          echo "Extracting Metal API..."
           python3 - "$RAW_AST" "Metal.NET.Generator/metal-ast.json" "$SDK_VERSION" "$SDK_PATH" <<'PYEOF'
           import json, sys, os, re
 
-          raw_path, out_path, sdk_version, sdk_path = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+          raw_path, out_path, sdk_version, sdk_path = sys.argv[1:5]
 
           WANTED_PREFIXES = ("MTL", "MTLFX")
           WANTED_EXTRA = {
@@ -68,24 +72,20 @@ jobs:
               return any(name.startswith(p) for p in WANTED_PREFIXES) or name in WANTED_EXTRA
 
           def get_attrs(node):
-              """Extract deprecation info from a node.
-              Checks both 'inner' and 'attrs' arrays (clang version differences).
-              Returns dict with 'deprecated' and/or 'deprecationMessage'."""
+              """Extract deprecation info from a node."""
               deprecated = False
               dep_message = None
-              # Clang stores attributes in 'inner' (older) or 'attrs' (newer) or both
               children = node.get("inner", []) + node.get("attrs", [])
               for child in children:
                   kind = child.get("kind", "")
                   if kind == "AvailabilityAttr":
-                      # AvailabilityAttr with deprecated field also means deprecated
                       if child.get("deprecated"):
                           deprecated = True
                           if child.get("message"):
                               dep_message = child["message"]
                           elif child.get("replacement"):
-                              r = child['replacement']
-                              dep_message = r if r.lower().startswith('use ') else f"Use {r} instead"
+                              r = child["replacement"]
+                              dep_message = r if r.lower().startswith("use ") else f"Use {r} instead"
                   elif kind == "DeprecatedAttr":
                       deprecated = True
                       if child.get("message"):
@@ -96,6 +96,12 @@ jobs:
                   if dep_message:
                       result["deprecationMessage"] = dep_message
               return result
+
+          def _apply_deprecation(target, attrs):
+              if attrs.get("deprecated"):
+                  target["deprecated"] = True
+                  if attrs.get("deprecationMessage"):
+                      target["deprecationMessage"] = attrs["deprecationMessage"]
 
           def get_nullability(type_str):
               if not type_str:
@@ -113,6 +119,51 @@ jobs:
               type_str = re.sub(r'\bAPI_AVAILABLE\b\s*', '', type_str)
               type_str = re.sub(r'\bNS_RETURNS_RETAINED\b\s*', '', type_str)
               return type_str.strip()
+
+          def extract_fields(record_node):
+              fields = []
+              for c in record_node.get("inner", []):
+                  if c.get("kind") == "FieldDecl":
+                      fields.append({
+                          "name": c.get("name", ""),
+                          "type": clean_type((c.get("type") or {}).get("qualType", "")),
+                      })
+              return fields
+
+          def find_struct_fields(node):
+              if node.get("kind") == "RecordDecl":
+                  fields = extract_fields(node)
+                  if fields:
+                      return fields
+              for c in node.get("inner", []):
+                  result = find_struct_fields(c)
+                  if result:
+                      return result
+              return None
+
+          def collect_struct_defs(node, by_name, by_id, depth=0):
+              if node.get("kind") == "RecordDecl" and node.get("tagUsed") == "struct":
+                  fields = extract_fields(node)
+                  if fields:
+                      rec_id = node.get("id", "")
+                      rec_name = node.get("name", "")
+                      if rec_id:
+                          by_id[rec_id] = fields
+                      if rec_name:
+                          by_name[rec_name] = fields
+              if depth < 5:
+                  for c in node.get("inner", []):
+                      collect_struct_defs(c, by_name, by_id, depth + 1)
+
+          def find_owned_tag_id(node):
+              otd = node.get("ownedTagDecl")
+              if otd:
+                  return otd.get("id")
+              for c in node.get("inner", []):
+                  r = find_owned_tag_id(c)
+                  if r:
+                      return r
+              return None
 
           def extract_enum(node):
               name = node.get("name", "")
@@ -144,18 +195,17 @@ jobs:
                       members.append(m)
               if not members:
                   return None
-              attrs = get_attrs(node)
               r = {
                   "kind": "enum",
                   "name": name,
                   "underlyingType": (node.get("fixedUnderlyingType") or {}).get("qualType"),
-                  "isOptions": any(c.get("kind") == "FlagEnumAttr" for c in node.get("inner", []) + node.get("attrs", [])),
+                  "isOptions": any(
+                      c.get("kind") == "FlagEnumAttr"
+                      for c in node.get("inner", []) + node.get("attrs", [])
+                  ),
                   "members": members,
               }
-              if attrs.get("deprecated"):
-                  r["deprecated"] = True
-                  if attrs.get("deprecationMessage"):
-                      r["deprecationMessage"] = attrs["deprecationMessage"]
+              _apply_deprecation(r, get_attrs(node))
               return r
 
           def extract_method(node):
@@ -172,7 +222,6 @@ jobs:
                           "type": pt,
                           "nullability": get_nullability(pt),
                       })
-              attrs = get_attrs(node)
               r = {
                   "selector": name,
                   "isClassMethod": not node.get("instance", True),
@@ -180,10 +229,7 @@ jobs:
                   "returnNullability": get_nullability(ret),
                   "parameters": params,
               }
-              if attrs.get("deprecated"):
-                  r["deprecated"] = True
-                  if attrs.get("deprecationMessage"):
-                      r["deprecationMessage"] = attrs["deprecationMessage"]
+              _apply_deprecation(r, get_attrs(node))
               return r
 
           def extract_property(node):
@@ -191,7 +237,6 @@ jobs:
               if not name:
                   return None
               pt = clean_type((node.get("type") or {}).get("qualType", ""))
-              attrs = get_attrs(node)
               r = {
                   "name": name,
                   "type": pt,
@@ -202,10 +247,7 @@ jobs:
                   r["getter"] = node["getter"].get("name", "")
               if node.get("setter"):
                   r["setter"] = node["setter"].get("name", "")
-              if attrs.get("deprecated"):
-                  r["deprecated"] = True
-                  if attrs.get("deprecationMessage"):
-                      r["deprecationMessage"] = attrs["deprecationMessage"]
+              _apply_deprecation(r, get_attrs(node))
               return r
 
           def extract_type(node):
@@ -230,108 +272,215 @@ jobs:
                       p = extract_property(c)
                       if p:
                           r["properties"].append(p)
-              attrs = get_attrs(node)
-              if attrs.get("deprecated"):
-                  r["deprecated"] = True
-                  if attrs.get("deprecationMessage"):
-                      r["deprecationMessage"] = attrs["deprecationMessage"]
+              _apply_deprecation(r, get_attrs(node))
               return r
 
+          def _skip_balanced_parens(text, start):
+              depth, i = 0, start
+              while i < len(text):
+                  if text[i] == '(':
+                      depth += 1
+                  elif text[i] == ')':
+                      depth -= 1
+                      if depth == 0:
+                          return i + 1
+                  i += 1
+              return i
+
+          def _strip_api_macros(text):
+              out, i = [], 0
+              while i < len(text):
+                  if any(text[i:].startswith(p) for p in (
+                      'API_DEPRECATED', 'API_AVAILABLE', 'NS_AVAILABLE',
+                      'NS_DEPRECATED', 'NS_RETURNS_RETAINED',
+                  )):
+                      while i < len(text) and text[i] != '(':
+                          i += 1
+                      if i < len(text):
+                          i = _skip_balanced_parens(text, i)
+                  else:
+                      out.append(text[i])
+                      i += 1
+              return ''.join(out)
+
+          def _extract_objc_selector(decl):
+              clean = _strip_api_macros(decl).strip().rstrip(';').strip()
+              if not clean:
+                  return None
+              clean = re.sub(r'^[-+]\s*', '', clean)
+              if clean and clean[0] == '(':
+                  clean = clean[_skip_balanced_parens(clean, 0):].strip()
+              no_parens, d = [], 0
+              for c in clean:
+                  if c == '(':
+                      d += 1
+                  elif c == ')':
+                      d -= 1
+                  elif d == 0:
+                      no_parens.append(c)
+              no_parens = ''.join(no_parens)
+              parts = re.findall(r'(\w+)\s*:', no_parens)
+              if parts:
+                  return ':'.join(parts) + ':'
+              m = re.match(r'(\w+)', no_parens.strip())
+              return m.group(1) if m else None
+
+          def scan_header_deprecations(sdk_path):
+              dep = {}
+              for fw in ("Metal", "MetalFX"):
+                  scan_dir = os.path.join(sdk_path, f"System/Library/Frameworks/{fw}.framework/Headers")
+                  if not os.path.isdir(scan_dir):
+                      continue
+                  for fn in sorted(os.listdir(scan_dir)):
+                      if not fn.endswith('.h'):
+                          continue
+                      with open(os.path.join(scan_dir, fn)) as hf:
+                          text = hf.read()
+                      text = re.sub(r'/\*.*?\*/', ' ', text, flags=re.DOTALL)
+                      text = re.sub(r'//[^\n]*', '', text)
+                      lines = text.split('\n')
+                      merged, buf = [], ''
+                      for raw in lines:
+                          s = raw.strip()
+                          if not s:
+                              if buf:
+                                  merged.append(buf)
+                                  buf = ''
+                              continue
+                          if re.match(r'^@(protocol|interface|end|class|optional|required)\b', s) or s.startswith('#'):
+                              if buf:
+                                  merged.append(buf)
+                                  buf = ''
+                              merged.append(s)
+                              continue
+                          buf = (buf + ' ' + s) if buf else s
+                          if s.endswith(';') or s.endswith('{') or s.endswith('}'):
+                              merged.append(buf.strip())
+                              buf = ''
+                      if buf:
+                          merged.append(buf.strip())
+                      current_type = None
+                      for mline in merged:
+                          tm = re.match(r'@protocol\s+(\w+)', mline)
+                          if tm:
+                              current_type = tm.group(1)
+                              continue
+                          tm = re.match(r'@interface\s+(\w+)', mline)
+                          if tm:
+                              current_type = tm.group(1)
+                              continue
+                          if mline.startswith('@end'):
+                              current_type = None
+                              continue
+                          if not current_type or 'API_DEPRECATED' not in mline:
+                              continue
+                          msg = None
+                          dm = re.search(r'API_DEPRECATED_WITH_REPLACEMENT\s*\(\s*"([^"]*)"', mline)
+                          if dm:
+                              r = dm.group(1)
+                              msg = r if r.lower().startswith('use ') else f"Use {r} instead"
+                          else:
+                              dm = re.search(r'API_DEPRECATED\s*\(\s*"([^"]*)"', mline)
+                              if dm:
+                                  msg = dm.group(1)
+                          if not msg:
+                              continue
+                          if '@property' in mline:
+                              pm = re.search(r'\b(\w+)\s+API_DEPRECATED', mline)
+                              if pm:
+                                  dep[(current_type, 'property', pm.group(1))] = msg
+                          elif re.match(r'\s*[-+]', mline):
+                              sel = _extract_objc_selector(mline)
+                              if sel:
+                                  dep[(current_type, 'method', sel)] = msg
+              return dep
+
+          def apply_header_deprecations(api, dep):
+              applied = 0
+              for collection in (api['protocols'], api['classes']):
+                  for t in collection:
+                      tname = t['name']
+                      for p in t.get('properties', []):
+                          key = (tname, 'property', p['name'])
+                          if key in dep and not p.get('deprecated'):
+                              p['deprecated'] = True
+                              p['deprecationMessage'] = dep[key]
+                              applied += 1
+                      for m in t.get('methods', []):
+                          key = (tname, 'method', m['selector'])
+                          if key in dep and not m.get('deprecated'):
+                              m['deprecated'] = True
+                              m['deprecationMessage'] = dep[key]
+                              applied += 1
+              return applied
+
+          def _dedup_by_key(items, key):
+              seen = {}
+              for item in items:
+                  seen[item[key]] = item
+              return list(seen.values())
+
+          def _merge_types(items):
+              merged = {}
+              for item in items:
+                  name = item["name"]
+                  if name not in merged:
+                      merged[name] = item
+                  else:
+                      existing = merged[name]
+                      seen_sel = {m["selector"] for m in existing["methods"]}
+                      for m in item["methods"]:
+                          if m["selector"] not in seen_sel:
+                              existing["methods"].append(m)
+                              seen_sel.add(m["selector"])
+                      seen_prop = {p["name"] for p in existing["properties"]}
+                      for p in item["properties"]:
+                          if p["name"] not in seen_prop:
+                              existing["properties"].append(p)
+                              seen_prop.add(p["name"])
+                      seen_proto = set(existing.get("protocols", []))
+                      for p in item.get("protocols", []):
+                          if p not in seen_proto:
+                              existing["protocols"].append(p)
+                              seen_proto.add(p)
+                      if not existing.get("super") and item.get("super"):
+                          existing["super"] = item["super"]
+              return list(merged.values())
+
+          # === Main ===
           with open(raw_path) as f:
               ast = json.load(f)
 
-          # Diagnostic: enumerate all attribute kinds in ObjC declarations
           attr_kind_counts = {}
           stack = [(n, False) for n in ast.get("inner", [])]
           while stack:
-              _node, _in_objc = stack.pop()
-              _k = _node.get("kind", "")
-              _is_objc = _in_objc or _k.startswith("ObjC")
-              if _is_objc and "Attr" in _k:
-                  attr_kind_counts[_k] = attr_kind_counts.get(_k, 0) + 1
-              for _key in ("inner", "attrs"):
-                  for _c in _node.get(_key, []):
-                      stack.append((_c, _is_objc))
+              node, in_objc = stack.pop()
+              k = node.get("kind", "")
+              is_objc = in_objc or k.startswith("ObjC")
+              if is_objc and "Attr" in k:
+                  attr_kind_counts[k] = attr_kind_counts.get(k, 0) + 1
+              for key in ("inner", "attrs"):
+                  for c in node.get(key, []):
+                      stack.append((c, is_objc))
           if attr_kind_counts:
               print(f"ObjC attribute kinds: {dict(sorted(attr_kind_counts.items()))}")
           else:
               print("WARNING: No attribute kinds found in ObjC declarations")
 
-          def extract_fields(record_node):
-              """Extract FieldDecl children from a RecordDecl node."""
-              fields = []
-              for c in record_node.get("inner", []):
-                  if c.get("kind") == "FieldDecl":
-                      fields.append({
-                          "name": c.get("name", ""),
-                          "type": clean_type((c.get("type") or {}).get("qualType", "")),
-                      })
-              return fields
-
-          def find_struct_fields(node):
-              """Recursively search a node tree for a RecordDecl with FieldDecl children."""
-              if node.get("kind") == "RecordDecl":
-                  fields = extract_fields(node)
-                  if fields:
-                      return fields
-              for c in node.get("inner", []):
-                  result = find_struct_fields(c)
-                  if result:
-                      return result
-              return None
-
-          # First pass: collect ALL RecordDecl struct definitions.
-          # - By name: for named structs (e.g. CGSize, _MTLPackedFloat3)
-          # - By id: for anonymous structs in typedef patterns like
-          #   typedef struct { ... } MTLOrigin;  (RecordDecl has name="" but has an id)
-          # The TypedefDecl then links via ownedTagDecl.id to the anonymous RecordDecl.
-          struct_defs_by_name = {}
-          struct_defs_by_id = {}
-          def collect_struct_defs(node, depth=0):
-              if node.get("kind") == "RecordDecl" and node.get("tagUsed") == "struct":
-                  rec_name = node.get("name", "")
-                  rec_id = node.get("id", "")
-                  fields = extract_fields(node)
-                  if fields:
-                      if rec_id:
-                          struct_defs_by_id[rec_id] = fields
-                      if rec_name:
-                          struct_defs_by_name[rec_name] = fields
-              if depth < 5:
-                  for c in node.get("inner", []):
-                      collect_struct_defs(c, depth + 1)
-
+          struct_by_name, struct_by_id = {}, {}
           for node in ast.get("inner", []):
-              collect_struct_defs(node)
-
-          print(f"Pre-scan: {len(struct_defs_by_name)} named + {len(struct_defs_by_id)} by-id struct definitions")
-
-          def find_owned_tag_id(node):
-              """Recursively search for ownedTagDecl id in a node's inner tree."""
-              otd = node.get("ownedTagDecl")
-              if otd:
-                  return otd.get("id")
-              for c in node.get("inner", []):
-                  r = find_owned_tag_id(c)
-                  if r:
-                      return r
-              return None
+              collect_struct_defs(node, struct_by_name, struct_by_id)
+          print(f"Pre-scan: {len(struct_by_name)} named + {len(struct_by_id)} by-id struct definitions")
 
           api = {
               "sdkVersion": sdk_version,
-              "enums": [],
-              "protocols": [],
-              "classes": [],
-              "typedefs": [],
-              "functions": [],
-              "structs": [],
+              "enums": [], "protocols": [], "classes": [],
+              "typedefs": [], "functions": [], "structs": [],
           }
 
           for node in ast.get("inner", []):
               kind = node.get("kind", "")
               name = node.get("name", "")
-
-              # ObjCCategoryDecl uses interface name, not node name
               if kind == "ObjCCategoryDecl":
                   cat_name = node.get("interface", {}).get("name", "")
                   if is_wanted(cat_name):
@@ -341,10 +490,8 @@ jobs:
                       if t["methods"] or t["properties"]:
                           api["classes"].append(t)
                   continue
-
               if not is_wanted(name):
                   continue
-
               if kind == "EnumDecl":
                   e = extract_enum(node)
                   if e:
@@ -359,29 +506,21 @@ jobs:
                       api["classes"].append(t)
               elif kind == "TypedefDecl":
                   ut = (node.get("type") or {}).get("qualType", "")
-                  api["typedefs"].append({
-                      "name": name,
-                      "underlyingType": ut,
-                  })
-                  # Extract struct if this typedef references a struct type
+                  api["typedefs"].append({"name": name, "underlyingType": ut})
                   if ut.startswith("struct "):
-                      fields = None
-                      method = None
-                      # Method 1: recursively search inside TypedefDecl for embedded RecordDecl
+                      fields, method = None, None
                       fields = find_struct_fields(node)
                       if fields:
                           method = "embedded"
-                      # Method 2: match via ownedTagDecl id (anonymous struct pattern)
                       if not fields:
                           tag_id = find_owned_tag_id(node)
-                          if tag_id and tag_id in struct_defs_by_id:
-                              fields = struct_defs_by_id[tag_id]
+                          if tag_id and tag_id in struct_by_id:
+                              fields = struct_by_id[tag_id]
                               method = f"ownedTag({tag_id[:8]})"
-                      # Method 3: match struct name from underlyingType to named defs
                       if not fields:
                           m = re.match(r'^struct\s+(\w+)$', ut)
                           if m:
-                              fields = struct_defs_by_name.get(m.group(1))
+                              fields = struct_by_name.get(m.group(1))
                               if fields:
                                   method = f"by-name({m.group(1)})"
                       if fields:
@@ -399,25 +538,18 @@ jobs:
                               "type": clean_type((c.get("type") or {}).get("qualType", "")),
                           })
                   ret_type = ft.split("(")[0].strip() if "(" in ft else ft
-                  fn_attrs = get_attrs(node)
                   fn_entry = {
                       "name": name,
                       "returnType": clean_type(ret_type),
                       "parameters": params,
                   }
-                  if fn_attrs.get("deprecated"):
-                      fn_entry["deprecated"] = True
-                      if fn_attrs.get("deprecationMessage"):
-                          fn_entry["deprecationMessage"] = fn_attrs["deprecationMessage"]
+                  _apply_deprecation(fn_entry, get_attrs(node))
                   api["functions"].append(fn_entry)
               elif kind == "RecordDecl" and node.get("tagUsed") == "struct":
-                  fields = extract_fields(node)
-                  if not fields:
-                      fields = find_struct_fields(node)
+                  fields = extract_fields(node) or find_struct_fields(node)
                   if fields:
                       api["structs"].append({"name": name, "fields": fields})
               elif kind == "RecordDecl":
-                  # Catch RecordDecl without tagUsed or with other tags
                   tag = node.get("tagUsed", "<none>")
                   if tag != "union":
                       fields = find_struct_fields(node)
@@ -425,219 +557,19 @@ jobs:
                           api["structs"].append({"name": name, "fields": fields})
                           print(f"  Struct '{name}' via RecordDecl (tagUsed={tag}): {len(fields)} fields")
 
-          seen_enums = {}
-          for e in api["enums"]:
-              seen_enums[e["name"]] = e
-          api["enums"] = list(seen_enums.values())
+          api["enums"] = _dedup_by_key(api["enums"], "name")
+          api["functions"] = _dedup_by_key(api["functions"], "name")
+          api["structs"] = _dedup_by_key(api["structs"], "name")
+          api["classes"] = _merge_types(api["classes"])
+          api["protocols"] = _merge_types(api["protocols"])
 
-          seen_funcs = {}
-          for fn in api["functions"]:
-              seen_funcs[fn["name"]] = fn
-          api["functions"] = list(seen_funcs.values())
-
-          seen_structs = {}
-          for s in api["structs"]:
-              seen_structs[s["name"]] = s
-          api["structs"] = list(seen_structs.values())
-
-          merged_classes = {}
-          for cls in api["classes"]:
-              name = cls["name"]
-              if name not in merged_classes:
-                  merged_classes[name] = cls
-              else:
-                  existing = merged_classes[name]
-                  seen_sel = {m["selector"] for m in existing["methods"]}
-                  for m in cls["methods"]:
-                      if m["selector"] not in seen_sel:
-                          existing["methods"].append(m)
-                          seen_sel.add(m["selector"])
-                  seen_prop = {p["name"] for p in existing["properties"]}
-                  for p in cls["properties"]:
-                      if p["name"] not in seen_prop:
-                          existing["properties"].append(p)
-                          seen_prop.add(p["name"])
-                  seen_proto = set(existing.get("protocols", []))
-                  for p in cls.get("protocols", []):
-                      if p not in seen_proto:
-                          existing["protocols"].append(p)
-                          seen_proto.add(p)
-                  if not existing.get("super") and cls.get("super"):
-                      existing["super"] = cls["super"]
-                  api["classes"] = list(merged_classes.values())
-
-          merged_protocols = {}
-          for proto in api["protocols"]:
-              name = proto["name"]
-              if name not in merged_protocols:
-                  merged_protocols[name] = proto
-              else:
-                  existing = merged_protocols[name]
-                  seen_sel = {m["selector"] for m in existing["methods"]}
-                  for m in proto["methods"]:
-                      if m["selector"] not in seen_sel:
-                          existing["methods"].append(m)
-                          seen_sel.add(m["selector"])
-                  seen_prop = {p["name"] for p in existing["properties"]}
-                  for p in proto["properties"]:
-                      if p["name"] not in seen_prop:
-                          existing["properties"].append(p)
-                          seen_prop.add(p["name"])
-          api["protocols"] = list(merged_protocols.values())
-
-          # === Scan Metal headers for API_DEPRECATED annotations ===
-          # Fallback for when clang AST doesn't include AvailabilityAttr nodes.
-          def _skip_balanced_parens(text, start):
-              depth = 0
-              i = start
-              while i < len(text):
-                  if text[i] == '(':
-                      depth += 1
-                  elif text[i] == ')':
-                      depth -= 1
-                      if depth == 0:
-                          return i + 1
-                  i += 1
-              return i
-
-          def _strip_api_macros(text):
-              """Remove API_DEPRECATED/API_AVAILABLE/NS_* macro calls from text."""
-              out = []
-              i = 0
-              while i < len(text):
-                  if any(text[i:].startswith(p) for p in (
-                      'API_DEPRECATED', 'API_AVAILABLE', 'NS_AVAILABLE',
-                      'NS_DEPRECATED', 'NS_RETURNS_RETAINED',
-                  )):
-                      while i < len(text) and text[i] != '(':
-                          i += 1
-                      if i < len(text):
-                          i = _skip_balanced_parens(text, i)
-                  else:
-                      out.append(text[i])
-                      i += 1
-              return ''.join(out)
-
-          def _extract_objc_selector(decl):
-              """Extract ObjC selector from a method declaration string."""
-              clean = _strip_api_macros(decl).strip().rstrip(';').strip()
-              if not clean:
-                  return None
-              clean = re.sub(r'^[-+]\s*', '', clean)
-              if clean and clean[0] == '(':
-                  end = _skip_balanced_parens(clean, 0)
-                  clean = clean[end:].strip()
-              # Remove all parenthesized type annotations
-              no_parens = []
-              d = 0
-              for c in clean:
-                  if c == '(':
-                      d += 1
-                  elif c == ')':
-                      d -= 1
-                  elif d == 0:
-                      no_parens.append(c)
-              no_parens = ''.join(no_parens)
-              parts = re.findall(r'(\w+)\s*:', no_parens)
-              if parts:
-                  return ':'.join(parts) + ':'
-              m = re.match(r'(\w+)', no_parens.strip())
-              return m.group(1) if m else None
-
-          dep_from_headers = {}
-          for scan_dir in [os.path.join(sdk_path, "System/Library/Frameworks/Metal.framework/Headers"),
-                          os.path.join(sdk_path, "System/Library/Frameworks/MetalFX.framework/Headers")]:
-              if not os.path.isdir(scan_dir):
-                  continue
-              for fn in sorted(os.listdir(scan_dir)):
-                  if not fn.endswith('.h'):
-                      continue
-                  hfile = os.path.join(scan_dir, fn)
-                  with open(hfile) as hf:
-                      text = hf.read()
-                  text = re.sub(r'/\*.*?\*/', ' ', text, flags=re.DOTALL)
-                  text = re.sub(r'//[^\n]*', '', text)
-                  # Merge multi-line declarations
-                  raw_lines = text.split('\n')
-                  merged = []
-                  buf = ''
-                  for raw in raw_lines:
-                      s = raw.strip()
-                      if not s:
-                          if buf:
-                              merged.append(buf)
-                              buf = ''
-                          continue
-                      if re.match(r'^@(protocol|interface|end|class|optional|required)\b', s) or s.startswith('#'):
-                          if buf:
-                              merged.append(buf)
-                              buf = ''
-                          merged.append(s)
-                          continue
-                      buf = (buf + ' ' + s) if buf else s
-                      if s.endswith(';') or s.endswith('{') or s.endswith('}'):
-                          merged.append(buf.strip())
-                          buf = ''
-                  if buf:
-                      merged.append(buf.strip())
-                  current_type = None
-                  for mline in merged:
-                      tm = re.match(r'@protocol\s+(\w+)', mline)
-                      if tm:
-                          current_type = tm.group(1)
-                          continue
-                      tm = re.match(r'@interface\s+(\w+)', mline)
-                      if tm:
-                          current_type = tm.group(1)
-                          continue
-                      if mline.startswith('@end'):
-                          current_type = None
-                          continue
-                      if not current_type or 'API_DEPRECATED' not in mline:
-                          continue
-                      msg = None
-                      dm = re.search(r'API_DEPRECATED_WITH_REPLACEMENT\s*\(\s*"([^"]*)"', mline)
-                      if dm:
-                          r = dm.group(1)
-                          msg = r if r.lower().startswith('use ') else f"Use {r} instead"
-                      else:
-                          dm = re.search(r'API_DEPRECATED\s*\(\s*"([^"]*)"', mline)
-                          if dm:
-                              msg = dm.group(1)
-                      if not msg:
-                          continue
-                      if '@property' in mline:
-                          pm = re.search(r'\b(\w+)\s+API_DEPRECATED', mline)
-                          if pm:
-                              dep_from_headers[(current_type, 'property', pm.group(1))] = msg
-                      elif re.match(r'\s*[-+]', mline):
-                          sel = _extract_objc_selector(mline)
-                          if sel:
-                              dep_from_headers[(current_type, 'method', sel)] = msg
-
-          header_dep_applied = 0
-          for collection in [api['protocols'], api['classes']]:
-              for t in collection:
-                  tname = t['name']
-                  for p in t.get('properties', []):
-                      key = (tname, 'property', p['name'])
-                      if key in dep_from_headers and not p.get('deprecated'):
-                          p['deprecated'] = True
-                          p['deprecationMessage'] = dep_from_headers[key]
-                          header_dep_applied += 1
-                  for m in t.get('methods', []):
-                      key = (tname, 'method', m['selector'])
-                      if key in dep_from_headers and not m.get('deprecated'):
-                          m['deprecated'] = True
-                          m['deprecationMessage'] = dep_from_headers[key]
-                          header_dep_applied += 1
-          print(f"Header scan: {len(dep_from_headers)} deprecation annotations found, {header_dep_applied} applied")
+          dep_from_headers = scan_header_deprecations(sdk_path)
+          applied = apply_header_deprecations(api, dep_from_headers)
+          print(f"Header scan: {len(dep_from_headers)} deprecation annotations found, {applied} applied")
 
           print(f"Enums: {len(api['enums'])}, Protocols: {len(api['protocols'])}, "
                 f"Classes: {len(api['classes'])}, Functions: {len(api['functions'])}, "
                 f"Structs: {len(api['structs'])}, Typedefs: {len(api['typedefs'])}")
-
-          # Diagnostic: count items with deprecation info
           dep_methods = sum(1 for t in api['protocols'] + api['classes']
                            for m in t.get('methods', []) if m.get('deprecated'))
           dep_props = sum(1 for t in api['protocols'] + api['classes']
@@ -662,9 +594,10 @@ jobs:
           git diff --cached --quiet && echo "No changes" && exit 0
           git checkout -b "$BRANCH"
           git commit -m "Update metal-ast.json (SDK $SDK_VERSION)"
-          git push -u origin "$BRANCH"
+          git push -f -u origin "$BRANCH"
           gh pr create \
             --title "Update metal-ast.json (SDK $SDK_VERSION)" \
             --body "Auto-generated from macOS SDK $SDK_VERSION via Extract Metal API workflow." \
             --base master \
-            --head "$BRANCH"
+            --head "$BRANCH" || echo "PR already exists"
+
