@@ -20,7 +20,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -41,7 +41,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -94,7 +94,7 @@
           "value": "9223372036854775807"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -119,7 +119,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -136,7 +136,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -161,7 +161,7 @@
           "value": "3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -182,7 +182,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -235,7 +235,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -256,7 +256,7 @@
           "value": "103"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -273,7 +273,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -294,7 +294,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -863,7 +863,7 @@
           "value": "263"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1260,7 +1260,7 @@
           "value": "140"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1309,7 +1309,7 @@
           "value": "33"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1330,7 +1330,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1351,7 +1351,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1400,7 +1400,7 @@
           "value": "9"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1433,7 +1433,7 @@
           "value": "5"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1466,7 +1466,7 @@
           "value": "32"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1483,7 +1483,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1500,7 +1500,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1557,7 +1557,7 @@
           "value": "37"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1606,7 +1606,7 @@
           "value": "27"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1639,7 +1639,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1672,7 +1672,7 @@
           "value": "8"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1693,7 +1693,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1730,7 +1730,7 @@
           "value": "8"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1787,7 +1787,7 @@
           "value": "262144"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1804,7 +1804,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1821,7 +1821,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1838,7 +1838,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1859,7 +1859,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1876,7 +1876,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1909,7 +1909,7 @@
           "value": "6"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1930,7 +1930,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1955,7 +1955,7 @@
           "value": "3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1972,7 +1972,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -1989,7 +1989,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2018,7 +2018,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2159,7 +2159,7 @@
           "value": "30005"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2244,7 +2244,7 @@
           "value": "5002"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2269,7 +2269,7 @@
           "value": "18446744073709551615"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2298,7 +2298,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2319,7 +2319,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2336,7 +2336,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2353,7 +2353,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2382,7 +2382,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2399,7 +2399,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2420,7 +2420,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2453,7 +2453,7 @@
           "value": "5"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2470,7 +2470,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2487,7 +2487,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2508,7 +2508,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2525,7 +2525,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2550,7 +2550,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2583,7 +2583,7 @@
           "value": "5"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2640,7 +2640,7 @@
           "value": "12"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2657,7 +2657,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2686,7 +2686,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2703,7 +2703,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2744,7 +2744,7 @@
           "value": "7"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -2785,7 +2785,7 @@
           "value": "7"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3010,7 +3010,7 @@
           "value": "55"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3039,7 +3039,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3264,7 +3264,7 @@
           "value": "55"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3309,7 +3309,7 @@
           "value": "8"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3330,7 +3330,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3351,7 +3351,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3380,7 +3380,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3401,7 +3401,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3422,7 +3422,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3439,7 +3439,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3456,7 +3456,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3473,7 +3473,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3502,7 +3502,7 @@
           "value": "16"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3591,7 +3591,7 @@
           "value": "19"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3624,7 +3624,7 @@
           "value": "5"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3661,7 +3661,7 @@
           "value": "16"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3686,7 +3686,7 @@
           "value": "3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3711,7 +3711,7 @@
           "value": "3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3736,7 +3736,7 @@
           "value": "3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3749,7 +3749,7 @@
           "value": "0"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3770,7 +3770,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3787,7 +3787,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3808,7 +3808,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3841,7 +3841,7 @@
           "value": "5"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3862,7 +3862,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3883,7 +3883,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3900,7 +3900,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3933,7 +3933,7 @@
           "value": "32"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3962,7 +3962,7 @@
           "value": "8"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3979,7 +3979,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -3996,7 +3996,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4013,7 +4013,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4038,7 +4038,7 @@
           "value": "3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4059,7 +4059,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4088,7 +4088,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4105,7 +4105,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4126,7 +4126,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4147,7 +4147,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4168,7 +4168,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4205,7 +4205,7 @@
           "value": "6"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4226,7 +4226,7 @@
           "value": "3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4243,7 +4243,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4284,7 +4284,7 @@
           "value": "256"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4297,7 +4297,7 @@
           "value": "0"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4330,7 +4330,7 @@
           "value": "5"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4363,7 +4363,7 @@
           "value": "5"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4380,7 +4380,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4409,7 +4409,7 @@
           "value": "4"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4462,7 +4462,7 @@
           "value": "512"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4483,7 +4483,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4504,7 +4504,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4521,7 +4521,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4538,7 +4538,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4563,7 +4563,7 @@
           "value": "3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4580,7 +4580,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4601,7 +4601,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4618,7 +4618,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4635,7 +4635,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4656,7 +4656,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4673,7 +4673,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4690,7 +4690,7 @@
           "value": "1"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4707,7 +4707,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4724,7 +4724,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "enum",
@@ -4745,7 +4745,7 @@
           "value": "2"
         }
       ],
-      "framework": null
+      "framework": "MetalFX"
     }
   ],
   "protocols": [
@@ -5093,7 +5093,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -5300,7 +5300,7 @@
       "protocols": [
         "MTLAllocation"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -5459,7 +5459,7 @@
       "protocols": [
         "MTLResource"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -6259,7 +6259,7 @@
       "protocols": [
         "MTLResource"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -6351,7 +6351,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -6428,7 +6428,7 @@
       "protocols": [
         "MTLBinding"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -6466,7 +6466,7 @@
       "protocols": [
         "MTLBinding"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -6531,7 +6531,7 @@
       "protocols": [
         "MTLBinding"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -6569,7 +6569,7 @@
       "protocols": [
         "MTLBinding"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -6620,7 +6620,7 @@
       "protocols": [
         "MTLBinding"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -6808,7 +6808,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -7042,7 +7042,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -7067,7 +7067,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -7105,7 +7105,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -7169,7 +7169,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -7214,7 +7214,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -7705,7 +7705,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -7795,7 +7795,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -9999,7 +9999,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -10239,7 +10239,7 @@
       "protocols": [
         "MTLCommandEncoder"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -11018,7 +11018,7 @@
       "protocols": [
         "MTLCommandEncoder"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -11069,7 +11069,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -11559,7 +11559,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -12328,7 +12328,7 @@
       "protocols": [
         "MTLCommandEncoder"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -12477,7 +12477,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -12528,7 +12528,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -12612,7 +12612,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -12869,7 +12869,7 @@
         "MTLAllocation",
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -15668,7 +15668,7 @@
       "protocols": [
         "MTLCommandEncoder"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -15793,7 +15793,7 @@
       "protocols": [
         "MTLResource"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -16173,7 +16173,7 @@
         "MTLAllocation",
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -16330,7 +16330,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -16368,7 +16368,7 @@
       "protocols": [
         "MTLResource"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -16683,7 +16683,7 @@
       "protocols": [
         "MTLAllocation"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -17179,7 +17179,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -17375,7 +17375,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -18205,7 +18205,7 @@
       "protocols": [
         "MTL4CommandEncoder"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -18441,7 +18441,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -18578,7 +18578,7 @@
       "protocols": [
         "MTLEvent"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -18629,7 +18629,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -18944,7 +18944,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -19740,7 +19740,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -19817,7 +19817,7 @@
       "protocols": [
         "MTLResource"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -19881,7 +19881,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -19945,7 +19945,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -20420,7 +20420,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -20502,7 +20502,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -20526,7 +20526,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -20708,7 +20708,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -20923,7 +20923,7 @@
       "protocols": [
         "MTLResource"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -20982,7 +20982,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -21007,7 +21007,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -21031,7 +21031,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -21069,7 +21069,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -21369,7 +21369,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -21549,7 +21549,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -21636,7 +21636,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -21854,7 +21854,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -21944,7 +21944,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -22922,7 +22922,7 @@
       "protocols": [
         "MTL4CommandEncoder"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -22987,7 +22987,7 @@
         "MTLAllocation",
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -23029,7 +23029,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -23167,7 +23167,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "protocol",
@@ -23205,7 +23205,7 @@
       "protocols": [
         "MTLDrawable"
       ],
-      "framework": null
+      "framework": "QuartzCore"
     },
     {
       "kind": "protocol",
@@ -23842,7 +23842,7 @@
       "protocols": [
         "MTLFXFrameInterpolatableScaler"
       ],
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "protocol",
@@ -23866,7 +23866,7 @@
       "protocols": [
         "MTLFXTemporalScalerBase"
       ],
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "protocol",
@@ -24867,7 +24867,7 @@
       "protocols": [
         "MTLFXFrameInterpolatableScaler"
       ],
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "protocol",
@@ -24891,7 +24891,7 @@
       "protocols": [
         "MTLFXTemporalDenoisedScalerBase"
       ],
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "protocol",
@@ -25150,7 +25150,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "protocol",
@@ -25174,7 +25174,7 @@
       "protocols": [
         "MTLFXSpatialScalerBase"
       ],
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "protocol",
@@ -25866,7 +25866,7 @@
       "protocols": [
         "NSObject"
       ],
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "protocol",
@@ -25890,7 +25890,7 @@
       "protocols": [
         "MTLFXFrameInterpolatorBase"
       ],
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "protocol",
@@ -30710,7 +30710,7 @@
         "NSSecureCoding"
       ],
       "super": "NSObject",
-      "framework": "Foundation"
+      "framework": "CoreImage"
     },
     {
       "kind": "class",
@@ -32448,7 +32448,7 @@
       ],
       "protocols": [],
       "super": "NSValue",
-      "framework": null
+      "framework": "Foundation"
     },
     {
       "kind": "class",
@@ -36994,7 +36994,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Foundation"
     },
     {
       "kind": "class",
@@ -37049,7 +37049,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -37270,7 +37270,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -37843,7 +37843,7 @@
         "NSSecureCoding"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -37986,7 +37986,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38206,7 +38206,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38243,7 +38243,7 @@
       ],
       "protocols": [],
       "super": "MTLType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38341,7 +38341,7 @@
       ],
       "protocols": [],
       "super": "MTLType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38404,7 +38404,7 @@
       ],
       "protocols": [],
       "super": "MTLType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38494,7 +38494,7 @@
       ],
       "protocols": [],
       "super": "MTLType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38557,7 +38557,7 @@
       ],
       "protocols": [],
       "super": "MTLType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38581,7 +38581,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38679,7 +38679,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -38917,7 +38917,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -39454,7 +39454,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -39585,7 +39585,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -39677,7 +39677,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -39740,7 +39740,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -39777,7 +39777,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -39894,7 +39894,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -40418,7 +40418,7 @@
       ],
       "protocols": [],
       "super": "MTL4PipelineDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -40618,7 +40618,7 @@
       ],
       "protocols": [],
       "super": "MTL4PipelineDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -40683,7 +40683,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -40984,7 +40984,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -41062,7 +41062,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -41127,7 +41127,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -41166,7 +41166,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -41231,7 +41231,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -41378,7 +41378,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -41554,7 +41554,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -41921,7 +41921,7 @@
       "properties": [],
       "protocols": [],
       "super": "",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -42646,7 +42646,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -43101,7 +43101,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -43349,7 +43349,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -43493,7 +43493,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -44810,7 +44810,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -44902,7 +44902,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -45366,7 +45366,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -45587,7 +45587,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46094,7 +46094,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46120,7 +46120,7 @@
         "NSSecureCoding"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46159,7 +46159,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46198,7 +46198,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46290,7 +46290,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46407,7 +46407,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46472,7 +46472,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46602,7 +46602,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -46914,7 +46914,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -47057,7 +47057,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -47233,7 +47233,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -47259,7 +47259,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -47391,7 +47391,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -47760,7 +47760,7 @@
       ],
       "protocols": [],
       "super": "MTLRenderPassAttachmentDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -47823,7 +47823,7 @@
       ],
       "protocols": [],
       "super": "MTLRenderPassAttachmentDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -47886,7 +47886,7 @@
       ],
       "protocols": [],
       "super": "MTLRenderPassAttachmentDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -47927,7 +47927,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48070,7 +48070,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48111,7 +48111,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48243,7 +48243,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48367,7 +48367,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48499,7 +48499,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48668,7 +48668,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48759,7 +48759,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48800,7 +48800,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48891,7 +48891,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -48932,7 +48932,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49076,7 +49076,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49117,7 +49117,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49208,7 +49208,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49249,7 +49249,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49354,7 +49354,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49393,7 +49393,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49434,7 +49434,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49608,7 +49608,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49649,7 +49649,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49740,7 +49740,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49929,7 +49929,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -49970,7 +49970,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -50191,7 +50191,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -50365,7 +50365,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -50669,7 +50669,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -50791,7 +50791,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -50861,7 +50861,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -51139,7 +51139,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -51235,7 +51235,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -51695,7 +51695,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -52103,7 +52103,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -52433,7 +52433,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -52841,7 +52841,7 @@
       ],
       "protocols": [],
       "super": "MTLAccelerationStructureDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53306,7 +53306,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53357,7 +53357,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53380,7 +53380,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53471,7 +53471,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53657,7 +53657,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53748,7 +53748,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53789,7 +53789,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53871,7 +53871,7 @@
       "properties": [],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53882,7 +53882,7 @@
         "MTLFunctionStitchingAttribute"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -53934,7 +53934,7 @@
         "MTLFunctionStitchingNode"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -54048,7 +54048,7 @@
         "MTLFunctionStitchingNode"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -54397,7 +54397,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -54564,7 +54564,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -54783,7 +54783,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -54872,7 +54872,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -55091,7 +55091,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -55180,7 +55180,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -55555,7 +55555,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -55930,7 +55930,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureGeometryDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -56175,7 +56175,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -56472,7 +56472,7 @@
       ],
       "protocols": [],
       "super": "MTL4AccelerationStructureDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -56752,7 +56752,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -57097,7 +57097,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -57147,7 +57147,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -57171,7 +57171,7 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -58058,7 +58058,7 @@
       "properties": [],
       "protocols": [],
       "super": "",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "kind": "class",
@@ -58903,7 +58903,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "class",
@@ -59576,7 +59576,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "class",
@@ -59828,7 +59828,7 @@
         "NSCopying"
       ],
       "super": "NSObject",
-      "framework": null
+      "framework": "MetalFX"
     },
     {
       "kind": "class",
@@ -60166,12 +60166,12 @@
     {
       "name": "CGSize",
       "underlyingType": "struct CGSize",
-      "framework": null
+      "framework": "CoreFoundation"
     },
     {
       "name": "NSRange",
       "underlyingType": "struct _NSRange",
-      "framework": null
+      "framework": "Foundation"
     },
     {
       "name": "NSNotificationName",
@@ -60181,112 +60181,112 @@
     {
       "name": "MTLOrigin",
       "underlyingType": "struct MTLOrigin",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSize",
       "underlyingType": "struct MTLSize",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLRegion",
       "underlyingType": "struct MTLRegion",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSamplePosition",
       "underlyingType": "struct MTLSamplePosition",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCoordinate2D",
       "underlyingType": "MTLSamplePosition",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLResourceID",
       "underlyingType": "struct MTLResourceID",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLResourceUsage",
       "underlyingType": "enum MTLResourceUsage",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLBarrierScope",
       "underlyingType": "enum MTLBarrierScope",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStages",
       "underlyingType": "enum MTLStages",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPurgeableState",
       "underlyingType": "enum MTLPurgeableState",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCPUCacheMode",
       "underlyingType": "enum MTLCPUCacheMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStorageMode",
       "underlyingType": "enum MTLStorageMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLHazardTrackingMode",
       "underlyingType": "enum MTLHazardTrackingMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLResourceOptions",
       "underlyingType": "enum MTLResourceOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSparsePageSize",
       "underlyingType": "enum MTLSparsePageSize",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLBufferSparseTier",
       "underlyingType": "enum MTLBufferSparseTier",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTextureSparseTier",
       "underlyingType": "enum MTLTextureSparseTier",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPixelFormat",
       "underlyingType": "enum MTLPixelFormat",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDataType",
       "underlyingType": "enum MTLDataType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTensorDataType",
       "underlyingType": "enum MTLTensorDataType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTensorError",
       "underlyingType": "enum MTLTensorError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTensorUsage",
       "underlyingType": "enum MTLTensorUsage",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLGPUAddress",
@@ -60296,857 +60296,857 @@
     {
       "name": "MTLTextureType",
       "underlyingType": "enum MTLTextureType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTextureSwizzle",
       "underlyingType": "enum MTLTextureSwizzle",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTextureSwizzleChannels",
       "underlyingType": "struct MTLTextureSwizzleChannels",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTextureUsage",
       "underlyingType": "enum MTLTextureUsage",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTextureCompressionType",
       "underlyingType": "enum MTLTextureCompressionType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndexType",
       "underlyingType": "enum MTLIndexType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLBindingType",
       "underlyingType": "enum MTLBindingType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLArgumentType",
       "underlyingType": "enum MTLArgumentType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLBindingAccess",
       "underlyingType": "enum MTLBindingAccess",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLArgumentAccess",
       "underlyingType": "MTLBindingAccess",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLFunctionOptions",
       "underlyingType": "enum MTLFunctionOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAutoreleasedRenderPipelineReflection",
       "underlyingType": "MTLRenderPipelineReflection * _Nullable",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAutoreleasedComputePipelineReflection",
       "underlyingType": "MTLComputePipelineReflection * _Nullable",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLNewLibraryCompletionHandler",
       "underlyingType": "void (^)(id<MTLLibrary> _Nullable, NSError * _Nullable)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLNewRenderPipelineStateCompletionHandler",
       "underlyingType": "void (^)(id<MTLRenderPipelineState> _Nullable, NSError * _Nullable)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLNewRenderPipelineStateWithReflectionCompletionHandler",
       "underlyingType": "void (^)(id<MTLRenderPipelineState> _Nullable, MTLRenderPipelineReflection * _Nullable_result, NSError * _Nullable)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLNewComputePipelineStateCompletionHandler",
       "underlyingType": "void (^)(id<MTLComputePipelineState> _Nullable, NSError * _Nullable)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLNewComputePipelineStateWithReflectionCompletionHandler",
       "underlyingType": "void (^)(id<MTLComputePipelineState> _Nullable, MTLComputePipelineReflection * _Nullable_result, NSError * _Nullable)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLNewDynamicLibraryCompletionHandler",
       "underlyingType": "void (^)(id<MTLDynamicLibrary> _Nullable, NSError * _Nullable)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAutoreleasedArgument",
       "underlyingType": "MTLArgument * _Nullable",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPatchType",
       "underlyingType": "enum MTLPatchType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLFunctionType",
       "underlyingType": "enum MTLFunctionType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLLanguageVersion",
       "underlyingType": "enum MTLLanguageVersion",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLLibraryType",
       "underlyingType": "enum MTLLibraryType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLLibraryOptimizationLevel",
       "underlyingType": "enum MTLLibraryOptimizationLevel",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCompileSymbolVisibility",
       "underlyingType": "enum MTLCompileSymbolVisibility",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMathMode",
       "underlyingType": "enum MTLMathMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMathFloatingPointFunctions",
       "underlyingType": "enum MTLMathFloatingPointFunctions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLLibraryError",
       "underlyingType": "enum MTLLibraryError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCommonCounter",
       "underlyingType": "NSString *const",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCommonCounterSet",
       "underlyingType": "NSString *const",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCounterResultTimestamp",
       "underlyingType": "struct MTLCounterResultTimestamp",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCounterResultStageUtilization",
       "underlyingType": "struct MTLCounterResultStageUtilization",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCounterResultStatistic",
       "underlyingType": "struct MTLCounterResultStatistic",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCounterSampleBufferError",
       "underlyingType": "enum MTLCounterSampleBufferError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4CompilerTaskStatus",
       "underlyingType": "enum MTL4CompilerTaskStatus",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4NewBinaryFunctionCompletionHandler",
       "underlyingType": "void (^)(id<MTL4BinaryFunction> _Nullable, NSError * _Nullable)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4NewMachineLearningPipelineStateCompletionHandler",
       "underlyingType": "void (^)(id<MTL4MachineLearningPipelineState> _Nullable, NSError * _Nullable)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4TimestampHeapEntry",
       "underlyingType": "struct MTL4TimestampHeapEntry",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4CounterHeapType",
       "underlyingType": "enum MTL4CounterHeapType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4TimestampGranularity",
       "underlyingType": "enum MTL4TimestampGranularity",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOCompressionMethod",
       "underlyingType": "enum MTLIOCompressionMethod",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDeviceNotificationName",
       "underlyingType": "NSString *",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDeviceNotificationHandler",
       "underlyingType": "void (^)(id<MTLDevice> _Nonnull, MTLDeviceNotificationName _Nonnull)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLFeatureSet",
       "underlyingType": "enum MTLFeatureSet",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLGPUFamily",
       "underlyingType": "enum MTLGPUFamily",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDeviceLocation",
       "underlyingType": "enum MTLDeviceLocation",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPipelineOption",
       "underlyingType": "enum MTLPipelineOption",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLReadWriteTextureTier",
       "underlyingType": "enum MTLReadWriteTextureTier",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLArgumentBuffersTier",
       "underlyingType": "enum MTLArgumentBuffersTier",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSparseTextureRegionAlignmentMode",
       "underlyingType": "enum MTLSparseTextureRegionAlignmentMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureSizes",
       "underlyingType": "struct MTLAccelerationStructureSizes",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCounterSamplingPoint",
       "underlyingType": "enum MTLCounterSamplingPoint",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSizeAndAlign",
       "underlyingType": "struct MTLSizeAndAlign",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTimestamp",
       "underlyingType": "uint64_t",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSparseTextureMappingMode",
       "underlyingType": "enum MTLSparseTextureMappingMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMapIndirectArguments",
       "underlyingType": "struct MTLMapIndirectArguments",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLClearColor",
       "underlyingType": "struct MTLClearColor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLLoadAction",
       "underlyingType": "enum MTLLoadAction",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStoreAction",
       "underlyingType": "enum MTLStoreAction",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStoreActionOptions",
       "underlyingType": "enum MTLStoreActionOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLVisibilityResultType",
       "underlyingType": "enum MTLVisibilityResultType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMultisampleDepthResolveFilter",
       "underlyingType": "enum MTLMultisampleDepthResolveFilter",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMultisampleStencilResolveFilter",
       "underlyingType": "enum MTLMultisampleStencilResolveFilter",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLBlitOption",
       "underlyingType": "enum MTLBlitOption",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCommandBufferStatus",
       "underlyingType": "enum MTLCommandBufferStatus",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCommandBufferError",
       "underlyingType": "enum MTLCommandBufferError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCommandBufferErrorOption",
       "underlyingType": "enum MTLCommandBufferErrorOption",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCommandEncoderErrorState",
       "underlyingType": "enum MTLCommandEncoderErrorState",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCommandBufferHandler",
       "underlyingType": "void (^)(id<MTLCommandBuffer> _Nonnull)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDispatchType",
       "underlyingType": "enum MTLDispatchType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDispatchThreadgroupsIndirectArguments",
       "underlyingType": "struct MTLDispatchThreadgroupsIndirectArguments",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDispatchThreadsIndirectArguments",
       "underlyingType": "struct MTLDispatchThreadsIndirectArguments",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStageInRegionIndirectArguments",
       "underlyingType": "struct MTLStageInRegionIndirectArguments",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCompareFunction",
       "underlyingType": "enum MTLCompareFunction",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStencilOperation",
       "underlyingType": "enum MTLStencilOperation",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDrawablePresentedHandler",
       "underlyingType": "void (^)(id<MTLDrawable> _Nonnull)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLVertexFormat",
       "underlyingType": "enum MTLVertexFormat",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLVertexStepFunction",
       "underlyingType": "enum MTLVertexStepFunction",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAttributeFormat",
       "underlyingType": "enum MTLAttributeFormat",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStepFunction",
       "underlyingType": "enum MTLStepFunction",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMutability",
       "underlyingType": "enum MTLMutability",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLShaderValidation",
       "underlyingType": "enum MTLShaderValidation",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPrimitiveType",
       "underlyingType": "enum MTLPrimitiveType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLVisibilityResultMode",
       "underlyingType": "enum MTLVisibilityResultMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLScissorRect",
       "underlyingType": "struct MTLScissorRect",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLViewport",
       "underlyingType": "struct MTLViewport",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCullMode",
       "underlyingType": "enum MTLCullMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLWinding",
       "underlyingType": "enum MTLWinding",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDepthClipMode",
       "underlyingType": "enum MTLDepthClipMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTriangleFillMode",
       "underlyingType": "enum MTLTriangleFillMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDrawPrimitivesIndirectArguments",
       "underlyingType": "struct MTLDrawPrimitivesIndirectArguments",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDrawIndexedPrimitivesIndirectArguments",
       "underlyingType": "struct MTLDrawIndexedPrimitivesIndirectArguments",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLVertexAmplificationViewMapping",
       "underlyingType": "struct MTLVertexAmplificationViewMapping",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDrawPatchIndirectArguments",
       "underlyingType": "struct MTLDrawPatchIndirectArguments",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLQuadTessellationFactorsHalf",
       "underlyingType": "struct MTLQuadTessellationFactorsHalf",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTriangleTessellationFactorsHalf",
       "underlyingType": "struct MTLTriangleTessellationFactorsHalf",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLRenderStages",
       "underlyingType": "enum MTLRenderStages",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLBlendFactor",
       "underlyingType": "enum MTLBlendFactor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLBlendOperation",
       "underlyingType": "enum MTLBlendOperation",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLColorWriteMask",
       "underlyingType": "enum MTLColorWriteMask",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPrimitiveTopologyClass",
       "underlyingType": "enum MTLPrimitiveTopologyClass",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTessellationPartitionMode",
       "underlyingType": "enum MTLTessellationPartitionMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTessellationFactorStepFunction",
       "underlyingType": "enum MTLTessellationFactorStepFunction",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTessellationFactorFormat",
       "underlyingType": "enum MTLTessellationFactorFormat",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTessellationControlPointIndexType",
       "underlyingType": "enum MTLTessellationControlPointIndexType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSamplerMinMagFilter",
       "underlyingType": "enum MTLSamplerMinMagFilter",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSamplerMipFilter",
       "underlyingType": "enum MTLSamplerMipFilter",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSamplerAddressMode",
       "underlyingType": "enum MTLSamplerAddressMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSamplerBorderColor",
       "underlyingType": "enum MTLSamplerBorderColor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSamplerReductionMode",
       "underlyingType": "enum MTLSamplerReductionMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4BufferRange",
       "underlyingType": "struct MTL4BufferRange",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPackedFloat3",
       "underlyingType": "struct _MTLPackedFloat3",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPackedFloatQuaternion",
       "underlyingType": "struct MTLPackedFloatQuaternion",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPackedFloat4x3",
       "underlyingType": "struct _MTLPackedFloat4x3",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAxisAlignedBoundingBox",
       "underlyingType": "struct _MTLAxisAlignedBoundingBox",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLComponentTransform",
       "underlyingType": "struct MTLComponentTransform",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureRefitOptions",
       "underlyingType": "enum MTLAccelerationStructureRefitOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureUsage",
       "underlyingType": "enum MTLAccelerationStructureUsage",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureInstanceOptions",
       "underlyingType": "enum MTLAccelerationStructureInstanceOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMatrixLayout",
       "underlyingType": "enum MTLMatrixLayout",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMotionBorderMode",
       "underlyingType": "enum MTLMotionBorderMode",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCurveType",
       "underlyingType": "enum MTLCurveType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCurveBasis",
       "underlyingType": "enum MTLCurveBasis",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCurveEndCaps",
       "underlyingType": "enum MTLCurveEndCaps",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureInstanceDescriptor",
       "underlyingType": "struct MTLAccelerationStructureInstanceDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureUserIDInstanceDescriptor",
       "underlyingType": "struct MTLAccelerationStructureUserIDInstanceDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureInstanceDescriptorType",
       "underlyingType": "enum MTLAccelerationStructureInstanceDescriptorType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureMotionInstanceDescriptor",
       "underlyingType": "struct MTLAccelerationStructureMotionInstanceDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndirectAccelerationStructureInstanceDescriptor",
       "underlyingType": "struct MTLIndirectAccelerationStructureInstanceDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndirectAccelerationStructureMotionInstanceDescriptor",
       "underlyingType": "struct MTLIndirectAccelerationStructureMotionInstanceDescriptor",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTransformType",
       "underlyingType": "enum MTLTransformType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLHeapType",
       "underlyingType": "enum MTLHeapType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4VisibilityOptions",
       "underlyingType": "enum MTL4VisibilityOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4RenderEncoderOptions",
       "underlyingType": "enum MTL4RenderEncoderOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSharedEventNotificationBlock",
       "underlyingType": "void (^)(id<MTLSharedEvent> _Nonnull, uint64_t)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4CommitFeedbackHandler",
       "underlyingType": "void (^)(id<MTL4CommitFeedback> _Nonnull)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4CommandQueueError",
       "underlyingType": "enum MTL4CommandQueueError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4UpdateSparseTextureMappingOperation",
       "underlyingType": "struct MTL4UpdateSparseTextureMappingOperation",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4CopySparseTextureMappingOperation",
       "underlyingType": "struct MTL4CopySparseTextureMappingOperation",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4UpdateSparseBufferMappingOperation",
       "underlyingType": "struct MTL4UpdateSparseBufferMappingOperation",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4CopySparseBufferMappingOperation",
       "underlyingType": "struct MTL4CopySparseBufferMappingOperation",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCaptureError",
       "underlyingType": "enum MTLCaptureError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCaptureDestination",
       "underlyingType": "enum MTLCaptureDestination",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndirectCommandType",
       "underlyingType": "enum MTLIndirectCommandType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndirectCommandBufferExecutionRange",
       "underlyingType": "struct MTLIndirectCommandBufferExecutionRange",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLFunctionLogType",
       "underlyingType": "enum MTLFunctionLogType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDynamicLibraryError",
       "underlyingType": "enum MTLDynamicLibraryError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLLogLevel",
       "underlyingType": "enum MTLLogLevel",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLLogStateError",
       "underlyingType": "enum MTLLogStateError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLBinaryArchiveError",
       "underlyingType": "enum MTLBinaryArchiveError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIntersectionFunctionBufferArguments",
       "underlyingType": "struct MTLIntersectionFunctionBufferArguments",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIntersectionFunctionSignature",
       "underlyingType": "enum MTLIntersectionFunctionSignature",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStitchedLibraryOptions",
       "underlyingType": "enum MTLStitchedLibraryOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOPriority",
       "underlyingType": "enum MTLIOPriority",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOCommandQueueType",
       "underlyingType": "enum MTLIOCommandQueueType",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOError",
       "underlyingType": "enum MTLIOError",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOStatus",
       "underlyingType": "enum MTLIOStatus",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOCommandBufferHandler",
       "underlyingType": "void (^)(id<MTLIOCommandBuffer> _Nonnull)",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOCompressionStatus",
       "underlyingType": "enum MTLIOCompressionStatus",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOCompressionContext",
       "underlyingType": "void *",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4ShaderReflection",
       "underlyingType": "enum MTL4ShaderReflection",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4AlphaToOneState",
       "underlyingType": "enum MTL4AlphaToOneState",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4AlphaToCoverageState",
       "underlyingType": "enum MTL4AlphaToCoverageState",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4BlendState",
       "underlyingType": "enum MTL4BlendState",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4IndirectCommandBufferSupportState",
       "underlyingType": "enum MTL4IndirectCommandBufferSupportState",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4LogicalToPhysicalColorAttachmentMappingState",
       "underlyingType": "enum MTL4LogicalToPhysicalColorAttachmentMappingState",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4PipelineDataSetSerializerConfiguration",
       "underlyingType": "enum MTL4PipelineDataSetSerializerConfiguration",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4BinaryFunctionOptions",
       "underlyingType": "enum MTL4BinaryFunctionOptions",
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "CGColorSpaceRef",
       "underlyingType": "struct CGColorSpace *",
-      "framework": null
+      "framework": "CoreGraphics"
     },
     {
       "name": "MTLFXSpatialScalerColorProcessingMode",
       "underlyingType": "enum MTLFXSpatialScalerColorProcessingMode",
-      "framework": null
+      "framework": "MetalFX"
     }
   ],
   "functions": [
@@ -61167,7 +61167,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSizeMake",
@@ -61186,7 +61186,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLRegionMake1D",
@@ -61201,7 +61201,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLRegionMake2D",
@@ -61224,7 +61224,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLRegionMake3D",
@@ -61255,7 +61255,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSamplePositionMake",
@@ -61270,7 +61270,7 @@
           "type": "float"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCoordinate2DMake",
@@ -61285,7 +61285,7 @@
           "type": "float"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTextureSwizzleChannelsMake",
@@ -61308,19 +61308,19 @@
           "type": "MTLTextureSwizzle"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCreateSystemDefaultDevice",
       "returnType": "id<MTLDevice>  _Nullable",
       "parameters": [],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCopyAllDevices",
       "returnType": "NSArray<id<MTLDevice>> * _Nonnull",
       "parameters": [],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCopyAllDevicesWithObserver",
@@ -61335,7 +61335,7 @@
           "type": "MTLDeviceNotificationHandler _Nonnull"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLRemoveDeviceObserver",
@@ -61346,7 +61346,7 @@
           "type": "id<NSObject> _Nonnull"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLClearColorMake",
@@ -61369,7 +61369,7 @@
           "type": "double"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4BufferRangeMake",
@@ -61384,7 +61384,7 @@
           "type": "uint64_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPackedFloat3Make",
@@ -61403,7 +61403,7 @@
           "type": "float"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPackedFloatQuaternionMake",
@@ -61426,7 +61426,7 @@
           "type": "float"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndirectCommandBufferExecutionRangeMake",
@@ -61441,13 +61441,13 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOCompressionContextDefaultChunkSize",
       "returnType": "size_t",
       "parameters": [],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOCreateCompressionContext",
@@ -61466,7 +61466,7 @@
           "type": "size_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOCompressionContextAppendData",
@@ -61485,7 +61485,7 @@
           "type": "size_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIOFlushAndDestroyCompressionContext",
@@ -61496,7 +61496,7 @@
           "type": "MTLIOCompressionContext _Nonnull"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     }
   ],
   "structs": [
@@ -61512,7 +61512,7 @@
           "type": "CGFloat"
         }
       ],
-      "framework": null
+      "framework": "CoreFoundation"
     },
     {
       "name": "NSRange",
@@ -61526,7 +61526,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Foundation"
     },
     {
       "name": "MTLOrigin",
@@ -61544,7 +61544,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSize",
@@ -61562,7 +61562,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLRegion",
@@ -61576,7 +61576,7 @@
           "type": "MTLSize"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSamplePosition",
@@ -61590,7 +61590,7 @@
           "type": "float"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLResourceID",
@@ -61600,7 +61600,7 @@
           "type": "uint64_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTextureSwizzleChannels",
@@ -61622,7 +61622,7 @@
           "type": "MTLTextureSwizzle"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCounterResultTimestamp",
@@ -61632,7 +61632,7 @@
           "type": "uint64_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCounterResultStageUtilization",
@@ -61662,7 +61662,7 @@
           "type": "uint64_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLCounterResultStatistic",
@@ -61700,7 +61700,7 @@
           "type": "uint64_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4TimestampHeapEntry",
@@ -61710,7 +61710,7 @@
           "type": "uint64_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureSizes",
@@ -61728,7 +61728,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLSizeAndAlign",
@@ -61742,7 +61742,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLMapIndirectArguments",
@@ -61780,7 +61780,7 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLClearColor",
@@ -61802,7 +61802,7 @@
           "type": "double"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDispatchThreadgroupsIndirectArguments",
@@ -61812,7 +61812,7 @@
           "type": "uint32_t[3]"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDispatchThreadsIndirectArguments",
@@ -61826,7 +61826,7 @@
           "type": "uint32_t[3]"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLStageInRegionIndirectArguments",
@@ -61840,7 +61840,7 @@
           "type": "uint32_t[3]"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLScissorRect",
@@ -61862,7 +61862,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLViewport",
@@ -61892,7 +61892,7 @@
           "type": "double"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDrawPrimitivesIndirectArguments",
@@ -61914,7 +61914,7 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDrawIndexedPrimitivesIndirectArguments",
@@ -61940,7 +61940,7 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLVertexAmplificationViewMapping",
@@ -61954,7 +61954,7 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLDrawPatchIndirectArguments",
@@ -61976,7 +61976,7 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLQuadTessellationFactorsHalf",
@@ -61990,7 +61990,7 @@
           "type": "uint16_t[2]"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLTriangleTessellationFactorsHalf",
@@ -62004,7 +62004,7 @@
           "type": "uint16_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4BufferRange",
@@ -62018,7 +62018,7 @@
           "type": "uint64_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPackedFloat3",
@@ -62028,7 +62028,7 @@
           "type": "union _MTLPackedFloat3::(anonymous at /Applications/Xcode_26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLAccelerationStructureTypes.h:19:5)"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPackedFloatQuaternion",
@@ -62050,7 +62050,7 @@
           "type": "float"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLPackedFloat4x3",
@@ -62060,7 +62060,7 @@
           "type": "MTLPackedFloat3[4]"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAxisAlignedBoundingBox",
@@ -62074,7 +62074,7 @@
           "type": "MTLPackedFloat3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLComponentTransform",
@@ -62100,7 +62100,7 @@
           "type": "MTLPackedFloat3"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureInstanceDescriptor",
@@ -62126,7 +62126,7 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureUserIDInstanceDescriptor",
@@ -62156,7 +62156,7 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLAccelerationStructureMotionInstanceDescriptor",
@@ -62206,7 +62206,7 @@
           "type": "float"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndirectAccelerationStructureInstanceDescriptor",
@@ -62236,7 +62236,7 @@
           "type": "MTLResourceID"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndirectAccelerationStructureMotionInstanceDescriptor",
@@ -62286,7 +62286,7 @@
           "type": "float"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4UpdateSparseTextureMappingOperation",
@@ -62312,7 +62312,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4CopySparseTextureMappingOperation",
@@ -62342,7 +62342,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4UpdateSparseBufferMappingOperation",
@@ -62360,7 +62360,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTL4CopySparseBufferMappingOperation",
@@ -62374,7 +62374,7 @@
           "type": "NSUInteger"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIndirectCommandBufferExecutionRange",
@@ -62388,7 +62388,7 @@
           "type": "uint32_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     },
     {
       "name": "MTLIntersectionFunctionBufferArguments",
@@ -62406,7 +62406,7 @@
           "type": "uint64_t"
         }
       ],
-      "framework": null
+      "framework": "Metal"
     }
   ]
 }
