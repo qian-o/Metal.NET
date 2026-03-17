@@ -83,7 +83,3 @@ dotnet build Metal.NET
 ## Disclaimer
 
 > **This library was built with AI assistance.** It has undergone preliminary testing but has **not** been exhaustively validated in production scenarios. Please test thoroughly before production use.
-
-## License
-
-[MIT License](LICENSE) · "Metal" is a trademark of Apple Inc.
