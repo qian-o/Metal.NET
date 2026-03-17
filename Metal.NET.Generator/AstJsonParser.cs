@@ -307,9 +307,17 @@ partial class AstJsonParser
             return "";
         }
 
-        // Find the rightmost PascalCase word boundary where all remaining names start with uppercase
+        // Find the rightmost PascalCase word boundary where all remaining names start with uppercase.
+        // The prefix must end with a lowercase letter to ensure we split at a complete word boundary
+        // (avoids splitting acronyms like "MTL" into "MT" + "L...").
         for (int pos = lcp.Length; pos > 0; pos--)
         {
+            // Ensure the prefix ends at a complete PascalCase word boundary
+            if (!char.IsLower(lcp[pos - 1]))
+            {
+                continue;
+            }
+
             bool valid = true;
             foreach (EnumMember m in members)
             {

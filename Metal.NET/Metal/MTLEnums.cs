@@ -112,11 +112,11 @@ public enum MTLResourceOptions : ulong
 
 public enum MTLSparsePageSize : long
 {
-    L16 = 101,
+    MTL16 = 101,
 
-    L64 = 102,
+    MTL64 = 102,
 
-    L256 = 103
+    MTL256 = 103
 }
 
 public enum MTLBufferSparseTier : long
@@ -720,9 +720,9 @@ public enum MTLTextureCompressionType : long
 
 public enum MTLIndexType : ulong
 {
-    Int16 = 0,
+    UInt16 = 0,
 
-    Int32 = 1
+    UInt32 = 1
 }
 
 public enum MTLBindingType : long
@@ -834,29 +834,29 @@ public enum MTLFunctionType : ulong
 
 public enum MTLLanguageVersion : ulong
 {
-    L1_0 = 65536,
+    MTL1_0 = 65536,
 
-    L1_1 = 65537,
+    MTL1_1 = 65537,
 
-    L1_2 = 65538,
+    MTL1_2 = 65538,
 
-    L2_0 = 131072,
+    MTL2_0 = 131072,
 
-    L2_1 = 131073,
+    MTL2_1 = 131073,
 
-    L2_2 = 131074,
+    MTL2_2 = 131074,
 
-    L2_3 = 131075,
+    MTL2_3 = 131075,
 
-    L2_4 = 131076,
+    MTL2_4 = 131076,
 
-    L3_0 = 196608,
+    MTL3_0 = 196608,
 
-    L3_1 = 196609,
+    MTL3_1 = 196609,
 
-    L3_2 = 196610,
+    MTL3_2 = 196610,
 
-    L4_0 = 262144
+    MTL4_0 = 262144
 }
 
 public enum MTLLibraryType : long
@@ -1104,9 +1104,9 @@ public enum MTLReadWriteTextureTier : ulong
 
 public enum MTLArgumentBuffersTier : ulong
 {
-    L1 = 0,
+    MTL1 = 0,
 
-    L2 = 1
+    MTL2 = 1
 }
 
 public enum MTLSparseTextureRegionAlignmentMode : ulong
