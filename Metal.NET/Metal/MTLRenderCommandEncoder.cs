@@ -43,17 +43,17 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void SetVertexBufferOffsetAttributeStrideAtIndex(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBufferoffsetattributeStrideatIndex, buffer.NativePtr, offset, stride, index);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public void SetVertexBufferOffsetAttributeStrideAtIndex(nuint offset, nuint stride, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBufferOffsetattributeStrideatIndex, offset, stride, index);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBufferOffsetAttributeStrideAtIndex, offset, stride, index);
     }
 
     public void SetVertexBytesLengthAttributeStrideAtIndex(nint bytes, nuint length, nuint stride, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexByteslengthattributeStrideatIndex, bytes, length, stride, index);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBytesLengthAttributeStrideAtIndex, bytes, length, stride, index);
     }
 
     public void SetVertexTextureAtIndex(MTLTexture texture, nuint index)
@@ -68,7 +68,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void SetVertexSamplerStateLodMinClampLodMaxClampAtIndex(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerStatelodMinClamplodMaxClampatIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
     public void SetVertexVisibleFunctionTableAtBufferIndex(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -168,7 +168,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void SetFragmentSamplerStateLodMinClampLodMaxClampAtIndex(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerStatelodMinClamplodMaxClampatIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
     public void SetFragmentVisibleFunctionTableAtBufferIndex(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -268,7 +268,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void SetObjectSamplerStateLodMinClampLodMaxClampAtIndex(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerStatelodMinClamplodMaxClampatIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
     public void SetObjectThreadgroupMemoryLengthAtIndex(nuint length, nuint index)
@@ -303,7 +303,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void SetMeshSamplerStateLodMinClampLodMaxClampAtIndex(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerStatelodMinClamplodMaxClampatIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
     public void DrawMeshThreadgroupsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -328,7 +328,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void DrawPrimitivesVertexStartVertexCount(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawPrimitivesvertexStartvertexCount, (nuint)primitiveType, vertexStart, vertexCount);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawPrimitivesVertexStartVertexCount, (nuint)primitiveType, vertexStart, vertexCount);
     }
 
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCount(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount)
@@ -338,27 +338,27 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffset(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferOffset, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffset, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset);
     }
 
     public void DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawPrimitivesvertexStartvertexCountinstanceCountbaseInstance, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
     }
 
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferOffsetinstanceCountbaseVertexbaseInstance, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
     }
 
     public void DrawPrimitivesIndirectBufferIndirectBufferOffset(MTLPrimitiveType primitiveType, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawPrimitivesindirectBufferindirectBufferOffset, (nuint)primitiveType, indirectBuffer.NativePtr, indirectBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawPrimitivesIndirectBufferIndirectBufferOffset, (nuint)primitiveType, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
     public void DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferOffsetIndirectBufferIndirectBufferOffset(MTLPrimitiveType primitiveType, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawIndexedPrimitivesindexTypeindexBufferindexBufferOffsetindirectBufferindirectBufferOffset, (nuint)primitiveType, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset, indirectBuffer.NativePtr, indirectBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferOffsetIndirectBufferIndirectBufferOffset, (nuint)primitiveType, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
     /// <summary>
@@ -397,7 +397,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void DrawPatchesPatchIndexBufferPatchIndexBufferOffsetIndirectBufferIndirectBufferOffset(nuint numberOfPatchControlPoints, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawPatchespatchIndexBufferpatchIndexBufferOffsetindirectBufferindirectBufferOffset, numberOfPatchControlPoints, patchIndexBuffer.NativePtr, patchIndexBufferOffset, indirectBuffer.NativePtr, indirectBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawPatchesPatchIndexBufferPatchIndexBufferOffsetIndirectBufferIndirectBufferOffset, numberOfPatchControlPoints, patchIndexBuffer.NativePtr, patchIndexBufferOffset, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
     public void DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstance(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, nuint controlPointIndexBufferOffset, nuint instanceCount, nuint baseInstance)
@@ -407,7 +407,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void DrawIndexedPatchesPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetIndirectBufferIndirectBufferOffset(nuint numberOfPatchControlPoints, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, nuint controlPointIndexBufferOffset, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawIndexedPatchespatchIndexBufferpatchIndexBufferOffsetcontrolPointIndexBuffercontrolPointIndexBufferOffsetindirectBufferindirectBufferOffset, numberOfPatchControlPoints, patchIndexBuffer.NativePtr, patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, controlPointIndexBufferOffset, indirectBuffer.NativePtr, indirectBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawIndexedPatchesPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetIndirectBufferIndirectBufferOffset, numberOfPatchControlPoints, patchIndexBuffer.NativePtr, patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, controlPointIndexBufferOffset, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
     public void SetTileBytesLengthAtIndex(nint bytes, nuint length, nuint index)
@@ -437,7 +437,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void SetTileSamplerStateLodMinClampLodMaxClampAtIndex(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerStatelodMinClamplodMaxClampatIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
     public void SetTileVisibleFunctionTableAtBufferIndex(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -474,9 +474,35 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResource, resource.NativePtr, (nuint)usage);
     }
 
+    /// <summary>
+    /// Deprecated: Use useResources:count:usage:stages: instead
+    /// </summary>
+    [Obsolete("Use useResources:count:usage:stages: instead")]
+    public unsafe void UseResourcesCountUsage(MTLResource[] resources, MTLResourceUsage usage)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
+    }
+
     public void UseResourceUsageStages(MTLResource resource, MTLResourceUsage usage, MTLRenderStages stages)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResourceusagestages, resource.NativePtr, (nuint)usage, (nuint)stages);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResourceUsageStages, resource.NativePtr, (nuint)usage, (nuint)stages);
+    }
+
+    public unsafe void UseResourcesCountUsageStages(MTLResource[] resources, MTLResourceUsage usage, MTLRenderStages stages)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResourcesCountUsageStages, (nint)pResources, (nuint)resources.Length, (nuint)usage, (nuint)stages);
     }
 
     /// <summary>
@@ -488,9 +514,35 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeap, heap.NativePtr);
     }
 
+    /// <summary>
+    /// Deprecated: Use useHeaps:count:stages: instead
+    /// </summary>
+    [Obsolete("Use useHeaps:count:stages: instead")]
+    public unsafe void UseHeapsCount(MTLHeap[] heaps)
+    {
+        nint* pHeaps = stackalloc nint[heaps.Length];
+        for (int i = 0; i < heaps.Length; i++)
+        {
+            pHeaps[i] = heaps[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
+    }
+
     public void UseHeapStages(MTLHeap heap, MTLRenderStages stages)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeapstages, heap.NativePtr, (nuint)stages);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeapStages, heap.NativePtr, (nuint)stages);
+    }
+
+    public unsafe void UseHeapsCountStages(MTLHeap[] heaps, MTLRenderStages stages)
+    {
+        nint* pHeaps = stackalloc nint[heaps.Length];
+        for (int i = 0; i < heaps.Length; i++)
+        {
+            pHeaps[i] = heaps[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeapsCountStages, (nint)pHeaps, (nuint)heaps.Length, (nuint)stages);
     }
 
     public void ExecuteCommandsInBufferWithRange(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
@@ -500,12 +552,23 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset(MTLIndirectCommandBuffer indirectCommandbuffer, MTLBuffer indirectRangeBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.ExecuteCommandsInBufferindirectBufferindirectBufferOffset, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, indirectBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, indirectBufferOffset);
     }
 
     public void MemoryBarrierWithScopeAfterStagesBeforeStages(MTLBarrierScope scope, MTLRenderStages after, MTLRenderStages before)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithScope, (nuint)scope, (nuint)after, (nuint)before);
+    }
+
+    public unsafe void MemoryBarrierWithResourcesCountAfterStagesBeforeStages(MTLResource[] resources, MTLRenderStages after, MTLRenderStages before)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithResources, (nint)pResources, (nuint)resources.Length, (nuint)after, (nuint)before);
     }
 
     public void SampleCountersInBufferAtSampleIndexWithBarrier(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
@@ -525,15 +588,15 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector DrawIndexedPatches = "drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:";
 
-    public static readonly Selector DrawIndexedPatchespatchIndexBufferpatchIndexBufferOffsetcontrolPointIndexBuffercontrolPointIndexBufferOffsetindirectBufferindirectBufferOffset = "drawIndexedPatches:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:indirectBuffer:indirectBufferOffset:";
+    public static readonly Selector DrawIndexedPatchesPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetIndirectBufferIndirectBufferOffset = "drawIndexedPatches:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:indirectBuffer:indirectBufferOffset:";
 
     public static readonly Selector DrawIndexedPrimitives = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:";
 
-    public static readonly Selector DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferOffset = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:";
+    public static readonly Selector DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffset = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:";
 
-    public static readonly Selector DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferOffsetinstanceCountbaseVertexbaseInstance = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:";
+    public static readonly Selector DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:";
 
-    public static readonly Selector DrawIndexedPrimitivesindexTypeindexBufferindexBufferOffsetindirectBufferindirectBufferOffset = "drawIndexedPrimitives:indexType:indexBuffer:indexBufferOffset:indirectBuffer:indirectBufferOffset:";
+    public static readonly Selector DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferOffsetIndirectBufferIndirectBufferOffset = "drawIndexedPrimitives:indexType:indexBuffer:indexBufferOffset:indirectBuffer:indirectBufferOffset:";
 
     public static readonly Selector DrawMeshThreadgroups = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
@@ -543,19 +606,21 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector DrawPatches = "drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:";
 
-    public static readonly Selector DrawPatchespatchIndexBufferpatchIndexBufferOffsetindirectBufferindirectBufferOffset = "drawPatches:patchIndexBuffer:patchIndexBufferOffset:indirectBuffer:indirectBufferOffset:";
+    public static readonly Selector DrawPatchesPatchIndexBufferPatchIndexBufferOffsetIndirectBufferIndirectBufferOffset = "drawPatches:patchIndexBuffer:patchIndexBufferOffset:indirectBuffer:indirectBufferOffset:";
 
     public static readonly Selector DrawPrimitives = "drawPrimitives:vertexStart:vertexCount:instanceCount:";
 
-    public static readonly Selector DrawPrimitivesindirectBufferindirectBufferOffset = "drawPrimitives:indirectBuffer:indirectBufferOffset:";
+    public static readonly Selector DrawPrimitivesIndirectBufferIndirectBufferOffset = "drawPrimitives:indirectBuffer:indirectBufferOffset:";
 
-    public static readonly Selector DrawPrimitivesvertexStartvertexCount = "drawPrimitives:vertexStart:vertexCount:";
+    public static readonly Selector DrawPrimitivesVertexStartVertexCount = "drawPrimitives:vertexStart:vertexCount:";
 
-    public static readonly Selector DrawPrimitivesvertexStartvertexCountinstanceCountbaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
+    public static readonly Selector DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
 
     public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
 
-    public static readonly Selector ExecuteCommandsInBufferindirectBufferindirectBufferOffset = "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:";
+    public static readonly Selector ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset = "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:";
+
+    public static readonly Selector MemoryBarrierWithResources = "memoryBarrierWithResources:count:afterStages:beforeStages:";
 
     public static readonly Selector MemoryBarrierWithScope = "memoryBarrierWithScope:afterStages:beforeStages:";
 
@@ -595,7 +660,7 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetFragmentSamplerState = "setFragmentSamplerState:atIndex:";
 
-    public static readonly Selector SetFragmentSamplerStatelodMinClamplodMaxClampatIndex = "setFragmentSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
+    public static readonly Selector SetFragmentSamplerStateLodMinClampLodMaxClampAtIndex = "setFragmentSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
     public static readonly Selector SetFragmentTexture = "setFragmentTexture:atIndex:";
 
@@ -611,7 +676,7 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetMeshSamplerState = "setMeshSamplerState:atIndex:";
 
-    public static readonly Selector SetMeshSamplerStatelodMinClamplodMaxClampatIndex = "setMeshSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
+    public static readonly Selector SetMeshSamplerStateLodMinClampLodMaxClampAtIndex = "setMeshSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
     public static readonly Selector SetMeshTexture = "setMeshTexture:atIndex:";
 
@@ -623,7 +688,7 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetObjectSamplerState = "setObjectSamplerState:atIndex:";
 
-    public static readonly Selector SetObjectSamplerStatelodMinClamplodMaxClampatIndex = "setObjectSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
+    public static readonly Selector SetObjectSamplerStateLodMinClampLodMaxClampAtIndex = "setObjectSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
     public static readonly Selector SetObjectTexture = "setObjectTexture:atIndex:";
 
@@ -661,7 +726,7 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetTileSamplerState = "setTileSamplerState:atIndex:";
 
-    public static readonly Selector SetTileSamplerStatelodMinClamplodMaxClampatIndex = "setTileSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
+    public static readonly Selector SetTileSamplerStateLodMinClampLodMaxClampAtIndex = "setTileSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
     public static readonly Selector SetTileTexture = "setTileTexture:atIndex:";
 
@@ -677,19 +742,17 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetVertexBufferOffset = "setVertexBufferOffset:atIndex:";
 
-    public static readonly Selector SetVertexBufferoffsetattributeStrideatIndex = "setVertexBuffer:offset:attributeStride:atIndex:";
-
-    public static readonly Selector SetVertexBufferOffsetattributeStrideatIndex = "setVertexBufferOffset:attributeStride:atIndex:";
+    public static readonly Selector SetVertexBufferOffsetAttributeStrideAtIndex = "setVertexBuffer:offset:attributeStride:atIndex:";
 
     public static readonly Selector SetVertexBytes = "setVertexBytes:length:atIndex:";
 
-    public static readonly Selector SetVertexByteslengthattributeStrideatIndex = "setVertexBytes:length:attributeStride:atIndex:";
+    public static readonly Selector SetVertexBytesLengthAttributeStrideAtIndex = "setVertexBytes:length:attributeStride:atIndex:";
 
     public static readonly Selector SetVertexIntersectionFunctionTable = "setVertexIntersectionFunctionTable:atBufferIndex:";
 
     public static readonly Selector SetVertexSamplerState = "setVertexSamplerState:atIndex:";
 
-    public static readonly Selector SetVertexSamplerStatelodMinClamplodMaxClampatIndex = "setVertexSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
+    public static readonly Selector SetVertexSamplerStateLodMinClampLodMaxClampAtIndex = "setVertexSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
     public static readonly Selector SetVertexTexture = "setVertexTexture:atIndex:";
 
@@ -711,11 +774,19 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector UseHeap = "useHeap:";
 
-    public static readonly Selector UseHeapstages = "useHeap:stages:";
+    public static readonly Selector UseHeaps = "useHeaps:count:";
+
+    public static readonly Selector UseHeapsCountStages = "useHeaps:count:stages:";
+
+    public static readonly Selector UseHeapStages = "useHeap:stages:";
 
     public static readonly Selector UseResource = "useResource:usage:";
 
-    public static readonly Selector UseResourceusagestages = "useResource:usage:stages:";
+    public static readonly Selector UseResources = "useResources:count:usage:";
+
+    public static readonly Selector UseResourcesCountUsageStages = "useResources:count:usage:stages:";
+
+    public static readonly Selector UseResourceUsageStages = "useResource:usage:stages:";
 
     public static readonly Selector WaitForFence = "waitForFence:beforeStages:";
 }

@@ -27,14 +27,29 @@ public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership)
         ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages, (nuint)visibilityOptions);
     }
 
+    public void BarrierAfterQueueStagesBeforeStages(MTLStages afterQueueStages, MTLStages beforeStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        BarrierAfterQueueStagesBeforeStagesVisibilityOptions(afterQueueStages, beforeStages, visibilityOptions);
+    }
+
     public void BarrierAfterStagesBeforeQueueStagesVisibilityOptions(MTLStages afterStages, MTLStages beforeQueueStages, MTL4VisibilityOptions visibilityOptions)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterStages, (nuint)afterStages, (nuint)beforeQueueStages, (nuint)visibilityOptions);
     }
 
+    public void BarrierAfterStagesBeforeQueueStages(MTLStages afterStages, MTLStages beforeQueueStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        BarrierAfterStagesBeforeQueueStagesVisibilityOptions(afterStages, beforeQueueStages, visibilityOptions);
+    }
+
     public void BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterEncoderStages, (nuint)afterEncoderStages, (nuint)beforeEncoderStages, (nuint)visibilityOptions);
+    }
+
+    public void BarrierAfterEncoderStagesBeforeEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions(afterEncoderStages, beforeEncoderStages, visibilityOptions);
     }
 
     public void UpdateFenceAfterEncoderStages(MTLFence fence, MTLStages afterEncoderStages)

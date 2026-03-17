@@ -39,7 +39,12 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void BeginCommandBufferWithAllocatorOptions(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatoroptions, allocator.NativePtr, options.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatorOptions, allocator.NativePtr, options.NativePtr);
+    }
+
+    public void BeginCommandBufferWithAllocator(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
+    {
+        BeginCommandBufferWithAllocatorOptions(allocator, options);
     }
 
     public void EndCommandBuffer()
@@ -56,14 +61,30 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTL4RenderCommandEncoder RenderCommandEncoderWithDescriptorOptions(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptorOptions, descriptor.NativePtr, (nuint)options);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTL4RenderCommandEncoder RenderCommandEncoderWithDescriptor(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
+    {
+        return RenderCommandEncoderWithDescriptorOptions(descriptor, options);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySet, residencySet.NativePtr);
+    }
+
+    public unsafe void UseResidencySetsCount(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void PushDebugGroup(NSString @string)
@@ -91,7 +112,7 @@ file static class MTL4CommandBufferBindings
 {
     public static readonly Selector BeginCommandBufferWithAllocator = "beginCommandBufferWithAllocator:";
 
-    public static readonly Selector BeginCommandBufferWithAllocatoroptions = "beginCommandBufferWithAllocator:options:";
+    public static readonly Selector BeginCommandBufferWithAllocatorOptions = "beginCommandBufferWithAllocator:options:";
 
     public static readonly Selector ComputeCommandEncoder = "computeCommandEncoder";
 
@@ -109,13 +130,15 @@ file static class MTL4CommandBufferBindings
 
     public static readonly Selector RenderCommandEncoderWithDescriptor = "renderCommandEncoderWithDescriptor:";
 
-    public static readonly Selector RenderCommandEncoderWithDescriptoroptions = "renderCommandEncoderWithDescriptor:options:";
+    public static readonly Selector RenderCommandEncoderWithDescriptorOptions = "renderCommandEncoderWithDescriptor:options:";
 
     public static readonly Selector ResolveCounterHeap = "resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector UseResidencySet = "useResidencySet:";
+
+    public static readonly Selector UseResidencySets = "useResidencySets:count:";
 
     public static readonly Selector WriteTimestampIntoHeap = "writeTimestampIntoHeap:atIndex:";
 }

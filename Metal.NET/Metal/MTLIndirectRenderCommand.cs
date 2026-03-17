@@ -28,7 +28,7 @@ public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership owne
 
     public void SetVertexBufferOffsetAttributeStrideAtIndex(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBufferoffsetattributeStrideatIndex, buffer.NativePtr, offset, stride, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public void DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
@@ -166,5 +166,5 @@ file static class MTLIndirectRenderCommandBindings
 
     public static readonly Selector SetVertexBuffer = "setVertexBuffer:offset:atIndex:";
 
-    public static readonly Selector SetVertexBufferoffsetattributeStrideatIndex = "setVertexBuffer:offset:attributeStride:atIndex:";
+    public static readonly Selector SetVertexBufferOffsetAttributeStrideAtIndex = "setVertexBuffer:offset:attributeStride:atIndex:";
 }

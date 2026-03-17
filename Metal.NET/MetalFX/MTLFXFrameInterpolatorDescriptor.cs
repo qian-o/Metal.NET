@@ -84,7 +84,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
 
     public MTL4FXFrameInterpolator NewFrameInterpolatorWithDeviceCompiler(MTLDevice device, MTL4Compiler compiler)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevicecompiler, device.NativePtr, compiler.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -116,7 +116,7 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 
     public static readonly Selector NewFrameInterpolatorWithDevice = "newFrameInterpolatorWithDevice:";
 
-    public static readonly Selector NewFrameInterpolatorWithDevicecompiler = "newFrameInterpolatorWithDevice:compiler:";
+    public static readonly Selector NewFrameInterpolatorWithDeviceCompiler = "newFrameInterpolatorWithDevice:compiler:";
 
     public static readonly Selector OutputHeight = "outputHeight";
 

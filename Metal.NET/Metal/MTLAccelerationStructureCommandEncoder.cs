@@ -23,7 +23,12 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr, NativeObject
 
     public void RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffsetOptions(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTLBuffer scratchBuffer, nuint scratchBufferOffset, MTLAccelerationStructureRefitOptions options)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.RefitAccelerationStructuredescriptordestinationscratchBufferscratchBufferOffsetoptions, sourceAccelerationStructure.NativePtr, descriptor.NativePtr, destinationAccelerationStructure.NativePtr, scratchBuffer.NativePtr, scratchBufferOffset, (nuint)options);
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffsetOptions, sourceAccelerationStructure.NativePtr, descriptor.NativePtr, destinationAccelerationStructure.NativePtr, scratchBuffer.NativePtr, scratchBufferOffset, (nuint)options);
+    }
+
+    public void RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffset(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTLBuffer scratchBuffer, nuint scratchBufferOffset, MTLAccelerationStructureRefitOptions options)
+    {
+        RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffsetOptions(sourceAccelerationStructure, descriptor, destinationAccelerationStructure, scratchBuffer, scratchBufferOffset, options);
     }
 
     public void CopyAccelerationStructureToAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructure destinationAccelerationStructure)
@@ -38,7 +43,7 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr, NativeObject
 
     public void WriteCompactedAccelerationStructureSizeToBufferOffsetSizeDataType(MTLAccelerationStructure accelerationStructure, MTLBuffer buffer, nuint offset, MTLDataType sizeDataType)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.WriteCompactedAccelerationStructureSizetoBufferoffsetsizeDataType, accelerationStructure.NativePtr, buffer.NativePtr, offset, (nuint)sizeDataType);
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.WriteCompactedAccelerationStructureSizeToBufferOffsetSizeDataType, accelerationStructure.NativePtr, buffer.NativePtr, offset, (nuint)sizeDataType);
     }
 
     public void CopyAndCompactAccelerationStructureToAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructure destinationAccelerationStructure)
@@ -61,9 +66,31 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr, NativeObject
         ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseResource, resource.NativePtr, (nuint)usage);
     }
 
+    public unsafe void UseResourcesCountUsage(MTLResource[] resources, MTLResourceUsage usage)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
+    }
+
     public void UseHeap(MTLHeap heap)
     {
         ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseHeap, heap.NativePtr);
+    }
+
+    public unsafe void UseHeapsCount(MTLHeap[] heaps)
+    {
+        nint* pHeaps = stackalloc nint[heaps.Length];
+        for (int i = 0; i < heaps.Length; i++)
+        {
+            pHeaps[i] = heaps[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
     }
 
     public void SampleCountersInBufferAtSampleIndexWithBarrier(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
@@ -82,7 +109,7 @@ file static class MTLAccelerationStructureCommandEncoderBindings
 
     public static readonly Selector RefitAccelerationStructure = "refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:";
 
-    public static readonly Selector RefitAccelerationStructuredescriptordestinationscratchBufferscratchBufferOffsetoptions = "refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:options:";
+    public static readonly Selector RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffsetOptions = "refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:options:";
 
     public static readonly Selector SampleCountersInBuffer = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
@@ -90,11 +117,15 @@ file static class MTLAccelerationStructureCommandEncoderBindings
 
     public static readonly Selector UseHeap = "useHeap:";
 
+    public static readonly Selector UseHeaps = "useHeaps:count:";
+
     public static readonly Selector UseResource = "useResource:usage:";
+
+    public static readonly Selector UseResources = "useResources:count:usage:";
 
     public static readonly Selector WaitForFence = "waitForFence:";
 
     public static readonly Selector WriteCompactedAccelerationStructureSize = "writeCompactedAccelerationStructureSize:toBuffer:offset:";
 
-    public static readonly Selector WriteCompactedAccelerationStructureSizetoBufferoffsetsizeDataType = "writeCompactedAccelerationStructureSize:toBuffer:offset:sizeDataType:";
+    public static readonly Selector WriteCompactedAccelerationStructureSizeToBufferOffsetSizeDataType = "writeCompactedAccelerationStructureSize:toBuffer:offset:sizeDataType:";
 }

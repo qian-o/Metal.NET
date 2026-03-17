@@ -28,7 +28,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public MTLComputePipelineState NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -46,7 +46,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public MTLRenderPipelineState NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -71,11 +71,11 @@ file static class MTL4ArchiveBindings
 
     public static readonly Selector NewComputePipelineStateWithDescriptor = "newComputePipelineStateWithDescriptor:error:";
 
-    public static readonly Selector NewComputePipelineStateWithDescriptordynamicLinkingDescriptorerror = "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
+    public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError = "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
 
     public static readonly Selector NewRenderPipelineStateWithDescriptor = "newRenderPipelineStateWithDescriptor:error:";
 
-    public static readonly Selector NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorerror = "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
+    public static readonly Selector NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError = "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

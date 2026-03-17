@@ -46,7 +46,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 
     public MTLFunction NewFunctionWithNameConstantValuesError(NSString name, MTLFunctionConstantValues constantValues, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithNameconstantValueserror, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithNameConstantValuesError, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -93,7 +93,7 @@ file static class MTLLibraryBindings
 
     public static readonly Selector NewFunctionWithName = "newFunctionWithName:";
 
-    public static readonly Selector NewFunctionWithNameconstantValueserror = "newFunctionWithName:constantValues:error:";
+    public static readonly Selector NewFunctionWithNameConstantValuesError = "newFunctionWithName:constantValues:error:";
 
     public static readonly Selector NewIntersectionFunctionWithDescriptor = "newIntersectionFunctionWithDescriptor:error:";
 

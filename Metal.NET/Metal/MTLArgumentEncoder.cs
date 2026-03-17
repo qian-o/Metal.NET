@@ -39,7 +39,7 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
 
     public void SetArgumentBufferStartOffsetArrayElement(MTLBuffer argumentBuffer, nuint startOffset, nuint arrayElement)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBufferstartOffsetarrayElement, argumentBuffer.NativePtr, startOffset, arrayElement);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBufferStartOffsetArrayElement, argumentBuffer.NativePtr, startOffset, arrayElement);
     }
 
     public void SetBufferOffsetAtIndex(MTLBuffer buffer, nuint offset, nuint index)
@@ -123,7 +123,7 @@ file static class MTLArgumentEncoderBindings
 
     public static readonly Selector SetArgumentBuffer = "setArgumentBuffer:offset:";
 
-    public static readonly Selector SetArgumentBufferstartOffsetarrayElement = "setArgumentBuffer:startOffset:arrayElement:";
+    public static readonly Selector SetArgumentBufferStartOffsetArrayElement = "setArgumentBuffer:startOffset:arrayElement:";
 
     public static readonly Selector SetBuffer = "setBuffer:offset:atIndex:";
 

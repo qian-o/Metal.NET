@@ -808,6 +808,13 @@ partial class AstJsonParser
             return idMatch.Groups[1].Value + "*";
         }
 
+        // id<Protocol> const * → OBJ_ARRAY:Protocol (pointer to array of protocol objects)
+        Match idPtrMatch = IdProtocolPointerRegex().Match(t);
+        if (idPtrMatch.Success)
+        {
+            return "OBJ_ARRAY:" + idPtrMatch.Groups[1].Value;
+        }
+
         // NSArray<...> / NSDictionary<...> → pointer form (element type resolved by emitter)
         if (t is "NSArray" || t.StartsWith("NSArray<") || t.StartsWith("NSArray *"))
         {
@@ -996,6 +1003,9 @@ partial class AstJsonParser
 
     [GeneratedRegex(@"^id<(\w+)>$")]
     private static partial Regex IdProtocolRegex();
+
+    [GeneratedRegex(@"^id<(\w+)>\s*const\s*\*$")]
+    private static partial Regex IdProtocolPointerRegex();
 
     [GeneratedRegex(@"void\s*\(\^\s*(?:_Nullable)?\s*\)\s*\(([^)]*)\)")]
     private static partial Regex InlineBlockTypeRegex();

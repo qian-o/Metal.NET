@@ -128,12 +128,12 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void DrawPrimitivesVertexStartVertexCountInstanceCount(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesvertexStartvertexCountinstanceCount, (nuint)primitiveType, vertexStart, vertexCount, instanceCount);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesVertexStartVertexCountInstanceCount, (nuint)primitiveType, vertexStart, vertexCount, instanceCount);
     }
 
     public void DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesvertexStartvertexCountinstanceCountbaseInstance, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
     }
 
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLength(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength)
@@ -143,22 +143,22 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCount(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferLengthinstanceCount, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCount, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount);
     }
 
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCountBaseVertexBaseInstance(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferLengthinstanceCountbaseVertexbaseInstance, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount, baseVertex, baseInstance);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCountBaseVertexBaseInstance, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount, baseVertex, baseInstance);
     }
 
     public void DrawPrimitivesIndirectBuffer(MTLPrimitiveType primitiveType, nuint indirectBuffer)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesindirectBuffer, (nuint)primitiveType, indirectBuffer);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesIndirectBuffer, (nuint)primitiveType, indirectBuffer);
     }
 
     public void DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferLengthIndirectBuffer(MTLPrimitiveType primitiveType, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint indirectBuffer)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesindexTypeindexBufferindexBufferLengthindirectBuffer, (nuint)primitiveType, (nuint)indexType, indexBuffer, indexBufferLength, indirectBuffer);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferLengthIndirectBuffer, (nuint)primitiveType, (nuint)indexType, indexBuffer, indexBufferLength, indirectBuffer);
     }
 
     public void ExecuteCommandsInBufferWithRange(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
@@ -168,7 +168,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void ExecuteCommandsInBufferIndirectBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint indirectRangeBuffer)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBufferindirectBuffer, indirectCommandBuffer.NativePtr, indirectRangeBuffer);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBufferIndirectBuffer, indirectCommandBuffer.NativePtr, indirectRangeBuffer);
     }
 
     public void SetObjectThreadgroupMemoryLengthAtIndex(nuint length, nuint index)
@@ -223,11 +223,11 @@ file static class MTL4RenderCommandEncoderBindings
 
     public static readonly Selector DrawIndexedPrimitives = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:";
 
-    public static readonly Selector DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferLengthinstanceCount = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:";
+    public static readonly Selector DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCount = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:";
 
-    public static readonly Selector DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferLengthinstanceCountbaseVertexbaseInstance = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:baseVertex:baseInstance:";
+    public static readonly Selector DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCountBaseVertexBaseInstance = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:baseVertex:baseInstance:";
 
-    public static readonly Selector DrawIndexedPrimitivesindexTypeindexBufferindexBufferLengthindirectBuffer = "drawIndexedPrimitives:indexType:indexBuffer:indexBufferLength:indirectBuffer:";
+    public static readonly Selector DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferLengthIndirectBuffer = "drawIndexedPrimitives:indexType:indexBuffer:indexBufferLength:indirectBuffer:";
 
     public static readonly Selector DrawMeshThreadgroups = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
@@ -237,15 +237,15 @@ file static class MTL4RenderCommandEncoderBindings
 
     public static readonly Selector DrawPrimitives = "drawPrimitives:vertexStart:vertexCount:";
 
-    public static readonly Selector DrawPrimitivesindirectBuffer = "drawPrimitives:indirectBuffer:";
+    public static readonly Selector DrawPrimitivesIndirectBuffer = "drawPrimitives:indirectBuffer:";
 
-    public static readonly Selector DrawPrimitivesvertexStartvertexCountinstanceCount = "drawPrimitives:vertexStart:vertexCount:instanceCount:";
+    public static readonly Selector DrawPrimitivesVertexStartVertexCountInstanceCount = "drawPrimitives:vertexStart:vertexCount:instanceCount:";
 
-    public static readonly Selector DrawPrimitivesvertexStartvertexCountinstanceCountbaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
+    public static readonly Selector DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
 
     public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
 
-    public static readonly Selector ExecuteCommandsInBufferindirectBuffer = "executeCommandsInBuffer:indirectBuffer:";
+    public static readonly Selector ExecuteCommandsInBufferIndirectBuffer = "executeCommandsInBuffer:indirectBuffer:";
 
     public static readonly Selector SetArgumentTable = "setArgumentTable:atStages:";
 

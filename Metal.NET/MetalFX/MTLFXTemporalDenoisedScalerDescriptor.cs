@@ -156,7 +156,7 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
 
     public MTL4FXTemporalDenoisedScaler NewTemporalDenoisedScalerWithDeviceCompiler(MTLDevice device, MTL4Compiler compiler)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.NewTemporalDenoisedScalerWithDevicecompiler, device.NativePtr, compiler.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.NewTemporalDenoisedScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -212,7 +212,7 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector NewTemporalDenoisedScalerWithDevice = "newTemporalDenoisedScalerWithDevice:";
 
-    public static readonly Selector NewTemporalDenoisedScalerWithDevicecompiler = "newTemporalDenoisedScalerWithDevice:compiler:";
+    public static readonly Selector NewTemporalDenoisedScalerWithDeviceCompiler = "newTemporalDenoisedScalerWithDevice:compiler:";
 
     public static readonly Selector NormalTextureFormat = "normalTextureFormat";
 

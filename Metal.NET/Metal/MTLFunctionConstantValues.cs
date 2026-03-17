@@ -27,7 +27,7 @@ public class MTLFunctionConstantValues(nint nativePtr, NativeObjectOwnership own
 
     public void SetConstantValueTypeWithName(nint value, MTLDataType type, NSString name)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValuetypewithName, value, (nuint)type, name.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValueTypeWithName, value, (nuint)type, name.NativePtr);
     }
 
     public void Reset()
@@ -46,5 +46,5 @@ file static class MTLFunctionConstantValuesBindings
 
     public static readonly Selector SetConstantValues = "setConstantValues:type:withRange:";
 
-    public static readonly Selector SetConstantValuetypewithName = "setConstantValue:type:withName:";
+    public static readonly Selector SetConstantValueTypeWithName = "setConstantValue:type:withName:";
 }

@@ -23,7 +23,7 @@ public class MTLResourceStateCommandEncoder(nint nativePtr, NativeObjectOwnershi
 
     public void UpdateTextureMappingModeIndirectBufferIndirectBufferOffset(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.UpdateTextureMappingmodeindirectBufferindirectBufferOffset, texture.NativePtr, (nuint)mode, indirectBuffer.NativePtr, indirectBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.UpdateTextureMappingModeIndirectBufferIndirectBufferOffset, texture.NativePtr, (nuint)mode, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
     public void UpdateFence(MTLFence fence)
@@ -50,7 +50,7 @@ file static class MTLResourceStateCommandEncoderBindings
 
     public static readonly Selector UpdateTextureMapping = "updateTextureMapping:mode:region:mipLevel:slice:";
 
-    public static readonly Selector UpdateTextureMappingmodeindirectBufferindirectBufferOffset = "updateTextureMapping:mode:indirectBuffer:indirectBufferOffset:";
+    public static readonly Selector UpdateTextureMappingModeIndirectBufferIndirectBufferOffset = "updateTextureMapping:mode:indirectBuffer:indirectBufferOffset:";
 
     public static readonly Selector UpdateTextureMappings = "updateTextureMappings:mode:regions:mipLevels:slices:numRegions:";
 

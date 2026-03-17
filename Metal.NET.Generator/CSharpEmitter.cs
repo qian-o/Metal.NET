@@ -1137,7 +1137,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string selectorKey;
         if (hasZeroParamVersion.Contains(method.Name) && method.Parameters.Count > 0)
         {
-            selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
+            selectorKey = BuildMethodNameFromSelector(selectorObjC);
         }
         else
         {
@@ -1145,7 +1145,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         if (selectors.TryGetValue(selectorKey, out string? existingSelector) && existingSelector != selectorObjC)
         {
-            selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
+            selectorKey = BuildMethodNameFromSelector(selectorObjC);
         }
         selectors.TryAdd(selectorKey, selectorObjC);
 
@@ -1498,12 +1498,70 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         sb.AppendLine("    }");
+
+        // Generate "WithOptions" overload — if the last selector part ends with "options",
+        // emit a forwarding method with that suffix removed from the method name.
+        string? overloadName = null;
+        if (method.Selector != null)
+        {
+            string[] selectorParts = method.Selector.Split(':', StringSplitOptions.RemoveEmptyEntries);
+
+            // Multi-part selector: check if last part ends with "options"
+            if (selectorParts.Length > 1)
+            {
+                string lastPart = selectorParts[^1];
+                if (lastPart.EndsWith("options", StringComparison.OrdinalIgnoreCase))
+                {
+                    string lastPartPascal = TypeMapper.ToPascalCase(lastPart);
+                    if (csMethodName.EndsWith(lastPartPascal, StringComparison.Ordinal) && csMethodName.Length > lastPartPascal.Length)
+                    {
+                        overloadName = csMethodName[..^lastPartPascal.Length];
+                    }
+                }
+            }
+
+            // Any selector: check if method name contains literal "WithOptions"
+            if (overloadName == null && csMethodName.Contains("WithOptions"))
+            {
+                string candidate = csMethodName.Replace("WithOptions", "");
+                if (candidate.Length > 0)
+                {
+                    overloadName = candidate;
+                }
+            }
+        }
+
+        if (overloadName != null)
+        {
+            List<string> forwardingArgs = [];
+            foreach (string param in csParams)
+            {
+                string[] paramParts = param.Split(' ');
+                string argName = paramParts[^1];
+                if (param.StartsWith("out "))
+                {
+                    forwardingArgs.Add($"out {argName}");
+                }
+                else
+                {
+                    forwardingArgs.Add(argName);
+                }
+            }
+            string forwardingArgsStr = string.Join(", ", forwardingArgs);
+
+            sb.AppendLine();
+            string returnKw = isVoid ? "" : "return ";
+            sb.AppendLine($"    public {staticKw}{unsafeKw}{csReturnType} {overloadName}({paramStr})");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        {returnKw}{csMethodName}({forwardingArgsStr});");
+            sb.AppendLine("    }");
+        }
     }
 
     /// <summary>
     /// Builds a C# method name from a multi-part ObjC selector.
     /// E.g., "presentDrawable:atTime:" → "PresentDrawableAtTime"
-    /// E.g., "newBufferWithLength:options:" → "NewBufferWithLength"
+    /// E.g., "newBufferWithLength:options:" → "NewBufferWithLengthOptions"
     /// </summary>
     static string BuildMethodNameFromSelector(string selector)
     {

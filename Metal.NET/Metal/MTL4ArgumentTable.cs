@@ -28,7 +28,7 @@ public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void SetAddressAttributeStrideAtIndex(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressattributeStrideatIndex, gpuAddress, stride, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressAttributeStrideAtIndex, gpuAddress, stride, bindingIndex);
     }
 
     public void SetResourceAtBufferIndex(MTLResourceID resourceID, nuint bindingIndex)
@@ -55,7 +55,7 @@ file static class MTL4ArgumentTableBindings
 
     public static readonly Selector SetAddress = "setAddress:atIndex:";
 
-    public static readonly Selector SetAddressattributeStrideatIndex = "setAddress:attributeStride:atIndex:";
+    public static readonly Selector SetAddressAttributeStrideAtIndex = "setAddress:attributeStride:atIndex:";
 
     public static readonly Selector SetResource = "setResource:atBufferIndex:";
 

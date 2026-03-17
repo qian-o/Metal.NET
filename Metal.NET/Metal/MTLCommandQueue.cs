@@ -53,15 +53,39 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySet, residencySet.NativePtr);
     }
 
+    public unsafe void AddResidencySetsCount(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
+
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
+    }
+
+    public unsafe void RemoveResidencySetsCount(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 }
 
 file static class MTLCommandQueueBindings
 {
     public static readonly Selector AddResidencySet = "addResidencySet:";
+
+    public static readonly Selector AddResidencySets = "addResidencySets:count:";
 
     public static readonly Selector CommandBuffer = "commandBuffer";
 
@@ -76,6 +100,8 @@ file static class MTLCommandQueueBindings
     public static readonly Selector Label = "label";
 
     public static readonly Selector RemoveResidencySet = "removeResidencySet:";
+
+    public static readonly Selector RemoveResidencySets = "removeResidencySets:count:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

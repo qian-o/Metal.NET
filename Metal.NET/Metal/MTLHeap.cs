@@ -74,6 +74,11 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLBuffer NewBufferWithLength(nuint length, MTLResourceOptions options)
+    {
+        return NewBufferWithLengthOptions(length, options);
+    }
+
     public MTLTexture NewTextureWithDescriptor(MTLTextureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTextureWithDescriptor, descriptor.NativePtr);
@@ -88,14 +93,14 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLBuffer NewBufferWithLengthOptionsOffset(nuint length, MTLResourceOptions options, nuint offset)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewBufferWithLengthoptionsoffset, length, (nuint)options, offset);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewBufferWithLengthOptionsOffset, length, (nuint)options, offset);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTextureWithDescriptorOffset(MTLTextureDescriptor descriptor, nuint offset)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTextureWithDescriptoroffset, descriptor.NativePtr, offset);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTextureWithDescriptorOffset, descriptor.NativePtr, offset);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -116,14 +121,14 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLAccelerationStructure NewAccelerationStructureWithSizeOffset(nuint size, nuint offset)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSizeoffset, size, offset);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSizeOffset, size, offset);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLAccelerationStructure NewAccelerationStructureWithDescriptorOffset(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptoroffset, descriptor.NativePtr, offset);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptorOffset, descriptor.NativePtr, offset);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -145,19 +150,19 @@ file static class MTLHeapBindings
 
     public static readonly Selector NewAccelerationStructureWithDescriptor = "newAccelerationStructureWithDescriptor:";
 
-    public static readonly Selector NewAccelerationStructureWithDescriptoroffset = "newAccelerationStructureWithDescriptor:offset:";
+    public static readonly Selector NewAccelerationStructureWithDescriptorOffset = "newAccelerationStructureWithDescriptor:offset:";
 
     public static readonly Selector NewAccelerationStructureWithSize = "newAccelerationStructureWithSize:";
 
-    public static readonly Selector NewAccelerationStructureWithSizeoffset = "newAccelerationStructureWithSize:offset:";
+    public static readonly Selector NewAccelerationStructureWithSizeOffset = "newAccelerationStructureWithSize:offset:";
 
     public static readonly Selector NewBufferWithLength = "newBufferWithLength:options:";
 
-    public static readonly Selector NewBufferWithLengthoptionsoffset = "newBufferWithLength:options:offset:";
+    public static readonly Selector NewBufferWithLengthOptionsOffset = "newBufferWithLength:options:offset:";
 
     public static readonly Selector NewTextureWithDescriptor = "newTextureWithDescriptor:";
 
-    public static readonly Selector NewTextureWithDescriptoroffset = "newTextureWithDescriptor:offset:";
+    public static readonly Selector NewTextureWithDescriptorOffset = "newTextureWithDescriptor:offset:";
 
     public static readonly Selector ResourceOptions = "resourceOptions";
 

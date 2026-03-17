@@ -23,7 +23,7 @@ public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership own
 
     public void SetKernelBufferOffsetAttributeStrideAtIndex(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBufferoffsetattributeStrideatIndex, buffer.NativePtr, offset, stride, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public void ConcurrentDispatchThreadgroupsThreadsPerThreadgroup(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
@@ -85,7 +85,7 @@ file static class MTLIndirectComputeCommandBindings
 
     public static readonly Selector SetKernelBuffer = "setKernelBuffer:offset:atIndex:";
 
-    public static readonly Selector SetKernelBufferoffsetattributeStrideatIndex = "setKernelBuffer:offset:attributeStride:atIndex:";
+    public static readonly Selector SetKernelBufferOffsetAttributeStrideAtIndex = "setKernelBuffer:offset:attributeStride:atIndex:";
 
     public static readonly Selector SetStageInRegion = "setStageInRegion:";
 

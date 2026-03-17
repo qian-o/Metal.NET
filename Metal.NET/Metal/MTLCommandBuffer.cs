@@ -114,12 +114,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void PresentDrawableAtTime(MTLDrawable drawable, double presentationTime)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableatTime, drawable.NativePtr, presentationTime);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableAtTime, drawable.NativePtr, presentationTime);
     }
 
     public void PresentDrawableAfterMinimumDuration(MTLDrawable drawable, double duration)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableafterMinimumDuration, drawable.NativePtr, duration);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableAfterMinimumDuration, drawable.NativePtr, duration);
     }
 
     public void WaitUntilScheduled()
@@ -210,6 +210,17 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySet, residencySet.NativePtr);
     }
+
+    public unsafe void UseResidencySetsCount(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
 }
 
 file static class MTLCommandBufferBindings
@@ -266,9 +277,9 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector PresentDrawable = "presentDrawable:";
 
-    public static readonly Selector PresentDrawableafterMinimumDuration = "presentDrawable:afterMinimumDuration:";
+    public static readonly Selector PresentDrawableAfterMinimumDuration = "presentDrawable:afterMinimumDuration:";
 
-    public static readonly Selector PresentDrawableatTime = "presentDrawable:atTime:";
+    public static readonly Selector PresentDrawableAtTime = "presentDrawable:atTime:";
 
     public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
@@ -285,6 +296,8 @@ file static class MTLCommandBufferBindings
     public static readonly Selector Status = "status";
 
     public static readonly Selector UseResidencySet = "useResidencySet:";
+
+    public static readonly Selector UseResidencySets = "useResidencySets:count:";
 
     public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 

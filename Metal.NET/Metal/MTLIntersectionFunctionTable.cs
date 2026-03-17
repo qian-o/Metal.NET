@@ -33,7 +33,7 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
 
     public void SetOpaqueTriangleIntersectionFunctionWithSignatureWithRange(MTLIntersectionFunctionSignature signature, NSRange range)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunctionWithSignaturewithRange, (nuint)signature, range);
+        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunctionWithSignatureWithRange, (nuint)signature, range);
     }
 
     public void SetOpaqueCurveIntersectionFunctionWithSignatureAtIndex(MTLIntersectionFunctionSignature signature, nuint index)
@@ -43,7 +43,7 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
 
     public void SetOpaqueCurveIntersectionFunctionWithSignatureWithRange(MTLIntersectionFunctionSignature signature, NSRange range)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueCurveIntersectionFunctionWithSignaturewithRange, (nuint)signature, range);
+        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueCurveIntersectionFunctionWithSignatureWithRange, (nuint)signature, range);
     }
 
     public void SetVisibleFunctionTableAtBufferIndex(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -62,11 +62,11 @@ file static class MTLIntersectionFunctionTableBindings
 
     public static readonly Selector SetOpaqueCurveIntersectionFunctionWithSignature = "setOpaqueCurveIntersectionFunctionWithSignature:atIndex:";
 
-    public static readonly Selector SetOpaqueCurveIntersectionFunctionWithSignaturewithRange = "setOpaqueCurveIntersectionFunctionWithSignature:withRange:";
+    public static readonly Selector SetOpaqueCurveIntersectionFunctionWithSignatureWithRange = "setOpaqueCurveIntersectionFunctionWithSignature:withRange:";
 
     public static readonly Selector SetOpaqueTriangleIntersectionFunctionWithSignature = "setOpaqueTriangleIntersectionFunctionWithSignature:atIndex:";
 
-    public static readonly Selector SetOpaqueTriangleIntersectionFunctionWithSignaturewithRange = "setOpaqueTriangleIntersectionFunctionWithSignature:withRange:";
+    public static readonly Selector SetOpaqueTriangleIntersectionFunctionWithSignatureWithRange = "setOpaqueTriangleIntersectionFunctionWithSignature:withRange:";
 
     public static readonly Selector SetVisibleFunctionTable = "setVisibleFunctionTable:atBufferIndex:";
 }
