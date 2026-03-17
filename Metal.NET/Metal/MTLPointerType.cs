@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of a pointer.
-/// </summary>
 public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLPointerType>
 {
     #region INativeObject
@@ -14,81 +11,69 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
     }
     #endregion
 
-    public MTLPointerType() : this(ObjectiveC.AllocInit(MTLPointerTypeBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
-
-    #region Describing the pointer elements - Properties
-
-    /// <summary>
-    /// The required byte alignment in memory for the element data.
-    /// </summary>
-    public nuint Alignment
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Alignment);
-    }
-
-    /// <summary>
-    /// The size, in bytes, of the element data.
-    /// </summary>
-    public nuint DataSize
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
-    }
-
-    /// <summary>
-    /// The data type of the element data.
-    /// </summary>
     public MTLDataType ElementType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.ElementType);
     }
 
-    /// <summary>
-    /// The function’s read/write access to the element data.
-    /// </summary>
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.Access);
     }
 
-    /// <summary>
-    /// A Boolean value that indicates whether the element is an argument buffer.
-    /// </summary>
+    public nuint Alignment
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Alignment);
+    }
+
+    public nuint DataSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
+    }
+
     public Bool8 ElementIsArgumentBuffer
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
     }
-    #endregion
 
-    #region Obtaining details for complex pointer elements - Methods
-
-    /// <summary>
-    /// Provides a description of the underlying array when the pointer points to an array.
-    /// </summary>
-    public MTLArrayType ElementArrayType()
+    public MTLStructType ElementStructType
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementArrayType);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        get => GetProperty(ref field, MTLPointerTypeBindings.ElementStructType);
     }
 
-    /// <summary>
-    /// Provides a description of the underlying struct when the pointer points to a struct.
-    /// </summary>
-    public MTLStructType ElementStructType()
+    public MTLArrayType ElementArrayType
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementStructType);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        get => GetProperty(ref field, MTLPointerTypeBindings.ElementArrayType);
     }
-    #endregion
+
+    public MTLDataType ElementType
+    {
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.ElementType);
+    }
+
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.Access);
+    }
+
+    public nuint Alignment
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Alignment);
+    }
+
+    public nuint DataSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
+    }
+
+    public Bool8 ElementIsArgumentBuffer
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
+    }
 }
 
 file static class MTLPointerTypeBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLPointerType");
-
     public static readonly Selector Access = "access";
 
     public static readonly Selector Alignment = "alignment";

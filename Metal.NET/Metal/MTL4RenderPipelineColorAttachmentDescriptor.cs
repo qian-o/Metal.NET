@@ -15,100 +15,163 @@ public class MTL4RenderPipelineColorAttachmentDescriptor(nint nativePtr, NativeO
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Configures the alpha blending operation.
-    /// </summary>
-    public MTLBlendOperation AlphaBlendOperation
-    {
-        get => (MTLBlendOperation)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.AlphaBlendOperation);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetAlphaBlendOperation, (nuint)value);
-    }
-
-    /// <summary>
-    /// Configure the blend state for color attachments the pipeline state uses.
-    /// </summary>
-    public MTL4BlendState BlendingState
-    {
-        get => (MTL4BlendState)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.BlendingState);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetBlendingState, (nint)value);
-    }
-
-    /// <summary>
-    /// Configures the destination-alpha blend factor.
-    /// </summary>
-    public MTLBlendFactor DestinationAlphaBlendFactor
-    {
-        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.DestinationAlphaBlendFactor);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetDestinationAlphaBlendFactor, (nuint)value);
-    }
-
-    /// <summary>
-    /// Configures the destination RGB blend factor.
-    /// </summary>
-    public MTLBlendFactor DestinationRGBBlendFactor
-    {
-        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.DestinationRGBBlendFactor);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetDestinationRGBBlendFactor, (nuint)value);
-    }
-
-    /// <summary>
-    /// Configures the pixel format.
-    /// </summary>
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.PixelFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)value);
     }
 
-    /// <summary>
-    /// Configures the RGB blend operation.
-    /// </summary>
-    public MTLBlendOperation RgbBlendOperation
+    public MTL4BlendState BlendingState
     {
-        get => (MTLBlendOperation)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.RgbBlendOperation);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetRgbBlendOperation, (nuint)value);
+        get => (MTL4BlendState)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.BlendingState);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetBlendingState, (nint)value);
     }
 
-    /// <summary>
-    /// Configures the source-alpha blend factor.
-    /// </summary>
-    public MTLBlendFactor SourceAlphaBlendFactor
-    {
-        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SourceAlphaBlendFactor);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetSourceAlphaBlendFactor, (nuint)value);
-    }
-
-    /// <summary>
-    /// Configures the source RGB blend factor.
-    /// </summary>
     public MTLBlendFactor SourceRGBBlendFactor
     {
         get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SourceRGBBlendFactor);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetSourceRGBBlendFactor, (nuint)value);
     }
 
-    /// <summary>
-    /// Configures the color write mask.
-    /// </summary>
+    public MTLBlendFactor DestinationRGBBlendFactor
+    {
+        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.DestinationRGBBlendFactor);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetDestinationRGBBlendFactor, (nuint)value);
+    }
+
+    public MTLBlendOperation RgbBlendOperation
+    {
+        get => (MTLBlendOperation)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.RgbBlendOperation);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetRgbBlendOperation, (nuint)value);
+    }
+
+    public MTLBlendFactor SourceAlphaBlendFactor
+    {
+        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SourceAlphaBlendFactor);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetSourceAlphaBlendFactor, (nuint)value);
+    }
+
+    public MTLBlendFactor DestinationAlphaBlendFactor
+    {
+        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.DestinationAlphaBlendFactor);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetDestinationAlphaBlendFactor, (nuint)value);
+    }
+
+    public MTLBlendOperation AlphaBlendOperation
+    {
+        get => (MTLBlendOperation)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.AlphaBlendOperation);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetAlphaBlendOperation, (nuint)value);
+    }
+
     public MTLColorWriteMask WriteMask
     {
         get => (MTLColorWriteMask)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.WriteMask);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetWriteMask, (nuint)value);
     }
-    #endregion
 
-    #region Instance Methods - Methods
+    public MTLPixelFormat PixelFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.PixelFormat);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)value);
+    }
 
-    /// <summary>
-    /// Resets this descriptor to its default state.
-    /// </summary>
+    public MTL4BlendState BlendingState
+    {
+        get => (MTL4BlendState)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.BlendingState);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetBlendingState, (nint)value);
+    }
+
+    public MTLBlendFactor SourceRGBBlendFactor
+    {
+        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SourceRGBBlendFactor);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetSourceRGBBlendFactor, (nuint)value);
+    }
+
+    public MTLBlendFactor DestinationRGBBlendFactor
+    {
+        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.DestinationRGBBlendFactor);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetDestinationRGBBlendFactor, (nuint)value);
+    }
+
+    public MTLBlendOperation RgbBlendOperation
+    {
+        get => (MTLBlendOperation)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.RgbBlendOperation);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetRgbBlendOperation, (nuint)value);
+    }
+
+    public MTLBlendFactor SourceAlphaBlendFactor
+    {
+        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SourceAlphaBlendFactor);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetSourceAlphaBlendFactor, (nuint)value);
+    }
+
+    public MTLBlendFactor DestinationAlphaBlendFactor
+    {
+        get => (MTLBlendFactor)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.DestinationAlphaBlendFactor);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetDestinationAlphaBlendFactor, (nuint)value);
+    }
+
+    public MTLBlendOperation AlphaBlendOperation
+    {
+        get => (MTLBlendOperation)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.AlphaBlendOperation);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetAlphaBlendOperation, (nuint)value);
+    }
+
+    public MTLColorWriteMask WriteMask
+    {
+        get => (MTLColorWriteMask)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.WriteMask);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetWriteMask, (nuint)value);
+    }
+
+    public void SetPixelFormat(MTLPixelFormat pixelFormat)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)pixelFormat);
+    }
+
+    public void SetBlendingState(MTL4BlendState blendingState)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetBlendingState, (nint)blendingState);
+    }
+
+    public void SetSourceRGBBlendFactor(MTLBlendFactor sourceRGBBlendFactor)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetSourceRGBBlendFactor, (nuint)sourceRGBBlendFactor);
+    }
+
+    public void SetDestinationRGBBlendFactor(MTLBlendFactor destinationRGBBlendFactor)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetDestinationRGBBlendFactor, (nuint)destinationRGBBlendFactor);
+    }
+
+    public void SetRgbBlendOperation(MTLBlendOperation rgbBlendOperation)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetRgbBlendOperation, (nuint)rgbBlendOperation);
+    }
+
+    public void SetSourceAlphaBlendFactor(MTLBlendFactor sourceAlphaBlendFactor)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetSourceAlphaBlendFactor, (nuint)sourceAlphaBlendFactor);
+    }
+
+    public void SetDestinationAlphaBlendFactor(MTLBlendFactor destinationAlphaBlendFactor)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetDestinationAlphaBlendFactor, (nuint)destinationAlphaBlendFactor);
+    }
+
+    public void SetAlphaBlendOperation(MTLBlendOperation alphaBlendOperation)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetAlphaBlendOperation, (nuint)alphaBlendOperation);
+    }
+
+    public void SetWriteMask(MTLColorWriteMask writeMask)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.SetWriteMask, (nuint)writeMask);
+    }
+
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorBindings.Reset);
     }
-    #endregion
 }
 
 file static class MTL4RenderPipelineColorAttachmentDescriptorBindings

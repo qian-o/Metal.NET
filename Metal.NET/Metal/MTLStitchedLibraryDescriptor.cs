@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of a new library of procedurally generated functions.
-/// </summary>
 public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStitchedLibraryDescriptor>
 {
     #region INativeObject
@@ -18,33 +15,10 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
     {
     }
 
-    #region Configuring a stitched library - Properties
-
-    /// <summary>
-    /// The list of functions for creating the stitched library.
-    /// </summary>
-    public MTLFunction[] Functions
+    public MTLStitchedLibraryOptions Options
     {
-        get => GetArrayProperty<MTLFunction>(MTLStitchedLibraryDescriptorBindings.Functions);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
-    }
-
-    /// <summary>
-    /// The function graphs that define the new stitched library’s functions.
-    /// </summary>
-    public MTLFunctionStitchingGraph[] FunctionGraphs
-    {
-        get => GetArrayProperty<MTLFunctionStitchingGraph>(MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
-    }
-    #endregion
-
-    #region Instance Properties - Properties
-
-    public MTLBinaryArchive[] BinaryArchives
-    {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLStitchedLibraryDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
+        get => (MTLStitchedLibraryOptions)ObjectiveC.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
     }
 
     public MTLStitchedLibraryOptions Options
@@ -52,26 +26,18 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
         get => (MTLStitchedLibraryOptions)ObjectiveC.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
         set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
     }
-    #endregion
+
+    public void SetOptions(MTLStitchedLibraryOptions options)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)options);
+    }
 }
 
 file static class MTLStitchedLibraryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLStitchedLibraryDescriptor");
 
-    public static readonly Selector BinaryArchives = "binaryArchives";
-
-    public static readonly Selector FunctionGraphs = "functionGraphs";
-
-    public static readonly Selector Functions = "functions";
-
     public static readonly Selector Options = "options";
-
-    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
-
-    public static readonly Selector SetFunctionGraphs = "setFunctionGraphs:";
-
-    public static readonly Selector SetFunctions = "setFunctions:";
 
     public static readonly Selector SetOptions = "setOptions:";
 }

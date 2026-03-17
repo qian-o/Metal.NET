@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array of length matching the rank, holding the dimensions of a tensor.
-/// </summary>
 public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorExtents>
 {
     #region INativeObject
@@ -14,20 +11,20 @@ public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) :
     }
     #endregion
 
-    public MTLTensorExtents() : this(ObjectiveC.AllocInit(MTLTensorExtentsBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
-
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Obtains the rank of the tensor.
-    /// </summary>
     public nuint Rank
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorExtentsBindings.Rank);
     }
-    #endregion
+
+    public nuint Rank
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorExtentsBindings.Rank);
+    }
+
+    public nint InitWithRank(nuint rank, nint values)
+    {
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLTensorExtentsBindings.InitWithRank, rank, values);
+    }
 
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {
@@ -37,9 +34,9 @@ public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) :
 
 file static class MTLTensorExtentsBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLTensorExtents");
-
     public static readonly Selector ExtentAtDimensionIndex = "extentAtDimensionIndex:";
+
+    public static readonly Selector InitWithRank = "initWithRank:values:";
 
     public static readonly Selector Rank = "rank";
 }

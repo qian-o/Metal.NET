@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Base interface for other function-derived interfaces.
-/// </summary>
 public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4BinaryFunctionDescriptor>
 {
     #region INativeObject
@@ -18,35 +15,56 @@ public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership 
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Provides the function descriptor corresponding to the function to compile into a binary function.
-    /// </summary>
-    public MTL4FunctionDescriptor FunctionDescriptor
-    {
-        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.FunctionDescriptor);
-        set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, value);
-    }
-
-    /// <summary>
-    /// Associates a string that uniquely identifies a binary function.
-    /// </summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.Name);
         set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetName, value);
     }
 
-    /// <summary>
-    /// Configure the options to use at binary function creation time.
-    /// </summary>
+    public MTL4FunctionDescriptor FunctionDescriptor
+    {
+        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.FunctionDescriptor);
+        set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, value);
+    }
+
     public MTL4BinaryFunctionOptions Options
     {
         get => (MTL4BinaryFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorBindings.Options);
         set => ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
-    #endregion
+
+    public NSString Name
+    {
+        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.Name);
+        set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetName, value);
+    }
+
+    public MTL4FunctionDescriptor FunctionDescriptor
+    {
+        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.FunctionDescriptor);
+        set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, value);
+    }
+
+    public MTL4BinaryFunctionOptions Options
+    {
+        get => (MTL4BinaryFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorBindings.Options);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)value);
+    }
+
+    public void SetName(NSString name)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetName, name.NativePtr);
+    }
+
+    public void SetFunctionDescriptor(MTL4FunctionDescriptor functionDescriptor)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, functionDescriptor.NativePtr);
+    }
+
+    public void SetOptions(MTL4BinaryFunctionOptions options)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)options);
+    }
 }
 
 file static class MTL4BinaryFunctionDescriptorBindings

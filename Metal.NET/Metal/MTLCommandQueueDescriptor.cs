@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A configuration that customizes the behavior for a new command queue.
-/// </summary>
 public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandQueueDescriptor>
 {
     #region INativeObject
@@ -18,26 +15,39 @@ public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership own
     {
     }
 
-    #region Instance Properties - Properties
+    public nuint MaxCommandBufferCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorBindings.MaxCommandBufferCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetMaxCommandBufferCount, value);
+    }
 
-    /// <summary>
-    /// The shader logging configuration that the command queue uses.
-    /// </summary>
     public MTLLogState LogState
     {
         get => GetProperty(ref field, MTLCommandQueueDescriptorBindings.LogState);
         set => SetProperty(ref field, MTLCommandQueueDescriptorBindings.SetLogState, value);
     }
 
-    /// <summary>
-    /// An integer that sets the maximum number of uncompleted command buffers the queue can allow.
-    /// </summary>
     public nuint MaxCommandBufferCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorBindings.MaxCommandBufferCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetMaxCommandBufferCount, value);
     }
-    #endregion
+
+    public MTLLogState LogState
+    {
+        get => GetProperty(ref field, MTLCommandQueueDescriptorBindings.LogState);
+        set => SetProperty(ref field, MTLCommandQueueDescriptorBindings.SetLogState, value);
+    }
+
+    public void SetMaxCommandBufferCount(nuint maxCommandBufferCount)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetMaxCommandBufferCount, maxCommandBufferCount);
+    }
+
+    public void SetLogState(MTLLogState logState)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetLogState, logState.NativePtr);
+    }
 }
 
 file static class MTLCommandQueueDescriptorBindings

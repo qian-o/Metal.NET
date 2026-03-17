@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array instance that contains rasterization rates.
-/// </summary>
 public class MTLRasterizationRateSampleArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateSampleArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLRasterizationRateSampleArray(nint nativePtr, NativeObjectOwnersh
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLRasterizationRateSampleArray() : this(ObjectiveC.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public NSNumber this[nuint index]
     {
@@ -35,8 +28,6 @@ public class MTLRasterizationRateSampleArray(nint nativePtr, NativeObjectOwnersh
 
 file static class MTLRasterizationRateSampleArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLRasterizationRateSampleArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

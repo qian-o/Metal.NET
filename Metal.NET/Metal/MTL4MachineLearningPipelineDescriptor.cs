@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Description for a machine learning pipeline state.
-/// </summary>
 public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4MachineLearningPipelineDescriptor>
 {
     #region INativeObject
@@ -18,24 +15,33 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, NativeObjectO
     {
     }
 
-    #region Instance Properties - Properties
-
-
-    /// <summary>
-    /// Assigns the function that the machine learning pipeline you create from this descriptor executes.
-    /// </summary>
     public MTL4FunctionDescriptor MachineLearningFunctionDescriptor
     {
         get => GetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.MachineLearningFunctionDescriptor);
         set => SetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.SetMachineLearningFunctionDescriptor, value);
     }
-    #endregion
 
-    #region Instance Methods - Methods
+    public MTL4FunctionDescriptor MachineLearningFunctionDescriptor
+    {
+        get => GetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.MachineLearningFunctionDescriptor);
+        set => SetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.SetMachineLearningFunctionDescriptor, value);
+    }
 
-    /// <summary>
-    /// Obtains the dimensions of the input tensor at bufferIndex if set, nil otherwise.
-    /// </summary>
+    public void SetLabel(NSString label)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetLabel, label.NativePtr);
+    }
+
+    public void SetMachineLearningFunctionDescriptor(MTL4FunctionDescriptor machineLearningFunctionDescriptor)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetMachineLearningFunctionDescriptor, machineLearningFunctionDescriptor.NativePtr);
+    }
+
+    public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetInputDimensions, dimensions.NativePtr, bufferIndex);
+    }
+
     public MTLTensorExtents InputDimensionsAtBufferIndex(nint bufferIndex)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
@@ -43,34 +49,10 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, NativeObjectO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>
-    /// Resets the descriptor to its default values.
-    /// </summary>
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.Reset);
     }
-
-    /// <summary>
-    /// Sets the dimension of an input tensor at a buffer index.
-    /// </summary>
-    public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetInputDimensions, dimensions.NativePtr, bufferIndex);
-    }
-
-    /// <summary>
-    /// Sets the dimension of an input tensor at a buffer index.
-    /// </summary>
-    public void SetInputDimensions(MTLTensorExtents[] dimensions, NSRange range)
-    {
-        nint pDimensions = NSArray.FromArray(dimensions);
-
-        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetInputDimensionswithRange, pDimensions, range);
-
-        ObjectiveC.Release(pDimensions);
-    }
-    #endregion
 }
 
 file static class MTL4MachineLearningPipelineDescriptorBindings
@@ -85,7 +67,7 @@ file static class MTL4MachineLearningPipelineDescriptorBindings
 
     public static readonly Selector SetInputDimensions = "setInputDimensions:atBufferIndex:";
 
-    public static readonly Selector SetInputDimensionswithRange = "setInputDimensions:withRange:";
+    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector SetMachineLearningFunctionDescriptor = "setMachineLearningFunctionDescriptor:";
 }

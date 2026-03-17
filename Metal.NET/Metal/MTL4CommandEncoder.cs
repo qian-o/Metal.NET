@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An encoder that writes GPU commands into a command buffer.
-/// </summary>
 public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandEncoder>
 {
     #region INativeObject
@@ -14,84 +11,32 @@ public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership)
     }
     #endregion
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Returns the command buffer that is currently encoding commands.
-    /// </summary>
-    public MTL4CommandBuffer CommandBuffer
-    {
-        get => GetProperty(ref field, MTL4CommandEncoderBindings.CommandBuffer);
-    }
-
-    /// <summary>
-    /// Provides an optional label to assign to the command encoder for debug purposes.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTL4CommandEncoderBindings.Label);
         set => SetProperty(ref field, MTL4CommandEncoderBindings.SetLabel, value);
     }
-    #endregion
 
-    #region Instance Methods - Methods
-
-    /// <summary>
-    /// Encodes an intra-pass barrier.
-    /// </summary>
-    public void BarrierAfterEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
+    public MTL4CommandBuffer CommandBuffer
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterEncoderStages, (nuint)afterEncoderStages, (nuint)beforeEncoderStages, (nuint)visibilityOptions);
+        get => GetProperty(ref field, MTL4CommandEncoderBindings.CommandBuffer);
     }
 
-    /// <summary>
-    /// Declares that all command generation from this encoder is complete.
-    /// </summary>
-    public void EndEncoding()
+    public NSString Label
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.EndEncoding);
+        get => GetProperty(ref field, MTL4CommandEncoderBindings.Label);
+        set => SetProperty(ref field, MTL4CommandEncoderBindings.SetLabel, value);
     }
 
-    /// <summary>
-    /// Inserts a debug string into the frame data to aid debugging.
-    /// </summary>
-    public void InsertDebugSignpost(NSString @string)
+    public MTL4CommandBuffer CommandBuffer
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+        get => GetProperty(ref field, MTL4CommandEncoderBindings.CommandBuffer);
     }
 
-    /// <summary>
-    /// Pops the latest debug group string from this encoder’s stack of debug groups.
-    /// </summary>
-    public void PopDebugGroup()
+    public void SetLabel(NSString label)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.PopDebugGroup);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.SetLabel, label.NativePtr);
     }
-
-    /// <summary>
-    /// Pushes a string onto this encoder’s stack of debug groups.
-    /// </summary>
-    public void PushDebugGroup(NSString @string)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.PushDebugGroup, @string.NativePtr);
-    }
-
-    /// <summary>
-    /// Encodes a command that instructs the GPU to update a fence after one or more stages, which can unblock other passes waiting for the fence.
-    /// </summary>
-    public void UpdateFence(MTLFence fence, MTLStages afterEncoderStages)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.UpdateFence, fence.NativePtr, (nuint)afterEncoderStages);
-    }
-
-    /// <summary>
-    /// Encodes a command that instructs the GPU to pause before starting one or more stages of the pass until a pass updates a fence.
-    /// </summary>
-    public void WaitForFence(MTLFence fence, MTLStages beforeEncoderStages)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.WaitForFence, fence.NativePtr, (nuint)beforeEncoderStages);
-    }
-    #endregion
 
     public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages, MTL4VisibilityOptions visibilityOptions)
     {
@@ -101,6 +46,41 @@ public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership)
     public void BarrierAfterStages(MTLStages afterStages, MTLStages beforeQueueStages, MTL4VisibilityOptions visibilityOptions)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterStages, (nuint)afterStages, (nuint)beforeQueueStages, (nuint)visibilityOptions);
+    }
+
+    public void BarrierAfterEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterEncoderStages, (nuint)afterEncoderStages, (nuint)beforeEncoderStages, (nuint)visibilityOptions);
+    }
+
+    public void UpdateFence(MTLFence fence, MTLStages afterEncoderStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.UpdateFence, fence.NativePtr, (nuint)afterEncoderStages);
+    }
+
+    public void WaitForFence(MTLFence fence, MTLStages beforeEncoderStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.WaitForFence, fence.NativePtr, (nuint)beforeEncoderStages);
+    }
+
+    public void InsertDebugSignpost(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+    }
+
+    public void PushDebugGroup(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+    }
+
+    public void PopDebugGroup()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.PopDebugGroup);
+    }
+
+    public void EndEncoding()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.EndEncoding);
     }
 }
 

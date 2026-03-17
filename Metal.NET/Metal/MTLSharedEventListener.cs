@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A listener for shareable event notifications.
-/// </summary>
 public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedEventListener>
 {
     #region INativeObject
@@ -18,18 +15,20 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
     {
     }
 
-    #region Getting the dispatch queue - Properties
-
-    /// <summary>
-    /// The dispatch queue used to dispatch any notifications.
-    /// </summary>
     public DispatchQueue DispatchQueue
     {
         get => GetProperty(ref field, MTLSharedEventListenerBindings.DispatchQueue);
     }
-    #endregion
 
-    #region Type Methods - Methods
+    public DispatchQueue DispatchQueue
+    {
+        get => GetProperty(ref field, MTLSharedEventListenerBindings.DispatchQueue);
+    }
+
+    public nint InitWithDispatchQueue(DispatchQueue dispatchQueue)
+    {
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventListenerBindings.InitWithDispatchQueue, dispatchQueue.NativePtr);
+    }
 
     public static MTLSharedEventListener SharedListener()
     {
@@ -37,7 +36,6 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
-    #endregion
 }
 
 file static class MTLSharedEventListenerBindings
@@ -45,6 +43,8 @@ file static class MTLSharedEventListenerBindings
     public static readonly nint Class = ObjectiveC.GetClass("MTLSharedEventListener");
 
     public static readonly Selector DispatchQueue = "dispatchQueue";
+
+    public static readonly Selector InitWithDispatchQueue = "initWithDispatchQueue:";
 
     public static readonly Selector SharedListener = "sharedListener";
 }

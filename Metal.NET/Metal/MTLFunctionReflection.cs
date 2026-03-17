@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Represents a reflection object containing information about a function in a Metal library.
-/// </summary>
 public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionReflection>
 {
     #region INativeObject
@@ -14,25 +11,18 @@ public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownersh
     }
     #endregion
 
-    public MTLFunctionReflection() : this(ObjectiveC.AllocInit(MTLFunctionReflectionBindings.Class), NativeObjectOwnership.Managed)
+    public NSString UserAnnotation
     {
+        get => GetProperty(ref field, MTLFunctionReflectionBindings.UserAnnotation);
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Provides a list of inputs and outputs of the function.
-    /// </summary>
-    public MTLBinding[] Bindings
+    public NSString UserAnnotation
     {
-        get => GetArrayProperty<MTLBinding>(MTLFunctionReflectionBindings.Bindings);
+        get => GetProperty(ref field, MTLFunctionReflectionBindings.UserAnnotation);
     }
-    #endregion
 }
 
 file static class MTLFunctionReflectionBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionReflection");
-
-    public static readonly Selector Bindings = "bindings";
+    public static readonly Selector UserAnnotation = "userAnnotation";
 }

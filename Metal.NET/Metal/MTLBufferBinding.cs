@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLBufferBinding>
+public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBufferBinding>
 {
     #region INativeObject
     public static new MTLBufferBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -10,8 +10,6 @@ public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, ownership);
     }
     #endregion
-
-    #region Instance Properties - Properties
 
     public nuint BufferAlignment
     {
@@ -28,16 +26,40 @@ public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) :
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLBufferBindingBindings.BufferDataType);
     }
 
+    public MTLStructType BufferStructType
+    {
+        get => GetProperty(ref field, MTLBufferBindingBindings.BufferStructType);
+    }
+
     public MTLPointerType BufferPointerType
     {
         get => GetProperty(ref field, MTLBufferBindingBindings.BufferPointerType);
+    }
+
+    public nuint BufferAlignment
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferAlignment);
+    }
+
+    public nuint BufferDataSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferDataSize);
+    }
+
+    public MTLDataType BufferDataType
+    {
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLBufferBindingBindings.BufferDataType);
     }
 
     public MTLStructType BufferStructType
     {
         get => GetProperty(ref field, MTLBufferBindingBindings.BufferStructType);
     }
-    #endregion
+
+    public MTLPointerType BufferPointerType
+    {
+        get => GetProperty(ref field, MTLBufferBindingBindings.BufferPointerType);
+    }
 }
 
 file static class MTLBufferBindingBindings

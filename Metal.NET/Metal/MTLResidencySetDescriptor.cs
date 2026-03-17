@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A configuration that customizes the behavior for a residency set.
-/// </summary>
 public class MTLResidencySetDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResidencySetDescriptor>
 {
     #region INativeObject
@@ -18,26 +15,39 @@ public class MTLResidencySetDescriptor(nint nativePtr, NativeObjectOwnership own
     {
     }
 
-    #region Configuring the residency set - Properties
-
-    /// <summary>
-    /// An optional name that can help you identify a residency set you create with the descriptor.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLResidencySetDescriptorBindings.Label);
         set => SetProperty(ref field, MTLResidencySetDescriptorBindings.SetLabel, value);
     }
 
-    /// <summary>
-    /// The number of allocations a new residency set can store without reallocating memory.
-    /// </summary>
     public nuint InitialCapacity
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorBindings.InitialCapacity);
         set => ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, value);
     }
-    #endregion
+
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTLResidencySetDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLResidencySetDescriptorBindings.SetLabel, value);
+    }
+
+    public nuint InitialCapacity
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorBindings.InitialCapacity);
+        set => ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, value);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetLabel, label.NativePtr);
+    }
+
+    public void SetInitialCapacity(nuint initialCapacity)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, initialCapacity);
+    }
 }
 
 file static class MTLResidencySetDescriptorBindings

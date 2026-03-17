@@ -11,7 +11,15 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     }
     #endregion
 
-    #region Instance Properties - Properties
+    public NSString Name
+    {
+        get => GetProperty(ref field, MTLBindingBindings.Name);
+    }
+
+    public MTLBindingType Type
+    {
+        get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLBindingBindings.Type);
+    }
 
     public MTLBindingAccess Access
     {
@@ -23,14 +31,14 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBindingBindings.Index);
     }
 
-    public Bool8 IsArgument
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
-    }
-
     public Bool8 IsUsed
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsUsed);
+    }
+
+    public Bool8 IsArgument
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
     }
 
     public NSString Name
@@ -42,32 +50,31 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     {
         get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLBindingBindings.Type);
     }
-    #endregion
 
-    /// <summary>
-    /// Deprecated: please use isArgument instead
-    /// </summary>
-    [Obsolete("please use isArgument instead")]
-    public Bool8 Argument
+    public MTLBindingAccess Access
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.Argument);
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLBindingBindings.Access);
     }
 
-    /// <summary>
-    /// Deprecated: please use isUsed instead
-    /// </summary>
-    [Obsolete("please use isUsed instead")]
-    public Bool8 Used
+    public nuint Index
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.Used);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBindingBindings.Index);
+    }
+
+    public Bool8 IsUsed
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsUsed);
+    }
+
+    public Bool8 IsArgument
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
     }
 }
 
 file static class MTLBindingBindings
 {
     public static readonly Selector Access = "access";
-
-    public static readonly Selector Argument = "isArgument";
 
     public static readonly Selector Index = "index";
 
@@ -78,6 +85,4 @@ file static class MTLBindingBindings
     public static readonly Selector Name = "name";
 
     public static readonly Selector Type = "type";
-
-    public static readonly Selector Used = "isUsed";
 }

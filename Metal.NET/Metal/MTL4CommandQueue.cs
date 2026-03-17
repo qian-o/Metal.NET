@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An abstraction representing a command queue that you use commit and synchronize command buffers and to perform other GPU operations.
-/// </summary>
 public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandQueue>
 {
     #region INativeObject
@@ -14,168 +11,80 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
     }
     #endregion
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Returns the GPU device that the command queue belongs to.
-    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4CommandQueueBindings.Device);
     }
 
-    /// <summary>
-    /// Obtains this queue’s optional label for debugging purposes.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTL4CommandQueueBindings.Label);
     }
-    #endregion
 
-    #region Instance Methods - Methods
-
-    /// <summary>
-    /// Applies a residency set to a queue, which Metal applies to the queue’s command buffers as you commit them.
-    /// </summary>
-    public void AddResidencySet(MTLResidencySet residencySet)
+    public MTLDevice Device
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySet, residencySet.NativePtr);
+        get => GetProperty(ref field, MTL4CommandQueueBindings.Device);
     }
 
-    /// <summary>
-    /// Applies multiple residency sets to a queue, which Metal applies to the queue’s command buffers as you commit them.
-    /// </summary>
-    public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
+    public NSString Label
     {
-        nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++)
-        {
-            pResidencySets[i] = residencySets[i].NativePtr;
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+        get => GetProperty(ref field, MTL4CommandQueueBindings.Label);
     }
 
-    /// <summary>
-    /// Enqueues an array of command buffer instances for execution with a set of options.
-    /// </summary>
-    public unsafe void Commit(MTL4CommandBuffer[] commandBuffers)
+    public void SignalEvent(MTLEvent @event, ulong value)
     {
-        nint* pCommandBuffers = stackalloc nint[commandBuffers.Length];
-        for (int i = 0; i < commandBuffers.Length; i++)
-        {
-            pCommandBuffers[i] = commandBuffers[i].NativePtr;
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit, (nint)pCommandBuffers, (nuint)commandBuffers.Length);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent, @event.NativePtr, value);
     }
 
-    /// <summary>
-    /// Enqueues an array of command buffer instances for execution with a set of options.
-    /// </summary>
-    public unsafe void Commit(MTL4CommandBuffer[] commandBuffers, MTL4CommitOptions options)
+    public void WaitForEvent(MTLEvent @event, ulong value)
     {
-        nint* pCommandBuffers = stackalloc nint[commandBuffers.Length];
-        for (int i = 0; i < commandBuffers.Length; i++)
-        {
-            pCommandBuffers[i] = commandBuffers[i].NativePtr;
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commitcountoptions, (nint)pCommandBuffers, (nuint)commandBuffers.Length, options.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.WaitForEvent, @event.NativePtr, value);
     }
 
-    /// <summary>
-    /// Removes a residency set from a command queue’s list, which means Metal doesn’t apply it to the queue’s command buffers as you commit them.
-    /// </summary>
-    public void RemoveResidencySet(MTLResidencySet residencySet)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
-    }
-
-    /// <summary>
-    /// Removes multiple residency sets from a command queue’s list, which means Metal doesn’t apply them to the queue’s command buffers as you commit them.
-    /// </summary>
-    public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
-    {
-        nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++)
-        {
-            pResidencySets[i] = residencySets[i].NativePtr;
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
-    }
-
-    /// <summary>
-    /// Schedules a signal operation on the command queue to indicate when rendering to a Metal drawable is complete.
-    /// </summary>
     public void SignalDrawable(MTLDrawable drawable)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalDrawable, drawable.NativePtr);
     }
 
-    /// <summary>
-    /// Schedules an operation to signal a GPU event with a specific value after all GPU work prior to this point is complete.
-    /// </summary>
-    public void SignalEvent(MTLEvent @event, ulong value)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent, @event.NativePtr, value);
-    }
-    #endregion
-
-    public unsafe void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation[] operations)
-    {
-        fixed (MTL4CopySparseBufferMappingOperation* pOperations = operations)
-        {
-            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyBufferMappingsFromBuffer, sourceBuffer.NativePtr, destinationBuffer.NativePtr, (nint)pOperations, (nuint)operations.Length);
-        }
-    }
-
-    public unsafe void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation[] operations)
-    {
-        fixed (MTL4CopySparseTextureMappingOperation* pOperations = operations)
-        {
-            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyTextureMappingsFromTexture, sourceTexture.NativePtr, destinationTexture.NativePtr, (nint)pOperations, (nuint)operations.Length);
-        }
-    }
-
-    public unsafe void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation[] operations)
-    {
-        fixed (MTL4UpdateSparseBufferMappingOperation* pOperations = operations)
-        {
-            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateBufferMappings, buffer.NativePtr, heap.NativePtr, (nint)pOperations, (nuint)operations.Length);
-        }
-    }
-
-    public unsafe void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation[] operations)
-    {
-        fixed (MTL4UpdateSparseTextureMappingOperation* pOperations = operations)
-        {
-            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateTextureMappings, texture.NativePtr, heap.NativePtr, (nint)pOperations, (nuint)operations.Length);
-        }
-    }
-
-    public void Wait(MTLEvent @event, ulong value)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Wait, @event.NativePtr, value);
-    }
-
-    public void Wait(MTLDrawable drawable)
+    public void WaitForDrawable(MTLDrawable drawable)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.WaitForDrawable, drawable.NativePtr);
+    }
+
+    public void AddResidencySet(MTLResidencySet residencySet)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySet, residencySet.NativePtr);
+    }
+
+    public void RemoveResidencySet(MTLResidencySet residencySet)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
+    }
+
+    public void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation operations, nuint count)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateTextureMappings, texture.NativePtr, heap.NativePtr, operations, count);
+    }
+
+    public void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, nuint count)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyTextureMappingsFromTexture, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, count);
+    }
+
+    public void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation operations, nuint count)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateBufferMappings, buffer.NativePtr, heap.NativePtr, operations, count);
+    }
+
+    public void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyBufferMappingsFromBuffer, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
     }
 }
 
 file static class MTL4CommandQueueBindings
 {
     public static readonly Selector AddResidencySet = "addResidencySet:";
-
-    public static readonly Selector AddResidencySets = "addResidencySets:count:";
-
-    public static readonly Selector Commit = "commit:count:";
-
-    public static readonly Selector Commitcountoptions = "commit:count:options:";
 
     public static readonly Selector CopyBufferMappingsFromBuffer = "copyBufferMappingsFromBuffer:toBuffer:operations:count:";
 
@@ -187,8 +96,6 @@ file static class MTL4CommandQueueBindings
 
     public static readonly Selector RemoveResidencySet = "removeResidencySet:";
 
-    public static readonly Selector RemoveResidencySets = "removeResidencySets:count:";
-
     public static readonly Selector SignalDrawable = "signalDrawable:";
 
     public static readonly Selector SignalEvent = "signalEvent:value:";
@@ -197,7 +104,7 @@ file static class MTL4CommandQueueBindings
 
     public static readonly Selector UpdateTextureMappings = "updateTextureMappings:heap:operations:count:";
 
-    public static readonly Selector Wait = "waitForEvent:value:";
-
     public static readonly Selector WaitForDrawable = "waitForDrawable:";
+
+    public static readonly Selector WaitForEvent = "waitForEvent:value:";
 }

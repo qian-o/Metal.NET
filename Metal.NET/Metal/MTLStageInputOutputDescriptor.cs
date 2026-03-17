@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of the input and output data of a function.
-/// </summary>
 public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStageInputOutputDescriptor>
 {
     #region INativeObject
@@ -18,62 +15,70 @@ public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership
     {
     }
 
-    #region Describing argument layouts - Properties
+    public MTLBufferLayoutDescriptorArray Layouts
+    {
+        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
+    }
 
-    /// <summary>
-    /// An array that describes where and how to fetch data for the function.
-    /// </summary>
     public MTLAttributeDescriptorArray Attributes
     {
         get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Attributes);
     }
 
-    /// <summary>
-    /// An array that describes how the function fetches data.
-    /// </summary>
-    public MTLBufferLayoutDescriptorArray Layouts
+    public MTLIndexType IndexType
     {
-        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
+        get => (MTLIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLStageInputOutputDescriptorBindings.IndexType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexType, (nuint)value);
     }
-    #endregion
 
-    #region Declaring index buffers for indirect compute commands - Properties
-
-    /// <summary>
-    /// The location of the index buffer for a compute function using indexed thread addressing.
-    /// </summary>
     public nuint IndexBufferIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStageInputOutputDescriptorBindings.IndexBufferIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexBufferIndex, value);
     }
 
-    /// <summary>
-    /// The data type of the indices stored in the index buffer.
-    /// </summary>
+    public MTLBufferLayoutDescriptorArray Layouts
+    {
+        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
+    }
+
+    public MTLAttributeDescriptorArray Attributes
+    {
+        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Attributes);
+    }
+
     public MTLIndexType IndexType
     {
         get => (MTLIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLStageInputOutputDescriptorBindings.IndexType);
         set => ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexType, (nuint)value);
     }
-    #endregion
 
-    #region Resetting the descriptor - Methods
-
-    /// <summary>
-    /// Resets the default state for the descriptor.
-    /// </summary>
-    public void Reset()
+    public nuint IndexBufferIndex
     {
-        ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.Reset);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStageInputOutputDescriptorBindings.IndexBufferIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexBufferIndex, value);
     }
-    #endregion
+
+    public void SetIndexType(MTLIndexType indexType)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexType, (nuint)indexType);
+    }
+
+    public void SetIndexBufferIndex(nuint indexBufferIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexBufferIndex, indexBufferIndex);
+    }
 
     public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public void Reset()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.Reset);
     }
 }
 

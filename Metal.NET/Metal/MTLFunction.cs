@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A interface that represents a public shader function in a Metal library.
-/// </summary>
 public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunction>
 {
     #region INativeObject
@@ -14,115 +11,95 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
     }
     #endregion
 
-    #region Identifying shader functions - Properties
-
-    /// <summary>
-    /// The device object that created the shader function.
-    /// </summary>
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLFunctionBindings.Device);
-    }
-
-    /// <summary>
-    /// A string that identifies the shader function.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLFunctionBindings.Label);
         set => SetProperty(ref field, MTLFunctionBindings.SetLabel, value);
     }
 
-    /// <summary>
-    /// The shader function’s type.
-    /// </summary>
+    public MTLDevice Device
+    {
+        get => GetProperty(ref field, MTLFunctionBindings.Device);
+    }
+
     public MTLFunctionType FunctionType
     {
         get => (MTLFunctionType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.FunctionType);
     }
 
-    /// <summary>
-    /// The function’s name.
-    /// </summary>
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLFunctionBindings.Name);
-    }
-
-    /// <summary>
-    /// The options that Metal used to compile this function.
-    /// </summary>
-    public MTLFunctionOptions Options
-    {
-        get => (MTLFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.Options);
-    }
-    #endregion
-
-    #region Identifying the tessellation patch - Properties
-
-    /// <summary>
-    /// The tessellation patch type of a post-tessellation vertex function.
-    /// </summary>
     public MTLPatchType PatchType
     {
         get => (MTLPatchType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.PatchType);
     }
 
-    /// <summary>
-    /// The number of patch control points in the post-tessellation vertex function.
-    /// </summary>
     public nint PatchControlPointCount
     {
         get => ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.PatchControlPointCount);
     }
-    #endregion
 
-    #region Retrieving function attributes - Properties
-
-    /// <summary>
-    /// An array that describes the vertex input attributes to a vertex function.
-    /// </summary>
-    public MTLVertexAttribute[] VertexAttributes
+    public NSString Name
     {
-        get => GetArrayProperty<MTLVertexAttribute>(MTLFunctionBindings.VertexAttributes);
+        get => GetProperty(ref field, MTLFunctionBindings.Name);
     }
 
-    /// <summary>
-    /// An array that describes the input attributes to the function.
-    /// </summary>
-    public MTLAttribute[] StageInputAttributes
+    public MTLFunctionOptions Options
     {
-        get => GetArrayProperty<MTLAttribute>(MTLFunctionBindings.StageInputAttributes);
+        get => (MTLFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.Options);
     }
-    #endregion
 
-    #region Retrieving function constants - Properties
-
-    /// <summary>
-    /// A dictionary of function constants for a specialized function.
-    /// </summary>
-    public NSDictionary FunctionConstantsDictionary
+    public NSString Label
     {
-        get => GetProperty(ref field, MTLFunctionBindings.FunctionConstantsDictionary);
+        get => GetProperty(ref field, MTLFunctionBindings.Label);
+        set => SetProperty(ref field, MTLFunctionBindings.SetLabel, value);
     }
-    #endregion
 
-    #region Creating argument encoders - Methods
-
-    /// <summary>
-    /// Creates an argument encoder for an argument buffer that’s one of this function’s arguments.
-    /// </summary>
-    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
+    public MTLDevice Device
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
+        get => GetProperty(ref field, MTLFunctionBindings.Device);
+    }
+
+    public MTLFunctionType FunctionType
+    {
+        get => (MTLFunctionType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.FunctionType);
+    }
+
+    public MTLPatchType PatchType
+    {
+        get => (MTLPatchType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.PatchType);
+    }
+
+    public nint PatchControlPointCount
+    {
+        get => ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.PatchControlPointCount);
+    }
+
+    public NSString Name
+    {
+        get => GetProperty(ref field, MTLFunctionBindings.Name);
+    }
+
+    public MTLFunctionOptions Options
+    {
+        get => (MTLFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.Options);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFunctionBindings.SetLabel, label.NativePtr);
+    }
+
+    public MTLArgumentEncoder NewArgumentEncoderWithBufferIndex(nuint bufferIndex)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoderWithBufferIndex, bufferIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     /// <summary>
-    /// Creates an argument encoder for an argument buffer that’s one of this function’s arguments.
+    /// Deprecated: Use MTLDevice's newArgumentEncoderWithBufferBinding: instead
     /// </summary>
-    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, out MTLArgument reflection)
+    [Obsolete("Use MTLDevice's newArgumentEncoderWithBufferBinding: instead")]
+    public MTLArgumentEncoder NewArgumentEncoderWithBufferIndex(nuint bufferIndex, out MTLArgument reflection)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoderWithBufferIndexreflection, bufferIndex, out nint reflectionPtr);
 
@@ -130,14 +107,11 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
-    #endregion
 }
 
 file static class MTLFunctionBindings
 {
     public static readonly Selector Device = "device";
-
-    public static readonly Selector FunctionConstantsDictionary = "functionConstantsDictionary";
 
     public static readonly Selector FunctionType = "functionType";
 
@@ -145,7 +119,7 @@ file static class MTLFunctionBindings
 
     public static readonly Selector Name = "name";
 
-    public static readonly Selector NewArgumentEncoder = "newArgumentEncoderWithBufferIndex:";
+    public static readonly Selector NewArgumentEncoderWithBufferIndex = "newArgumentEncoderWithBufferIndex:";
 
     public static readonly Selector NewArgumentEncoderWithBufferIndexreflection = "newArgumentEncoderWithBufferIndex:reflection:";
 
@@ -156,8 +130,4 @@ file static class MTLFunctionBindings
     public static readonly Selector PatchType = "patchType";
 
     public static readonly Selector SetLabel = "setLabel:";
-
-    public static readonly Selector StageInputAttributes = "stageInputAttributes";
-
-    public static readonly Selector VertexAttributes = "vertexAttributes";
 }

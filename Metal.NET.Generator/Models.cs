@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET.Generator;
 
 /// <summary>Parsed C++ enum definition.</summary>
-record EnumDef(string CppNamespace, string Name, string BackingType, bool IsFlags, List<EnumMember> Members);
+record EnumDef(string CppNamespace, string Name, string BackingType, bool IsFlags, List<EnumMember> Members, bool Deprecated = false, string? DeprecationMessage = null);
 
 /// <summary>A single enum member with its resolved C# name and numeric value.</summary>
 record EnumMember(string Name, string Value);
@@ -33,6 +33,9 @@ class ClassDef
     public string? BaseClassName { get; set; }
 
     public List<MethodInfo> Methods { get; set; } = [];
+
+    /// <summary>Whether this class supports AllocInit (has a registered ObjC class).</summary>
+    public bool HasAllocInit { get; set; }
 }
 
 /// <summary>A parsed C++ method declaration with its return type, parameters, and implementation metadata.</summary>
@@ -51,6 +54,9 @@ class MethodInfo
     public bool UsesClassTarget { get; set; }
 
     public string? SelectorAccessor { get; set; }
+
+    /// <summary>The ObjC selector string, provided directly from metal-ast.json.</summary>
+    public string? Selector { get; set; }
 
     public string? DeprecationMessage { get; set; }
 }

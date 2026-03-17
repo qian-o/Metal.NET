@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of a data type.
-/// </summary>
 public class MTLType(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLType>
 {
     #region INativeObject
@@ -14,25 +11,18 @@ public class MTLType(nint nativePtr, NativeObjectOwnership ownership) : NSObject
     }
     #endregion
 
-    public MTLType() : this(ObjectiveC.AllocInit(MTLTypeBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
-
-    #region Identifying the data type - Properties
-
-    /// <summary>
-    /// The data type of the function argument.
-    /// </summary>
     public MTLDataType DataType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTypeBindings.DataType);
     }
-    #endregion
+
+    public MTLDataType DataType
+    {
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTypeBindings.DataType);
+    }
 }
 
 file static class MTLTypeBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLType");
-
     public static readonly Selector DataType = "dataType";
 }

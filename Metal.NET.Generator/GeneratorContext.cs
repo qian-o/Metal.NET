@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET.Generator;
 
 /// <summary>
-/// Shared mutable state that flows from <see cref="CppParser"/> to <see cref="CSharpEmitter"/>.
+/// Shared mutable state that flows from <see cref="AstJsonParser"/> to <see cref="CSharpEmitter"/>.
 /// </summary>
 class GeneratorContext
 {
-    /// <summary>Accessor name → ObjC selector string (from bridge files).</summary>
-    public Dictionary<string, string> SelectorMap { get; } = [];
-
-    /// <summary>ObjC class names that have _DEF_CLS entries.</summary>
-    public HashSet<string> RegisteredClasses { get; } = [];
-
     /// <summary>All parsed enums.</summary>
     public List<EnumDef> Enums { get; } = [];
 

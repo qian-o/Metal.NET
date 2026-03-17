@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A displayable resource that can be rendered or written to.
-/// </summary>
 public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDrawable>
 {
     #region INativeObject
@@ -14,58 +11,44 @@ public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NSOb
     }
     #endregion
 
-    #region Identifying the drawable - Properties
-
-    /// <summary>
-    /// A positive integer that identifies the drawable.
-    /// </summary>
-    public nuint DrawableID
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);
-    }
-    #endregion
-
-    #region Getting presentation information - Properties
-
-    /// <summary>
-    /// The host time, in seconds, when the drawable was displayed onscreen.
-    /// </summary>
     public double PresentedTime
     {
         get => ObjectiveC.MsgSendDouble(NativePtr, MTLDrawableBindings.PresentedTime);
     }
-    #endregion
 
-    #region Presenting the drawable - Methods
+    public nuint DrawableID
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);
+    }
 
-    /// <summary>
-    /// Presents the drawable onscreen as soon as possible.
-    /// </summary>
+    public double PresentedTime
+    {
+        get => ObjectiveC.MsgSendDouble(NativePtr, MTLDrawableBindings.PresentedTime);
+    }
+
+    public nuint DrawableID
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);
+    }
+
     public void Present()
     {
         ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.Present);
     }
-    #endregion
 
-    #region Getting presentation information - Methods
-
-    /// <summary>
-    /// Registers a block of code to be called immediately after the drawable is presented.
-    /// </summary>
-    public void AddPresentedHandler(MTLDrawablePresentedHandler block)
+    public void PresentAtTime(double presentationTime)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, block.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.PresentAtTime, presentationTime);
     }
-    #endregion
 
     public void PresentAfterMinimumDuration(double duration)
     {
         ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.PresentAfterMinimumDuration, duration);
     }
 
-    public void PresentAtTime(double presentationTime)
+    public void AddPresentedHandler(MTLDrawablePresentedHandler block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.PresentAtTime, presentationTime);
+        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, block.NativePtr);
     }
 }
 

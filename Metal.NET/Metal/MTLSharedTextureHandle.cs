@@ -20,6 +20,16 @@ public class MTLSharedTextureHandle(nint nativePtr, NativeObjectOwnership owners
     {
         get => GetProperty(ref field, MTLSharedTextureHandleBindings.Label);
     }
+
+    public MTLDevice Device
+    {
+        get => GetProperty(ref field, MTLSharedTextureHandleBindings.Device);
+    }
+
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTLSharedTextureHandleBindings.Label);
+    }
 }
 
 file static class MTLSharedTextureHandleBindings

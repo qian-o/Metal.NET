@@ -1,9 +1,6 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Encodes machine learning model inference commands for a single pass.
-/// </summary>
-public class MTL4MachineLearningCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTL4CommandEncoder(nativePtr, ownership), INativeObject<MTL4MachineLearningCommandEncoder>
+public class MTL4MachineLearningCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4MachineLearningCommandEncoder>
 {
     #region INativeObject
     public static new MTL4MachineLearningCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -14,40 +11,25 @@ public class MTL4MachineLearningCommandEncoder(nint nativePtr, NativeObjectOwner
     }
     #endregion
 
-    #region Configuring the pass - Methods
-
-    /// <summary>
-    /// Configures the encoder with a machine learning pipeline state instance.
-    /// </summary>
     public void SetPipelineState(MTL4MachineLearningPipelineState pipelineState)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetPipelineState, pipelineState.NativePtr);
     }
 
-    /// <summary>
-    /// Sets an argument table for the command encoder’s machine learning shader stage.
-    /// </summary>
     public void SetArgumentTable(MTL4ArgumentTable argumentTable)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetArgumentTable, argumentTable.NativePtr);
     }
-    #endregion
 
-    #region Running machine learning networks - Methods
-
-    /// <summary>
-    /// Dispatches a machine learning network using the current pipeline state and argument table.
-    /// </summary>
-    public void DispatchNetwork(MTLHeap heap)
+    public void DispatchNetworkWithIntermediatesHeap(MTLHeap heap)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetwork, heap.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetworkWithIntermediatesHeap, heap.NativePtr);
     }
-    #endregion
 }
 
 file static class MTL4MachineLearningCommandEncoderBindings
 {
-    public static readonly Selector DispatchNetwork = "dispatchNetworkWithIntermediatesHeap:";
+    public static readonly Selector DispatchNetworkWithIntermediatesHeap = "dispatchNetworkWithIntermediatesHeap:";
 
     public static readonly Selector SetArgumentTable = "setArgumentTable:";
 

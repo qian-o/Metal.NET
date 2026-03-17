@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A Core Animation layer that Metal can render into, typically displayed onscreen.
-/// </summary>
 public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<CAMetalLayer>
 {
     #region INativeObject
@@ -18,116 +15,179 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
     {
     }
 
-    #region Configuring the Metal Device - Properties
-
-    /// <summary>
-    /// The Metal device responsible for the layer’s drawable resources.
-    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, CAMetalLayerBindings.Device);
         set => SetProperty(ref field, CAMetalLayerBindings.SetDevice, value);
     }
-    #endregion
 
-    #region Configuring the Layer’s Drawable Objects - Properties
-
-    /// <summary>
-    /// The pixel format of the layer’s textures.
-    /// </summary>
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, CAMetalLayerBindings.PixelFormat);
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)value);
     }
 
-    /// <summary>
-    /// The color space of the rendered content.
-    /// </summary>
-    public CGColorSpace Colorspace
-    {
-        get => GetProperty(ref field, CAMetalLayerBindings.Colorspace);
-        set => SetProperty(ref field, CAMetalLayerBindings.SetColorspace, value);
-    }
-
-    /// <summary>
-    /// A Boolean value that determines whether the layer’s textures are used only for rendering.
-    /// </summary>
     public Bool8 FramebufferOnly
     {
         get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.FramebufferOnly);
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, value);
     }
 
-    /// <summary>
-    /// The size, in pixels, of textures for rendering layer content.
-    /// </summary>
     public CGSize DrawableSize
     {
         get => ObjectiveC.MsgSendCGSize(NativePtr, CAMetalLayerBindings.DrawableSize);
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDrawableSize, value);
     }
-    #endregion
 
-    #region Configuring Presentation Behavior - Properties
-
-    /// <summary>
-    /// A Boolean value that determines whether the layer synchronizes its updates to the display’s refresh rate.
-    /// </summary>
-    public Bool8 DisplaySyncEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, value);
-    }
-    #endregion
-
-    #region Obtaining a Metal Drawable - Properties
-
-    /// <summary>
-    /// The number of Metal drawables in the resource pool managed by Core Animation.
-    /// </summary>
     public nuint MaximumDrawableCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, CAMetalLayerBindings.MaximumDrawableCount);
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetMaximumDrawableCount, value);
     }
 
-    /// <summary>
-    /// A Boolean value that determines whether requests for a new buffer expire if the system can’t satisfy them.
-    /// </summary>
+    public Bool8 PresentsWithTransaction
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.PresentsWithTransaction);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetPresentsWithTransaction, value);
+    }
+
+    public CGColorSpace Colorspace
+    {
+        get => GetProperty(ref field, CAMetalLayerBindings.Colorspace);
+        set => SetProperty(ref field, CAMetalLayerBindings.SetColorspace, value);
+    }
+
+    public Bool8 WantsExtendedDynamicRangeContent
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.WantsExtendedDynamicRangeContent);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetWantsExtendedDynamicRangeContent, value);
+    }
+
+    public Bool8 DisplaySyncEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, value);
+    }
+
     public Bool8 AllowsNextDrawableTimeout
     {
         get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.AllowsNextDrawableTimeout);
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, value);
     }
-    #endregion
 
-    #region Instance Properties - Properties
-
-    public MTLResidencySet ResidencySet
+    public CAMetalDrawable NextDrawable
     {
-        get => GetProperty(ref field, CAMetalLayerBindings.ResidencySet);
+        get => GetProperty(ref field, CAMetalLayerBindings.NextDrawable);
     }
-    #endregion
 
-    #region Obtaining a Metal Drawable - Methods
-
-    /// <summary>
-    /// Waits until a Metal drawable is available, and then returns it.
-    /// </summary>
-    public CAMetalDrawable NextDrawable()
+    public MTLDevice Device
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.NextDrawable);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        get => GetProperty(ref field, CAMetalLayerBindings.Device);
+        set => SetProperty(ref field, CAMetalLayerBindings.SetDevice, value);
     }
-    #endregion
 
-    public static CAMetalLayer Layer()
+    public MTLPixelFormat PixelFormat
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, CAMetalLayerBindings.PixelFormat);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)value);
+    }
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+    public Bool8 FramebufferOnly
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.FramebufferOnly);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, value);
+    }
+
+    public CGSize DrawableSize
+    {
+        get => ObjectiveC.MsgSendCGSize(NativePtr, CAMetalLayerBindings.DrawableSize);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDrawableSize, value);
+    }
+
+    public nuint MaximumDrawableCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, CAMetalLayerBindings.MaximumDrawableCount);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetMaximumDrawableCount, value);
+    }
+
+    public Bool8 PresentsWithTransaction
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.PresentsWithTransaction);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetPresentsWithTransaction, value);
+    }
+
+    public CGColorSpace Colorspace
+    {
+        get => GetProperty(ref field, CAMetalLayerBindings.Colorspace);
+        set => SetProperty(ref field, CAMetalLayerBindings.SetColorspace, value);
+    }
+
+    public Bool8 WantsExtendedDynamicRangeContent
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.WantsExtendedDynamicRangeContent);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetWantsExtendedDynamicRangeContent, value);
+    }
+
+    public Bool8 DisplaySyncEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, value);
+    }
+
+    public Bool8 AllowsNextDrawableTimeout
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.AllowsNextDrawableTimeout);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, value);
+    }
+
+    public void SetDevice(MTLDevice device)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDevice, device.NativePtr);
+    }
+
+    public void SetPixelFormat(MTLPixelFormat pixelFormat)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)pixelFormat);
+    }
+
+    public void SetFramebufferOnly(bool framebufferOnly)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, framebufferOnly);
+    }
+
+    public void SetDrawableSize(CGSize drawableSize)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDrawableSize, drawableSize);
+    }
+
+    public void SetMaximumDrawableCount(nuint maximumDrawableCount)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetMaximumDrawableCount, maximumDrawableCount);
+    }
+
+    public void SetPresentsWithTransaction(bool presentsWithTransaction)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetPresentsWithTransaction, presentsWithTransaction);
+    }
+
+    public void SetColorspace(CGColorSpace colorspace)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetColorspace, colorspace.NativePtr);
+    }
+
+    public void SetWantsExtendedDynamicRangeContent(bool wantsExtendedDynamicRangeContent)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetWantsExtendedDynamicRangeContent, wantsExtendedDynamicRangeContent);
+    }
+
+    public void SetDisplaySyncEnabled(bool displaySyncEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, displaySyncEnabled);
+    }
+
+    public void SetAllowsNextDrawableTimeout(bool allowsNextDrawableTimeout)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, allowsNextDrawableTimeout);
     }
 }
 
@@ -147,15 +207,13 @@ file static class CAMetalLayerBindings
 
     public static readonly Selector FramebufferOnly = "framebufferOnly";
 
-    public static readonly Selector Layer = "layer";
-
     public static readonly Selector MaximumDrawableCount = "maximumDrawableCount";
 
     public static readonly Selector NextDrawable = "nextDrawable";
 
     public static readonly Selector PixelFormat = "pixelFormat";
 
-    public static readonly Selector ResidencySet = "residencySet";
+    public static readonly Selector PresentsWithTransaction = "presentsWithTransaction";
 
     public static readonly Selector SetAllowsNextDrawableTimeout = "setAllowsNextDrawableTimeout:";
 
@@ -172,4 +230,10 @@ file static class CAMetalLayerBindings
     public static readonly Selector SetMaximumDrawableCount = "setMaximumDrawableCount:";
 
     public static readonly Selector SetPixelFormat = "setPixelFormat:";
+
+    public static readonly Selector SetPresentsWithTransaction = "setPresentsWithTransaction:";
+
+    public static readonly Selector SetWantsExtendedDynamicRangeContent = "setWantsExtendedDynamicRangeContent:";
+
+    public static readonly Selector WantsExtendedDynamicRangeContent = "wantsExtendedDynamicRangeContent";
 }

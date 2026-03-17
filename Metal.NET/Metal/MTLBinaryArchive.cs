@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A container for pipeline state descriptors and their associated compiled shader code.
-/// </summary>
 public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBinaryArchive>
 {
     #region INativeObject
@@ -14,82 +11,78 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
     }
     #endregion
 
-    #region Identifying the archive - Properties
-
-    /// <summary>
-    /// The Metal device object that created the binary archive.
-    /// </summary>
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);
-    }
-
-    /// <summary>
-    /// A string that identifies the library.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLBinaryArchiveBindings.Label);
         set => SetProperty(ref field, MTLBinaryArchiveBindings.SetLabel, value);
     }
-    #endregion
 
-    #region Adding pipeline descriptors - Methods
-
-    /// <summary>
-    /// Adds a description of a compute pipeline to the archive.
-    /// </summary>
-    public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError error)
+    public MTLDevice Device
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);
+    }
+
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTLBinaryArchiveBindings.Label);
+        set => SetProperty(ref field, MTLBinaryArchiveBindings.SetLabel, value);
+    }
+
+    public MTLDevice Device
+    {
+        get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLBinaryArchiveBindings.SetLabel, label.NativePtr);
+    }
+
+    public bool AddComputePipelineFunctionsWithDescriptor(MTLComputePipelineDescriptor descriptor, out NSError error)
+    {
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }
 
-    /// <summary>
-    /// Adds a description of a render pipeline to the archive.
-    /// </summary>
-    public bool AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError error)
+    public bool AddRenderPipelineFunctionsWithDescriptor(MTLRenderPipelineDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }
 
-    /// <summary>
-    /// Adds a description of a tile renderer pipeline to the archive.
-    /// </summary>
-    public bool AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
+    public bool AddTileRenderPipelineFunctionsWithDescriptor(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }
 
-    /// <summary>
-    /// Adds a description of a function to the archive.
-    /// </summary>
-    public bool AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
+    public bool AddMeshRenderPipelineFunctionsWithDescriptor(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunction, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }
-    #endregion
 
-    #region Serializing archives - Methods
+    public bool AddLibraryWithDescriptor(MTLStitchedLibraryDescriptor descriptor, out NSError error)
+    {
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibraryWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
-    /// <summary>
-    /// Writes the contents of the archive to a file.
-    /// </summary>
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return result;
+    }
+
     public bool SerializeToURL(NSURL url, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
@@ -98,43 +91,30 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
         return result;
     }
-    #endregion
 
-    #region Instance Methods - Methods
-
-    public bool AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError error)
+    public bool AddFunctionWithDescriptor(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibrary, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunctionWithDescriptor, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }
-
-    public bool AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
-    {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
-
-        error = new(errorPtr, NativeObjectOwnership.Owned);
-
-        return result;
-    }
-    #endregion
 }
 
 file static class MTLBinaryArchiveBindings
 {
-    public static readonly Selector AddComputePipelineFunctions = "addComputePipelineFunctionsWithDescriptor:error:";
+    public static readonly Selector AddComputePipelineFunctionsWithDescriptor = "addComputePipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddFunction = "addFunctionWithDescriptor:library:error:";
+    public static readonly Selector AddFunctionWithDescriptor = "addFunctionWithDescriptor:library:error:";
 
-    public static readonly Selector AddLibrary = "addLibraryWithDescriptor:error:";
+    public static readonly Selector AddLibraryWithDescriptor = "addLibraryWithDescriptor:error:";
 
-    public static readonly Selector AddMeshRenderPipelineFunctions = "addMeshRenderPipelineFunctionsWithDescriptor:error:";
+    public static readonly Selector AddMeshRenderPipelineFunctionsWithDescriptor = "addMeshRenderPipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddRenderPipelineFunctions = "addRenderPipelineFunctionsWithDescriptor:error:";
+    public static readonly Selector AddRenderPipelineFunctionsWithDescriptor = "addRenderPipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddTileRenderPipelineFunctions = "addTileRenderPipelineFunctionsWithDescriptor:error:";
+    public static readonly Selector AddTileRenderPipelineFunctionsWithDescriptor = "addTileRenderPipelineFunctionsWithDescriptor:error:";
 
     public static readonly Selector Device = "device";
 

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A configuration for a Metal capture session.
-/// </summary>
 public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
 {
     #region INativeObject
@@ -18,35 +15,56 @@ public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
     {
     }
 
-    #region Setting capture parameters - Properties
-
-    /// <summary>
-    /// The instance whose contents should be captured.
-    /// </summary>
-    public NSObject CaptureObject
+    public id CaptureObject
     {
         get => GetProperty(ref field, MTLCaptureDescriptorBindings.CaptureObject);
         set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetCaptureObject, value);
     }
 
-    /// <summary>
-    /// The destination for any captured command data.
-    /// </summary>
     public MTLCaptureDestination Destination
     {
         get => (MTLCaptureDestination)ObjectiveC.MsgSendLong(NativePtr, MTLCaptureDescriptorBindings.Destination);
         set => ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetDestination, (nint)value);
     }
 
-    /// <summary>
-    /// A URL for a file to write the capture data into.
-    /// </summary>
     public NSURL OutputURL
     {
         get => GetProperty(ref field, MTLCaptureDescriptorBindings.OutputURL);
         set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetOutputURL, value);
     }
-    #endregion
+
+    public id CaptureObject
+    {
+        get => GetProperty(ref field, MTLCaptureDescriptorBindings.CaptureObject);
+        set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetCaptureObject, value);
+    }
+
+    public MTLCaptureDestination Destination
+    {
+        get => (MTLCaptureDestination)ObjectiveC.MsgSendLong(NativePtr, MTLCaptureDescriptorBindings.Destination);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetDestination, (nint)value);
+    }
+
+    public NSURL OutputURL
+    {
+        get => GetProperty(ref field, MTLCaptureDescriptorBindings.OutputURL);
+        set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetOutputURL, value);
+    }
+
+    public void SetCaptureObject(id captureObject)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetCaptureObject, captureObject.NativePtr);
+    }
+
+    public void SetDestination(MTLCaptureDestination destination)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetDestination, (nint)destination);
+    }
+
+    public void SetOutputURL(NSURL outputURL)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetOutputURL, outputURL.NativePtr);
+    }
 }
 
 file static class MTLCaptureDescriptorBindings

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array of render pass color attachment descriptor objects.
-/// </summary>
 public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, NativeO
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveC.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLRenderPassColorAttachmentDescriptor this[nuint attachmentIndex]
     {
@@ -35,8 +28,6 @@ public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, NativeO
 
 file static class MTLRenderPassColorAttachmentDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPassColorAttachmentDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

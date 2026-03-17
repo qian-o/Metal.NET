@@ -1,9 +1,6 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A resource that holds formatted image data.
-/// </summary>
-public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLTexture>
+public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTexture>
 {
     #region INativeObject
     public static new MTLTexture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -14,223 +11,129 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
     }
     #endregion
 
-    #region Querying texture attributes - Properties
-
     /// <summary>
-    /// The dimension and arrangement of the texture image data.
+    /// Deprecated: Use parentTexture or buffer instead
     /// </summary>
-    public MTLTextureType TextureType
+    [Obsolete("Use parentTexture or buffer instead")]
+    public MTLResource RootResource
     {
-        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.TextureType);
+        get => GetProperty(ref field, MTLTextureBindings.RootResource);
     }
 
-    /// <summary>
-    /// The format of pixels in the texture.
-    /// </summary>
-    public MTLPixelFormat PixelFormat
+    public MTLTexture ParentTexture
     {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.PixelFormat);
+        get => GetProperty(ref field, MTLTextureBindings.ParentTexture);
     }
 
-    /// <summary>
-    /// The width of the texture image for the base level mipmap, in pixels.
-    /// </summary>
-    public nuint Width
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Width);
-    }
-
-    /// <summary>
-    /// The height of the texture image for the base level mipmap, in pixels.
-    /// </summary>
-    public nuint Height
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Height);
-    }
-
-    /// <summary>
-    /// The depth of the texture image for the base level mipmap, in pixels.
-    /// </summary>
-    public nuint Depth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Depth);
-    }
-
-    /// <summary>
-    /// The number of mipmap levels in the texture.
-    /// </summary>
-    public nuint MipmapLevelCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.MipmapLevelCount);
-    }
-
-    /// <summary>
-    /// The number of slices in the texture array.
-    /// </summary>
-    public nuint ArrayLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ArrayLength);
-    }
-
-    /// <summary>
-    /// The number of samples in each pixel.
-    /// </summary>
-    public nuint SampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.SampleCount);
-    }
-
-    /// <summary>
-    /// A Boolean value that indicates whether the texture can only be used as a render target.
-    /// </summary>
-    public Bool8 IsFramebufferOnly
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsFramebufferOnly);
-    }
-
-    /// <summary>
-    /// Options that determine how you can use the texture.
-    /// </summary>
-    public MTLTextureUsage Usage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.Usage);
-    }
-
-    /// <summary>
-    /// A Boolean value indicating whether the GPU is allowed to adjust the contents of the texture to improve GPU performance.
-    /// </summary>
-    public Bool8 AllowGPUOptimizedContents
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.AllowGPUOptimizedContents);
-    }
-
-    /// <summary>
-    /// A Boolean indicating whether this texture can be shared with other processes.
-    /// </summary>
-    public Bool8 IsShareable
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsShareable);
-    }
-
-    /// <summary>
-    /// The pattern that the GPU applies to pixels when you read or sample pixels from the texture.
-    /// </summary>
-    public MTLTextureSwizzleChannels Swizzle
-    {
-        get => ObjectiveC.MsgSendMTLTextureSwizzleChannels(NativePtr, MTLTextureBindings.Swizzle);
-    }
-    #endregion
-
-    #region Getting information about the IOSurface the texture was created from - Properties
-
-    /// <summary>
-    /// A reference to the underlying surface instance for the texture, if applicable.
-    /// </summary>
-    public nint Iosurface
-    {
-        get => ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Iosurface);
-    }
-
-    /// <summary>
-    /// The number of a plane within the underlying surface instance for the texture, if applicable.
-    /// </summary>
-    public nuint IosurfacePlane
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.IosurfacePlane);
-    }
-    #endregion
-
-    #region Getting information about ancestor resources - Properties
-
-    /// <summary>
-    /// The base level of the parent texture used to create this texture.
-    /// </summary>
     public nuint ParentRelativeLevel
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ParentRelativeLevel);
     }
 
-    /// <summary>
-    /// The base slice of the parent texture used to create this texture.
-    /// </summary>
     public nuint ParentRelativeSlice
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ParentRelativeSlice);
     }
 
-    /// <summary>
-    /// The source buffer used to create this texture, if any.
-    /// </summary>
     public MTLBuffer Buffer
     {
         get => GetProperty(ref field, MTLTextureBindings.Buffer);
     }
 
-    /// <summary>
-    /// The offset in the source buffer where the texture’s data comes from.
-    /// </summary>
     public nuint BufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.BufferOffset);
     }
 
-    /// <summary>
-    /// The number of bytes in each row of the texture’s source buffer.
-    /// </summary>
     public nuint BufferBytesPerRow
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.BufferBytesPerRow);
     }
 
-    /// <summary>
-    /// The resource that owns the storage for this texture.
-    /// </summary>
-    [Obsolete("Use parent or buffer instead.")]
-    public MTLResource RootResource
+    public nint Iosurface
     {
-        get => GetProperty(ref field, MTLTextureBindings.RootResource);
-    }
-    #endregion
-
-    #region Creating views of textures on other GPUs - Properties
-
-    /// <summary>
-    /// The texture on another GPU that the texture was created from, if any.
-    /// </summary>
-    public MTLTexture RemoteStorageTexture
-    {
-        get => GetProperty(ref field, MTLTextureBindings.RemoteStorageTexture);
-    }
-    #endregion
-
-    #region Querying sparse properties - Properties
-
-    /// <summary>
-    /// A Boolean value that indicates whether this is a sparse texture.
-    /// </summary>
-    public Bool8 IsSparse
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsSparse);
+        get => ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Iosurface);
     }
 
-    /// <summary>
-    /// The index of the first mipmap in the tail.
-    /// </summary>
+    public nuint IosurfacePlane
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.IosurfacePlane);
+    }
+
+    public MTLTextureType TextureType
+    {
+        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.TextureType);
+    }
+
+    public MTLPixelFormat PixelFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.PixelFormat);
+    }
+
+    public nuint Width
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Width);
+    }
+
+    public nuint Height
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Height);
+    }
+
+    public nuint Depth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Depth);
+    }
+
+    public nuint MipmapLevelCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.MipmapLevelCount);
+    }
+
+    public nuint SampleCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.SampleCount);
+    }
+
+    public nuint ArrayLength
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ArrayLength);
+    }
+
+    public MTLTextureUsage Usage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.Usage);
+    }
+
+    public Bool8 IsShareable
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsShareable);
+    }
+
+    public Bool8 IsFramebufferOnly
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsFramebufferOnly);
+    }
+
     public nuint FirstMipmapInTail
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.FirstMipmapInTail);
     }
 
-    /// <summary>
-    /// The size of the sparse texture tail, in bytes.
-    /// </summary>
     public nuint TailSizeInBytes
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.TailSizeInBytes);
     }
-    #endregion
 
-    #region Instance Properties - Properties
+    public Bool8 IsSparse
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsSparse);
+    }
+
+    public Bool8 AllowGPUOptimizedContents
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.AllowGPUOptimizedContents);
+    }
 
     public MTLTextureCompressionType CompressionType
     {
@@ -242,19 +145,24 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureBindings.GpuResourceID);
     }
 
+    public MTLTexture RemoteStorageTexture
+    {
+        get => GetProperty(ref field, MTLTextureBindings.RemoteStorageTexture);
+    }
+
+    public MTLTextureSwizzleChannels Swizzle
+    {
+        get => ObjectiveC.MsgSendMTLTextureSwizzleChannels(NativePtr, MTLTextureBindings.Swizzle);
+    }
+
     public MTLTextureSparseTier SparseTextureTier
     {
         get => (MTLTextureSparseTier)ObjectiveC.MsgSendLong(NativePtr, MTLTextureBindings.SparseTextureTier);
     }
-    #endregion
 
-    /// <summary>
-    /// Deprecated: please use isFramebufferOnly instead
-    /// </summary>
-    [Obsolete("please use isFramebufferOnly instead")]
-    public Bool8 FramebufferOnly
+    public MTLResource RootResource
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.FramebufferOnly);
+        get => GetProperty(ref field, MTLTextureBindings.RootResource);
     }
 
     public MTLTexture ParentTexture
@@ -262,121 +170,202 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => GetProperty(ref field, MTLTextureBindings.ParentTexture);
     }
 
-    /// <summary>
-    /// Deprecated: please use isShareable instead
-    /// </summary>
-    [Obsolete("please use isShareable instead")]
-    public Bool8 Shareable
+    public nuint ParentRelativeLevel
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.Shareable);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ParentRelativeLevel);
     }
 
-    #region Copying data into a texture image - Methods
-
-    /// <summary>
-    /// Copies pixel data into a section of a texture slice.
-    /// </summary>
-    public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
+    public nuint ParentRelativeSlice
     {
-        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegion, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ParentRelativeSlice);
     }
 
-    /// <summary>
-    /// Copies pixel data into a section of a texture slice.
-    /// </summary>
-    public void ReplaceRegion(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
+    public MTLBuffer Buffer
     {
-        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegionmipmapLevelwithBytesbytesPerRow, region, level, pixelBytes, bytesPerRow);
+        get => GetProperty(ref field, MTLTextureBindings.Buffer);
     }
-    #endregion
 
-    #region Copying data from a texture image - Methods
+    public nuint BufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.BufferOffset);
+    }
 
-    /// <summary>
-    /// Copies pixel data from the texture to a buffer in system memory.
-    /// </summary>
+    public nuint BufferBytesPerRow
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.BufferBytesPerRow);
+    }
+
+    public nint Iosurface
+    {
+        get => ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Iosurface);
+    }
+
+    public nuint IosurfacePlane
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.IosurfacePlane);
+    }
+
+    public MTLTextureType TextureType
+    {
+        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.TextureType);
+    }
+
+    public MTLPixelFormat PixelFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.PixelFormat);
+    }
+
+    public nuint Width
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Width);
+    }
+
+    public nuint Height
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Height);
+    }
+
+    public nuint Depth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Depth);
+    }
+
+    public nuint MipmapLevelCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.MipmapLevelCount);
+    }
+
+    public nuint SampleCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.SampleCount);
+    }
+
+    public nuint ArrayLength
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ArrayLength);
+    }
+
+    public MTLTextureUsage Usage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.Usage);
+    }
+
+    public Bool8 IsShareable
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsShareable);
+    }
+
+    public Bool8 IsFramebufferOnly
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsFramebufferOnly);
+    }
+
+    public nuint FirstMipmapInTail
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.FirstMipmapInTail);
+    }
+
+    public nuint TailSizeInBytes
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.TailSizeInBytes);
+    }
+
+    public Bool8 IsSparse
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsSparse);
+    }
+
+    public Bool8 AllowGPUOptimizedContents
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.AllowGPUOptimizedContents);
+    }
+
+    public MTLTextureCompressionType CompressionType
+    {
+        get => (MTLTextureCompressionType)ObjectiveC.MsgSendLong(NativePtr, MTLTextureBindings.CompressionType);
+    }
+
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureBindings.GpuResourceID);
+    }
+
+    public MTLTexture RemoteStorageTexture
+    {
+        get => GetProperty(ref field, MTLTextureBindings.RemoteStorageTexture);
+    }
+
+    public MTLTextureSwizzleChannels Swizzle
+    {
+        get => ObjectiveC.MsgSendMTLTextureSwizzleChannels(NativePtr, MTLTextureBindings.Swizzle);
+    }
+
+    public MTLTextureSparseTier SparseTextureTier
+    {
+        get => (MTLTextureSparseTier)ObjectiveC.MsgSendLong(NativePtr, MTLTextureBindings.SparseTextureTier);
+    }
+
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.GetBytes, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
     }
 
-    /// <summary>
-    /// Copies pixel data from the texture to a buffer in system memory.
-    /// </summary>
+    public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegion, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
+    }
+
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, MTLRegion region, nuint level)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.GetBytesbytesPerRowfromRegionmipmapLevel, pixelBytes, bytesPerRow, region, level);
     }
-    #endregion
 
-    #region Creating textures by reinterpreting existing texture data - Methods
-
-    /// <summary>
-    /// Creates a new view of the texture, reinterpreting its data using a different pixel format.
-    /// </summary>
-    public MTLTexture NewTextureView(MTLPixelFormat pixelFormat)
+    public void ReplaceRegion(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureView, (nuint)pixelFormat);
+        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegionmipmapLevelwithBytesbytesPerRow, region, level, pixelBytes, bytesPerRow);
+    }
+
+    public MTLTexture NewTextureViewWithPixelFormat(MTLPixelFormat pixelFormat)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormat, (nuint)pixelFormat);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>
-    /// Creates a new view of the texture, reinterpreting its data using a different pixel format.
-    /// </summary>
-    public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
+    public MTLTexture NewTextureViewWithPixelFormat(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>
-    /// Creates a new view of the texture, reinterpreting its data using a different pixel format.
-    /// </summary>
-    public MTLTexture NewTextureView(MTLTextureViewDescriptor descriptor)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    /// <summary>
-    /// Creates a new view of the texture, reinterpreting its data using a different pixel format.
-    /// </summary>
-    public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-    #endregion
-
-    #region Creating a shared texture handle - Methods
-
-    /// <summary>
-    /// Creates a new texture handle from a shareable texture.
-    /// </summary>
     public MTLSharedTextureHandle NewSharedTextureHandle()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewSharedTextureHandle);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
-    #endregion
 
-    #region Creating views of textures on other GPUs - Methods
+    public MTLTexture NewTextureViewWithDescriptor(MTLTextureViewDescriptor descriptor)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
 
-    /// <summary>
-    /// Creates a remote texture view for another GPU in the same peer group.
-    /// </summary>
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public MTLTexture NewRemoteTextureViewForDevice(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewRemoteTextureViewForDevice, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
-    #endregion
+
+    public MTLTexture NewTextureViewWithPixelFormat(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
 }
 
 file static class MTLTextureBindings
@@ -396,8 +385,6 @@ file static class MTLTextureBindings
     public static readonly Selector Depth = "depth";
 
     public static readonly Selector FirstMipmapInTail = "firstMipmapInTail";
-
-    public static readonly Selector FramebufferOnly = "isFramebufferOnly";
 
     public static readonly Selector GetBytes = "getBytes:bytesPerRow:bytesPerImage:fromRegion:mipmapLevel:slice:";
 
@@ -423,9 +410,9 @@ file static class MTLTextureBindings
 
     public static readonly Selector NewSharedTextureHandle = "newSharedTextureHandle";
 
-    public static readonly Selector NewTextureView = "newTextureViewWithPixelFormat:";
-
     public static readonly Selector NewTextureViewWithDescriptor = "newTextureViewWithDescriptor:";
+
+    public static readonly Selector NewTextureViewWithPixelFormat = "newTextureViewWithPixelFormat:";
 
     public static readonly Selector NewTextureViewWithPixelFormattextureTypelevelsslices = "newTextureViewWithPixelFormat:textureType:levels:slices:";
 
@@ -448,8 +435,6 @@ file static class MTLTextureBindings
     public static readonly Selector RootResource = "rootResource";
 
     public static readonly Selector SampleCount = "sampleCount";
-
-    public static readonly Selector Shareable = "isShareable";
 
     public static readonly Selector SparseTextureTier = "sparseTextureTier";
 

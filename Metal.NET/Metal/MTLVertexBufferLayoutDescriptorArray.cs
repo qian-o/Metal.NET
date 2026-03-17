@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array of vertex buffer layout descriptor instances.
-/// </summary>
 public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexBufferLayoutDescriptorArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOw
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveC.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLVertexBufferLayoutDescriptor this[nuint index]
     {
@@ -35,8 +28,6 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOw
 
 file static class MTLVertexBufferLayoutDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLVertexBufferLayoutDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

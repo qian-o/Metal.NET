@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of an acceleration structure that Metal derives from instances of primitive acceleration structures that the GPU can populate.
-/// </summary>
 public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTLIndirectInstanceAccelerationStructureDescriptor>
 {
     #region INativeObject
@@ -16,20 +13,6 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
 
     public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
-    }
-
-    #region Instance Properties - Properties
-
-    public MTLBuffer InstanceCountBuffer
-    {
-        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer);
-        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value);
-    }
-
-    public nuint InstanceCountBufferOffset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBufferOffset);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBufferOffset, value);
     }
 
     public MTLBuffer InstanceDescriptorBuffer
@@ -50,28 +33,28 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorStride, value);
     }
 
-    public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
-    {
-        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveC.MsgSendULong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)value);
-    }
-
-    public MTLMatrixLayout InstanceTransformationMatrixLayout
-    {
-        get => (MTLMatrixLayout)ObjectiveC.MsgSendLong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceTransformationMatrixLayout);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
-    }
-
     public nuint MaxInstanceCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MaxInstanceCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxInstanceCount, value);
     }
 
-    public nuint MaxMotionTransformCount
+    public MTLBuffer InstanceCountBuffer
     {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MaxMotionTransformCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxMotionTransformCount, value);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value);
+    }
+
+    public nuint InstanceCountBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBufferOffset, value);
+    }
+
+    public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
+    {
+        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveC.MsgSendULong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)value);
     }
 
     public MTLBuffer MotionTransformBuffer
@@ -80,13 +63,16 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
         set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
     }
 
-    /// <summary>
-    /// The offset, in bytes, to the descripton of the first motion transform.
-    /// </summary>
     public nuint MotionTransformBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBufferOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBufferOffset, value);
+    }
+
+    public nuint MaxMotionTransformCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MaxMotionTransformCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxMotionTransformCount, value);
     }
 
     public MTLBuffer MotionTransformCountBuffer
@@ -101,10 +87,10 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBufferOffset, value);
     }
 
-    public nuint MotionTransformStride
+    public MTLMatrixLayout InstanceTransformationMatrixLayout
     {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformStride);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
+        get => (MTLMatrixLayout)ObjectiveC.MsgSendLong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceTransformationMatrixLayout);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
     }
 
     public MTLTransformType MotionTransformType
@@ -112,13 +98,181 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
         get => (MTLTransformType)ObjectiveC.MsgSendLong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformType);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)value);
     }
-    #endregion
 
-    public static MTLIndirectInstanceAccelerationStructureDescriptor Descriptor()
+    public nuint MotionTransformStride
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class, MTLIndirectInstanceAccelerationStructureDescriptorBindings.Descriptor);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformStride);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
+    }
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+    public MTLBuffer InstanceDescriptorBuffer
+    {
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value);
+    }
+
+    public nuint InstanceDescriptorBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBufferOffset, value);
+    }
+
+    public nuint InstanceDescriptorStride
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorStride);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorStride, value);
+    }
+
+    public nuint MaxInstanceCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MaxInstanceCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxInstanceCount, value);
+    }
+
+    public MTLBuffer InstanceCountBuffer
+    {
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value);
+    }
+
+    public nuint InstanceCountBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBufferOffset, value);
+    }
+
+    public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
+    {
+        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveC.MsgSendULong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)value);
+    }
+
+    public MTLBuffer MotionTransformBuffer
+    {
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
+    }
+
+    public nuint MotionTransformBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBufferOffset, value);
+    }
+
+    public nuint MaxMotionTransformCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MaxMotionTransformCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxMotionTransformCount, value);
+    }
+
+    public MTLBuffer MotionTransformCountBuffer
+    {
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBuffer, value);
+    }
+
+    public nuint MotionTransformCountBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBufferOffset, value);
+    }
+
+    public MTLMatrixLayout InstanceTransformationMatrixLayout
+    {
+        get => (MTLMatrixLayout)ObjectiveC.MsgSendLong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceTransformationMatrixLayout);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
+    }
+
+    public MTLTransformType MotionTransformType
+    {
+        get => (MTLTransformType)ObjectiveC.MsgSendLong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)value);
+    }
+
+    public nuint MotionTransformStride
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformStride);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
+    }
+
+    public void SetInstanceDescriptorBuffer(MTLBuffer instanceDescriptorBuffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, instanceDescriptorBuffer.NativePtr);
+    }
+
+    public void SetInstanceDescriptorBufferOffset(nuint instanceDescriptorBufferOffset)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBufferOffset, instanceDescriptorBufferOffset);
+    }
+
+    public void SetInstanceDescriptorStride(nuint instanceDescriptorStride)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorStride, instanceDescriptorStride);
+    }
+
+    public void SetMaxInstanceCount(nuint maxInstanceCount)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxInstanceCount, maxInstanceCount);
+    }
+
+    public void SetInstanceCountBuffer(MTLBuffer instanceCountBuffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, instanceCountBuffer.NativePtr);
+    }
+
+    public void SetInstanceCountBufferOffset(nuint instanceCountBufferOffset)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBufferOffset, instanceCountBufferOffset);
+    }
+
+    public void SetInstanceDescriptorType(MTLAccelerationStructureInstanceDescriptorType instanceDescriptorType)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)instanceDescriptorType);
+    }
+
+    public void SetMotionTransformBuffer(MTLBuffer motionTransformBuffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, motionTransformBuffer.NativePtr);
+    }
+
+    public void SetMotionTransformBufferOffset(nuint motionTransformBufferOffset)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBufferOffset, motionTransformBufferOffset);
+    }
+
+    public void SetMaxMotionTransformCount(nuint maxMotionTransformCount)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxMotionTransformCount, maxMotionTransformCount);
+    }
+
+    public void SetMotionTransformCountBuffer(MTLBuffer motionTransformCountBuffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBuffer, motionTransformCountBuffer.NativePtr);
+    }
+
+    public void SetMotionTransformCountBufferOffset(nuint motionTransformCountBufferOffset)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBufferOffset, motionTransformCountBufferOffset);
+    }
+
+    public void SetInstanceTransformationMatrixLayout(MTLMatrixLayout instanceTransformationMatrixLayout)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)instanceTransformationMatrixLayout);
+    }
+
+    public void SetMotionTransformType(MTLTransformType motionTransformType)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)motionTransformType);
+    }
+
+    public void SetMotionTransformStride(nuint motionTransformStride)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, motionTransformStride);
+    }
+
+    public static nint Descriptor()
+    {
+        return ObjectiveC.MsgSendNInt(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class, MTLIndirectInstanceAccelerationStructureDescriptorBindings.Descriptor);
     }
 }
 

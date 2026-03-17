@@ -8,7 +8,7 @@ namespace Metal.NET.Generator;
 /// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
 /// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
 /// </summary>
-class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper, Dictionary<string, DocEntry> docDb)
+class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
     /// <summary>Hand-written classes to skip during generation.</summary>
     static readonly HashSet<string> SkipClasses =
@@ -138,304 +138,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     static readonly Regex DisambiguationSuffix = new(@"-[a-z0-9]+$", RegexOptions.Compiled);
 
     /// <summary>
-    /// Matches Swift selector names from the documentation JSON to C# properties and methods.
-    /// Returns a mapping of C++ name (lowered) to the matched <see cref="DocMember"/>.
-    /// For methods with overloads, uses param count to disambiguate.
-    /// </summary>
-    static Dictionary<string, DocMember> MatchDocMembers(
-        DocEntry docEntry,
-        List<PropertyDef> properties,
-        List<MethodInfo> methods)
-    {
-        if (docEntry.Groups is null || docEntry.Groups.Count == 0)
-        {
-            return [];
-        }
-
-        // Build lookup: C++ name (lowered) → list of (member, paramCount)
-        // For properties, paramCount = -1 to distinguish from methods
-        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup = new(StringComparer.OrdinalIgnoreCase);
-
-        foreach (PropertyDef prop in properties)
-        {
-            string key = prop.Getter.CppName.ToLowerInvariant();
-            if (!cppLookup.TryGetValue(key, out var list))
-            {
-                list = [];
-                cppLookup[key] = list;
-            }
-            list.Add((prop, -1));
-        }
-
-        foreach (MethodInfo method in methods)
-        {
-            string key = method.CppName.ToLowerInvariant();
-            if (!cppLookup.TryGetValue(key, out var list))
-            {
-                list = [];
-                cppLookup[key] = list;
-            }
-            list.Add((method, method.Parameters.Count));
-        }
-
-        Dictionary<string, DocMember> result = [];
-
-        foreach (DocGroup group in docEntry.Groups)
-        {
-            foreach (DocMember member in group.Members)
-            {
-                string swiftName = DisambiguationSuffix.Replace(member.Name, "");
-
-                // Skip init(...) and subscript(_:) entries
-                if (swiftName.StartsWith("init(") || swiftName.StartsWith("init)") ||
-                    swiftName == "init" ||
-                    swiftName.StartsWith("subscript("))
-                {
-                    continue;
-                }
-
-                bool isMethod = swiftName.Contains('(');
-                string baseName;
-                int paramCount = 0;
-
-                if (isMethod)
-                {
-                    int parenIdx = swiftName.IndexOf('(');
-                    baseName = swiftName[..parenIdx];
-                    string paramPart = swiftName[(parenIdx + 1)..].TrimEnd(')');
-                    paramCount = string.IsNullOrEmpty(paramPart) ? 0 : paramPart.Split(':').Length - 1;
-                    if (paramCount == 0 && paramPart.Contains(':'))
-                    {
-                        paramCount = 1;
-                    }
-                }
-                else
-                {
-                    baseName = swiftName;
-                }
-
-                // Try matching the Swift base name against C++ names
-                string? matchedKey = TryMatchSwiftName(baseName, isMethod, paramCount, cppLookup);
-
-                if (matchedKey != null && !result.ContainsKey(matchedKey))
-                {
-                    result[matchedKey] = member;
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Attempts to match a Swift base name to a C++ name in the lookup table.
-    /// Handles <c>make</c> prefix → <c>new</c> prefix and prefix matching for overloaded methods.
-    /// </summary>
-    static string? TryMatchSwiftName(
-        string baseName,
-        bool isMethod,
-        int paramCount,
-        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup)
-    {
-        // Direct match (case-insensitive)
-        if (cppLookup.TryGetValue(baseName, out var directMatches))
-        {
-            if (!isMethod)
-            {
-                // Property match: look for paramCount == -1
-                if (directMatches.Any(m => m.ParamCount == -1))
-                {
-                    return baseName.ToLowerInvariant();
-                }
-            }
-            else
-            {
-                // Method match: prefer exact param count
-                var exactParam = directMatches.FirstOrDefault(m => m.ParamCount == paramCount);
-                if (exactParam.Member != null)
-                {
-                    return baseName.ToLowerInvariant();
-                }
-                // Fall back to any method match
-                if (directMatches.Any(m => m.ParamCount >= 0))
-                {
-                    return baseName.ToLowerInvariant();
-                }
-            }
-        }
-
-        if (!isMethod)
-        {
-            return null;
-        }
-
-        // Handle "make" prefix → strip and try without it, also try "new" prefix
-        if (baseName.Length > 4 && baseName.StartsWith("make") && char.IsUpper(baseName[4]))
-        {
-            string stripped = char.ToLower(baseName[4]) + baseName[5..];
-
-            // Try the stripped name (e.g., makeCommandBuffer → commandBuffer)
-            string? strippedResult = TryPrefixMatch(stripped, paramCount, cppLookup);
-            if (strippedResult != null)
-            {
-                return strippedResult;
-            }
-
-            // Try "new" + rest (e.g., makeArchive → newArchive)
-            string newPrefixed = "new" + baseName[4..];
-            string? newResult = TryPrefixMatch(newPrefixed, paramCount, cppLookup);
-            if (newResult != null)
-            {
-                return newResult;
-            }
-        }
-
-        // Prefix match: find C++ names that start with baseName
-        return TryPrefixMatch(baseName, paramCount, cppLookup);
-    }
-
-    /// <summary>
-    /// Tries prefix matching against C++ names. If the base name is a prefix of a C++ name,
-    /// uses param count to disambiguate among candidates.
-    /// </summary>
-    static string? TryPrefixMatch(
-        string baseName,
-        int paramCount,
-        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup)
-    {
-        // Direct exact match first
-        if (cppLookup.TryGetValue(baseName, out var exact))
-        {
-            var paramMatch = exact.FirstOrDefault(m => m.ParamCount == paramCount);
-            if (paramMatch.Member != null)
-            {
-                return baseName.ToLowerInvariant();
-            }
-            if (exact.Any(m => m.ParamCount >= 0))
-            {
-                return baseName.ToLowerInvariant();
-            }
-        }
-
-        // Prefix match: find all keys that start with baseName (case-insensitive)
-        List<(string Key, int ParamCount)> prefixCandidates = [];
-        foreach (var kvp in cppLookup)
-        {
-            if (kvp.Key.StartsWith(baseName, StringComparison.OrdinalIgnoreCase) &&
-                kvp.Key.Length > baseName.Length)
-            {
-                foreach (var item in kvp.Value)
-                {
-                    if (item.ParamCount >= 0)
-                    {
-                        prefixCandidates.Add((kvp.Key.ToLowerInvariant(), item.ParamCount));
-                    }
-                }
-            }
-        }
-
-        if (prefixCandidates.Count == 0)
-        {
-            return null;
-        }
-
-        // Prefer candidate with matching param count
-        var paramCandidate = prefixCandidates.FirstOrDefault(c => c.ParamCount == paramCount);
-        if (paramCandidate.Key != null)
-        {
-            return paramCandidate.Key;
-        }
-
-        return prefixCandidates[0].Key;
-    }
-
-    /// <summary>
-    /// Builds a mapping from C++ name (lowered) to (GroupTitle, OrderInGroup) for ordering members.
-    /// </summary>
-    static Dictionary<string, (string GroupTitle, int Order)> BuildMemberGroupOrder(
-        DocEntry docEntry,
-        List<PropertyDef> properties,
-        List<MethodInfo> methods)
-    {
-        Dictionary<string, DocMember> matched = MatchDocMembers(docEntry, properties, methods);
-
-        if (docEntry.Groups is null || matched.Count == 0)
-        {
-            return [];
-        }
-
-        // Build the C++ name lookup once (same structure as MatchDocMembers)
-        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup = new(StringComparer.OrdinalIgnoreCase);
-        foreach (PropertyDef prop in properties)
-        {
-            string key = prop.Getter.CppName.ToLowerInvariant();
-            if (!cppLookup.TryGetValue(key, out var list))
-            {
-                list = [];
-                cppLookup[key] = list;
-            }
-            list.Add((prop, -1));
-        }
-        foreach (MethodInfo m in methods)
-        {
-            string key = m.CppName.ToLowerInvariant();
-            if (!cppLookup.TryGetValue(key, out var list))
-            {
-                list = [];
-                cppLookup[key] = list;
-            }
-            list.Add((m, m.Parameters.Count));
-        }
-
-        Dictionary<string, (string GroupTitle, int Order)> result = [];
-        int globalOrder = 0;
-
-        foreach (DocGroup group in docEntry.Groups)
-        {
-            foreach (DocMember member in group.Members)
-            {
-                string swiftName = DisambiguationSuffix.Replace(member.Name, "");
-                bool isMethod = swiftName.Contains('(');
-                string baseName;
-                int paramCount = 0;
-
-                if (swiftName.StartsWith("init(") || swiftName.StartsWith("init)") ||
-                    swiftName == "init" || swiftName.StartsWith("subscript("))
-                {
-                    globalOrder++;
-                    continue;
-                }
-
-                if (isMethod)
-                {
-                    int parenIdx = swiftName.IndexOf('(');
-                    baseName = swiftName[..parenIdx];
-                    string paramPart = swiftName[(parenIdx + 1)..].TrimEnd(')');
-                    paramCount = string.IsNullOrEmpty(paramPart) ? 0 : paramPart.Split(':').Length - 1;
-                    if (paramCount == 0 && paramPart.Contains(':'))
-                    {
-                        paramCount = 1;
-                    }
-                }
-                else
-                {
-                    baseName = swiftName;
-                }
-
-                string? matchedKey = TryMatchSwiftName(baseName, isMethod, paramCount, cppLookup);
-                if (matchedKey != null && !result.ContainsKey(matchedKey))
-                {
-                    result[matchedKey] = (group.Title, globalOrder);
-                }
-
-                globalOrder++;
-            }
-        }
-
-        return result;
-    }
-
-    /// <summary>
     /// Records a MsgSend overload signature for later generation of ObjectiveC.cs.
     /// </summary>
     void RecordMsgSend(string group, params string[] argTypes)
@@ -556,8 +258,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         GenerateObjectiveCFile();
-
-        PatchHandwrittenClasses();
     }
 
     #endregion
@@ -590,30 +290,18 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         StringBuilder sb = new();
         sb.AppendLine("namespace Metal.NET;");
 
-        List<EnumDef> sortedEnums = [.. enums.OrderBy(e => TypeMapper.GetPrefix(e.CppNamespace) + e.Name)];
-
-        for (int ei = 0; ei < sortedEnums.Count; ei++)
+        for (int ei = 0; ei < enums.Count; ei++)
         {
-            EnumDef enumDef = sortedEnums[ei];
+            EnumDef enumDef = enums[ei];
             string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
             string csEnumName = prefix + enumDef.Name;
-            string slug = csEnumName.ToLowerInvariant();
-            docDb.TryGetValue(slug, out DocEntry? enumDoc);
 
             sb.AppendLine();
 
-            // Enum-level doc comment
-            if (enumDoc?.Summary is { } enumSummary)
+            // Enum-level [Obsolete] from AST
+            if (enumDef.Deprecated)
             {
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"/// {XmlEscape(enumSummary)}");
-                sb.AppendLine("/// </summary>");
-            }
-
-            // Enum-level [Obsolete] from JSON
-            if (enumDoc is { Deprecated: true })
-            {
-                sb.AppendLine(enumDoc.DeprecatedMessage is { } dm
+                sb.AppendLine(enumDef.DeprecationMessage is { } dm
                     ? $"[Obsolete(\"{dm}\")]"
                     : "[Obsolete]");
             }
@@ -621,20 +309,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (enumDef.IsFlags)
             {
                 sb.AppendLine("[Flags]");
-            }
-
-            // Build case-insensitive member doc lookup from JSON groups
-            Dictionary<string, DocMember> memberDocs = new(StringComparer.OrdinalIgnoreCase);
-            if (enumDoc?.Groups is { } groups)
-            {
-                foreach (DocGroup group in groups)
-                {
-                    foreach (DocMember dm in group.Members)
-                    {
-                        string cleanName = DisambiguationSuffix.Replace(dm.Name, "");
-                        memberDocs.TryAdd(cleanName, dm);
-                    }
-                }
             }
 
             sb.AppendLine($"public enum {csEnumName} : {enumDef.BackingType}");
@@ -647,24 +321,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 if (i > 0)
                 {
                     sb.AppendLine();
-                }
-
-                // Try to find a doc entry for this enum member (case-insensitive)
-                if (memberDocs.TryGetValue(member.Name, out DocMember? memberDoc))
-                {
-                    if (memberDoc.Summary is { } memberSummary)
-                    {
-                        sb.AppendLine("    /// <summary>");
-                        sb.AppendLine($"    /// {XmlEscape(memberSummary)}");
-                        sb.AppendLine("    /// </summary>");
-                    }
-
-                    if (memberDoc is { Deprecated: true })
-                    {
-                        sb.AppendLine(memberDoc.DeprecatedMessage is { } mdm
-                            ? $"    [Obsolete(\"{mdm}\")]"
-                            : "    [Obsolete]");
-                    }
                 }
 
                 sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
@@ -711,9 +367,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine();
         sb.AppendLine("namespace Metal.NET;");
 
-        List<StructDef> sortedStructs = [.. generatable.OrderBy(s => GetCsStructName(s))];
-
-        foreach (StructDef structDef in sortedStructs)
+        foreach (StructDef structDef in generatable)
         {
             string csStructName = GetCsStructName(structDef);
 
@@ -877,7 +531,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        bool hasClassField = context.RegisteredClasses.Contains(csClassName);
+        bool hasClassField = classDef.HasAllocInit;
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
         List<MethodInfo> validMethods =
@@ -897,70 +551,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
 
-        // Look up documentation for this class
-        string slug = csClassName.ToLowerInvariant();
-        docDb.TryGetValue(slug, out DocEntry? classDoc);
-        Dictionary<string, DocMember> memberDocs = classDoc != null
-            ? MatchDocMembers(classDoc, properties, methods)
-            : [];
-        Dictionary<string, (string GroupTitle, int Order)> memberGroups = classDoc != null
-            ? BuildMemberGroupOrder(classDoc, properties, methods)
-            : [];
-
-        // Separate properties into grouped (ordered by JSON) and ungrouped
-        List<PropertyDef> groupedProps = [];
-        List<PropertyDef> ungroupedProps = [];
-        foreach (PropertyDef prop in properties)
-        {
-            string key = prop.Getter.CppName.ToLowerInvariant();
-            if (memberGroups.ContainsKey(key))
-            {
-                groupedProps.Add(prop);
-            }
-            else
-            {
-                ungroupedProps.Add(prop);
-            }
-        }
-        groupedProps.Sort((a, b) => memberGroups[a.Getter.CppName.ToLowerInvariant()].Order
-            .CompareTo(memberGroups[b.Getter.CppName.ToLowerInvariant()].Order));
-
-        // Separate methods into grouped and ungrouped (excluding indexer)
+        // Detect indexer
         MethodInfo? indexerGetter = methods.FirstOrDefault(m =>
-            m.SelectorAccessor is "objectAtIndexedSubscript_"
+            m.Selector is "objectAtIndexedSubscript:"
             || (m.CppName == "object" && m.Parameters.Count == 1 && m.ReturnType != "void"));
         MethodInfo? indexerSetter = methods.FirstOrDefault(m =>
-            m.SelectorAccessor is "setObject_atIndexedSubscript_"
+            m.Selector is "setObject:atIndexedSubscript:"
             || (m.CppName == "setObject" && m.Parameters.Count == 2 && m.ReturnType == "void"));
 
         List<MethodInfo> nonIndexerMethods = methods
             .Where(m => m != indexerGetter && m != indexerSetter)
             .ToList();
-
-        List<MethodInfo> groupedMethods = [];
-        List<MethodInfo> ungroupedMethods = [];
-        foreach (MethodInfo method in nonIndexerMethods)
-        {
-            string key = method.CppName.ToLowerInvariant();
-            if (memberGroups.ContainsKey(key))
-            {
-                groupedMethods.Add(method);
-            }
-            else
-            {
-                ungroupedMethods.Add(method);
-            }
-        }
-        groupedMethods.Sort((a, b) => memberGroups[a.CppName.ToLowerInvariant()].Order
-            .CompareTo(memberGroups[b.CppName.ToLowerInvariant()].Order));
-
-        // Build grouped property regions: group title -> ordered list of properties
-        List<(string Title, List<PropertyDef> Props)> propRegions = BuildGroupedRegions(
-            groupedProps, p => p.Getter.CppName.ToLowerInvariant(), memberGroups);
-
-        // Build grouped method regions: group title -> ordered list of methods
-        List<(string Title, List<MethodInfo> Methods)> methodRegions = BuildGroupedRegions(
-            groupedMethods, m => m.CppName.ToLowerInvariant(), memberGroups);
 
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
@@ -978,22 +579,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             ? classDef.BaseClassName
             : "NSObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
-
-        // Class-level doc comment
-        if (classDoc?.Summary is { } classSummary)
-        {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"/// {XmlEscape(classSummary)}");
-            sb.AppendLine("/// </summary>");
-        }
-
-        // Class-level [Obsolete] from JSON
-        if (classDoc is { Deprecated: true })
-        {
-            sb.AppendLine(classDoc.DeprecatedMessage is { } cdm
-                ? $"[Obsolete(\"{cdm}\")]"
-                : "[Obsolete]");
-        }
 
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
@@ -1019,24 +604,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             hasPrecedingMember = true;
         }
 
-        // === Grouped properties (with regions) ===
-        foreach ((string title, List<PropertyDef> regionProps) in propRegions)
-        {
-            sb.AppendLine();
-            sb.AppendLine($"    #region {title} - Properties");
-
-            foreach (PropertyDef prop in regionProps)
-            {
-                sb.AppendLine();
-                EmitPropertyWithDocs(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties, memberDocs);
-            }
-
-            sb.AppendLine("    #endregion");
-            hasPrecedingMember = true;
-        }
-
-        // === Ungrouped properties ===
-        foreach (PropertyDef prop in ungroupedProps)
+        // === Properties (in JSON order, no grouping) ===
+        foreach (PropertyDef prop in properties)
         {
             int prevLen = sb.Length;
             if (hasPrecedingMember)
@@ -1044,7 +613,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            if (EmitPropertyWithDocs(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties, memberDocs))
+            if (EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties))
             {
                 hasPrecedingMember = true;
             }
@@ -1091,31 +660,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             hasPrecedingMember = true;
         }
 
-        // === Grouped methods (with regions) ===
-        foreach ((string title, List<MethodInfo> regionMethods) in methodRegions)
-        {
-            sb.AppendLine();
-            sb.AppendLine($"    #region {title} - Methods");
-
-            foreach (MethodInfo method in regionMethods)
-            {
-                sb.AppendLine();
-                EmitMethodWithDocs(sb, method, csClassName, classDef.CppNamespace, selectors, hasZeroParamVersion, memberDocs);
-            }
-
-            sb.AppendLine("    #endregion");
-            hasPrecedingMember = true;
-        }
-
-        // === Ungrouped methods ===
-        foreach (MethodInfo method in ungroupedMethods)
+        // === Methods (in JSON order, no grouping) ===
+        foreach (MethodInfo method in nonIndexerMethods)
         {
             if (hasPrecedingMember)
             {
                 sb.AppendLine();
             }
 
-            EmitMethodWithDocs(sb, method, csClassName, classDef.CppNamespace, selectors, hasZeroParamVersion, memberDocs);
+            EmitMethod(sb, method, csClassName, classDef.CppNamespace, selectors, hasZeroParamVersion);
             hasPrecedingMember = true;
         }
 
@@ -1157,183 +710,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         File.WriteAllText(Path.Combine(dir, $"{csClassName}.cs"), sb.ToString(), new UTF8Encoding(true));
         Console.WriteLine($"  Generated: {subdir}/{csClassName}.cs");
-    }
-
-    /// <summary>
-    /// Builds a list of (GroupTitle, Items) pairs for grouped members, preserving JSON group order.
-    /// Members within each group are in their JSON order.
-    /// </summary>
-    static List<(string Title, List<T> Items)> BuildGroupedRegions<T>(
-        List<T> groupedItems,
-        Func<T, string> getKey,
-        Dictionary<string, (string GroupTitle, int Order)> memberGroups)
-    {
-        List<(string Title, List<T> Items)> regions = [];
-        Dictionary<string, List<T>> regionMap = [];
-
-        foreach (T item in groupedItems)
-        {
-            string key = getKey(item);
-            string title = memberGroups[key].GroupTitle;
-            if (!regionMap.TryGetValue(title, out var list))
-            {
-                list = [];
-                regionMap[title] = list;
-                regions.Add((title, list));
-            }
-            list.Add(item);
-        }
-
-        return regions;
-    }
-
-    /// <summary>Emits a property with doc comments and JSON-based [Obsolete] if applicable.</summary>
-    bool EmitPropertyWithDocs(
-        StringBuilder sb, PropertyDef prop, string csClassName, string ns,
-        SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties,
-        Dictionary<string, DocMember> memberDocs)
-    {
-        string key = prop.Getter.CppName.ToLowerInvariant();
-        memberDocs.TryGetValue(key, out DocMember? docMember);
-
-        // Check if this property would be skipped (inherited) before emitting doc comments
-        string csPropName = TypeMapper.ToPascalCase(prop.Getter.CppName);
-        if (inheritedProperties.Contains(csPropName))
-        {
-            return false;
-        }
-
-        // Emit doc comment from JSON (takes priority over header-derived deprecation summary)
-        if (docMember?.Summary is { } summary)
-        {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {XmlEscape(summary)}");
-            sb.AppendLine("    /// </summary>");
-        }
-
-        // JSON-based [Obsolete]: only if no header-derived deprecation
-        if (docMember is { Deprecated: true } && prop.Getter.DeprecationMessage == null)
-        {
-            sb.AppendLine(docMember.DeprecatedMessage is { } dm
-                ? $"    [Obsolete(\"{dm}\")]"
-                : "    [Obsolete]");
-        }
-
-        return EmitProperty(sb, prop, csClassName, ns, selectors, inheritedProperties, skipDocComment: docMember?.Summary != null);
-    }
-
-    /// <summary>Emits a method with doc comments and JSON-based [Obsolete] if applicable.</summary>
-    void EmitMethodWithDocs(
-        StringBuilder sb, MethodInfo method, string csClassName, string ns,
-        SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion,
-        Dictionary<string, DocMember> memberDocs)
-    {
-        string key = method.CppName.ToLowerInvariant();
-        memberDocs.TryGetValue(key, out DocMember? docMember);
-
-        // Emit doc comment from JSON (takes priority over header-derived deprecation summary)
-        if (docMember?.Summary is { } summary)
-        {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {XmlEscape(summary)}");
-            sb.AppendLine("    /// </summary>");
-        }
-
-        // JSON-based [Obsolete]: only if no header-derived deprecation
-        if (docMember is { Deprecated: true } && method.DeprecationMessage == null)
-        {
-            sb.AppendLine(docMember.DeprecatedMessage is { } dm
-                ? $"    [Obsolete(\"{dm}\")]"
-                : "    [Obsolete]");
-        }
-
-        EmitMethod(sb, method, csClassName, ns, selectors, hasZeroParamVersion, skipDocComment: docMember?.Summary != null);
-    }
-
-    /// <summary>
-    /// Patches hand-written class files (in SkipClasses) to add class-level doc comments
-    /// from metal-docs.json, if they don't already have one.
-    /// </summary>
-    void PatchHandwrittenClasses()
-    {
-        foreach (string className in SkipClasses)
-        {
-            string slug = className.ToLowerInvariant();
-            if (!docDb.TryGetValue(slug, out DocEntry? entry) || entry.Summary is null)
-            {
-                continue;
-            }
-
-            // Determine the output subdirectory for this class
-            string subdir = className.StartsWith("NS") ? "Foundation" : "Metal";
-            string filePath = Path.Combine(outputDir, subdir, $"{className}.cs");
-            if (!File.Exists(filePath))
-            {
-                continue;
-            }
-
-            string content = File.ReadAllText(filePath);
-
-            // Find the class declaration line
-            string classLine = $"public class {className}";
-            string staticClassLine = $"public static class {className}";
-
-            string targetLine;
-            int idx = content.IndexOf(classLine);
-            if (idx >= 0)
-            {
-                targetLine = classLine;
-            }
-            else
-            {
-                idx = content.IndexOf(staticClassLine);
-                if (idx >= 0)
-                {
-                    targetLine = staticClassLine;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-
-            // Check if a doc comment already exists immediately before the class declaration
-            int lineStart = content.LastIndexOf('\n', idx);
-            if (lineStart > 0)
-            {
-                string precedingContent = content[..lineStart].TrimEnd();
-                if (precedingContent.EndsWith("</summary>"))
-                {
-                    // Find the start of the existing doc comment block
-                    int summaryStart = precedingContent.LastIndexOf("/// <summary>");
-                    if (summaryStart < 0)
-                    {
-                        continue;
-                    }
-
-                    // Check if it's already in three-line format
-                    string existingBlock = precedingContent[summaryStart..];
-                    string expected = $"/// <summary>\n/// {XmlEscape(entry.Summary)}\n/// </summary>";
-                    if (existingBlock == expected)
-                    {
-                        continue;
-                    }
-
-                    // Remove the old doc comment block and any trailing whitespace/newline
-                    int removeEnd = idx;
-                    content = content[..summaryStart] + content[removeEnd..];
-                    idx = content.IndexOf(classLine);
-                    if (idx < 0) idx = content.IndexOf(staticClassLine);
-                    if (idx < 0) continue;
-                }
-            }
-
-            string docComment = $"/// <summary>\n/// {XmlEscape(entry.Summary)}\n/// </summary>\n";
-            content = content.Insert(idx, docComment);
-
-            File.WriteAllText(filePath, content, new UTF8Encoding(true));
-            Console.WriteLine($"  Patched: {subdir}/{className}.cs (added doc comment)");
-        }
     }
 
     #endregion
@@ -1593,9 +969,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string selectorName = csPropName;
         string selectorObjC;
-        if (getter.SelectorAccessor != null && context.SelectorMap.TryGetValue(getter.SelectorAccessor, out string? objcSel))
+        if (getter.Selector != null)
         {
-            selectorObjC = objcSel;
+            selectorObjC = getter.Selector;
+        }
+        else if (getter.SelectorAccessor != null)
+        {
+            selectorObjC = getter.SelectorAccessor.Replace('_', ':');
         }
         else
         {
@@ -1613,9 +993,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             setSelName = TypeMapper.ToPascalCase(prop.Setter.CppName);
             string setSelObjC;
-            if (prop.Setter.SelectorAccessor != null && context.SelectorMap.TryGetValue(prop.Setter.SelectorAccessor, out string? setObjC))
+            if (prop.Setter.Selector != null)
             {
-                setSelObjC = setObjC;
+                setSelObjC = prop.Setter.Selector;
+            }
+            else if (prop.Setter.SelectorAccessor != null)
+            {
+                setSelObjC = prop.Setter.SelectorAccessor.Replace('_', ':');
             }
             else
             {
@@ -1729,16 +1113,26 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string selectorObjC;
         string cppName = method.CppName;
 
-        if (method.SelectorAccessor != null)
+        if (method.Selector != null)
         {
-            if (context.SelectorMap.TryGetValue(method.SelectorAccessor, out string? objcSel))
+            selectorObjC = method.Selector;
+
+            string selectorBaseName = selectorObjC.Contains(':')
+                ? selectorObjC[..selectorObjC.IndexOf(':')]
+                : selectorObjC;
+
+            if (hasZeroParamVersion.Contains(cppName) && method.Parameters.Count > 0)
             {
-                selectorObjC = objcSel;
+                csMethodName = TypeMapper.ToPascalCase(selectorBaseName);
             }
             else
             {
-                selectorObjC = method.SelectorAccessor.Replace('_', ':');
+                csMethodName = TypeMapper.ToPascalCase(cppName);
             }
+        }
+        else if (method.SelectorAccessor != null)
+        {
+            selectorObjC = method.SelectorAccessor.Replace('_', ':');
 
             string selectorBaseName = selectorObjC.Contains(':')
                 ? selectorObjC[..selectorObjC.IndexOf(':')]

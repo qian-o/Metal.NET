@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Base type for descriptors you use for building pipeline state objects.
-/// </summary>
 public class MTL4PipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineDescriptor>
 {
     #region INativeObject
@@ -18,26 +15,39 @@ public class MTL4PipelineDescriptor(nint nativePtr, NativeObjectOwnership owners
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Assigns an optional string that uniquely identifies a pipeline descriptor.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetLabel, value);
     }
 
-    /// <summary>
-    /// Provides compile-time options when you build the pipeline.
-    /// </summary>
     public MTL4PipelineOptions Options
     {
         get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Options);
         set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetOptions, value);
     }
-    #endregion
+
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetLabel, value);
+    }
+
+    public MTL4PipelineOptions Options
+    {
+        get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Options);
+        set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetOptions, value);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetLabel, label.NativePtr);
+    }
+
+    public void SetOptions(MTL4PipelineOptions options)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetOptions, options.NativePtr);
+    }
 }
 
 file static class MTL4PipelineDescriptorBindings

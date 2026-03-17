@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolator(nint nativePtr, NativeObjectOwnership ownership) : MTLFXFrameInterpolatorBase(nativePtr, ownership), INativeObject<MTLFXFrameInterpolator>
+public class MTLFXFrameInterpolator(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolator>
 {
     #region INativeObject
     public static new MTLFXFrameInterpolator Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -11,16 +11,10 @@ public class MTLFXFrameInterpolator(nint nativePtr, NativeObjectOwnership owners
     }
     #endregion
 
-    #region Instance Methods - Methods
-
-    /// <summary>
-    /// Encode this frame interpolator’s work into a command buffer.
-    /// </summary>
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
-    #endregion
 }
 
 file static class MTLFXFrameInterpolatorBindings

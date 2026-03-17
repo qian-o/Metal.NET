@@ -68,7 +68,8 @@ partial class TypeMapper(GeneratorContext context)
 
     /// <summary>
     /// Maps a C++ type string to a C# type name.
-    /// Handles pointers, namespaced types (e.g., MTL::Device*), and special aliases.
+    /// Handles pointers, namespaced types (e.g., MTL::Device*), ObjC types (e.g., MTLDevice*),
+    /// and special aliases.
     /// </summary>
     public static string MapCppType(string cppType, string defaultNs)
     {
@@ -105,6 +106,10 @@ partial class TypeMapper(GeneratorContext context)
             "NS::Integer" when isPointer => "nint",
             "NS::UInteger" => "nuint",
             "NS::Integer" => "nint",
+            "NSUInteger" when isPointer => "nint",
+            "NSInteger" when isPointer => "nint",
+            "NSUInteger" => "nuint",
+            "NSInteger" => "nint",
             "uint32_t" => "uint",
             "int32_t" => "int",
             "uint8_t" => "byte",
@@ -115,7 +120,7 @@ partial class TypeMapper(GeneratorContext context)
             "int64_t" or "std::int64_t" => "long",
             "float" => "float",
             "double" => "double",
-            "bool" => "bool",
+            "bool" or "BOOL" => "bool",
             "char" when isPointer => "nint",
             "IOSurfaceRef" => "nint",
             "dispatch_queue_t" => "DispatchQueue",
@@ -123,7 +128,10 @@ partial class TypeMapper(GeneratorContext context)
             "CGColorSpaceRef" => "CGColorSpace",
             "CFTimeInterval" => "double",
             "CGSize" => "CGSize",
+            "CGFloat" => "double",
             "simd::float4x4" => "SimdFloat4x4",
+            "MTLGPUAddress" => "nuint",
+            "MTLCoordinate2D" => "MTLSamplePosition",
             _ => null
         };
         if (simple != null)
@@ -191,8 +199,9 @@ partial class TypeMapper(GeneratorContext context)
                 return "nint";
             }
 
-            string prefix = GetPrefix(defaultNs);
-            return prefix + t;
+            // ObjC types: the type name already has a prefix (e.g., MTLDevice, NSString)
+            // Just return it as-is since it matches the C# class name
+            return t;
         }
 
         return "nint";

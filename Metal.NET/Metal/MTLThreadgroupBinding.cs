@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLThreadgroupBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLThreadgroupBinding>
+public class MTLThreadgroupBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLThreadgroupBinding>
 {
     #region INativeObject
     public static new MTLThreadgroupBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -11,7 +11,15 @@ public class MTLThreadgroupBinding(nint nativePtr, NativeObjectOwnership ownersh
     }
     #endregion
 
-    #region Instance Properties - Properties
+    public nuint ThreadgroupMemoryAlignment
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryAlignment);
+    }
+
+    public nuint ThreadgroupMemoryDataSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryDataSize);
+    }
 
     public nuint ThreadgroupMemoryAlignment
     {
@@ -22,7 +30,6 @@ public class MTLThreadgroupBinding(nint nativePtr, NativeObjectOwnership ownersh
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryDataSize);
     }
-    #endregion
 }
 
 file static class MTLThreadgroupBindingBindings

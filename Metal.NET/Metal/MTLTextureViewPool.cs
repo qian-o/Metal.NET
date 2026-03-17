@@ -1,9 +1,6 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A pool of lightweight texture views.
-/// </summary>
-public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership) : MTLResourceViewPool(nativePtr, ownership), INativeObject<MTLTextureViewPool>
+public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTextureViewPool>
 {
     #region INativeObject
     public static new MTLTextureViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -14,24 +11,19 @@ public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership)
     }
     #endregion
 
-    #region Instance Methods - Methods
+    public MTLTextureViewPool() : this(ObjectiveC.AllocInit(MTLTextureViewPoolBindings.Class), NativeObjectOwnership.Managed)
+    {
+    }
 
-    /// <summary>
-    /// Creates a new lightweight texture view of a buffer.
-    /// </summary>
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
         return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureView, texture.NativePtr, index);
     }
 
-    /// <summary>
-    /// Creates a new lightweight texture view of a buffer.
-    /// </summary>
     public MTLResourceID SetTextureView(MTLTexture texture, MTLTextureViewDescriptor descriptor, nuint index)
     {
         return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewdescriptoratIndex, texture.NativePtr, descriptor.NativePtr, index);
     }
-    #endregion
 
     public MTLResourceID SetTextureViewFromBuffer(MTLBuffer buffer, MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow, nuint index)
     {
@@ -41,6 +33,8 @@ public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership)
 
 file static class MTLTextureViewPoolBindings
 {
+    public static readonly nint Class = ObjectiveC.GetClass("MTLTextureViewPool");
+
     public static readonly Selector SetTextureView = "setTextureView:atIndex:";
 
     public static readonly Selector SetTextureViewdescriptoratIndex = "setTextureView:descriptor:atIndex:";

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A reference to an asynchronous compilation task that you initiate from a compiler instance.
-/// </summary>
 public class MTL4CompilerTask(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CompilerTask>
 {
     #region INativeObject
@@ -14,24 +11,25 @@ public class MTL4CompilerTask(nint nativePtr, NativeObjectOwnership ownership) :
     }
     #endregion
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Returns the compiler instance that this asynchronous compiler task belongs to.
-    /// </summary>
     public MTL4Compiler Compiler
     {
         get => GetProperty(ref field, MTL4CompilerTaskBindings.Compiler);
     }
 
-    /// <summary>
-    /// Returns the compiler task status.
-    /// </summary>
     public MTL4CompilerTaskStatus Status
     {
         get => (MTL4CompilerTaskStatus)ObjectiveC.MsgSendLong(NativePtr, MTL4CompilerTaskBindings.Status);
     }
-    #endregion
+
+    public MTL4Compiler Compiler
+    {
+        get => GetProperty(ref field, MTL4CompilerTaskBindings.Compiler);
+    }
+
+    public MTL4CompilerTaskStatus Status
+    {
+        get => (MTL4CompilerTaskStatus)ObjectiveC.MsgSendLong(NativePtr, MTL4CompilerTaskBindings.Status);
+    }
 
     public void WaitUntilCompleted()
     {

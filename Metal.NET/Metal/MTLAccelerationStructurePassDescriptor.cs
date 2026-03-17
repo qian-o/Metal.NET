@@ -15,13 +15,15 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObject
     {
     }
 
-    #region Instance Properties - Properties
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
+    {
+        get => GetProperty(ref field, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
+    }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
         get => GetProperty(ref field, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
     }
-    #endregion
 
     public static MTLAccelerationStructurePassDescriptor AccelerationStructurePassDescriptor()
     {

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of where to store GPU counter information at the start and end of a render pass.
-/// </summary>
 public class MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassSampleBufferAttachmentDescriptor>
 {
     #region INativeObject
@@ -18,53 +15,90 @@ public class MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr, Nativ
     {
     }
 
-    #region Configuring the sample buffer attachment - Properties
-
-    /// <summary>
-    /// A specialized memory buffer that the GPU uses to store its counter data during the render pass.
-    /// </summary>
     public MTLCounterSampleBuffer SampleBuffer
     {
         get => GetProperty(ref field, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
         set => SetProperty(ref field, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 
-    /// <summary>
-    /// The index the Metal device object should use to store GPU counters when starting the render pass’s vertex stage.
-    /// </summary>
     public nuint StartOfVertexSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.StartOfVertexSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfVertexSampleIndex, value);
     }
 
-    /// <summary>
-    /// The index the Metal device object should use to store GPU counters when ending the render pass’s vertex stage.
-    /// </summary>
     public nuint EndOfVertexSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.EndOfVertexSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfVertexSampleIndex, value);
     }
 
-    /// <summary>
-    /// The index the Metal device object should use to store GPU counters when starting the render pass’s fragment stage.
-    /// </summary>
     public nuint StartOfFragmentSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.StartOfFragmentSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfFragmentSampleIndex, value);
     }
 
-    /// <summary>
-    /// The index the Metal device object should use to store GPU counters when ending the render pass’s fragment stage.
-    /// </summary>
     public nuint EndOfFragmentSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.EndOfFragmentSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfFragmentSampleIndex, value);
     }
-    #endregion
+
+    public MTLCounterSampleBuffer SampleBuffer
+    {
+        get => GetProperty(ref field, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
+        set => SetProperty(ref field, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
+    }
+
+    public nuint StartOfVertexSampleIndex
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.StartOfVertexSampleIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfVertexSampleIndex, value);
+    }
+
+    public nuint EndOfVertexSampleIndex
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.EndOfVertexSampleIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfVertexSampleIndex, value);
+    }
+
+    public nuint StartOfFragmentSampleIndex
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.StartOfFragmentSampleIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfFragmentSampleIndex, value);
+    }
+
+    public nuint EndOfFragmentSampleIndex
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.EndOfFragmentSampleIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfFragmentSampleIndex, value);
+    }
+
+    public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, sampleBuffer.NativePtr);
+    }
+
+    public void SetStartOfVertexSampleIndex(nuint startOfVertexSampleIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfVertexSampleIndex, startOfVertexSampleIndex);
+    }
+
+    public void SetEndOfVertexSampleIndex(nuint endOfVertexSampleIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfVertexSampleIndex, endOfVertexSampleIndex);
+    }
+
+    public void SetStartOfFragmentSampleIndex(nuint startOfFragmentSampleIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfFragmentSampleIndex, startOfFragmentSampleIndex);
+    }
+
+    public void SetEndOfFragmentSampleIndex(nuint endOfFragmentSampleIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfFragmentSampleIndex, endOfFragmentSampleIndex);
+    }
 }
 
 file static class MTLRenderPassSampleBufferAttachmentDescriptorBindings

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A group of render targets that hold the results of a render pass.
-/// </summary>
 public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassDescriptor>
 {
     #region INativeObject
@@ -18,202 +15,279 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
     {
     }
 
-    #region Specifying the attachments for a rendering pass - Properties
-
-    /// <summary>
-    /// An array of state information for attachments that store color data.
-    /// </summary>
     public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.ColorAttachments);
     }
 
-    /// <summary>
-    /// State information for an attachment that stores depth data.
-    /// </summary>
     public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.DepthAttachment);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetDepthAttachment, value);
     }
 
-    /// <summary>
-    /// State information for an attachment that stores stencil data.
-    /// </summary>
     public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.StencilAttachment);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetStencilAttachment, value);
     }
-    #endregion
 
-    #region Specifying the visibility result buffer - Properties
-
-    /// <summary>
-    /// A buffer where the GPU writes visibility test results when fragments pass depth and stencil tests.
-    /// </summary>
     public MTLBuffer VisibilityResultBuffer
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.VisibilityResultBuffer);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
     }
-    #endregion
 
-    #region Layered rendering - Properties
-
-    /// <summary>
-    /// The number of active layers that all attachments need to have for layered rendering.
-    /// </summary>
     public nuint RenderTargetArrayLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetArrayLength);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetArrayLength, value);
     }
 
-    /// <summary>
-    /// The width, in pixels, to constrain the render target to.
-    /// </summary>
-    public nuint RenderTargetWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetWidth, value);
-    }
-
-    /// <summary>
-    /// The height, in pixels, to constrain the render target to.
-    /// </summary>
-    public nuint RenderTargetHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetHeight, value);
-    }
-    #endregion
-
-    #region Specifying tile shading parameters - Properties
-
-    /// <summary>
-    /// The per-sample size, in bytes, of the largest explicit imageblock layout in the render pass.
-    /// </summary>
     public nuint ImageblockSampleLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.ImageblockSampleLength);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetImageblockSampleLength, value);
     }
 
-    /// <summary>
-    /// The per-tile size, in bytes, of the persistent threadgroup memory allocation.
-    /// </summary>
     public nuint ThreadgroupMemoryLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.ThreadgroupMemoryLength);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetThreadgroupMemoryLength, value);
     }
 
-    /// <summary>
-    /// The tile width, in pixels.
-    /// </summary>
     public nuint TileWidth
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.TileWidth);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileWidth, value);
     }
 
-    /// <summary>
-    /// The tile height, in pixels.
-    /// </summary>
     public nuint TileHeight
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.TileHeight);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileHeight, value);
     }
-    #endregion
 
-    #region Specifying sample counts - Properties
-
-    /// <summary>
-    /// The raster sample count for the render pass when the render pass doesn’t have explicit attachments.
-    /// </summary>
     public nuint DefaultRasterSampleCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.DefaultRasterSampleCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDefaultRasterSampleCount, value);
     }
-    #endregion
 
-    #region Specifying a rasterization rate map - Properties
+    public nuint RenderTargetWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetWidth, value);
+    }
 
-    /// <summary>
-    /// The rasterization rate map to use when executing the render pass.
-    /// </summary>
+    public nuint RenderTargetHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetHeight);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetHeight, value);
+    }
+
     public MTLRasterizationRateMap RasterizationRateMap
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.RasterizationRateMap);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, value);
     }
-    #endregion
 
-    #region Specifying sample buffers for GPU counters - Properties
-
-    /// <summary>
-    /// The array of sample buffers that the render pass can access.
-    /// </summary>
     public MTLRenderPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.SampleBufferAttachments);
     }
-    #endregion
 
-    #region Instance Properties - Properties
+    public MTLVisibilityResultType VisibilityResultType
+    {
+        get => (MTLVisibilityResultType)ObjectiveC.MsgSendLong(NativePtr, MTLRenderPassDescriptorBindings.VisibilityResultType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultType, (nint)value);
+    }
 
-    /// <summary>
-    /// Specifies if the render pass should support color attachment mapping.
-    /// </summary>
     public Bool8 SupportColorAttachmentMapping
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPassDescriptorBindings.SupportColorAttachmentMapping);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
-    /// <summary>
-    /// Specifies if Metal accumulates visibility results between render encoders or resets them.
-    /// </summary>
+    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
+    {
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.ColorAttachments);
+    }
+
+    public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
+    {
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.DepthAttachment);
+        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetDepthAttachment, value);
+    }
+
+    public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
+    {
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.StencilAttachment);
+        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetStencilAttachment, value);
+    }
+
+    public MTLBuffer VisibilityResultBuffer
+    {
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.VisibilityResultBuffer);
+        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
+    }
+
+    public nuint RenderTargetArrayLength
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetArrayLength);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetArrayLength, value);
+    }
+
+    public nuint ImageblockSampleLength
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.ImageblockSampleLength);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetImageblockSampleLength, value);
+    }
+
+    public nuint ThreadgroupMemoryLength
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.ThreadgroupMemoryLength);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetThreadgroupMemoryLength, value);
+    }
+
+    public nuint TileWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.TileWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileWidth, value);
+    }
+
+    public nuint TileHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.TileHeight);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileHeight, value);
+    }
+
+    public nuint DefaultRasterSampleCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.DefaultRasterSampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDefaultRasterSampleCount, value);
+    }
+
+    public nuint RenderTargetWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetWidth, value);
+    }
+
+    public nuint RenderTargetHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetHeight);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetHeight, value);
+    }
+
+    public MTLRasterizationRateMap RasterizationRateMap
+    {
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.RasterizationRateMap);
+        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, value);
+    }
+
+    public MTLRenderPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
+    {
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.SampleBufferAttachments);
+    }
+
     public MTLVisibilityResultType VisibilityResultType
     {
         get => (MTLVisibilityResultType)ObjectiveC.MsgSendLong(NativePtr, MTLRenderPassDescriptorBindings.VisibilityResultType);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultType, (nint)value);
     }
-    #endregion
 
-    #region Using programmable sample positions - Methods
-
-    /// <summary>
-    /// Sets the programmable sample positions for a render pass.
-    /// </summary>
-    public unsafe void SetSamplePositions(MTLSamplePosition[] positions)
+    public Bool8 SupportColorAttachmentMapping
     {
-        fixed (MTLSamplePosition* pPositions = positions)
-        {
-            ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSamplePositions, (nint)pPositions, (nuint)positions.Length);
-        }
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPassDescriptorBindings.SupportColorAttachmentMapping);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
-    /// <summary>
-    /// Returns the programmable sample positions set for a render pass.
-    /// </summary>
-    public unsafe nuint GetSamplePositions(MTLSamplePosition[] positions)
+    public void SetDepthAttachment(MTLRenderPassDepthAttachmentDescriptor depthAttachment)
     {
-        fixed (MTLSamplePosition* pPositions = positions)
-        {
-            return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositions, (nint)pPositions, (nuint)positions.Length);
-        }
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDepthAttachment, depthAttachment.NativePtr);
     }
-    #endregion
+
+    public void SetStencilAttachment(MTLRenderPassStencilAttachmentDescriptor stencilAttachment)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetStencilAttachment, stencilAttachment.NativePtr);
+    }
+
+    public void SetVisibilityResultBuffer(MTLBuffer visibilityResultBuffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, visibilityResultBuffer.NativePtr);
+    }
+
+    public void SetRenderTargetArrayLength(nuint renderTargetArrayLength)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetArrayLength, renderTargetArrayLength);
+    }
+
+    public void SetImageblockSampleLength(nuint imageblockSampleLength)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetImageblockSampleLength, imageblockSampleLength);
+    }
+
+    public void SetThreadgroupMemoryLength(nuint threadgroupMemoryLength)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetThreadgroupMemoryLength, threadgroupMemoryLength);
+    }
+
+    public void SetTileWidth(nuint tileWidth)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileWidth, tileWidth);
+    }
+
+    public void SetTileHeight(nuint tileHeight)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileHeight, tileHeight);
+    }
+
+    public void SetDefaultRasterSampleCount(nuint defaultRasterSampleCount)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDefaultRasterSampleCount, defaultRasterSampleCount);
+    }
+
+    public void SetRenderTargetWidth(nuint renderTargetWidth)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetWidth, renderTargetWidth);
+    }
+
+    public void SetRenderTargetHeight(nuint renderTargetHeight)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetHeight, renderTargetHeight);
+    }
+
+    public void SetRasterizationRateMap(MTLRasterizationRateMap rasterizationRateMap)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, rasterizationRateMap.NativePtr);
+    }
+
+    public void SetVisibilityResultType(MTLVisibilityResultType visibilityResultType)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultType, (nint)visibilityResultType);
+    }
+
+    public void SetSupportColorAttachmentMapping(bool supportColorAttachmentMapping)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, supportColorAttachmentMapping);
+    }
 
     public static MTLRenderPassDescriptor RenderPassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSamplePositions, positions, count);
+    }
+
+    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
+    {
+        return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositions, positions, count);
     }
 }
 

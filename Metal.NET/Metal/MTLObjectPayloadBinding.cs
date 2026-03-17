@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLObjectPayloadBinding>
+public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLObjectPayloadBinding>
 {
     #region INativeObject
     public static new MTLObjectPayloadBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -11,7 +11,15 @@ public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership owner
     }
     #endregion
 
-    #region Instance Properties - Properties
+    public nuint ObjectPayloadAlignment
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadAlignment);
+    }
+
+    public nuint ObjectPayloadDataSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadDataSize);
+    }
 
     public nuint ObjectPayloadAlignment
     {
@@ -22,7 +30,6 @@ public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership owner
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadDataSize);
     }
-    #endregion
 }
 
 file static class MTLObjectPayloadBindingBindings

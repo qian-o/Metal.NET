@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Base class for all Metal 4 acceleration structure geometry descriptors.
-/// </summary>
 public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
 {
     #region INativeObject
@@ -18,71 +15,124 @@ public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, NativeO
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// A boolean value that indicates whether the ray-tracing system in Metal allows the invocation of intersection functions more than once per ray-primitive intersection.
-    /// </summary>
-    public Bool8 AllowDuplicateIntersectionFunctionInvocation
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.AllowDuplicateIntersectionFunctionInvocation);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, value);
-    }
-
-    /// <summary>
-    /// Sets the offset that this geometry contributes to determining the intersection function to invoke when a ray intersects it.
-    /// </summary>
     public nuint IntersectionFunctionTableOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.IntersectionFunctionTableOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetIntersectionFunctionTableOffset, value);
     }
 
-    /// <summary>
-    /// Assigns an optional label you can assign to this geometry for debugging purposes.
-    /// </summary>
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, value);
-    }
-
-    /// <summary>
-    /// Provides a hint to Metal that this geometry is opaque, potentially accelerating the ray/primitive intersection process.
-    /// </summary>
     public Bool8 Opaque
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.Opaque);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetOpaque, value);
     }
 
-    /// <summary>
-    /// Assigns optional buffer containing data to associate with each primitive in this geometry.
-    /// </summary>
+    public Bool8 AllowDuplicateIntersectionFunctionInvocation
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.AllowDuplicateIntersectionFunctionInvocation);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, value);
+    }
+
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, value);
+    }
+
     public MTL4BufferRange PrimitiveDataBuffer
     {
         get => ObjectiveC.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, value);
     }
 
-    /// <summary>
-    /// Sets the size, in bytes, of the data for each primitive in the primitive data buffer  references.
-    /// </summary>
+    public nuint PrimitiveDataStride
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.PrimitiveDataStride);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataStride, value);
+    }
+
     public nuint PrimitiveDataElementSize
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.PrimitiveDataElementSize);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataElementSize, value);
     }
 
-    /// <summary>
-    /// Defines the stride, in bytes, between each primitive’s data in the primitive data buffer  references.
-    /// </summary>
+    public nuint IntersectionFunctionTableOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.IntersectionFunctionTableOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetIntersectionFunctionTableOffset, value);
+    }
+
+    public Bool8 Opaque
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.Opaque);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetOpaque, value);
+    }
+
+    public Bool8 AllowDuplicateIntersectionFunctionInvocation
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.AllowDuplicateIntersectionFunctionInvocation);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, value);
+    }
+
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, value);
+    }
+
+    public MTL4BufferRange PrimitiveDataBuffer
+    {
+        get => ObjectiveC.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, value);
+    }
+
     public nuint PrimitiveDataStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.PrimitiveDataStride);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataStride, value);
     }
-    #endregion
+
+    public nuint PrimitiveDataElementSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.PrimitiveDataElementSize);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataElementSize, value);
+    }
+
+    public void SetIntersectionFunctionTableOffset(nuint intersectionFunctionTableOffset)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetIntersectionFunctionTableOffset, intersectionFunctionTableOffset);
+    }
+
+    public void SetOpaque(bool opaque)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetOpaque, opaque);
+    }
+
+    public void SetAllowDuplicateIntersectionFunctionInvocation(bool allowDuplicateIntersectionFunctionInvocation)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, allowDuplicateIntersectionFunctionInvocation);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, label.NativePtr);
+    }
+
+    public void SetPrimitiveDataBuffer(MTL4BufferRange primitiveDataBuffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, primitiveDataBuffer);
+    }
+
+    public void SetPrimitiveDataStride(nuint primitiveDataStride)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataStride, primitiveDataStride);
+    }
+
+    public void SetPrimitiveDataElementSize(nuint primitiveDataElementSize)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataElementSize, primitiveDataElementSize);
+    }
 }
 
 file static class MTL4AccelerationStructureGeometryDescriptorBindings

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Descriptions for the rasterization rates to apply to the set of layers in a rate map.
-/// </summary>
 public class MTLRasterizationRateLayerArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateLayerArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, NativeObjectOwnershi
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLRasterizationRateLayerArray() : this(ObjectiveC.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLRasterizationRateLayerDescriptor this[nuint layerIndex]
     {
@@ -35,8 +28,6 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, NativeObjectOwnershi
 
 file static class MTLRasterizationRateLayerArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLRasterizationRateLayerArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

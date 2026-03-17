@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of where to store GPU counter information at the start and end of a resource state pass.
-/// </summary>
 public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceStatePassSampleBufferAttachmentDescriptor>
 {
     #region INativeObject
@@ -18,35 +15,56 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr
     {
     }
 
-    #region Configuring the sample buffer attachment - Properties
-
-    /// <summary>
-    /// A specialized memory buffer that the GPU uses to store its counter data during the resource state pass.
-    /// </summary>
     public MTLCounterSampleBuffer SampleBuffer
     {
         get => GetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
         set => SetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 
-    /// <summary>
-    /// The index the Metal device object should use to store GPU counters when starting the resource state pass.
-    /// </summary>
     public nuint StartOfEncoderSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
     }
 
-    /// <summary>
-    /// The index the Metal device object should use to store GPU counters when ending the resource state pass.
-    /// </summary>
     public nuint EndOfEncoderSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
-    #endregion
+
+    public MTLCounterSampleBuffer SampleBuffer
+    {
+        get => GetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
+        set => SetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
+    }
+
+    public nuint StartOfEncoderSampleIndex
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
+    }
+
+    public nuint EndOfEncoderSampleIndex
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
+    }
+
+    public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, sampleBuffer.NativePtr);
+    }
+
+    public void SetStartOfEncoderSampleIndex(nuint startOfEncoderSampleIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, startOfEncoderSampleIndex);
+    }
+
+    public void SetEndOfEncoderSampleIndex(nuint endOfEncoderSampleIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, endOfEncoderSampleIndex);
+    }
 }
 
 file static class MTLResourceStatePassSampleBufferAttachmentDescriptorBindings

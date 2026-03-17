@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Provides options controlling how to compile a pipeline state.
-/// </summary>
 public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineOptions>
 {
     #region INativeObject
@@ -18,26 +15,39 @@ public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership
     {
     }
 
-    #region Instance Properties - Properties
+    public MTLShaderValidation ShaderValidation
+    {
+        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTL4PipelineOptionsBindings.ShaderValidation);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderValidation, (nint)value);
+    }
 
-    /// <summary>
-    /// Controls whether to include Metal shader reflection in this pipeline.
-    /// </summary>
     public MTL4ShaderReflection ShaderReflection
     {
         get => (MTL4ShaderReflection)ObjectiveC.MsgSendULong(NativePtr, MTL4PipelineOptionsBindings.ShaderReflection);
         set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)value);
     }
 
-    /// <summary>
-    /// Controls whether to enable or disable Metal Shader Validation for the pipeline.
-    /// </summary>
     public MTLShaderValidation ShaderValidation
     {
         get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTL4PipelineOptionsBindings.ShaderValidation);
         set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderValidation, (nint)value);
     }
-    #endregion
+
+    public MTL4ShaderReflection ShaderReflection
+    {
+        get => (MTL4ShaderReflection)ObjectiveC.MsgSendULong(NativePtr, MTL4PipelineOptionsBindings.ShaderReflection);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)value);
+    }
+
+    public void SetShaderValidation(MTLShaderValidation shaderValidation)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderValidation, (nint)shaderValidation);
+    }
+
+    public void SetShaderReflection(MTL4ShaderReflection shaderReflection)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)shaderReflection);
+    }
 }
 
 file static class MTL4PipelineOptionsBindings

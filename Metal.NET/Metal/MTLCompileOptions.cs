@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Compilation settings for a Metal shader library.
-/// </summary>
 public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCompileOptions>
 {
     #region INativeObject
@@ -18,124 +15,68 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
     {
     }
 
-    #region Configuring the compiler options - Properties
-
     /// <summary>
-    /// A Boolean value that enables shader logging.
+    /// Deprecated: Use mathMode instead
     /// </summary>
-    public Bool8 EnableLogging
+    [Obsolete("Use mathMode instead")]
+    public Bool8 FastMathEnabled
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.EnableLogging);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.FastMathEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, value);
     }
 
-    /// <summary>
-    /// An indication of whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard.
-    /// </summary>
     public MTLMathMode MathMode
     {
         get => (MTLMathMode)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.MathMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathMode, (nint)value);
     }
 
-    /// <summary>
-    /// The FP32 math functions Metal uses.
-    /// </summary>
     public MTLMathFloatingPointFunctions MathFloatingPointFunctions
     {
         get => (MTLMathFloatingPointFunctions)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.MathFloatingPointFunctions);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathFloatingPointFunctions, (nint)value);
     }
 
-    /// <summary>
-    /// A Boolean value that indicates whether the compiler compiles vertex shaders conservatively to generate consistent position calculations.
-    /// </summary>
-    public Bool8 PreserveInvariance
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.PreserveInvariance);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, value);
-    }
-
-    /// <summary>
-    /// The language version for interpreting the library source code.
-    /// </summary>
     public MTLLanguageVersion LanguageVersion
     {
         get => (MTLLanguageVersion)ObjectiveC.MsgSendULong(NativePtr, MTLCompileOptionsBindings.LanguageVersion);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
     }
 
-    /// <summary>
-    /// A list of preprocessor macros to apply when compiling the library source.
-    /// </summary>
-    public NSDictionary PreprocessorMacros
-    {
-        get => GetProperty(ref field, MTLCompileOptionsBindings.PreprocessorMacros);
-        set => SetProperty(ref field, MTLCompileOptionsBindings.SetPreprocessorMacros, value);
-    }
-
-    /// <summary>
-    /// An option that tells the compiler what to prioritize when it compiles Metal shader code.
-    /// </summary>
-    public MTLLibraryOptimizationLevel OptimizationLevel
-    {
-        get => (MTLLibraryOptimizationLevel)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.OptimizationLevel);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
-    }
-
-    /// <summary>
-    /// An array of dynamic libraries the Metal compiler links against.
-    /// </summary>
-    public MTLDynamicLibrary[] Libraries
-    {
-        get => GetArrayProperty<MTLDynamicLibrary>(MTLCompileOptionsBindings.Libraries);
-        set => SetArrayProperty(MTLCompileOptionsBindings.SetLibraries, value);
-    }
-
-    /// <summary>
-    /// A Boolean value that indicates whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard.
-    /// </summary>
-    [Obsolete("Use mathMode instead.")]
-    public Bool8 FastMathEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.FastMathEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, value);
-    }
-    #endregion
-
-    #region Configuring the library output options - Properties
-
-    /// <summary>
-    /// The kind of library to create.
-    /// </summary>
     public MTLLibraryType LibraryType
     {
         get => (MTLLibraryType)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.LibraryType);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraryType, (nint)value);
     }
 
-    /// <summary>
-    /// For a dynamic library, the name to use when installing the library.
-    /// </summary>
     public NSString InstallName
     {
         get => GetProperty(ref field, MTLCompileOptionsBindings.InstallName);
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetInstallName, value);
     }
-    #endregion
 
-    #region Instance Properties - Properties
-
-    public Bool8 AllowReferencingUndefinedSymbols
+    public Bool8 PreserveInvariance
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.AllowReferencingUndefinedSymbols);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.PreserveInvariance);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, value);
+    }
+
+    public MTLLibraryOptimizationLevel OptimizationLevel
+    {
+        get => (MTLLibraryOptimizationLevel)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.OptimizationLevel);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
     }
 
     public MTLCompileSymbolVisibility CompileSymbolVisibility
     {
         get => (MTLCompileSymbolVisibility)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.CompileSymbolVisibility);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetCompileSymbolVisibility, (nint)value);
+    }
+
+    public Bool8 AllowReferencingUndefinedSymbols
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.AllowReferencingUndefinedSymbols);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -149,7 +90,159 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLCompileOptionsBindings.RequiredThreadsPerThreadgroup);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetRequiredThreadsPerThreadgroup, value);
     }
-    #endregion
+
+    public Bool8 EnableLogging
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.EnableLogging);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, value);
+    }
+
+    public Bool8 FastMathEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.FastMathEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, value);
+    }
+
+    public MTLMathMode MathMode
+    {
+        get => (MTLMathMode)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.MathMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathMode, (nint)value);
+    }
+
+    public MTLMathFloatingPointFunctions MathFloatingPointFunctions
+    {
+        get => (MTLMathFloatingPointFunctions)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.MathFloatingPointFunctions);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathFloatingPointFunctions, (nint)value);
+    }
+
+    public MTLLanguageVersion LanguageVersion
+    {
+        get => (MTLLanguageVersion)ObjectiveC.MsgSendULong(NativePtr, MTLCompileOptionsBindings.LanguageVersion);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
+    }
+
+    public MTLLibraryType LibraryType
+    {
+        get => (MTLLibraryType)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.LibraryType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraryType, (nint)value);
+    }
+
+    public NSString InstallName
+    {
+        get => GetProperty(ref field, MTLCompileOptionsBindings.InstallName);
+        set => SetProperty(ref field, MTLCompileOptionsBindings.SetInstallName, value);
+    }
+
+    public Bool8 PreserveInvariance
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.PreserveInvariance);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, value);
+    }
+
+    public MTLLibraryOptimizationLevel OptimizationLevel
+    {
+        get => (MTLLibraryOptimizationLevel)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.OptimizationLevel);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
+    }
+
+    public MTLCompileSymbolVisibility CompileSymbolVisibility
+    {
+        get => (MTLCompileSymbolVisibility)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.CompileSymbolVisibility);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetCompileSymbolVisibility, (nint)value);
+    }
+
+    public Bool8 AllowReferencingUndefinedSymbols
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.AllowReferencingUndefinedSymbols);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, value);
+    }
+
+    public nuint MaxTotalThreadsPerThreadgroup
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCompileOptionsBindings.MaxTotalThreadsPerThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMaxTotalThreadsPerThreadgroup, value);
+    }
+
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLCompileOptionsBindings.RequiredThreadsPerThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetRequiredThreadsPerThreadgroup, value);
+    }
+
+    public Bool8 EnableLogging
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.EnableLogging);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, value);
+    }
+
+    /// <summary>
+    /// Deprecated: Use mathMode instead
+    /// </summary>
+    [Obsolete("Use mathMode instead")]
+    public void SetFastMathEnabled(bool fastMathEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, fastMathEnabled);
+    }
+
+    public void SetMathMode(MTLMathMode mathMode)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathMode, (nint)mathMode);
+    }
+
+    public void SetMathFloatingPointFunctions(MTLMathFloatingPointFunctions mathFloatingPointFunctions)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathFloatingPointFunctions, (nint)mathFloatingPointFunctions);
+    }
+
+    public void SetLanguageVersion(MTLLanguageVersion languageVersion)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)languageVersion);
+    }
+
+    public void SetLibraryType(MTLLibraryType libraryType)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraryType, (nint)libraryType);
+    }
+
+    public void SetInstallName(NSString installName)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetInstallName, installName.NativePtr);
+    }
+
+    public void SetPreserveInvariance(bool preserveInvariance)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, preserveInvariance);
+    }
+
+    public void SetOptimizationLevel(MTLLibraryOptimizationLevel optimizationLevel)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)optimizationLevel);
+    }
+
+    public void SetCompileSymbolVisibility(MTLCompileSymbolVisibility compileSymbolVisibility)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetCompileSymbolVisibility, (nint)compileSymbolVisibility);
+    }
+
+    public void SetAllowReferencingUndefinedSymbols(bool allowReferencingUndefinedSymbols)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, allowReferencingUndefinedSymbols);
+    }
+
+    public void SetMaxTotalThreadsPerThreadgroup(nuint maxTotalThreadsPerThreadgroup)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMaxTotalThreadsPerThreadgroup, maxTotalThreadsPerThreadgroup);
+    }
+
+    public void SetRequiredThreadsPerThreadgroup(MTLSize requiredThreadsPerThreadgroup)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetRequiredThreadsPerThreadgroup, requiredThreadsPerThreadgroup);
+    }
+
+    public void SetEnableLogging(bool enableLogging)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, enableLogging);
+    }
 }
 
 file static class MTLCompileOptionsBindings
@@ -168,8 +261,6 @@ file static class MTLCompileOptionsBindings
 
     public static readonly Selector LanguageVersion = "languageVersion";
 
-    public static readonly Selector Libraries = "libraries";
-
     public static readonly Selector LibraryType = "libraryType";
 
     public static readonly Selector MathFloatingPointFunctions = "mathFloatingPointFunctions";
@@ -179,8 +270,6 @@ file static class MTLCompileOptionsBindings
     public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
     public static readonly Selector OptimizationLevel = "optimizationLevel";
-
-    public static readonly Selector PreprocessorMacros = "preprocessorMacros";
 
     public static readonly Selector PreserveInvariance = "preserveInvariance";
 
@@ -198,8 +287,6 @@ file static class MTLCompileOptionsBindings
 
     public static readonly Selector SetLanguageVersion = "setLanguageVersion:";
 
-    public static readonly Selector SetLibraries = "setLibraries:";
-
     public static readonly Selector SetLibraryType = "setLibraryType:";
 
     public static readonly Selector SetMathFloatingPointFunctions = "setMathFloatingPointFunctions:";
@@ -209,8 +296,6 @@ file static class MTLCompileOptionsBindings
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
     public static readonly Selector SetOptimizationLevel = "setOptimizationLevel:";
-
-    public static readonly Selector SetPreprocessorMacros = "setPreprocessorMacros:";
 
     public static readonly Selector SetPreserveInvariance = "setPreserveInvariance:";
 

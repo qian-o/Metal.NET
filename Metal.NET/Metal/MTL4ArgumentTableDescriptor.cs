@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Groups parameters for the creation of a Metal argument table.
-/// </summary>
 public class MTL4ArgumentTableDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4ArgumentTableDescriptor>
 {
     #region INativeObject
@@ -18,62 +15,107 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr, NativeObjectOwnership o
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Configures whether Metal initializes the bindings to nil values upon creation of argument table.
-    /// </summary>
-    public Bool8 InitializeBindings
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.InitializeBindings);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, value);
-    }
-
-    /// <summary>
-    /// Assigns an optional label with the argument table for debug purposes.
-    /// </summary>
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4ArgumentTableDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);
-    }
-
-    /// <summary>
-    /// Determines the number of buffer-binding slots for the argument table.
-    /// </summary>
     public nuint MaxBufferBindCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxBufferBindCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxBufferBindCount, value);
     }
 
-    /// <summary>
-    /// Determines the number of sampler state-binding slots for the argument table.
-    /// </summary>
-    public nuint MaxSamplerStateBindCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxSamplerStateBindCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxSamplerStateBindCount, value);
-    }
-
-    /// <summary>
-    /// Determines the number of texture-binding slots for the argument table.
-    /// </summary>
     public nuint MaxTextureBindCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxTextureBindCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxTextureBindCount, value);
     }
 
-    /// <summary>
-    /// Controls whether Metal should reserve memory for attribute strides in the argument table.
-    /// </summary>
+    public nuint MaxSamplerStateBindCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxSamplerStateBindCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxSamplerStateBindCount, value);
+    }
+
+    public Bool8 InitializeBindings
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.InitializeBindings);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, value);
+    }
+
     public Bool8 SupportAttributeStrides
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.SupportAttributeStrides);
         set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetSupportAttributeStrides, value);
     }
-    #endregion
+
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTL4ArgumentTableDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);
+    }
+
+    public nuint MaxBufferBindCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxBufferBindCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxBufferBindCount, value);
+    }
+
+    public nuint MaxTextureBindCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxTextureBindCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxTextureBindCount, value);
+    }
+
+    public nuint MaxSamplerStateBindCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxSamplerStateBindCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxSamplerStateBindCount, value);
+    }
+
+    public Bool8 InitializeBindings
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.InitializeBindings);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, value);
+    }
+
+    public Bool8 SupportAttributeStrides
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.SupportAttributeStrides);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetSupportAttributeStrides, value);
+    }
+
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTL4ArgumentTableDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);
+    }
+
+    public void SetMaxBufferBindCount(nuint maxBufferBindCount)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxBufferBindCount, maxBufferBindCount);
+    }
+
+    public void SetMaxTextureBindCount(nuint maxTextureBindCount)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxTextureBindCount, maxTextureBindCount);
+    }
+
+    public void SetMaxSamplerStateBindCount(nuint maxSamplerStateBindCount)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxSamplerStateBindCount, maxSamplerStateBindCount);
+    }
+
+    public void SetInitializeBindings(bool initializeBindings)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, initializeBindings);
+    }
+
+    public void SetSupportAttributeStrides(bool supportAttributeStrides)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetSupportAttributeStrides, supportAttributeStrides);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetLabel, label.NativePtr);
+    }
 }
 
 file static class MTL4ArgumentTableDescriptorBindings

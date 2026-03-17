@@ -11,290 +11,463 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
     }
     #endregion
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// The ratio between width and height of the screen.
-    /// </summary>
-    public float AspectRatio
+    public MTLTextureUsage ColorTextureUsage
     {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.AspectRatio);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetAspectRatio, value);
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTextureUsage);
     }
 
-    /// <summary>
-    /// The color texture that this frame interpolator evaluates.
-    /// </summary>
+    public MTLTextureUsage OutputTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTextureUsage);
+    }
+
+    public MTLTextureUsage DepthTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTextureUsage);
+    }
+
+    public MTLTextureUsage MotionTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTextureUsage);
+    }
+
+    public MTLTextureUsage UiTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTextureUsage);
+    }
+
+    public MTLPixelFormat ColorTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTextureFormat);
+    }
+
+    public MTLPixelFormat DepthTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTextureFormat);
+    }
+
+    public MTLPixelFormat MotionTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTextureFormat);
+    }
+
+    public MTLPixelFormat OutputTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTextureFormat);
+    }
+
+    public nuint InputWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.InputWidth);
+    }
+
+    public nuint InputHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.InputHeight);
+    }
+
+    public nuint OutputWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputWidth);
+    }
+
+    public nuint OutputHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputHeight);
+    }
+
+    public MTLPixelFormat UiTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTextureFormat);
+    }
+
     public MTLTexture ColorTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value);
     }
 
-    /// <summary>
-    /// The pixel format of the input color texture for this frame interpolator.
-    /// </summary>
-    public MTLPixelFormat ColorTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input color texture needs in order to support this frame interpolator.
-    /// </summary>
-    public MTLTextureUsage ColorTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTextureUsage);
-    }
-
-    /// <summary>
-    /// The length of the time interval, in seconds, between time of current and previous frame.
-    /// </summary>
-    public float DeltaTime
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.DeltaTime);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDeltaTime, value);
-    }
-
-    /// <summary>
-    /// The depth texture this frame interpolator evaluates.
-    /// </summary>
-    public MTLTexture DepthTexture
-    {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the input depth texture for this frame interpolator.
-    /// </summary>
-    public MTLPixelFormat DepthTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input depth texture needs in order to support this frame interpolator.
-    /// </summary>
-    public MTLTextureUsage DepthTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTextureUsage);
-    }
-
-    /// <summary>
-    /// The far plane distance that corresponds to the frustrum that renders the scene into the color buffer.
-    /// </summary>
-    public float FarPlane
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.FarPlane);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFarPlane, value);
-    }
-
-    /// <summary>
-    /// An optional fence that this frame interpolator waits for and updates.
-    /// </summary>
-    public MTLFence Fence
-    {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetFence, value);
-    }
-
-    /// <summary>
-    /// The vertical field of view angle, in degrees, of the camera that renders the scene into the color buffer.
-    /// </summary>
-    public float FieldOfView
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.FieldOfView);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFieldOfView, value);
-    }
-
-    /// <summary>
-    /// The height, in pixels, of the input color texture for the frame interpolator.
-    /// </summary>
-    public nuint InputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.InputHeight);
-    }
-
-    /// <summary>
-    /// The width, in pixels, of the input color texture for the frame interpolator.
-    /// </summary>
-    public nuint InputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.InputWidth);
-    }
-
-    /// <summary>
-    /// A Boolean value that indicates whether the depth texture uses zero to represent the farthest distance.
-    /// </summary>
-    public Bool8 IsDepthReversed
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsDepthReversed);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, value);
-    }
-
-    /// <summary>
-    /// A Boolean value that controls whether this frame interpolator interprets the color texture to include your game’s custom UI.
-    /// </summary>
-    public Bool8 IsUITextureComposited
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsUITextureComposited);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsUITextureComposited, value);
-    }
-
-    /// <summary>
-    /// The horizontal component of the subpixel sampling coordinate you use to generate the color texture input.
-    /// </summary>
-    public float JitterOffsetX
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.JitterOffsetX);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetX, value);
-    }
-
-    /// <summary>
-    /// The vertical component of the subpixel sampling coordinate you use to generate the color texture input.
-    /// </summary>
-    public float JitterOffsetY
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.JitterOffsetY);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetY, value);
-    }
-
-    /// <summary>
-    /// The motion texture this frame interpolator evaluates.
-    /// </summary>
-    public MTLTexture MotionTexture
-    {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the input motion texture for this frame interpolator.
-    /// </summary>
-    public MTLPixelFormat MotionTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input motion texture needs in order to support this frame interpolator.
-    /// </summary>
-    public MTLTextureUsage MotionTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTextureUsage);
-    }
-
-    /// <summary>
-    /// The horizontal scale factor the frame interpolator applies to the input motion texture.
-    /// </summary>
-    public float MotionVectorScaleX
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionVectorScaleX);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionVectorScaleX, value);
-    }
-
-    /// <summary>
-    /// The vertical scale factor the frame interpolator applies to the input motion texture.
-    /// </summary>
-    public float MotionVectorScaleY
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionVectorScaleY);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionVectorScaleY, value);
-    }
-
-    /// <summary>
-    /// The near plane distance that corresponds to the frustrum that renders the scene into the color buffer.
-    /// </summary>
-    public float NearPlane
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.NearPlane);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetNearPlane, value);
-    }
-
-    /// <summary>
-    /// The height, in pixels, of the output color texture for the frame interpolator.
-    /// </summary>
-    public nuint OutputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputHeight);
-    }
-
-    /// <summary>
-    /// The output texture into which this frame interpolator writes its output.
-    /// </summary>
-    public MTLTexture OutputTexture
-    {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the output color texture for this frame interpolator.
-    /// </summary>
-    public MTLPixelFormat OutputTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s output color texture needs in order to support this frame interpolator.
-    /// </summary>
-    public MTLTextureUsage OutputTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTextureUsage);
-    }
-
-    /// <summary>
-    /// The width, in pixels, of the output color texture for the frame interpolator.
-    /// </summary>
-    public nuint OutputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputWidth);
-    }
-
-    /// <summary>
-    /// The previous color texture for this frame interpolator during the last call to encode work into a command buffer.
-    /// </summary>
     public MTLTexture PrevColorTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value);
     }
 
-    /// <summary>
-    /// A Boolean property indicating whether to reset history.
-    /// </summary>
+    public MTLTexture DepthTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value);
+    }
+
+    public MTLTexture MotionTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value);
+    }
+
+    public float MotionVectorScaleX
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionVectorScaleX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionVectorScaleX, value);
+    }
+
+    public float MotionVectorScaleY
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionVectorScaleY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionVectorScaleY, value);
+    }
+
+    public float DeltaTime
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.DeltaTime);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDeltaTime, value);
+    }
+
+    public float NearPlane
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.NearPlane);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetNearPlane, value);
+    }
+
+    public float FarPlane
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.FarPlane);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFarPlane, value);
+    }
+
+    public float FieldOfView
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.FieldOfView);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFieldOfView, value);
+    }
+
+    public float AspectRatio
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.AspectRatio);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetAspectRatio, value);
+    }
+
+    public MTLTexture UiTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetUiTexture, value);
+    }
+
+    public float JitterOffsetX
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.JitterOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetX, value);
+    }
+
+    public float JitterOffsetY
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.JitterOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetY, value);
+    }
+
+    public Bool8 IsUITextureComposited
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsUITextureComposited);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsUITextureComposited, value);
+    }
+
     public Bool8 ShouldResetHistory
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.ShouldResetHistory);
         set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetShouldResetHistory, value);
     }
 
-    /// <summary>
-    /// An optional texture containing your game’s custom UI that this frame interpolator evaluates.
-    /// </summary>
-    public MTLTexture UiTexture
+    public MTLTexture OutputTexture
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value);
     }
 
-    /// <summary>
-    /// The pixel format of the input UI texture for the frame interpolator.
-    /// </summary>
+    public MTLFence Fence
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetFence, value);
+    }
+
+    public Bool8 IsDepthReversed
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsDepthReversed);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, value);
+    }
+
+    public MTLTextureUsage ColorTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTextureUsage);
+    }
+
+    public MTLTextureUsage OutputTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTextureUsage);
+    }
+
+    public MTLTextureUsage DepthTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTextureUsage);
+    }
+
+    public MTLTextureUsage MotionTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTextureUsage);
+    }
+
+    public MTLTextureUsage UiTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTextureUsage);
+    }
+
+    public MTLPixelFormat ColorTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTextureFormat);
+    }
+
+    public MTLPixelFormat DepthTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTextureFormat);
+    }
+
+    public MTLPixelFormat MotionTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTextureFormat);
+    }
+
+    public MTLPixelFormat OutputTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTextureFormat);
+    }
+
+    public nuint InputWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.InputWidth);
+    }
+
+    public nuint InputHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.InputHeight);
+    }
+
+    public nuint OutputWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputWidth);
+    }
+
+    public nuint OutputHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputHeight);
+    }
+
     public MTLPixelFormat UiTextureFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTextureFormat);
     }
 
-    /// <summary>
-    /// The minimal texture usage options that your app’s input UI texture needs in order to support this frame interpolator.
-    /// </summary>
-    public MTLTextureUsage UiTextureUsage
+    public MTLTexture ColorTexture
     {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTextureUsage);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value);
     }
-    #endregion
+
+    public MTLTexture PrevColorTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value);
+    }
+
+    public MTLTexture DepthTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value);
+    }
+
+    public MTLTexture MotionTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value);
+    }
+
+    public float MotionVectorScaleX
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionVectorScaleX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionVectorScaleX, value);
+    }
+
+    public float MotionVectorScaleY
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionVectorScaleY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionVectorScaleY, value);
+    }
+
+    public float DeltaTime
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.DeltaTime);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDeltaTime, value);
+    }
+
+    public float NearPlane
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.NearPlane);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetNearPlane, value);
+    }
+
+    public float FarPlane
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.FarPlane);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFarPlane, value);
+    }
+
+    public float FieldOfView
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.FieldOfView);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFieldOfView, value);
+    }
+
+    public float AspectRatio
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.AspectRatio);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetAspectRatio, value);
+    }
+
+    public MTLTexture UiTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetUiTexture, value);
+    }
+
+    public float JitterOffsetX
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.JitterOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetX, value);
+    }
+
+    public float JitterOffsetY
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.JitterOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetY, value);
+    }
+
+    public Bool8 IsUITextureComposited
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsUITextureComposited);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsUITextureComposited, value);
+    }
+
+    public Bool8 ShouldResetHistory
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.ShouldResetHistory);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetShouldResetHistory, value);
+    }
+
+    public MTLTexture OutputTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value);
+    }
+
+    public MTLFence Fence
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetFence, value);
+    }
+
+    public Bool8 IsDepthReversed
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsDepthReversed);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, value);
+    }
+
+    public void SetColorTexture(MTLTexture colorTexture)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, colorTexture.NativePtr);
+    }
+
+    public void SetPrevColorTexture(MTLTexture prevColorTexture)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, prevColorTexture.NativePtr);
+    }
+
+    public void SetDepthTexture(MTLTexture depthTexture)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, depthTexture.NativePtr);
+    }
+
+    public void SetMotionTexture(MTLTexture motionTexture)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, motionTexture.NativePtr);
+    }
+
+    public void SetMotionVectorScaleX(float motionVectorScaleX)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionVectorScaleX, motionVectorScaleX);
+    }
+
+    public void SetMotionVectorScaleY(float motionVectorScaleY)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionVectorScaleY, motionVectorScaleY);
+    }
+
+    public void SetDeltaTime(float deltaTime)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDeltaTime, deltaTime);
+    }
+
+    public void SetNearPlane(float nearPlane)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetNearPlane, nearPlane);
+    }
+
+    public void SetFarPlane(float farPlane)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFarPlane, farPlane);
+    }
+
+    public void SetFieldOfView(float fieldOfView)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFieldOfView, fieldOfView);
+    }
+
+    public void SetAspectRatio(float aspectRatio)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetAspectRatio, aspectRatio);
+    }
+
+    public void SetJitterOffsetX(float jitterOffsetX)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetX, jitterOffsetX);
+    }
+
+    public void SetJitterOffsetY(float jitterOffsetY)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetY, jitterOffsetY);
+    }
+
+    public void SetIsUITextureComposited(bool isUITextureComposited)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsUITextureComposited, isUITextureComposited);
+    }
+
+    public void SetShouldResetHistory(bool shouldResetHistory)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetShouldResetHistory, shouldResetHistory);
+    }
+
+    public void SetOutputTexture(MTLTexture outputTexture)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, outputTexture.NativePtr);
+    }
+
+    public void SetFence(MTLFence fence)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFence, fence.NativePtr);
+    }
+
+    public void SetIsDepthReversed(bool isDepthReversed)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsDepthReversed, isDepthReversed);
+    }
 
     public void SetUITexture(MTLTexture uiTexture)
     {
@@ -378,6 +551,8 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetFieldOfView = "setFieldOfView:";
 
+    public static readonly Selector SetIsDepthReversed = "setDepthReversed:";
+
     public static readonly Selector SetIsUITextureComposited = "setIsUITextureComposited:";
 
     public static readonly Selector SetJitterOffsetX = "setJitterOffsetX:";
@@ -398,6 +573,8 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetShouldResetHistory = "setShouldResetHistory:";
 
+    public static readonly Selector SetUiTexture = "setUITexture:";
+
     public static readonly Selector SetUITexture = "setUITexture:";
 
     public static readonly Selector ShouldResetHistory = "shouldResetHistory";
@@ -406,5 +583,5 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector UiTextureFormat = "uiTextureFormat";
 
-    public static readonly Selector UiTextureUsage = "uiTextureFormat";
+    public static readonly Selector UiTextureUsage = "uiTextureUsage";
 }

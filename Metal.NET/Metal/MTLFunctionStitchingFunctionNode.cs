@@ -1,9 +1,6 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A call graph node that describes a function call and its inputs.
-/// </summary>
-public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionStitchingNode(nativePtr, ownership), INativeObject<MTLFunctionStitchingFunctionNode>
+public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingFunctionNode>
 {
     #region INativeObject
     public static new MTLFunctionStitchingFunctionNode Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -14,54 +11,27 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwners
     }
     #endregion
 
-    public MTLFunctionStitchingFunctionNode() : this(ObjectiveC.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
-
-    #region Configuring a function node - Properties
-
-    /// <summary>
-    /// The name of the function to call.
-    /// </summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
     }
 
-    /// <summary>
-    /// An ordered list of the nodes that provide the function’s arguments.
-    /// </summary>
-    public MTLArgument[] Arguments
+    public NSString Name
     {
-        get => GetArrayProperty<MTLArgument>(MTLFunctionStitchingFunctionNodeBindings.Arguments);
-        set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
+        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
     }
 
-    /// <summary>
-    /// The list of nodes that need to execute before executing the node.
-    /// </summary>
-    public MTLFunctionStitchingFunctionNode[] ControlDependencies
+    public void SetName(NSString name)
     {
-        get => GetArrayProperty<MTLFunctionStitchingFunctionNode>(MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
-        set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
+        ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingFunctionNodeBindings.SetName, name.NativePtr);
     }
-    #endregion
 }
 
 file static class MTLFunctionStitchingFunctionNodeBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionStitchingFunctionNode");
-
-    public static readonly Selector Arguments = "arguments";
-
-    public static readonly Selector ControlDependencies = "controlDependencies";
-
     public static readonly Selector Name = "name";
-
-    public static readonly Selector SetArguments = "setArguments:";
-
-    public static readonly Selector SetControlDependencies = "setControlDependencies:";
 
     public static readonly Selector SetName = "setName:";
 }
