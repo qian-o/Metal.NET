@@ -256,6 +256,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Enum Generation
 
+    /// <summary>
+    /// Generates a consolidated enum file (e.g., <c>Metal/MTLEnums.cs</c>) containing
+    /// all enums for the given output subdirectory.
+    /// </summary>
     void GenerateEnumFile(string subdir, List<EnumDef> enums)
     {
         string dir = Path.Combine(outputDir, subdir);
@@ -329,6 +333,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Struct Generation
 
+    /// <summary>
+    /// Generates a consolidated struct file (e.g., <c>Metal/MTLStructs.cs</c>) containing
+    /// all packed structs for the given output subdirectory, with primary constructors.
+    /// </summary>
     void GenerateStructFile(string subdir, List<StructDef> structs)
     {
         static string GetCsStructName(StructDef s) => TypeMapper.GetPrefix(s.Namespace) + s.Name;
@@ -508,6 +516,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Class Generation
 
+    /// <summary>
+    /// Generates a single C# class file: constructor, properties, methods, indexer,
+    /// free-function wrappers, and the companion <c>Bindings</c> selector-lookup class.
+    /// </summary>
     void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, List<FreeFunctionDef> freeFunctions)
     {
         string prefix = TypeMapper.GetPrefix(classDef.Namespace);
@@ -834,8 +846,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     #region Method Filtering
 
     /// <summary>
-    /// Returns true if the method has std::function or unknown function pointer params that should be skipped.
-    /// Block handler params (Handler/Block types and INLINE_BLOCK: markers) are NOT considered function pointers.
+    /// Returns <see langword="true"/> if the method has <c>std::function</c> or unknown function
+    /// pointer params. Block handler params (<c>Handler</c>/<c>Block</c> types and <c>INLINE_BLOCK:</c>
+    /// markers) are <b>not</b> considered function pointers.
     /// </summary>
     bool HasFunctionPointerParam(MethodInfo method)
     {
@@ -862,9 +875,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         });
     }
 
-    /// <summary>
-    /// Returns true if the parameter type is a known block handler type.
-    /// </summary>
+    /// <summary>Returns <see langword="true"/> if the parameter type is a known block handler typedef.</summary>
     bool IsBlockHandlerType(string type)
     {
         if (type.Contains("Handler") || type.Contains("Block"))
@@ -876,6 +887,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         return false;
     }
 
+    /// <summary>
+    /// Returns <see langword="true"/> if any parameter's type is unmappable (excluding
+    /// special prefixed types and block handler types which are handled separately).
+    /// </summary>
     static bool HasUnmappableParam(MethodInfo method)
     {
         foreach (ParamDef p in method.Parameters)
@@ -905,6 +920,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         return TypeMapper.IsUnmappableType(method.ReturnType);
     }
 
+    /// <summary>
+    /// Returns <see langword="true"/> if the method has an array parameter whose
+    /// next parameter is <b>not</b> a matching <c>count</c> parameter.
+    /// </summary>
     static bool HasUnmergableArrayParam(MethodInfo method)
     {
         List<ParamDef> p = method.Parameters;
@@ -930,6 +949,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Property Emission
 
+    /// <summary>
+    /// Emits a single property (getter + optional setter) into <paramref name="sb"/>.
+    /// Returns <see langword="false"/> if the property is inherited and should be skipped.
+    /// </summary>
     bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
         MethodInfo getter = prop.Getter;
@@ -1067,6 +1090,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Emission
 
+    /// <summary>
+    /// Emits a single method into <paramref name="sb"/>, handling parameter marshalling
+    /// (arrays, blocks, out-params, enums) and selecting the correct <c>MsgSend</c> variant.
+    /// </summary>
     void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion)
     {
         string csMethodName;
@@ -1493,6 +1520,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Free Function Emission
 
+    /// <summary>
+    /// Emits a free function as a <c>[LibraryImport]</c> P/Invoke declaration followed
+    /// by a public static wrapper that handles <c>NativeObject</c> marshalling.
+    /// </summary>
     void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string ns, string csClassName)
     {
         string csReturnType = TypeMapper.MapType(func.ReturnType);
