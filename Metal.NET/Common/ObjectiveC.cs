@@ -408,16 +408,6 @@ internal static unsafe partial class ObjectiveC
         ((delegate* unmanaged<nint, Selector, nint, NSRange, nint, nuint, void>)msgSend)(receiver, selector, a, b, c, d);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, nint a, double b)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, double, void>)msgSend)(receiver, selector, a, b);
-    }
-
     public static void MsgSend(nint receiver, Selector selector, nint a, float b, float c, nuint d)
     {
         if (receiver is 0)
@@ -1661,20 +1651,6 @@ internal static unsafe partial class ObjectiveC
         }
 
         return ((delegate* unmanaged<nint, Selector, nint, nuint, nuint, nint>)msgSend)(receiver, selector, a, b, c);
-    }
-
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, out nint c)
-    {
-        if (receiver is 0)
-        {
-            c = default;
-            return default;
-        }
-
-        fixed (nint* cPtr = &c)
-        {
-            return ((delegate* unmanaged<nint, Selector, nint, nuint, nint*, nint>)msgSend)(receiver, selector, a, b, cPtr);
-        }
     }
 
     public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, out nint c, out nint d)
