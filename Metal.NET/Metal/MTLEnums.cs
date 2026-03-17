@@ -763,6 +763,7 @@ public enum MTLBindingType : long
     Tensor = 37
 }
 
+[Obsolete("Use MTLBindingType instead")]
 public enum MTLArgumentType : ulong
 {
     Buffer = 0,
@@ -974,6 +975,7 @@ public enum MTLIOCompressionMethod : long
     LZBitmap = 4
 }
 
+[Obsolete("Use MTLGPUFamily instead")]
 public enum MTLFeatureSet : ulong
 {
     Ios_GPUFamily1_v1 = 0,
