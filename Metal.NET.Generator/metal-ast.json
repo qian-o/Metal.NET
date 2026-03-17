@@ -17,7 +17,9 @@
         },
         {
           "name": "MTLResourceUsageSample",
-          "value": "4"
+          "value": "4",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLResourceUsageRead instead"
         }
       ],
       "framework": "Metal"
@@ -228,11 +230,15 @@
         },
         {
           "name": "MTLResourceOptionCPUCacheModeDefault",
-          "value": "0"
+          "value": "0",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLResourceCPUCacheModeDefaultCache instead"
         },
         {
           "name": "MTLResourceOptionCPUCacheModeWriteCombined",
-          "value": "1"
+          "value": "1",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLResourceCPUCacheModeWriteCombined instead"
         }
       ],
       "framework": "Metal"
@@ -584,35 +590,51 @@
         },
         {
           "name": "MTLPixelFormatPVRTC_RGB_2BPP",
-          "value": "160"
+          "value": "160",
+          "deprecated": true,
+          "deprecationMessage": "Usage of ASTC/ETC2/BC formats is recommended instead."
         },
         {
           "name": "MTLPixelFormatPVRTC_RGB_2BPP_sRGB",
-          "value": "161"
+          "value": "161",
+          "deprecated": true,
+          "deprecationMessage": "Usage of ASTC/ETC2/BC formats is recommended instead."
         },
         {
           "name": "MTLPixelFormatPVRTC_RGB_4BPP",
-          "value": "162"
+          "value": "162",
+          "deprecated": true,
+          "deprecationMessage": "Usage of ASTC/ETC2/BC formats is recommended instead."
         },
         {
           "name": "MTLPixelFormatPVRTC_RGB_4BPP_sRGB",
-          "value": "163"
+          "value": "163",
+          "deprecated": true,
+          "deprecationMessage": "Usage of ASTC/ETC2/BC formats is recommended instead."
         },
         {
           "name": "MTLPixelFormatPVRTC_RGBA_2BPP",
-          "value": "164"
+          "value": "164",
+          "deprecated": true,
+          "deprecationMessage": "Usage of ASTC/ETC2/BC formats is recommended instead."
         },
         {
           "name": "MTLPixelFormatPVRTC_RGBA_2BPP_sRGB",
-          "value": "165"
+          "value": "165",
+          "deprecated": true,
+          "deprecationMessage": "Usage of ASTC/ETC2/BC formats is recommended instead."
         },
         {
           "name": "MTLPixelFormatPVRTC_RGBA_4BPP",
-          "value": "166"
+          "value": "166",
+          "deprecated": true,
+          "deprecationMessage": "Usage of ASTC/ETC2/BC formats is recommended instead."
         },
         {
           "name": "MTLPixelFormatPVRTC_RGBA_4BPP_sRGB",
-          "value": "167"
+          "value": "167",
+          "deprecated": true,
+          "deprecationMessage": "Usage of ASTC/ETC2/BC formats is recommended instead."
         },
         {
           "name": "MTLPixelFormatEAC_R11Unorm",
@@ -1628,15 +1650,21 @@
         },
         {
           "name": "MTLArgumentAccessReadOnly",
-          "value": "0"
+          "value": "0",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLBindingAccessReadOnly instead"
         },
         {
           "name": "MTLArgumentAccessReadWrite",
-          "value": "1"
+          "value": "1",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLBindingAccessReadWrite instead"
         },
         {
           "name": "MTLArgumentAccessWriteOnly",
-          "value": "2"
+          "value": "2",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLBindingAccessWriteOnly instead"
         }
       ],
       "framework": "Metal"
@@ -1661,7 +1689,9 @@
         },
         {
           "name": "MTLFunctionOptionStoreFunctionInMetalScript",
-          "value": "2"
+          "value": "2",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLFunctionOptionStoreFunctionInMetalPipelinesScript instead"
         },
         {
           "name": "MTLFunctionOptionFailOnBinaryArchiveMiss",
@@ -1740,7 +1770,9 @@
       "members": [
         {
           "name": "MTLLanguageVersion1_0",
-          "value": "65536"
+          "value": "65536",
+          "deprecated": true,
+          "deprecationMessage": "Use a newer language standard"
         },
         {
           "name": "MTLLanguageVersion1_1",
@@ -2209,7 +2241,9 @@
         },
         {
           "name": "MTLGPUFamilyMac1",
-          "value": "2001"
+          "value": "2001",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLGPUFamilyMac2 instead"
         },
         {
           "name": "MTLGPUFamilyMac2",
@@ -2229,11 +2263,15 @@
         },
         {
           "name": "MTLGPUFamilyMacCatalyst1",
-          "value": "4001"
+          "value": "4001",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLGPUFamilyMac2 instead"
         },
         {
           "name": "MTLGPUFamilyMacCatalyst2",
-          "value": "4002"
+          "value": "4002",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLGPUFamilyMac2 instead"
         },
         {
           "name": "MTLGPUFamilyMetal3",
@@ -2283,7 +2321,9 @@
         },
         {
           "name": "MTLPipelineOptionArgumentInfo",
-          "value": "1"
+          "value": "1",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLPipelineOptionBindingInfo instead"
         },
         {
           "name": "MTLPipelineOptionBindingInfo",
@@ -2609,7 +2649,9 @@
         },
         {
           "name": "MTLCommandBufferErrorBlacklisted",
-          "value": "4"
+          "value": "4",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLCommandBufferErrorAccessRevoked instead"
         },
         {
           "name": "MTLCommandBufferErrorAccessRevoked",
