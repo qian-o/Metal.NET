@@ -2,82 +2,18 @@
 
 on:
   workflow_dispatch:
-    inputs:
-      runner:
-        required: false
-        default: 'macos-26'
-      xcode_version:
-        required: false
-        default: 'latest'
-      commit_result:
-        description: 'Commit results to the repo'
-        required: false
-        type: boolean
-        default: true
 
 jobs:
   extract:
-    runs-on: ${{ github.event.inputs.runner || 'macos-26' }}
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v4
 
-      - name: Select Xcode version
+      - name: Print environment
         run: |
-          ls -d /Applications/Xcode*.app 2>/dev/null || echo 'No Xcode installations found'
-
-          INPUT_VERSION="${{ github.event.inputs.xcode_version }}"
-          if [ "$INPUT_VERSION" != "latest" ] && [ -n "$INPUT_VERSION" ]; then
-            XCODE_PATH="/Applications/Xcode_${INPUT_VERSION}.app"
-            XCODE_BETA_PATH="/Applications/Xcode_${INPUT_VERSION}_beta.app"
-            if [ -d "$XCODE_PATH" ]; then
-              sudo xcode-select -s "$XCODE_PATH"
-            elif [ -d "$XCODE_BETA_PATH" ]; then
-              sudo xcode-select -s "$XCODE_BETA_PATH"
-            else
-              echo "::error::Xcode $INPUT_VERSION not found."
-              exit 1
-            fi
-          fi
-
-          echo "--- Environment ---"
           xcodebuild -version
           echo "SDK: $(xcrun --show-sdk-path)"
           echo "SDK version: $(xcrun --show-sdk-version)"
-
-      - name: Extract framework headers
-        run: |
-          SDK_PATH=$(xcrun --show-sdk-path)
-          SDK_VERSION=$(xcrun --show-sdk-version)
-          OUTPUT="metal-headers"
-          mkdir -p "$OUTPUT"
-
-          for FW in Metal MetalFX Foundation QuartzCore CoreGraphics IOSurface; do
-            DIR="$SDK_PATH/System/Library/Frameworks/${FW}.framework/Headers"
-            if [ -d "$DIR" ]; then
-              mkdir -p "$OUTPUT/$FW"
-              cp -R "$DIR/"* "$OUTPUT/$FW/"
-              echo "$FW: $(ls "$OUTPUT/$FW/" | wc -l | tr -d ' ') files"
-            fi
-          done
-
-          for SYS_DIR in dispatch os; do
-            DIR="$SDK_PATH/usr/include/$SYS_DIR"
-            if [ -d "$DIR" ]; then
-              mkdir -p "$OUTPUT/$SYS_DIR"
-              cp -R "$DIR/"* "$OUTPUT/$SYS_DIR/"
-              echo "$SYS_DIR: $(ls "$OUTPUT/$SYS_DIR/" | wc -l | tr -d ' ') files"
-            fi
-          done
-
-          cat > "$OUTPUT/metadata.json" <<EOF
-          {
-            "sdkVersion": "$SDK_VERSION",
-            "xcodeVersion": "$(xcodebuild -version | head -1)",
-            "extractedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          }
-          EOF
-
-          echo "Total headers: $(find "$OUTPUT" -name '*.h' | wc -l | tr -d ' ')"
 
       - name: Generate API snapshot
         run: |
@@ -112,10 +48,10 @@ jobs:
           echo "Raw AST: $(du -h "$RAW_AST" | cut -f1)"
 
           echo "Filtering to Metal API..."
-          python3 - "$RAW_AST" "Metal.NET.Generator/metal-ast.json" "$SDK_VERSION" <<'PYEOF'
+          python3 - "$RAW_AST" "Metal.NET.Generator/metal-ast.json" "$SDK_VERSION" "$SDK_PATH" <<'PYEOF'
           import json, sys, os, re
 
-          raw_path, out_path, sdk_version = sys.argv[1], sys.argv[2], sys.argv[3]
+          raw_path, out_path, sdk_version, sdk_path = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
 
           WANTED_PREFIXES = ("MTL", "MTLFX")
           WANTED_EXTRA = {
@@ -609,7 +545,8 @@ jobs:
               return m.group(1) if m else None
 
           dep_from_headers = {}
-          for scan_dir in ["metal-headers/Metal", "metal-headers/MetalFX"]:
+          for scan_dir in [os.path.join(sdk_path, "System/Library/Frameworks/Metal.framework/Headers"),
+                          os.path.join(sdk_path, "System/Library/Frameworks/MetalFX.framework/Headers")]:
               if not os.path.isdir(scan_dir):
                   continue
               for fn in sorted(os.listdir(scan_dir)):
@@ -717,18 +654,24 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: metal-api-data
-          path: |
-            Metal.NET.Generator/metal-ast.json
-            metal-headers/
+          path: Metal.NET.Generator/metal-ast.json
           retention-days: 90
 
-      - name: Commit metal-ast.json
-        if: ${{ github.event.inputs.commit_result == 'true' }}
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          SDK_VERSION=$(xcrun --show-sdk-version)
+          BRANCH="update/metal-ast-sdk-${SDK_VERSION}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add Metal.NET.Generator/metal-ast.json
-          git diff --cached --quiet && echo "No changes to commit" && exit 0
-          SDK_VERSION=$(xcrun --show-sdk-version)
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git checkout -b "$BRANCH"
           git commit -m "Update metal-ast.json (SDK $SDK_VERSION)"
-          git push
+          git push -u origin "$BRANCH"
+          gh pr create \
+            --title "Update metal-ast.json (SDK $SDK_VERSION)" \
+            --body "Auto-generated from macOS SDK $SDK_VERSION via Extract Metal API workflow." \
+            --base master \
+            --head "$BRANCH"
