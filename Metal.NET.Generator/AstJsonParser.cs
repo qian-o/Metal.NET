@@ -220,6 +220,45 @@ partial class AstJsonParser
                 members.Add(new EnumMember(memberName, m.Value));
             }
 
+            // Strip common PascalCase prefix shared by all enum members
+            if (members.Count > 1)
+            {
+                string commonPrefix = FindCommonEnumPrefix(members);
+                if (commonPrefix.Length > 0)
+                {
+                    List<EnumMember> stripped = [];
+                    bool valid = true;
+                    HashSet<string> uniqueCheck = [];
+                    foreach (EnumMember em in members)
+                    {
+                        string newName = em.Name[commonPrefix.Length..];
+                        if (string.IsNullOrEmpty(newName))
+                        {
+                            valid = false;
+                            break;
+                        }
+
+                        if (char.IsDigit(newName[0]))
+                        {
+                            newName = prefix + newName;
+                        }
+
+                        if (!uniqueCheck.Add(newName))
+                        {
+                            valid = false;
+                            break;
+                        }
+
+                        stripped.Add(new EnumMember(newName, em.Value));
+                    }
+
+                    if (valid)
+                    {
+                        members = stripped;
+                    }
+                }
+            }
+
             context.Enums.Add(new EnumDef(
                 ns, bareName, backingType, astEnum.IsOptions, members,
                 astEnum.Deprecated, astEnum.DeprecationMessage));
@@ -238,6 +277,57 @@ partial class AstJsonParser
         "int64_t" => "long",
         _ => "ulong"
     };
+
+    /// <summary>
+    /// Finds the longest common PascalCase prefix shared by all enum member names.
+    /// Returns empty string if no common prefix exists or stripping it would be invalid.
+    /// </summary>
+    static string FindCommonEnumPrefix(List<EnumMember> members)
+    {
+        if (members.Count <= 1)
+        {
+            return "";
+        }
+
+        // Compute character-level longest common prefix
+        string lcp = members[0].Name;
+        foreach (EnumMember m in members.Skip(1))
+        {
+            int i = 0;
+            while (i < lcp.Length && i < m.Name.Length && lcp[i] == m.Name[i])
+            {
+                i++;
+            }
+
+            lcp = lcp[..i];
+        }
+
+        if (lcp.Length == 0)
+        {
+            return "";
+        }
+
+        // Find the rightmost PascalCase word boundary where all remaining names start with uppercase
+        for (int pos = lcp.Length; pos > 0; pos--)
+        {
+            bool valid = true;
+            foreach (EnumMember m in members)
+            {
+                if (pos >= m.Name.Length || !char.IsUpper(m.Name[pos]))
+                {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid)
+            {
+                return lcp[..pos];
+            }
+        }
+
+        return "";
+    }
 
     #endregion
 

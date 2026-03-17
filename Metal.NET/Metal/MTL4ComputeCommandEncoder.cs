@@ -46,7 +46,7 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.DispatchThreadgroupsWithIndirectBuffer, indirectBuffer, threadsPerThreadgroup);
     }
 
-    public void DispatchThreadsWithIndirectBuffer(nuint indirectBuffer)
+    public void DispatchThreads(nuint indirectBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.DispatchThreadsWithIndirectBuffer, indirectBuffer);
     }

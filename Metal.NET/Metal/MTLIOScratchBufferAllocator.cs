@@ -11,7 +11,7 @@ public class MTLIOScratchBufferAllocator(nint nativePtr, NativeObjectOwnership o
     }
     #endregion
 
-    public MTLIOScratchBuffer NewScratchBufferWithMinimumSize(nuint minimumSize)
+    public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOScratchBufferAllocatorBindings.NewScratchBufferWithMinimumSize, minimumSize);
 

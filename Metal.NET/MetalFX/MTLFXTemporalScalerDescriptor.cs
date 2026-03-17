@@ -105,7 +105,7 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
         set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetReactiveMaskTextureFormat, (nuint)value);
     }
 
-    public MTLFXTemporalScaler NewTemporalScalerWithDevice(MTLDevice device)
+    public MTLFXTemporalScaler NewTemporalScaler(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScalerWithDevice, device.NativePtr);
 

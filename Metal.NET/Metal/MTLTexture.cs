@@ -180,7 +180,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegionMipmapLevelWithBytesBytesPerRow, region, level, pixelBytes, bytesPerRow);
     }
 
-    public MTLTexture NewTextureViewWithPixelFormat(MTLPixelFormat pixelFormat)
+    public MTLTexture NewTextureView(MTLPixelFormat pixelFormat)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormat, (nuint)pixelFormat);
 
@@ -201,7 +201,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTexture NewTextureViewWithDescriptor(MTLTextureViewDescriptor descriptor)
+    public MTLTexture NewTextureView(MTLTextureViewDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
 

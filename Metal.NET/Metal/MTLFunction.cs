@@ -62,7 +62,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         get => (MTLFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.Options);
     }
 
-    public MTLArgumentEncoder NewArgumentEncoderWithBufferIndex(nuint bufferIndex)
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoderWithBufferIndex, bufferIndex);
 

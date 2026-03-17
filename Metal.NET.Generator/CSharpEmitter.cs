@@ -1110,14 +1110,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 ? selectorObjC[..selectorObjC.IndexOf(':')]
                 : selectorObjC;
 
-            // Multi-part selector (e.g., "presentDrawable:atTime:") → use simplified or full name
+            // Use pre-computed simplified name (with conflict detection) for any selector method
             int colonCount = selectorObjC.Count(c => c == ':');
-            if (colonCount > 1)
+            if (simplifiedNames.TryGetValue(method, out string? simplified))
             {
-                // Use pre-computed simplified name (with conflict detection)
-                csMethodName = simplifiedNames.TryGetValue(method, out string? simplified)
-                    ? simplified
-                    : BuildMethodNameFromSelector(selectorObjC);
+                csMethodName = simplified;
+            }
+            else if (colonCount > 1)
+            {
+                csMethodName = BuildMethodNameFromSelector(selectorObjC);
             }
             else if (hasZeroParamVersion.Contains(methodName) && method.Parameters.Count > 0)
             {
@@ -1620,7 +1621,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<(MethodInfo Method, string Simplified, string Full, string ParamKey)> entries = [];
         foreach (MethodInfo m in methods)
         {
-            if (m.Selector == null || m.Selector.Count(c => c == ':') <= 1)
+            if (m.Selector == null || !m.Selector.Contains(':'))
             {
                 continue;
             }

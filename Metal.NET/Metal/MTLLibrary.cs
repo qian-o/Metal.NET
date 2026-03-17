@@ -37,7 +37,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         get => GetProperty(ref field, MTLLibraryBindings.InstallName);
     }
 
-    public MTLFunction NewFunctionWithName(NSString functionName)
+    public MTLFunction NewFunction(NSString functionName)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithName, functionName.NativePtr);
 
@@ -53,7 +53,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLFunctionReflection ReflectionForFunctionWithName(NSString functionName)
+    public MTLFunctionReflection ReflectionForFunction(NSString functionName)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.ReflectionForFunctionWithName, functionName.NativePtr);
 

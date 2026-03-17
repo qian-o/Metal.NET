@@ -46,7 +46,7 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
         get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
     }
 
-    public nint InitWithSampleCount(MTLSize sampleCount)
+    public nint Init(MTLSize sampleCount)
     {
         return ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCount, sampleCount);
     }

@@ -32,7 +32,7 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         get => GetProperty(ref field, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
     }
 
-    public void BeginCommandBufferWithAllocator(MTL4CommandAllocator allocator)
+    public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocator, allocator.NativePtr);
     }
@@ -47,7 +47,7 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.EndCommandBuffer);
     }
 
-    public MTL4RenderCommandEncoder RenderCommandEncoderWithDescriptor(MTL4RenderPassDescriptor descriptor)
+    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptor, descriptor.NativePtr);
 

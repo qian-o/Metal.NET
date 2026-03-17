@@ -147,7 +147,7 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
         set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsTransparencyOverlayTextureEnabled, value);
     }
 
-    public MTLFXTemporalDenoisedScaler NewTemporalDenoisedScalerWithDevice(MTLDevice device)
+    public MTLFXTemporalDenoisedScaler NewTemporalDenoisedScaler(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.NewTemporalDenoisedScalerWithDevice, device.NativePtr);
 

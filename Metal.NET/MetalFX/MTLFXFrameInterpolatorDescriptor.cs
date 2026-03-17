@@ -75,7 +75,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
         set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputHeight, value);
     }
 
-    public MTLFXFrameInterpolator NewFrameInterpolatorWithDevice(MTLDevice device)
+    public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevice, device.NativePtr);
 

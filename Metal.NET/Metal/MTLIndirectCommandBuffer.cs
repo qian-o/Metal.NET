@@ -21,7 +21,7 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
     }
 
-    public void ResetWithRange(NSRange range)
+    public void Reset(NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.ResetWithRange, range);
     }

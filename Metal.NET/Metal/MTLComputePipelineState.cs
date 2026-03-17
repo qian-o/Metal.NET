@@ -61,14 +61,14 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLComputePipelineStateBindings.RequiredThreadsPerThreadgroup);
     }
 
-    public MTLFunctionHandle FunctionHandleWithName(NSString name)
+    public MTLFunctionHandle FunctionHandle(NSString name)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithName, name.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLFunctionHandle FunctionHandleWithBinaryFunction(MTL4BinaryFunction function)
+    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
@@ -80,21 +80,21 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.ImageblockMemoryLengthForDimensions, imageblockDimensions);
     }
 
-    public MTLFunctionHandle FunctionHandleWithFunction(MTLFunction function)
+    public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLVisibleFunctionTable NewVisibleFunctionTableWithDescriptor(MTLVisibleFunctionTableDescriptor descriptor)
+    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTableWithDescriptor(MTLIntersectionFunctionTableDescriptor descriptor)
+    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTableWithDescriptor, descriptor.NativePtr);
 
