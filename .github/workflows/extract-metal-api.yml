@@ -132,10 +132,9 @@ jobs:
               return any(name.startswith(p) for p in WANTED_PREFIXES) or name in WANTED_EXTRA
 
           def get_attrs(node):
-              """Extract availability and deprecation info from a node.
+              """Extract deprecation info from a node.
               Checks both 'inner' and 'attrs' arrays (clang version differences).
-              Returns dict with 'availability' list and/or 'deprecated'/'deprecationMessage'."""
-              avail = []
+              Returns dict with 'deprecated' and/or 'deprecationMessage'."""
               deprecated = False
               dep_message = None
               # Clang stores attributes in 'inner' (older) or 'attrs' (newer) or both
@@ -143,26 +142,19 @@ jobs:
               for child in children:
                   kind = child.get("kind", "")
                   if kind == "AvailabilityAttr":
-                      a = {"platform": child.get("platform", "")}
-                      for key in ("introduced", "deprecated", "obsoleted", "message", "replacement"):
-                          if child.get(key):
-                              a[key] = child[key]
-                      if a.get("platform"):
-                          avail.append(a)
                       # AvailabilityAttr with deprecated field also means deprecated
                       if child.get("deprecated"):
                           deprecated = True
                           if child.get("message"):
                               dep_message = child["message"]
                           elif child.get("replacement"):
-                              dep_message = f"Use {child['replacement']} instead"
+                              r = child['replacement']
+                              dep_message = r if r.lower().startswith('use ') else f"Use {r} instead"
                   elif kind == "DeprecatedAttr":
                       deprecated = True
                       if child.get("message"):
                           dep_message = child["message"]
               result = {}
-              if avail:
-                  result["availability"] = avail
               if deprecated:
                   result["deprecated"] = True
                   if dep_message:
@@ -223,7 +215,6 @@ jobs:
                   "underlyingType": (node.get("fixedUnderlyingType") or {}).get("qualType"),
                   "isOptions": any(c.get("kind") == "FlagEnumAttr" for c in node.get("inner", []) + node.get("attrs", [])),
                   "members": members,
-                  "availability": attrs.get("availability"),
               }
               if attrs.get("deprecated"):
                   r["deprecated"] = True
@@ -252,7 +243,6 @@ jobs:
                   "returnType": ret,
                   "returnNullability": get_nullability(ret),
                   "parameters": params,
-                  "availability": attrs.get("availability"),
               }
               if attrs.get("deprecated"):
                   r["deprecated"] = True
@@ -276,7 +266,6 @@ jobs:
                   r["getter"] = node["getter"].get("name", "")
               if node.get("setter"):
                   r["setter"] = node["setter"].get("name", "")
-              r["availability"] = attrs.get("availability")
               if attrs.get("deprecated"):
                   r["deprecated"] = True
                   if attrs.get("deprecationMessage"):
@@ -306,7 +295,6 @@ jobs:
                       if p:
                           r["properties"].append(p)
               attrs = get_attrs(node)
-              r["availability"] = attrs.get("availability")
               if attrs.get("deprecated"):
                   r["deprecated"] = True
                   if attrs.get("deprecationMessage"):
@@ -480,7 +468,6 @@ jobs:
                       "name": name,
                       "returnType": clean_type(ret_type),
                       "parameters": params,
-                      "availability": fn_attrs.get("availability"),
                   }
                   if fn_attrs.get("deprecated"):
                       fn_entry["deprecated"] = True
@@ -541,9 +528,7 @@ jobs:
                           seen_proto.add(p)
                   if not existing.get("super") and cls.get("super"):
                       existing["super"] = cls["super"]
-                  if not existing.get("availability") and cls.get("availability"):
-                      existing["availability"] = cls["availability"]
-          api["classes"] = list(merged_classes.values())
+                  api["classes"] = list(merged_classes.values())
 
           merged_protocols = {}
           for proto in api["protocols"]:
@@ -676,7 +661,8 @@ jobs:
                       msg = None
                       dm = re.search(r'API_DEPRECATED_WITH_REPLACEMENT\s*\(\s*"([^"]*)"', mline)
                       if dm:
-                          msg = f"Use {dm.group(1)} instead"
+                          r = dm.group(1)
+                          msg = r if r.lower().startswith('use ') else f"Use {r} instead"
                       else:
                           dm = re.search(r'API_DEPRECATED\s*\(\s*"([^"]*)"', mline)
                           if dm:
@@ -714,16 +700,11 @@ jobs:
                 f"Classes: {len(api['classes'])}, Functions: {len(api['functions'])}, "
                 f"Structs: {len(api['structs'])}, Typedefs: {len(api['typedefs'])}")
 
-          # Diagnostic: count items with availability/deprecation info
+          # Diagnostic: count items with deprecation info
           dep_methods = sum(1 for t in api['protocols'] + api['classes']
                            for m in t.get('methods', []) if m.get('deprecated'))
           dep_props = sum(1 for t in api['protocols'] + api['classes']
                          for p in t.get('properties', []) if p.get('deprecated'))
-          avail_methods = sum(1 for t in api['protocols'] + api['classes']
-                             for m in t.get('methods', []) if m.get('availability'))
-          avail_props = sum(1 for t in api['protocols'] + api['classes']
-                           for p in t.get('properties', []) if p.get('availability'))
-          print(f"Availability: {avail_methods} methods, {avail_props} properties")
           print(f"Deprecated: {dep_methods} methods, {dep_props} properties")
 
           with open(out_path, "w") as f:
