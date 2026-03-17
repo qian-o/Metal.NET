@@ -6211,7 +6211,9 @@
           "type": "id<MTLResource> _Nullable",
           "nullability": "nullable",
           "readonly": true,
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use parentTexture or buffer instead"
         },
         {
           "name": "parentTexture",
@@ -6857,7 +6859,9 @@
               "nullability": "nullable"
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use MTLDevice's newArgumentEncoderWithBufferBinding: instead"
         },
         {
           "selector": "label",
@@ -8406,7 +8410,9 @@
               "nullability": "nullable"
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use -newLibraryWithURL:error: instead"
         },
         {
           "selector": "newLibraryWithURL:error:",
@@ -8787,7 +8793,9 @@
               "nullability": null
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use supportsFamily instead"
         },
         {
           "selector": "supportsFamily:",
@@ -9083,7 +9091,9 @@
               "nullability": "nullable"
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use Use newIOFileHandleWithURL:error: instead instead"
         },
         {
           "selector": "newIOCommandQueueWithDescriptor:error:",
@@ -9126,7 +9136,9 @@
               "nullability": "nullable"
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use Use newIOFileHandleWithURL:compressionMethod:error: instead instead"
         },
         {
           "selector": "newIOFileHandleWithURL:error:",
@@ -10315,7 +10327,9 @@
           "nullability": null,
           "readonly": true,
           "getter": "areBarycentricCoordsSupported",
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use supportsShaderBarycentricCoordinates instead"
         },
         {
           "name": "supportsShaderBarycentricCoordinates",
@@ -12967,7 +12981,9 @@
           "returnType": "void",
           "returnNullability": null,
           "parameters": [],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use MTLCaptureScope instead"
         },
         {
           "selector": "addResidencySet:",
@@ -15487,7 +15503,9 @@
           "returnType": "void",
           "returnNullability": null,
           "parameters": [],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use memoryBarrierWithScope:MTLBarrierScopeRenderTargets instead"
         },
         {
           "selector": "updateFence:afterStages:",
@@ -16116,7 +16134,9 @@
               "nullability": null
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use Use useResource:usage:stages: instead instead"
         },
         {
           "selector": "useResources:count:usage:",
@@ -16140,7 +16160,9 @@
               "nullability": null
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use Use useResources:count:usage:stages: instead instead"
         },
         {
           "selector": "useResource:usage:stages:",
@@ -16207,7 +16229,9 @@
               "nullability": "nonnull"
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use Use useHeap:stages: instead instead"
         },
         {
           "selector": "useHeaps:count:",
@@ -16226,7 +16250,9 @@
               "nullability": null
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use Use useHeaps:count:stages: instead instead"
         },
         {
           "selector": "useHeap:stages:",
@@ -41970,7 +41996,9 @@
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use mathMode instead"
         },
         {
           "name": "mathMode",
@@ -42180,21 +42208,27 @@
           "type": "NSArray<MTLArgument *> * _Nullable",
           "nullability": "nullable",
           "readonly": true,
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use vertexBindings instead"
         },
         {
           "name": "fragmentArguments",
           "type": "NSArray<MTLArgument *> * _Nullable",
           "nullability": "nullable",
           "readonly": true,
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use fragmentBindings instead"
         },
         {
           "name": "tileArguments",
           "type": "NSArray<MTLArgument *> * _Nullable",
           "nullability": "nullable",
           "readonly": true,
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use tileBindings instead"
         }
       ],
       "protocols": [],
@@ -42235,7 +42269,9 @@
           "type": "NSArray<MTLArgument *> * _Nonnull",
           "nullability": "nonnull",
           "readonly": true,
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use bindings instead"
         }
       ],
       "protocols": [],
@@ -47430,7 +47466,9 @@
           "type": "NSUInteger",
           "nullability": null,
           "readonly": false,
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use rasterSampleCount instead"
         },
         {
           "name": "rasterSampleCount",
@@ -48626,7 +48664,9 @@
           "type": "NSArray<id<MTLDynamicLibrary>> * _Nullable",
           "nullability": "nullable",
           "readonly": false,
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use preloadedLibraries instead"
         },
         {
           "name": "preloadedLibraries",
@@ -57791,7 +57831,9 @@
               "nullability": "nonnull"
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead"
         },
         {
           "selector": "startCaptureWithCommandQueue:",
@@ -57805,7 +57847,9 @@
               "nullability": "nonnull"
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead"
         },
         {
           "selector": "startCaptureWithScope:",
@@ -57819,7 +57863,9 @@
               "nullability": "nonnull"
             }
           ],
-          "availability": null
+          "availability": null,
+          "deprecated": true,
+          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead"
         },
         {
           "selector": "stopCapture",
