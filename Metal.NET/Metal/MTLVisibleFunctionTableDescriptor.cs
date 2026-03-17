@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A specification of how to create a visible function table.
+/// </summary>
 public class MTLVisibleFunctionTableDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVisibleFunctionTableDescriptor>
 {
     #region INativeObject
@@ -15,11 +18,17 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr, NativeObjectOwner
     {
     }
 
+    #region Configuring the function table - Properties
+
+    /// <summary>
+    /// The number of entries in the function table.
+    /// </summary>
     public nuint FunctionCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVisibleFunctionTableDescriptorBindings.FunctionCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorBindings.SetFunctionCount, value);
     }
+    #endregion
 
     public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
     {

@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A specification of how to create an intersection function table.
+/// </summary>
 public class MTLIntersectionFunctionTableDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIntersectionFunctionTableDescriptor>
 {
     #region INativeObject
@@ -15,11 +18,17 @@ public class MTLIntersectionFunctionTableDescriptor(nint nativePtr, NativeObject
     {
     }
 
+    #region Configuring the table’s size - Properties
+
+    /// <summary>
+    /// The number of entries in the intersection function table.
+    /// </summary>
     public nuint FunctionCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.FunctionCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.SetFunctionCount, value);
     }
+    #endregion
 
     public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
     {

@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A fast-addition container for collecting data during pipeline state creation.
+/// </summary>
 public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineDataSetSerializer>
 {
     #region INativeObject
@@ -11,6 +14,11 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
     }
     #endregion
 
+    #region Instance Methods - Methods
+
+    /// <summary>
+    /// Serializes a pipeline data set to an archive.
+    /// </summary>
     public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
@@ -20,6 +28,9 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
         return result;
     }
 
+    /// <summary>
+    /// Serializes a serializer data set to a pipeline script as raw data.
+    /// </summary>
     public NSData SerializeAsPipelinesScript(out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsPipelinesScript, out nint errorPtr);
@@ -28,6 +39,7 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+    #endregion
 }
 
 file static class MTL4PipelineDataSetSerializerBindings

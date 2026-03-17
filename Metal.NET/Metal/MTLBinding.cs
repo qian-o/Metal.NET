@@ -11,14 +11,11 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     }
     #endregion
 
+    #region Instance Properties - Properties
+
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLBindingBindings.Access);
-    }
-
-    public Bool8 Argument
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.Argument);
     }
 
     public nuint Index
@@ -45,7 +42,21 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     {
         get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLBindingBindings.Type);
     }
+    #endregion
 
+    /// <summary>
+    /// Deprecated: please use isArgument instead
+    /// </summary>
+    [Obsolete("please use isArgument instead")]
+    public Bool8 Argument
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.Argument);
+    }
+
+    /// <summary>
+    /// Deprecated: please use isUsed instead
+    /// </summary>
+    [Obsolete("please use isUsed instead")]
     public Bool8 Used
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.Used);

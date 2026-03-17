@@ -51,6 +51,8 @@ class MethodInfo
     public bool UsesClassTarget { get; set; }
 
     public string? SelectorAccessor { get; set; }
+
+    public string? DeprecationMessage { get; set; }
 }
 
 /// <summary>A parsed ObjC block type alias (e.g., <c>using CommandBufferHandler = void (^)(CommandBuffer*)</c>).</summary>

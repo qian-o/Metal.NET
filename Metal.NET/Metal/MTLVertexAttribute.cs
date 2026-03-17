@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// An instance that represents an attribute of a vertex function.
+/// </summary>
 public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexAttribute>
 {
     #region INativeObject
@@ -15,46 +18,79 @@ public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership)
     {
     }
 
-    public Bool8 Active
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
-    }
+    #region Describing the attribute - Properties
 
-    public nuint AttributeIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeIndex);
-    }
-
-    public MTLDataType AttributeType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLVertexAttributeBindings.AttributeType);
-    }
-
-    public Bool8 IsActive
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
-    }
-
-    public Bool8 IsPatchControlPointData
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
-    }
-
-    public Bool8 IsPatchData
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
-    }
-
+    /// <summary>
+    /// The name of the attribute.
+    /// </summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
     }
 
+    /// <summary>
+    /// The index of the attribute, as declared in Metal shader source code.
+    /// </summary>
+    public nuint AttributeIndex
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeIndex);
+    }
+
+    /// <summary>
+    /// The data type for the attribute, as declared in Metal shader source code.
+    /// </summary>
+    public MTLDataType AttributeType
+    {
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLVertexAttributeBindings.AttributeType);
+    }
+
+    /// <summary>
+    /// A Boolean value that indicates whether this vertex attribute is active.
+    /// </summary>
+    public Bool8 IsActive
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
+    }
+
+    /// <summary>
+    /// A Boolean value that indicates whether this vertex attribute represents control point data.
+    /// </summary>
+    public Bool8 IsPatchControlPointData
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
+    }
+
+    /// <summary>
+    /// A Boolean value that indicates whether this vertex attribute represents patch data.
+    /// </summary>
+    public Bool8 IsPatchData
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
+    }
+    #endregion
+
+    /// <summary>
+    /// Deprecated: please use isActive instead
+    /// </summary>
+    [Obsolete("please use isActive instead")]
+    public Bool8 Active
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
+    }
+
+    /// <summary>
+    /// Deprecated: please use isPatchControlPointData instead
+    /// </summary>
+    [Obsolete("please use isPatchControlPointData instead")]
     public Bool8 PatchControlPointData
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchControlPointData);
     }
 
+    /// <summary>
+    /// Deprecated: please use isPatchData instead
+    /// </summary>
+    [Obsolete("please use isPatchData instead")]
     public Bool8 PatchData
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchData);

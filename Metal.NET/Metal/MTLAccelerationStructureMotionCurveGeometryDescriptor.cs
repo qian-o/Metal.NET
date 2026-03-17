@@ -15,6 +15,8 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
     {
     }
 
+    #region Instance Properties - Properties
+
     public MTLMotionKeyframeData[] ControlPointBuffers
     {
         get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointBuffers);
@@ -104,6 +106,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SegmentCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetSegmentCount, value);
     }
+    #endregion
 
     public static MTLAccelerationStructureMotionCurveGeometryDescriptor Descriptor()
     {

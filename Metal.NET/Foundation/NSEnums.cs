@@ -29,6 +29,9 @@ public enum NSComparisonResult : long
     Descending = 1
 }
 
+/// <summary>
+/// Values used to indicate the system’s thermal state.
+/// </summary>
 public enum NSProcessInfoThermalState : long
 {
     Nominal = 0,
@@ -40,6 +43,9 @@ public enum NSProcessInfoThermalState : long
     Critical = 3
 }
 
+/// <summary>
+/// These values represent the options available to many of the string classes’ search and comparison methods.
+/// </summary>
 [Flags]
 public enum NSStringCompareOptions : ulong
 {
@@ -62,6 +68,9 @@ public enum NSStringCompareOptions : ulong
     RegularExpressionSearch = 1024
 }
 
+/// <summary>
+/// The following constants are provided by NSString as possible string encodings.
+/// </summary>
 public enum NSStringEncoding : ulong
 {
     ASCIIStringEncoding = 1,

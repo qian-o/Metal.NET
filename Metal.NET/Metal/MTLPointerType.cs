@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A description of a pointer.
+/// </summary>
 public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLPointerType>
 {
     #region INativeObject
@@ -15,31 +18,54 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
     {
     }
 
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.Access);
-    }
+    #region Describing the pointer elements - Properties
 
+    /// <summary>
+    /// The required byte alignment in memory for the element data.
+    /// </summary>
     public nuint Alignment
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Alignment);
     }
 
+    /// <summary>
+    /// The size, in bytes, of the element data.
+    /// </summary>
     public nuint DataSize
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
     }
 
-    public Bool8 ElementIsArgumentBuffer
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
-    }
-
+    /// <summary>
+    /// The data type of the element data.
+    /// </summary>
     public MTLDataType ElementType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.ElementType);
     }
 
+    /// <summary>
+    /// The function’s read/write access to the element data.
+    /// </summary>
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.Access);
+    }
+
+    /// <summary>
+    /// A Boolean value that indicates whether the element is an argument buffer.
+    /// </summary>
+    public Bool8 ElementIsArgumentBuffer
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
+    }
+    #endregion
+
+    #region Obtaining details for complex pointer elements - Methods
+
+    /// <summary>
+    /// Provides a description of the underlying array when the pointer points to an array.
+    /// </summary>
     public MTLArrayType ElementArrayType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementArrayType);
@@ -47,12 +73,16 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    /// <summary>
+    /// Provides a description of the underlying struct when the pointer points to a struct.
+    /// </summary>
     public MTLStructType ElementStructType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementStructType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+    #endregion
 }
 
 file static class MTLPointerTypeBindings

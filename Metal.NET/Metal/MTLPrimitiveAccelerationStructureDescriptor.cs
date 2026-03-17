@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A description of an acceleration structure that contains geometry primitives.
+/// </summary>
 public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTLPrimitiveAccelerationStructureDescriptor>
 {
     #region INativeObject
@@ -15,41 +18,65 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeO
     {
     }
 
+    #region Specifying geometry - Properties
+
+    /// <summary>
+    /// An array that contains the individual pieces of geometry that compose the acceleration structure.
+    /// </summary>
     public MTLAccelerationStructureGeometryDescriptor[] GeometryDescriptors
     {
         get => GetArrayProperty<MTLAccelerationStructureGeometryDescriptor>(MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
         set => SetArrayProperty(MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
     }
+    #endregion
 
-    public MTLMotionBorderMode MotionEndBorderMode
-    {
-        get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndBorderMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndBorderMode, (uint)value);
-    }
+    #region Specifying motion behavior - Properties
 
-    public float MotionEndTime
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndTime);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndTime, value);
-    }
-
+    /// <summary>
+    /// The number of keyframes in the geometry data.
+    /// </summary>
     public nuint MotionKeyframeCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionKeyframeCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionKeyframeCount, value);
     }
 
+    /// <summary>
+    /// The start time for the range of motion that the keyframe data describes.
+    /// </summary>
+    public float MotionStartTime
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartTime);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartTime, value);
+    }
+
+    /// <summary>
+    /// The end time for the range of motion that the keyframe data describes.
+    /// </summary>
+    public float MotionEndTime
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndTime);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndTime, value);
+    }
+
+    /// <summary>
+    /// The mode to use when handling timestamps before the start time.
+    /// </summary>
     public MTLMotionBorderMode MotionStartBorderMode
     {
         get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartBorderMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartBorderMode, (uint)value);
     }
 
-    public float MotionStartTime
+    /// <summary>
+    /// The mode to use when handling timestamps after the end time.
+    /// </summary>
+    public MTLMotionBorderMode MotionEndBorderMode
     {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartTime);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartTime, value);
+        get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndBorderMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndBorderMode, (uint)value);
     }
+    #endregion
 
     public static MTLPrimitiveAccelerationStructureDescriptor Descriptor()
     {

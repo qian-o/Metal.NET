@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A representation of an argument within an argument buffer.
+/// </summary>
 public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLArgumentDescriptor>
 {
     #region INativeObject
@@ -15,41 +18,62 @@ public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownersh
     {
     }
 
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.Access);
-        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetAccess, (nuint)value);
-    }
+    #region Setting the descriptor’s properties - Properties
 
-    public nuint ArrayLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ArrayLength);
-        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetArrayLength, value);
-    }
-
-    public nuint ConstantBlockAlignment
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ConstantBlockAlignment);
-        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetConstantBlockAlignment, value);
-    }
-
+    /// <summary>
+    /// The data type of the argument.
+    /// </summary>
     public MTLDataType DataType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.DataType);
         set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetDataType, (nuint)value);
     }
 
+    /// <summary>
+    /// The index ID of the argument.
+    /// </summary>
     public nuint Index
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.Index);
         set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetIndex, value);
     }
 
+    /// <summary>
+    /// The access permissions of the argument.
+    /// </summary>
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.Access);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetAccess, (nuint)value);
+    }
+
+    /// <summary>
+    /// The length of an array argument.
+    /// </summary>
+    public nuint ArrayLength
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ArrayLength);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetArrayLength, value);
+    }
+
+    /// <summary>
+    /// The alignment of the constant block.
+    /// </summary>
+    public nuint ConstantBlockAlignment
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ConstantBlockAlignment);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetConstantBlockAlignment, value);
+    }
+
+    /// <summary>
+    /// The texture type of a texture argument.
+    /// </summary>
     public MTLTextureType TextureType
     {
         get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.TextureType);
         set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetTextureType, (nuint)value);
     }
+    #endregion
 
     public static MTLArgumentDescriptor ArgumentDescriptor()
     {

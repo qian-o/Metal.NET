@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A description of a tile-shading render pipeline’s color render target.
+/// </summary>
 public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTileRenderPipelineColorAttachmentDescriptor>
 {
     #region INativeObject
@@ -15,11 +18,17 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr, Nati
     {
     }
 
+    #region Specifying pixel format - Properties
+
+    /// <summary>
+    /// The pixel format associated with the tile shading render pipeline.
+    /// </summary>
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.PixelFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)value);
     }
+    #endregion
 }
 
 file static class MTLTileRenderPipelineColorAttachmentDescriptorBindings

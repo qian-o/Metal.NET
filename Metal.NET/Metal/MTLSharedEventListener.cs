@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A listener for shareable event notifications.
+/// </summary>
 public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedEventListener>
 {
     #region INativeObject
@@ -15,10 +18,18 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
     {
     }
 
+    #region Getting the dispatch queue - Properties
+
+    /// <summary>
+    /// The dispatch queue used to dispatch any notifications.
+    /// </summary>
     public DispatchQueue DispatchQueue
     {
         get => GetProperty(ref field, MTLSharedEventListenerBindings.DispatchQueue);
     }
+    #endregion
+
+    #region Type Methods - Methods
 
     public static MTLSharedEventListener SharedListener()
     {
@@ -26,6 +37,7 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+    #endregion
 }
 
 file static class MTLSharedEventListenerBindings

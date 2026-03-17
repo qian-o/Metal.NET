@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// An array of color attachment descriptions for a render pipeline.
+/// </summary>
 public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4RenderPipelineColorAttachmentDescriptorArray>
 {
     #region INativeObject
@@ -29,10 +32,16 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Na
         }
     }
 
+    #region Instance Methods - Methods
+
+    /// <summary>
+    /// Resets the elements of the descriptor array
+    /// </summary>
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Reset);
     }
+    #endregion
 }
 
 file static class MTL4RenderPipelineColorAttachmentDescriptorArrayBindings

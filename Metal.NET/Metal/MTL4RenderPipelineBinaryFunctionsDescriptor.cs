@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// Allows you to specify additional binary functions to link to each stage of a render pipeline.
+/// </summary>
 public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4RenderPipelineBinaryFunctionsDescriptor>
 {
     #region INativeObject
@@ -15,40 +18,64 @@ public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, NativeO
     {
     }
 
+    #region Instance Properties - Properties
+
+    /// <summary>
+    /// Provides an array of binary functions representing additional binary fragment shader functions.
+    /// </summary>
     public MTLFunction[] FragmentAdditionalBinaryFunctions
     {
         get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.FragmentAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetFragmentAdditionalBinaryFunctions, value);
     }
 
+    /// <summary>
+    /// Provides an array of binary functions representing additional binary mesh shader functions.
+    /// </summary>
     public MTLFunction[] MeshAdditionalBinaryFunctions
     {
         get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.MeshAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetMeshAdditionalBinaryFunctions, value);
     }
 
+    /// <summary>
+    /// Provides an array of binary functions representing additional binary object shader functions.
+    /// </summary>
     public MTLFunction[] ObjectAdditionalBinaryFunctions
     {
         get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.ObjectAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetObjectAdditionalBinaryFunctions, value);
     }
 
+    /// <summary>
+    /// Provides an array of binary functions representing additional binary tile shader functions.
+    /// </summary>
     public MTLFunction[] TileAdditionalBinaryFunctions
     {
         get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.TileAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetTileAdditionalBinaryFunctions, value);
     }
 
+    /// <summary>
+    /// Provides an array of binary functions representing additional binary vertex shader functions.
+    /// </summary>
     public MTLFunction[] VertexAdditionalBinaryFunctions
     {
         get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.VertexAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetVertexAdditionalBinaryFunctions, value);
     }
+    #endregion
 
+    #region Instance Methods - Methods
+
+    /// <summary>
+    /// Resets this descriptor to its default state.
+    /// </summary>
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.Reset);
     }
+    #endregion
 }
 
 file static class MTL4RenderPipelineBinaryFunctionsDescriptorBindings

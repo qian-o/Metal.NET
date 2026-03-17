@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Metal.NET;
 
+/// <summary>
+/// A static, plain-text Unicode string object.
+/// </summary>
 public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSString>
 {
     #region INativeObject

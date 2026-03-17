@@ -11,6 +11,8 @@ public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) :
     }
     #endregion
 
+    #region Instance Properties - Properties
+
     public nuint BufferAlignment
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferAlignment);
@@ -35,6 +37,7 @@ public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) :
     {
         get => GetProperty(ref field, MTLBufferBindingBindings.BufferStructType);
     }
+    #endregion
 }
 
 file static class MTLBufferBindingBindings

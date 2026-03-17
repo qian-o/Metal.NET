@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A description of a texture.
+/// </summary>
 public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTextureReferenceType>
 {
     #region INativeObject
@@ -15,25 +18,40 @@ public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership owner
     {
     }
 
-    public MTLBindingAccess Access
+    #region Describing the texture - Properties
+
+    /// <summary>
+    /// The texture type of the texture.
+    /// </summary>
+    public MTLTextureType TextureType
     {
-        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.Access);
+        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureType);
     }
 
-    public Bool8 IsDepthTexture
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
-    }
-
+    /// <summary>
+    /// The data type of the texture.
+    /// </summary>
     public MTLDataType TextureDataType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureDataType);
     }
 
-    public MTLTextureType TextureType
+    /// <summary>
+    /// The texture’s read/write access to the argument.
+    /// </summary>
+    public MTLBindingAccess Access
     {
-        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureType);
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.Access);
     }
+
+    /// <summary>
+    /// A Boolean value that indicates whether the texture is a depth texture.
+    /// </summary>
+    public Bool8 IsDepthTexture
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
+    }
+    #endregion
 }
 
 file static class MTLTextureReferenceTypeBindings

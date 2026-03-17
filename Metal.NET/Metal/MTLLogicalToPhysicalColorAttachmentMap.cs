@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// Allows you to easily specify color attachment remapping from logical to physical indices.
+/// </summary>
 public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLogicalToPhysicalColorAttachmentMap>
 {
     #region INativeObject
@@ -15,14 +18,17 @@ public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, NativeObject
     {
     }
 
-    public nuint GetPhysicalIndex(nuint logicalIndex)
-    {
-        return ObjectiveC.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.GetPhysicalIndex, logicalIndex);
-    }
+    #region Instance Methods - Methods
 
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.Reset);
+    }
+    #endregion
+
+    public nuint GetPhysicalIndex(nuint logicalIndex)
+    {
+        return ObjectiveC.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.GetPhysicalIndex, logicalIndex);
     }
 
     public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)

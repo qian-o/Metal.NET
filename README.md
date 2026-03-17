@@ -67,18 +67,27 @@ Metal.NET.slnx
     ├── CppParser.cs                    ← Parses metal-cpp headers
     ├── CSharpEmitter.cs                ← Emits C# source files
     ├── TypeMapper.cs                   ← C++ → C# type mapping
+    ├── update-sources.ps1              ← Downloads metal-cpp & Apple docs
+    ├── metal-docs.json                 ← Distilled API docs & member ordering (committed)
     └── metal-cpp/                      ← Upstream metal-cpp headers
 ```
 
 ## Updating Bindings
 
-1. Replace `Metal.NET.Generator/metal-cpp/` with the latest [metal-cpp](https://developer.apple.com/metal/cpp/) archive.
-2. Run the generator and verify:
+Run the update script to fetch the latest metal-cpp headers and Apple documentation JSON, then regenerate:
 
-   ```bash
-   dotnet run --project Metal.NET.Generator
-   dotnet build Metal.NET
-   ```
+```bash
+pwsh -File Metal.NET.Generator/update-sources.ps1
+dotnet run --project Metal.NET.Generator
+dotnet build Metal.NET
+```
+
+You can also update them independently:
+
+```bash
+pwsh -File Metal.NET.Generator/update-sources.ps1 -SkipDocs       # only update metal-cpp
+pwsh -File Metal.NET.Generator/update-sources.ps1 -SkipMetalCpp   # only refresh documentation JSON
+```
 
 ## Disclaimer
 

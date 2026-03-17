@@ -15,12 +15,17 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint n
     {
     }
 
+    #region Instance Properties - Properties
+
     public nuint EndOfEncoderSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
 
+    /// <summary>
+    /// A specialized memory buffer that the GPU uses to store its counter data during the acceleration structure pass.
+    /// </summary>
     public MTLCounterSampleBuffer SampleBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
@@ -32,6 +37,7 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint n
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
     }
+    #endregion
 }
 
 file static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings

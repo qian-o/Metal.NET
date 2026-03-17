@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A description of a list of bounding boxes, as motion keyframe data, to turn into an acceleration structure.
+/// </summary>
 public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor>
 {
     #region INativeObject
@@ -15,23 +18,38 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint na
     {
     }
 
+    #region Specifying the number of bounding boxes - Properties
+
+    /// <summary>
+    /// The number of bounding boxes in each bounding box buffer.
+    /// </summary>
+    public nuint BoundingBoxCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
+    }
+    #endregion
+
+    #region Specifying bounding boxes data - Properties
+
+    /// <summary>
+    /// A array of motion keyframes, each containing bounding box data.
+    /// </summary>
     public MTLMotionKeyframeData[] BoundingBoxBuffers
     {
         get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffers);
         set => SetArrayProperty(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value);
     }
 
-    public nuint BoundingBoxCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
-    }
-
+    /// <summary>
+    /// The stride, in bytes, between bounding boxes in each buffer.
+    /// </summary>
     public nuint BoundingBoxStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, value);
     }
+    #endregion
 
     public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Descriptor()
     {

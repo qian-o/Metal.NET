@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// An array instance that contains rasterization rates.
+/// </summary>
 public class MTLRasterizationRateSampleArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateSampleArray>
 {
     #region INativeObject

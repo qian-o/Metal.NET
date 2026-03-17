@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// An array of render pass color attachment descriptor objects.
+/// </summary>
 public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
 {
     #region INativeObject

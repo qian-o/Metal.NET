@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// An array of color attachment descriptors for the tile render pipeline.
+/// </summary>
 public class MTLTileRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTileRenderPipelineColorAttachmentDescriptorArray>
 {
     #region INativeObject

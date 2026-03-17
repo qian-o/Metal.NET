@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// An object that you use to configure new rasterization rate maps.
+/// </summary>
 public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMapDescriptor>
 {
     #region INativeObject
@@ -15,34 +18,69 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
     {
     }
 
+    #region Identifying the rate map - Properties
+
+    /// <summary>
+    /// A string used to identify the rate map you create with the descriptor.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Label);
         set => SetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.SetLabel, value);
     }
+    #endregion
 
-    public nuint LayerCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerCount);
-    }
+    #region Configuring the viewport size - Properties
 
-    public MTLRasterizationRateLayerArray Layers
-    {
-        get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Layers);
-    }
-
+    /// <summary>
+    /// The size of the viewport coordinate system, in logical pixels.
+    /// </summary>
     public MTLSize ScreenSize
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapDescriptorBindings.ScreenSize);
         set => ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetScreenSize, value);
     }
+    #endregion
 
+    #region Configuring the rate map layers - Properties
+
+    /// <summary>
+    /// The number of layers in the rate map.
+    /// </summary>
+    public nuint LayerCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerCount);
+    }
+
+    /// <summary>
+    /// The rasterization rates for one or more layers in the rate map.
+    /// </summary>
+    public MTLRasterizationRateLayerArray Layers
+    {
+        get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Layers);
+    }
+    #endregion
+
+    #region Configuring the rate map layers - Methods
+
+    /// <summary>
+    /// Returns the layer description for a layer in the rate map.
+    /// </summary>
     public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.Layer, layerIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+
+    /// <summary>
+    /// Sets a configuration for a layer rate map.
+    /// </summary>
+    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLayer, layer.NativePtr, layerIndex);
+    }
+    #endregion
 
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)
     {
@@ -56,11 +94,6 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSizelayer, screenSize, layer.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLayer, layer.NativePtr, layerIndex);
     }
 }
 

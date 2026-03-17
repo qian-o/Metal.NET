@@ -1,5 +1,8 @@
 ﻿namespace Metal.NET;
 
+/// <summary>
+/// A description of a new library of procedurally generated functions.
+/// </summary>
 public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStitchedLibraryDescriptor>
 {
     #region INativeObject
@@ -15,22 +18,33 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
     {
     }
 
-    public MTLBinaryArchive[] BinaryArchives
+    #region Configuring a stitched library - Properties
+
+    /// <summary>
+    /// The list of functions for creating the stitched library.
+    /// </summary>
+    public MTLFunction[] Functions
     {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLStitchedLibraryDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
+        get => GetArrayProperty<MTLFunction>(MTLStitchedLibraryDescriptorBindings.Functions);
+        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
     }
 
+    /// <summary>
+    /// The function graphs that define the new stitched library’s functions.
+    /// </summary>
     public MTLFunctionStitchingGraph[] FunctionGraphs
     {
         get => GetArrayProperty<MTLFunctionStitchingGraph>(MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
         set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
     }
+    #endregion
 
-    public MTLFunction[] Functions
+    #region Instance Properties - Properties
+
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetArrayProperty<MTLFunction>(MTLStitchedLibraryDescriptorBindings.Functions);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLStitchedLibraryDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLStitchedLibraryOptions Options
@@ -38,6 +52,7 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
         get => (MTLStitchedLibraryOptions)ObjectiveC.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
         set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
     }
+    #endregion
 }
 
 file static class MTLStitchedLibraryDescriptorBindings
