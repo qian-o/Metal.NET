@@ -801,6 +801,13 @@ partial class AstJsonParser
     {
         string t = StripNullability(objcType).Trim();
 
+        // id<Protocol> const * → OBJ_ARRAY:Protocol (pointer to array of protocol objects)
+        Match idConstPtrMatch = IdProtocolConstPointerRegex().Match(t);
+        if (idConstPtrMatch.Success)
+        {
+            return $"OBJ_ARRAY:{idConstPtrMatch.Groups[1].Value}";
+        }
+
         // id<Protocol> → Protocol*
         Match idMatch = IdProtocolRegex().Match(t);
         if (idMatch.Success)
@@ -993,6 +1000,9 @@ partial class AstJsonParser
 
     [GeneratedRegex(@"\bAPI_(?:UN)?AVAILABLE\b(?:\([^)]*\))?")]
     private static partial Regex ApiAvailabilityRegex();
+
+    [GeneratedRegex(@"^id<(\w+)>\s*const\s*\*$")]
+    private static partial Regex IdProtocolConstPointerRegex();
 
     [GeneratedRegex(@"^id<(\w+)>$")]
     private static partial Regex IdProtocolRegex();

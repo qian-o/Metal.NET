@@ -11,7 +11,7 @@ public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, NativeObject
     }
     #endregion
 
-    public void SetPhysicalIndexForLogicalIndex(nuint physicalIndex, nuint logicalIndex)
+    public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.SetPhysicalIndex, physicalIndex, logicalIndex);
     }

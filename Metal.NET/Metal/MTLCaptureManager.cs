@@ -59,7 +59,7 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.SupportsDestination, (nint)destination);
     }
 
-    public bool StartCaptureWithDescriptorError(MTLCaptureDescriptor descriptor, out NSError error)
+    public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 

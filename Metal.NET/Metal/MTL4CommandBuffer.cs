@@ -37,9 +37,9 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocator, allocator.NativePtr);
     }
 
-    public void BeginCommandBufferWithAllocatorOptions(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
+    public void BeginCommandBuffer(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatoroptions, allocator.NativePtr, options.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatorOptions, allocator.NativePtr, options.NativePtr);
     }
 
     public void EndCommandBuffer()
@@ -54,9 +54,9 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4RenderCommandEncoder RenderCommandEncoderWithDescriptorOptions(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
+    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptorOptions, descriptor.NativePtr, (nuint)options);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -64,6 +64,17 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
     public void UseResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySet, residencySet.NativePtr);
+    }
+
+    public unsafe void UseResidencySets(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void PushDebugGroup(NSString @string)
@@ -76,12 +87,12 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.PopDebugGroup);
     }
 
-    public void WriteTimestampIntoHeapAtIndex(MTL4CounterHeap counterHeap, nuint index)
+    public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.WriteTimestampIntoHeap, counterHeap.NativePtr, index);
     }
 
-    public void ResolveCounterHeapWithRangeIntoBufferWaitFenceUpdateFence(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)
+    public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.ResolveCounterHeap, counterHeap.NativePtr, range, bufferRange, fenceToWait.NativePtr, fenceToUpdate.NativePtr);
     }
@@ -91,7 +102,7 @@ file static class MTL4CommandBufferBindings
 {
     public static readonly Selector BeginCommandBufferWithAllocator = "beginCommandBufferWithAllocator:";
 
-    public static readonly Selector BeginCommandBufferWithAllocatoroptions = "beginCommandBufferWithAllocator:options:";
+    public static readonly Selector BeginCommandBufferWithAllocatorOptions = "beginCommandBufferWithAllocator:options:";
 
     public static readonly Selector ComputeCommandEncoder = "computeCommandEncoder";
 
@@ -109,13 +120,15 @@ file static class MTL4CommandBufferBindings
 
     public static readonly Selector RenderCommandEncoderWithDescriptor = "renderCommandEncoderWithDescriptor:";
 
-    public static readonly Selector RenderCommandEncoderWithDescriptoroptions = "renderCommandEncoderWithDescriptor:options:";
+    public static readonly Selector RenderCommandEncoderWithDescriptorOptions = "renderCommandEncoderWithDescriptor:options:";
 
     public static readonly Selector ResolveCounterHeap = "resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector UseResidencySet = "useResidencySet:";
+
+    public static readonly Selector UseResidencySets = "useResidencySets:count:";
 
     public static readonly Selector WriteTimestampIntoHeap = "writeTimestampIntoHeap:atIndex:";
 }

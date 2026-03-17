@@ -41,7 +41,7 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
         get => ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLRasterizationRateMapBindings.ParameterBufferSizeAndAlign);
     }
 
-    public void CopyParameterDataToBufferOffset(MTLBuffer buffer, nuint offset)
+    public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapBindings.CopyParameterDataToBuffer, buffer.NativePtr, offset);
     }
@@ -51,12 +51,12 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
         return ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalSizeForLayer, layerIndex);
     }
 
-    public MTLSamplePosition MapScreenToPhysicalCoordinatesForLayer(MTLSamplePosition screenCoordinates, nuint layerIndex)
+    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
     {
         return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapScreenToPhysicalCoordinates, screenCoordinates, layerIndex);
     }
 
-    public MTLSamplePosition MapPhysicalToScreenCoordinatesForLayer(MTLSamplePosition physicalCoordinates, nuint layerIndex)
+    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
     {
         return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapPhysicalToScreenCoordinates, physicalCoordinates, layerIndex);
     }

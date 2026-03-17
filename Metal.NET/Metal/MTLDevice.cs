@@ -233,7 +233,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendULong(NativePtr, MTLDeviceBindings.QueryTimestampFrequency);
     }
 
-    public MTLLogState NewLogStateWithDescriptorError(MTLLogStateDescriptor descriptor, out NSError error)
+    public MTLLogState NewLogState(MTLLogStateDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewLogStateWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -268,7 +268,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceBindings.HeapTextureSizeAndAlignWithDescriptor, desc.NativePtr);
     }
 
-    public MTLSizeAndAlign HeapBufferSizeAndAlignWithLengthOptions(nuint length, MTLResourceOptions options)
+    public MTLSizeAndAlign HeapBufferSizeAndAlign(nuint length, MTLResourceOptions options)
     {
         return ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceBindings.HeapBufferSizeAndAlignWithLength, length, (nuint)options);
     }
@@ -280,14 +280,14 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLBuffer NewBufferWithLengthOptions(nuint length, MTLResourceOptions options)
+    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewBufferWithLength, length, (nuint)options);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLBuffer NewBufferWithBytesLengthOptions(nint pointer, nuint length, MTLResourceOptions options)
+    public MTLBuffer NewBuffer(nint pointer, nuint length, MTLResourceOptions options)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewBufferWithBytes, pointer, length, (nuint)options);
 
@@ -308,9 +308,9 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTexture NewTextureWithDescriptorIosurfacePlane(MTLTextureDescriptor descriptor, nint iosurface, nuint plane)
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nint iosurface, nuint plane)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewTextureWithDescriptoriosurfaceplane, descriptor.NativePtr, iosurface, plane);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewTextureWithDescriptorIosurfacePlane, descriptor.NativePtr, iosurface, plane);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -343,7 +343,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLLibrary NewDefaultLibraryWithBundleError(NSBundle bundle, out NSError error)
+    public MTLLibrary NewDefaultLibrary(NSBundle bundle, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewDefaultLibraryWithBundle, bundle.NativePtr, out nint errorPtr);
 
@@ -356,7 +356,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     /// Deprecated: Use -newLibraryWithURL:error: instead
     /// </summary>
     [Obsolete("Use -newLibraryWithURL:error: instead")]
-    public MTLLibrary NewLibraryWithFileError(NSString filepath, out NSError error)
+    public MTLLibrary NewLibrary(NSString filepath, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewLibraryWithFile, filepath.NativePtr, out nint errorPtr);
 
@@ -365,7 +365,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLLibrary NewLibraryWithURLError(NSURL url, out NSError error)
+    public MTLLibrary NewLibrary(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewLibraryWithURL, url.NativePtr, out nint errorPtr);
 
@@ -374,7 +374,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLLibrary NewLibraryWithDataError(DispatchData data, out NSError error)
+    public MTLLibrary NewLibrary(DispatchData data, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewLibraryWithData, data.NativePtr, out nint errorPtr);
 
@@ -383,7 +383,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLLibrary NewLibraryWithSourceOptionsError(NSString source, MTLCompileOptions options, out NSError error)
+    public MTLLibrary NewLibrary(NSString source, MTLCompileOptions options, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewLibraryWithSource, source.NativePtr, options.NativePtr, out nint errorPtr);
 
@@ -392,12 +392,12 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void NewLibraryWithSourceOptionsCompletionHandler(NSString source, MTLCompileOptions options, MTLNewLibraryCompletionHandler completionHandler)
+    public void NewLibrary(NSString source, MTLCompileOptions options, MTLNewLibraryCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithSourceoptionscompletionHandler, source.NativePtr, options.NativePtr, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithSourceOptionsCompletionHandler, source.NativePtr, options.NativePtr, completionHandler.NativePtr);
     }
 
-    public MTLLibrary NewLibraryWithStitchedDescriptorError(MTLStitchedLibraryDescriptor descriptor, out NSError error)
+    public MTLLibrary NewLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewLibraryWithStitchedDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -406,12 +406,12 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void NewLibraryWithStitchedDescriptorCompletionHandler(MTLStitchedLibraryDescriptor descriptor, MTLNewLibraryCompletionHandler completionHandler)
+    public void NewLibrary(MTLStitchedLibraryDescriptor descriptor, MTLNewLibraryCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithStitchedDescriptorcompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithStitchedDescriptorCompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateWithDescriptorError(MTLRenderPipelineDescriptor descriptor, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -420,9 +420,9 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateWithDescriptorOptionsReflectionError(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptoroptionsreflectionerror, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptorOptionsReflectionError, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
 
         reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
 
@@ -431,17 +431,17 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void NewRenderPipelineStateWithDescriptorCompletionHandler(MTLRenderPipelineDescriptor descriptor, MTLNewRenderPipelineStateCompletionHandler completionHandler)
+    public void NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLNewRenderPipelineStateCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptorcompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptorCompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
     }
 
-    public void NewRenderPipelineStateWithDescriptorOptionsCompletionHandler(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
+    public void NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptorOptionsCompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
     }
 
-    public MTLComputePipelineState NewComputePipelineStateWithFunctionError(MTLFunction computeFunction, out NSError error)
+    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunction, computeFunction.NativePtr, out nint errorPtr);
 
@@ -450,9 +450,9 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLComputePipelineState NewComputePipelineStateWithFunctionOptionsReflectionError(MTLFunction computeFunction, MTLPipelineOption options, out MTLComputePipelineReflection reflection, out NSError error)
+    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, out MTLComputePipelineReflection reflection, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionoptionsreflectionerror, computeFunction.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionOptionsReflectionError, computeFunction.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
 
         reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
 
@@ -461,17 +461,17 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void NewComputePipelineStateWithFunctionCompletionHandler(MTLFunction computeFunction, MTLNewComputePipelineStateCompletionHandler completionHandler)
+    public void NewComputePipelineState(MTLFunction computeFunction, MTLNewComputePipelineStateCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctioncompletionHandler, computeFunction.NativePtr, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionCompletionHandler, computeFunction.NativePtr, completionHandler.NativePtr);
     }
 
-    public void NewComputePipelineStateWithFunctionOptionsCompletionHandler(MTLFunction computeFunction, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler completionHandler)
+    public void NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionoptionscompletionHandler, computeFunction.NativePtr, (nuint)options, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionOptionsCompletionHandler, computeFunction.NativePtr, (nuint)options, completionHandler.NativePtr);
     }
 
-    public MTLComputePipelineState NewComputePipelineStateWithDescriptorOptionsReflectionError(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, out MTLComputePipelineReflection reflection, out NSError error)
+    public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, out MTLComputePipelineReflection reflection, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithDescriptor, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
 
@@ -482,9 +482,9 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void NewComputePipelineStateWithDescriptorOptionsCompletionHandler(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler completionHandler)
+    public void NewComputePipelineState(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithDescriptorOptionsCompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
     }
 
     public MTLFence NewFence()
@@ -523,7 +523,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLDeviceBindings.MinimumTextureBufferAlignmentForPixelFormat, (nuint)format);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateWithTileDescriptorOptionsReflectionError(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithTileDescriptor, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
 
@@ -534,12 +534,12 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void NewRenderPipelineStateWithTileDescriptorOptionsCompletionHandler(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
+    public void NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithTileDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithTileDescriptorOptionsCompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateWithMeshDescriptorOptionsReflectionError(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithMeshDescriptor, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
 
@@ -550,12 +550,12 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void NewRenderPipelineStateWithMeshDescriptorOptionsCompletionHandler(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
+    public void NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithMeshDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithMeshDescriptorOptionsCompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
     }
 
-    public void GetDefaultSamplePositionsCount(MTLSamplePosition positions, nuint count)
+    public void GetDefaultSamplePositions(MTLSamplePosition positions, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.GetDefaultSamplePositions, positions, count);
     }
@@ -572,7 +572,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIndirectCommandBuffer NewIndirectCommandBufferWithDescriptorMaxCommandCountOptions(MTLIndirectCommandBufferDescriptor descriptor, nuint maxCount, MTLResourceOptions options)
+    public MTLIndirectCommandBuffer NewIndirectCommandBuffer(MTLIndirectCommandBufferDescriptor descriptor, nuint maxCount, MTLResourceOptions options)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewIndirectCommandBufferWithDescriptor, descriptor.NativePtr, maxCount, (nuint)options);
 
@@ -604,7 +604,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     /// Deprecated: Use newIOFileHandleWithURL:error: instead
     /// </summary>
     [Obsolete("Use newIOFileHandleWithURL:error: instead")]
-    public MTLIOFileHandle NewIOHandleWithURLError(NSURL url, out NSError error)
+    public MTLIOFileHandle NewIOHandle(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewIOHandleWithURL, url.NativePtr, out nint errorPtr);
 
@@ -613,7 +613,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIOCommandQueue NewIOCommandQueueWithDescriptorError(MTLIOCommandQueueDescriptor descriptor, out NSError error)
+    public MTLIOCommandQueue NewIOCommandQueue(MTLIOCommandQueueDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewIOCommandQueueWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -626,16 +626,16 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     /// Deprecated: Use newIOFileHandleWithURL:compressionMethod:error: instead
     /// </summary>
     [Obsolete("Use newIOFileHandleWithURL:compressionMethod:error: instead")]
-    public MTLIOFileHandle NewIOHandleWithURLCompressionMethodError(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError error)
+    public MTLIOFileHandle NewIOHandle(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewIOHandleWithURLcompressionMethoderror, url.NativePtr, (nint)compressionMethod, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewIOHandleWithURLCompressionMethodError, url.NativePtr, (nint)compressionMethod, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIOFileHandle NewIOFileHandleWithURLError(NSURL url, out NSError error)
+    public MTLIOFileHandle NewIOFileHandle(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewIOFileHandleWithURL, url.NativePtr, out nint errorPtr);
 
@@ -644,26 +644,26 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIOFileHandle NewIOFileHandleWithURLCompressionMethodError(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError error)
+    public MTLIOFileHandle NewIOFileHandle(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewIOFileHandleWithURLcompressionMethoderror, url.NativePtr, (nint)compressionMethod, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewIOFileHandleWithURLCompressionMethodError, url.NativePtr, (nint)compressionMethod, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLSize SparseTileSizeWithTextureTypePixelFormatSampleCount(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount)
+    public MTLSize SparseTileSize(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount)
     {
         return ObjectiveC.MsgSendMTLSize(NativePtr, MTLDeviceBindings.SparseTileSizeWithTextureType, (nuint)textureType, (nuint)pixelFormat, sampleCount);
     }
 
-    public void ConvertSparsePixelRegionsToTileRegionsWithTileSizeAlignmentModeNumRegions(MTLRegion pixelRegions, MTLRegion tileRegions, MTLSize tileSize, MTLSparseTextureRegionAlignmentMode mode, nuint numRegions)
+    public void ConvertSparsePixelRegions(MTLRegion pixelRegions, MTLRegion tileRegions, MTLSize tileSize, MTLSparseTextureRegionAlignmentMode mode, nuint numRegions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.ConvertSparsePixelRegions, pixelRegions, tileRegions, tileSize, (nuint)mode, numRegions);
     }
 
-    public void ConvertSparseTileRegionsToPixelRegionsWithTileSizeNumRegions(MTLRegion tileRegions, MTLRegion pixelRegions, MTLSize tileSize, nuint numRegions)
+    public void ConvertSparseTileRegions(MTLRegion tileRegions, MTLRegion pixelRegions, MTLSize tileSize, nuint numRegions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.ConvertSparseTileRegions, tileRegions, pixelRegions, tileSize, numRegions);
     }
@@ -673,12 +673,12 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLDeviceBindings.SparseTileSizeInBytesForSparsePageSize, (nint)sparsePageSize);
     }
 
-    public MTLSize SparseTileSizeWithTextureTypePixelFormatSampleCountSparsePageSize(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount, MTLSparsePageSize sparsePageSize)
+    public MTLSize SparseTileSize(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount, MTLSparsePageSize sparsePageSize)
     {
-        return ObjectiveC.MsgSendMTLSize(NativePtr, MTLDeviceBindings.SparseTileSizeWithTextureTypepixelFormatsampleCountsparsePageSize, (nuint)textureType, (nuint)pixelFormat, sampleCount, (nint)sparsePageSize);
+        return ObjectiveC.MsgSendMTLSize(NativePtr, MTLDeviceBindings.SparseTileSizeWithTextureTypePixelFormatSampleCountSparsePageSize, (nuint)textureType, (nuint)pixelFormat, sampleCount, (nint)sparsePageSize);
     }
 
-    public MTLCounterSampleBuffer NewCounterSampleBufferWithDescriptorError(MTLCounterSampleBufferDescriptor descriptor, out NSError error)
+    public MTLCounterSampleBuffer NewCounterSampleBuffer(MTLCounterSampleBufferDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewCounterSampleBufferWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -687,7 +687,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void SampleTimestampsGpuTimestamp(out ulong cpuTimestamp, out ulong gpuTimestamp)
+    public void SampleTimestamps(out ulong cpuTimestamp, out ulong gpuTimestamp)
     {
         ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.SampleTimestamps, out cpuTimestamp, out gpuTimestamp);
     }
@@ -709,7 +709,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsVertexAmplificationCount, count);
     }
 
-    public MTLDynamicLibrary NewDynamicLibraryError(MTLLibrary library, out NSError error)
+    public MTLDynamicLibrary NewDynamicLibrary(MTLLibrary library, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewDynamicLibrary, library.NativePtr, out nint errorPtr);
 
@@ -718,7 +718,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLDynamicLibrary NewDynamicLibraryWithURLError(NSURL url, out NSError error)
+    public MTLDynamicLibrary NewDynamicLibrary(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewDynamicLibraryWithURL, url.NativePtr, out nint errorPtr);
 
@@ -727,7 +727,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLBinaryArchive NewBinaryArchiveWithDescriptorError(MTLBinaryArchiveDescriptor descriptor, out NSError error)
+    public MTLBinaryArchive NewBinaryArchive(MTLBinaryArchiveDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewBinaryArchiveWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -765,7 +765,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceBindings.HeapAccelerationStructureSizeAndAlignWithDescriptor, descriptor.NativePtr);
     }
 
-    public MTLResidencySet NewResidencySetWithDescriptorError(MTLResidencySetDescriptor desc, out NSError error)
+    public MTLResidencySet NewResidencySet(MTLResidencySetDescriptor desc, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewResidencySetWithDescriptor, desc.NativePtr, out nint errorPtr);
 
@@ -779,7 +779,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceBindings.TensorSizeAndAlignWithDescriptor, descriptor.NativePtr);
     }
 
-    public MTLTensor NewTensorWithDescriptorError(MTLTensorDescriptor descriptor, out NSError error)
+    public MTLTensor NewTensor(MTLTensorDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewTensorWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -802,7 +802,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CommandAllocator NewCommandAllocatorWithDescriptorError(MTL4CommandAllocatorDescriptor descriptor, out NSError error)
+    public MTL4CommandAllocator NewCommandAllocator(MTL4CommandAllocatorDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewCommandAllocatorWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -818,7 +818,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CommandQueue NewMTL4CommandQueueWithDescriptorError(MTL4CommandQueueDescriptor descriptor, out NSError error)
+    public MTL4CommandQueue NewMTL4CommandQueue(MTL4CommandQueueDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewMTL4CommandQueueWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -834,7 +834,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4ArgumentTable NewArgumentTableWithDescriptorError(MTL4ArgumentTableDescriptor descriptor, out NSError error)
+    public MTL4ArgumentTable NewArgumentTable(MTL4ArgumentTableDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewArgumentTableWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -843,7 +843,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTextureViewPool NewTextureViewPoolWithDescriptorError(MTLResourceViewPoolDescriptor descriptor, out NSError error)
+    public MTLTextureViewPool NewTextureViewPool(MTLResourceViewPoolDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewTextureViewPoolWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -852,7 +852,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4Compiler NewCompilerWithDescriptorError(MTL4CompilerDescriptor descriptor, out NSError error)
+    public MTL4Compiler NewCompiler(MTL4CompilerDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewCompilerWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -861,7 +861,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4Archive NewArchiveWithURLError(NSURL url, out NSError error)
+    public MTL4Archive NewArchive(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewArchiveWithURL, url.NativePtr, out nint errorPtr);
 
@@ -877,14 +877,14 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLBuffer NewBufferWithLengthOptionsPlacementSparsePageSize(nuint length, MTLResourceOptions options, MTLSparsePageSize placementSparsePageSize)
+    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, MTLSparsePageSize placementSparsePageSize)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewBufferWithLengthoptionsplacementSparsePageSize, length, (nuint)options, (nint)placementSparsePageSize);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewBufferWithLengthOptionsPlacementSparsePageSize, length, (nuint)options, (nint)placementSparsePageSize);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CounterHeap NewCounterHeapWithDescriptorError(MTL4CounterHeapDescriptor descriptor, out NSError error)
+    public MTL4CounterHeap NewCounterHeap(MTL4CounterHeapDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewCounterHeapWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -1070,7 +1070,7 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewBufferWithLength = "newBufferWithLength:options:";
 
-    public static readonly Selector NewBufferWithLengthoptionsplacementSparsePageSize = "newBufferWithLength:options:placementSparsePageSize:";
+    public static readonly Selector NewBufferWithLengthOptionsPlacementSparsePageSize = "newBufferWithLength:options:placementSparsePageSize:";
 
     public static readonly Selector NewCommandAllocator = "newCommandAllocator";
 
@@ -1088,15 +1088,15 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewComputePipelineStateWithDescriptor = "newComputePipelineStateWithDescriptor:options:reflection:error:";
 
-    public static readonly Selector NewComputePipelineStateWithDescriptoroptionscompletionHandler = "newComputePipelineStateWithDescriptor:options:completionHandler:";
+    public static readonly Selector NewComputePipelineStateWithDescriptorOptionsCompletionHandler = "newComputePipelineStateWithDescriptor:options:completionHandler:";
 
     public static readonly Selector NewComputePipelineStateWithFunction = "newComputePipelineStateWithFunction:error:";
 
-    public static readonly Selector NewComputePipelineStateWithFunctioncompletionHandler = "newComputePipelineStateWithFunction:completionHandler:";
+    public static readonly Selector NewComputePipelineStateWithFunctionCompletionHandler = "newComputePipelineStateWithFunction:completionHandler:";
 
-    public static readonly Selector NewComputePipelineStateWithFunctionoptionscompletionHandler = "newComputePipelineStateWithFunction:options:completionHandler:";
+    public static readonly Selector NewComputePipelineStateWithFunctionOptionsCompletionHandler = "newComputePipelineStateWithFunction:options:completionHandler:";
 
-    public static readonly Selector NewComputePipelineStateWithFunctionoptionsreflectionerror = "newComputePipelineStateWithFunction:options:reflection:error:";
+    public static readonly Selector NewComputePipelineStateWithFunctionOptionsReflectionError = "newComputePipelineStateWithFunction:options:reflection:error:";
 
     public static readonly Selector NewCounterHeapWithDescriptor = "newCounterHeapWithDescriptor:error:";
 
@@ -1124,11 +1124,11 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewIOFileHandleWithURL = "newIOFileHandleWithURL:error:";
 
-    public static readonly Selector NewIOFileHandleWithURLcompressionMethoderror = "newIOFileHandleWithURL:compressionMethod:error:";
+    public static readonly Selector NewIOFileHandleWithURLCompressionMethodError = "newIOFileHandleWithURL:compressionMethod:error:";
 
     public static readonly Selector NewIOHandleWithURL = "newIOHandleWithURL:error:";
 
-    public static readonly Selector NewIOHandleWithURLcompressionMethoderror = "newIOHandleWithURL:compressionMethod:error:";
+    public static readonly Selector NewIOHandleWithURLCompressionMethodError = "newIOHandleWithURL:compressionMethod:error:";
 
     public static readonly Selector NewLibraryWithData = "newLibraryWithData:error:";
 
@@ -1136,11 +1136,11 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewLibraryWithSource = "newLibraryWithSource:options:error:";
 
-    public static readonly Selector NewLibraryWithSourceoptionscompletionHandler = "newLibraryWithSource:options:completionHandler:";
+    public static readonly Selector NewLibraryWithSourceOptionsCompletionHandler = "newLibraryWithSource:options:completionHandler:";
 
     public static readonly Selector NewLibraryWithStitchedDescriptor = "newLibraryWithStitchedDescriptor:error:";
 
-    public static readonly Selector NewLibraryWithStitchedDescriptorcompletionHandler = "newLibraryWithStitchedDescriptor:completionHandler:";
+    public static readonly Selector NewLibraryWithStitchedDescriptorCompletionHandler = "newLibraryWithStitchedDescriptor:completionHandler:";
 
     public static readonly Selector NewLibraryWithURL = "newLibraryWithURL:error:";
 
@@ -1156,19 +1156,19 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewRenderPipelineStateWithDescriptor = "newRenderPipelineStateWithDescriptor:error:";
 
-    public static readonly Selector NewRenderPipelineStateWithDescriptorcompletionHandler = "newRenderPipelineStateWithDescriptor:completionHandler:";
+    public static readonly Selector NewRenderPipelineStateWithDescriptorCompletionHandler = "newRenderPipelineStateWithDescriptor:completionHandler:";
 
-    public static readonly Selector NewRenderPipelineStateWithDescriptoroptionscompletionHandler = "newRenderPipelineStateWithDescriptor:options:completionHandler:";
+    public static readonly Selector NewRenderPipelineStateWithDescriptorOptionsCompletionHandler = "newRenderPipelineStateWithDescriptor:options:completionHandler:";
 
-    public static readonly Selector NewRenderPipelineStateWithDescriptoroptionsreflectionerror = "newRenderPipelineStateWithDescriptor:options:reflection:error:";
+    public static readonly Selector NewRenderPipelineStateWithDescriptorOptionsReflectionError = "newRenderPipelineStateWithDescriptor:options:reflection:error:";
 
     public static readonly Selector NewRenderPipelineStateWithMeshDescriptor = "newRenderPipelineStateWithMeshDescriptor:options:reflection:error:";
 
-    public static readonly Selector NewRenderPipelineStateWithMeshDescriptoroptionscompletionHandler = "newRenderPipelineStateWithMeshDescriptor:options:completionHandler:";
+    public static readonly Selector NewRenderPipelineStateWithMeshDescriptorOptionsCompletionHandler = "newRenderPipelineStateWithMeshDescriptor:options:completionHandler:";
 
     public static readonly Selector NewRenderPipelineStateWithTileDescriptor = "newRenderPipelineStateWithTileDescriptor:options:reflection:error:";
 
-    public static readonly Selector NewRenderPipelineStateWithTileDescriptoroptionscompletionHandler = "newRenderPipelineStateWithTileDescriptor:options:completionHandler:";
+    public static readonly Selector NewRenderPipelineStateWithTileDescriptorOptionsCompletionHandler = "newRenderPipelineStateWithTileDescriptor:options:completionHandler:";
 
     public static readonly Selector NewResidencySetWithDescriptor = "newResidencySetWithDescriptor:error:";
 
@@ -1188,7 +1188,7 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewTextureWithDescriptor = "newTextureWithDescriptor:";
 
-    public static readonly Selector NewTextureWithDescriptoriosurfaceplane = "newTextureWithDescriptor:iosurface:plane:";
+    public static readonly Selector NewTextureWithDescriptorIosurfacePlane = "newTextureWithDescriptor:iosurface:plane:";
 
     public static readonly Selector PeerCount = "peerCount";
 
@@ -1218,7 +1218,7 @@ file static class MTLDeviceBindings
 
     public static readonly Selector SparseTileSizeWithTextureType = "sparseTileSizeWithTextureType:pixelFormat:sampleCount:";
 
-    public static readonly Selector SparseTileSizeWithTextureTypepixelFormatsampleCountsparsePageSize = "sparseTileSizeWithTextureType:pixelFormat:sampleCount:sparsePageSize:";
+    public static readonly Selector SparseTileSizeWithTextureTypePixelFormatSampleCountSparsePageSize = "sparseTileSizeWithTextureType:pixelFormat:sampleCount:sparsePageSize:";
 
     public static readonly Selector Supports32BitFloatFiltering = "supports32BitFloatFiltering";
 

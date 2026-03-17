@@ -565,6 +565,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<MethodInfo> nonIndexerMethods = [.. methods
             .Where(m => m != indexerGetter && m != indexerSetter)];
 
+        Dictionary<MethodInfo, string> simplifiedNames = ComputeSimplifiedMethodNames(nonIndexerMethods, properties);
+
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
 
@@ -670,7 +672,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, selectors, hasZeroParamVersion);
+            EmitMethod(sb, method, csClassName, selectors, hasZeroParamVersion, simplifiedNames);
             hasPrecedingMember = true;
         }
 
@@ -1094,7 +1096,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Emits a single method into <paramref name="sb"/>, handling parameter marshalling
     /// (arrays, blocks, out-params, enums) and selecting the correct <c>MsgSend</c> variant.
     /// </summary>
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion)
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion, Dictionary<MethodInfo, string> simplifiedNames)
     {
         string csMethodName;
         string selectorObjC;
@@ -1108,12 +1110,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 ? selectorObjC[..selectorObjC.IndexOf(':')]
                 : selectorObjC;
 
-            // Multi-part selector (e.g., "presentDrawable:atTime:") → use full selector for method name
+            // Multi-part selector (e.g., "presentDrawable:atTime:") → use simplified or full name
             int colonCount = selectorObjC.Count(c => c == ':');
             if (colonCount > 1)
             {
-                // Build name from all parts: "presentDrawable:atTime:" → "PresentDrawableAtTime"
-                csMethodName = BuildMethodNameFromSelector(selectorObjC);
+                // Use pre-computed simplified name (with conflict detection)
+                csMethodName = simplifiedNames.TryGetValue(method, out string? simplified)
+                    ? simplified
+                    : BuildMethodNameFromSelector(selectorObjC);
             }
             else if (hasZeroParamVersion.Contains(methodName) && method.Parameters.Count > 0)
             {
@@ -1134,18 +1138,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
         string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
-        string selectorKey;
-        if (hasZeroParamVersion.Contains(method.Name) && method.Parameters.Count > 0)
-        {
-            selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
-        }
-        else
-        {
-            selectorKey = TypeMapper.ToPascalCase(method.Name);
-        }
+        string selectorKey = hasZeroParamVersion.Contains(method.Name) && method.Parameters.Count > 0
+            ? BuildMethodNameFromSelector(selectorObjC)
+            : TypeMapper.ToPascalCase(method.Name);
         if (selectors.TryGetValue(selectorKey, out string? existingSelector) && existingSelector != selectorObjC)
         {
-            selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
+            selectorKey = BuildMethodNameFromSelector(selectorObjC);
         }
         selectors.TryAdd(selectorKey, selectorObjC);
 
@@ -1503,17 +1501,146 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// <summary>
     /// Builds a C# method name from a multi-part ObjC selector.
     /// E.g., "presentDrawable:atTime:" → "PresentDrawableAtTime"
-    /// E.g., "newBufferWithLength:options:" → "NewBufferWithLength"
+    /// E.g., "newBufferWithLength:options:" → "NewBufferWithLengthOptions"
     /// </summary>
     static string BuildMethodNameFromSelector(string selector)
     {
-        string[] parts = selector.Split(':', StringSplitOptions.RemoveEmptyEntries);
+        ReadOnlySpan<char> remaining = selector.AsSpan();
         StringBuilder sb = new();
-        foreach (string part in parts)
+
+        while (!remaining.IsEmpty)
         {
-            sb.Append(TypeMapper.ToPascalCase(part));
+            int colon = remaining.IndexOf(':');
+            ReadOnlySpan<char> part = colon < 0 ? remaining : remaining[..colon];
+
+            if (!part.IsEmpty)
+            {
+                sb.Append(char.ToUpper(part[0]));
+                if (part.Length > 1)
+                {
+                    sb.Append(part[1..]);
+                }
+            }
+
+            remaining = colon < 0 ? [] : remaining[(colon + 1)..];
         }
+
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Simplifies a method name by using just the first selector part and stripping
+    /// any "With..." suffix. E.g., "newBufferWithLength" → "NewBuffer",
+    /// "signalEvent" → "SignalEvent", "newTensorWithDescriptor" → "NewTensor".
+    /// </summary>
+    static string SimplifyMethodName(string selectorFirstPart)
+    {
+        string pascal = TypeMapper.ToPascalCase(selectorFirstPart);
+
+        int idx = 0;
+        while (idx < pascal.Length)
+        {
+            idx = pascal.IndexOf("With", idx, StringComparison.Ordinal);
+            if (idx <= 0)
+            {
+                break;
+            }
+
+            if (idx + 4 < pascal.Length && char.IsUpper(pascal[idx + 4]))
+            {
+                return pascal[..idx];
+            }
+
+            idx += 4;
+        }
+
+        return pascal;
+    }
+
+    /// <summary>
+    /// Computes a parameter type signature key for method overload conflict detection.
+    /// Handles array merging (OBJ_ARRAY + count → single array param) and error out params.
+    /// </summary>
+    static string ComputeParamTypesKey(MethodInfo method)
+    {
+        List<string> types = [];
+        for (int i = 0; i < method.Parameters.Count; i++)
+        {
+            ParamDef p = method.Parameters[i];
+
+            if (p.Type is "ARRAY_PARAM")
+            {
+                continue;
+            }
+
+            if (p.Type.StartsWith("OBJ_ARRAY:") || p.Type.StartsWith("STRUCT_ARRAY:"))
+            {
+                types.Add(TypeMapper.MapType(ExtractArrayElementType(p.Type) + "*") + "[]");
+                i += SkipCountParam(method, i);
+                continue;
+            }
+
+            if (p.Type.StartsWith("PRIM_ARRAY:"))
+            {
+                types.Add(ExtractArrayElementType(p.Type) + "[]");
+                continue;
+            }
+
+            if (p.Type.Contains("Error**"))
+            {
+                types.Add("out:NSError");
+                continue;
+            }
+
+            types.Add(TypeMapper.MapType(p.Type));
+        }
+        return string.Join(',', types);
+
+        static string ExtractArrayElementType(string type) => type[(type.IndexOf(':') + 1)..];
+
+        static int SkipCountParam(MethodInfo method, int currentIndex) =>
+            currentIndex + 1 < method.Parameters.Count &&
+            method.Parameters[currentIndex + 1].Type is "NS::UInteger" &&
+            method.Parameters[currentIndex + 1].Name is "count" ? 1 : 0;
+    }
+
+    /// <summary>
+    /// Pre-computes simplified C# method names for multi-part selector methods.
+    /// Detects parameter type signature conflicts and falls back to full selector names
+    /// when simplification would create ambiguous overloads (e.g., two methods with the same
+    /// simplified name and identical parameter types like presentDrawable:atTime: and
+    /// presentDrawable:afterMinimumDuration:).
+    /// </summary>
+    Dictionary<MethodInfo, string> ComputeSimplifiedMethodNames(List<MethodInfo> methods, List<PropertyDef> properties)
+    {
+        Dictionary<MethodInfo, string> result = [];
+
+        HashSet<string> propertyNames = [.. properties.Select(p => TypeMapper.ToPascalCase(p.Getter.Name))];
+
+        List<(MethodInfo Method, string Simplified, string Full, string ParamKey)> entries = [];
+        foreach (MethodInfo m in methods)
+        {
+            if (m.Selector == null || m.Selector.Count(c => c == ':') <= 1)
+            {
+                continue;
+            }
+
+            string firstPart = m.Selector[..m.Selector.IndexOf(':')];
+            entries.Add((m, SimplifyMethodName(firstPart), BuildMethodNameFromSelector(m.Selector), ComputeParamTypesKey(m)));
+        }
+
+        foreach (var group in entries.GroupBy(e => (e.Simplified, e.ParamKey)))
+        {
+            List<(MethodInfo Method, string Simplified, string Full, string ParamKey)> items = [.. group];
+
+            bool hasConflict = items.Count > 1 || propertyNames.Contains(items[0].Simplified);
+            foreach (var (method, simplified, full, _) in items)
+            {
+                result[method] = hasConflict ? full : simplified;
+            }
+        }
+
+        return result;
     }
 
     #endregion

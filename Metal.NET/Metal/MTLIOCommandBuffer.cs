@@ -32,22 +32,22 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddCompletedHandler, block.NativePtr);
     }
 
-    public void LoadBytesSizeSourceHandleSourceHandleOffset(nint pointer, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
+    public void LoadBytes(nint pointer, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadBytes, pointer, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
-    public void LoadBufferOffsetSizeSourceHandleSourceHandleOffset(MTLBuffer buffer, nuint offset, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
+    public void LoadBuffer(MTLBuffer buffer, nuint offset, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadBuffer, buffer.NativePtr, offset, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
-    public void LoadTextureSliceLevelSizeSourceBytesPerRowSourceBytesPerImageDestinationOriginSourceHandleSourceHandleOffset(MTLTexture texture, nuint slice, nuint level, MTLSize size, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLOrigin destinationOrigin, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
+    public void LoadTexture(MTLTexture texture, nuint slice, nuint level, MTLSize size, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLOrigin destinationOrigin, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadTexture, texture.NativePtr, slice, level, size, sourceBytesPerRow, sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
-    public void CopyStatusToBufferOffset(MTLBuffer buffer, nuint offset)
+    public void CopyStatusToBuffer(MTLBuffer buffer, nuint offset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.CopyStatusToBuffer, buffer.NativePtr, offset);
     }
@@ -87,12 +87,12 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.Enqueue);
     }
 
-    public void WaitForEventValue(MTLSharedEvent @event, ulong value)
+    public void WaitForEvent(MTLSharedEvent @event, ulong value)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.WaitForEvent, @event.NativePtr, value);
     }
 
-    public void SignalEventValue(MTLSharedEvent @event, ulong value)
+    public void SignalEvent(MTLSharedEvent @event, ulong value)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, value);
     }

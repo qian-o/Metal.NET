@@ -27,7 +27,7 @@ public class MTLCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.EndEncoding);
     }
 
-    public void BarrierAfterQueueStagesBeforeStages(MTLStages afterQueueStages, MTLStages beforeStages)
+    public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages);
     }

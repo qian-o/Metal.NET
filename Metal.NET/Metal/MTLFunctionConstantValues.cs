@@ -15,19 +15,19 @@ public class MTLFunctionConstantValues(nint nativePtr, NativeObjectOwnership own
     {
     }
 
-    public void SetConstantValueTypeAtIndex(nint value, MTLDataType type, nuint index)
+    public void SetConstantValue(nint value, MTLDataType type, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValue, value, (nuint)type, index);
     }
 
-    public void SetConstantValuesTypeWithRange(nint values, MTLDataType type, NSRange range)
+    public void SetConstantValues(nint values, MTLDataType type, NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValues, values, (nuint)type, range);
     }
 
-    public void SetConstantValueTypeWithName(nint value, MTLDataType type, NSString name)
+    public void SetConstantValue(nint value, MTLDataType type, NSString name)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValuetypewithName, value, (nuint)type, name.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValueTypeWithName, value, (nuint)type, name.NativePtr);
     }
 
     public void Reset()
@@ -46,5 +46,5 @@ file static class MTLFunctionConstantValuesBindings
 
     public static readonly Selector SetConstantValues = "setConstantValues:type:withRange:";
 
-    public static readonly Selector SetConstantValuetypewithName = "setConstantValue:type:withName:";
+    public static readonly Selector SetConstantValueTypeWithName = "setConstantValue:type:withName:";
 }

@@ -31,7 +31,7 @@ public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership
         get => GetProperty(ref field, MTLResourceViewPoolBindings.Label);
     }
 
-    public MTLResourceID CopyResourceViewsFromPoolSourceRangeDestinationIndex(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
+    public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
     {
         return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.CopyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, destinationIndex);
     }

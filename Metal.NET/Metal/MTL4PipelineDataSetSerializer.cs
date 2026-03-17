@@ -11,7 +11,7 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
     }
     #endregion
 
-    public bool SerializeAsArchiveAndFlushToURLError(NSURL url, out NSError error)
+    public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
 
