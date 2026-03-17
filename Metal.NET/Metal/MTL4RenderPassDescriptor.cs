@@ -109,9 +109,19 @@ public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSamplePositions, positions, count);
     }
 
+    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
+    {
+        SetSamplePositionsCount(positions, count);
+    }
+
     public nuint GetSamplePositionsCount(MTLSamplePosition positions, nuint count)
     {
         return ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.GetSamplePositions, positions, count);
+    }
+
+    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
+    {
+        return GetSamplePositionsCount(positions, count);
     }
 }
 

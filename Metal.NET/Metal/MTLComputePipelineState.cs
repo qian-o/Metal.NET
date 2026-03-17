@@ -68,11 +68,21 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLFunctionHandle FunctionHandle(NSString name)
+    {
+        return FunctionHandleWithName(name);
+    }
+
     public MTLFunctionHandle FunctionHandleWithBinaryFunction(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
+    {
+        return FunctionHandleWithBinaryFunction(function);
     }
 
     public nuint ImageblockMemoryLengthForDimensions(MTLSize imageblockDimensions)
@@ -87,6 +97,11 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLFunctionHandle FunctionHandle(MTLFunction function)
+    {
+        return FunctionHandleWithFunction(function);
+    }
+
     public MTLVisibleFunctionTable NewVisibleFunctionTableWithDescriptor(MTLVisibleFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr);
@@ -94,11 +109,21 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
+    {
+        return NewVisibleFunctionTableWithDescriptor(descriptor);
+    }
+
     public MTLIntersectionFunctionTable NewIntersectionFunctionTableWithDescriptor(MTLIntersectionFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTableWithDescriptor, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
+    {
+        return NewIntersectionFunctionTableWithDescriptor(descriptor);
     }
 }
 

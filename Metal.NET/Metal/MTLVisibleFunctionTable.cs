@@ -20,6 +20,11 @@ public class MTLVisibleFunctionTable(nint nativePtr, NativeObjectOwnership owner
     {
         ObjectiveC.MsgSend(NativePtr, MTLVisibleFunctionTableBindings.SetFunction, function.NativePtr, index);
     }
+
+    public void SetFunction(MTLFunctionHandle function, nuint index)
+    {
+        SetFunctionAtIndex(function, index);
+    }
 }
 
 file static class MTLVisibleFunctionTableBindings

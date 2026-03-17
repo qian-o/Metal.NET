@@ -26,9 +26,19 @@ public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddress, gpuAddress, bindingIndex);
     }
 
+    public void SetAddress(nuint gpuAddress, nuint bindingIndex)
+    {
+        SetAddressAtIndex(gpuAddress, bindingIndex);
+    }
+
     public void SetAddressAttributeStrideAtIndex(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressAttributeStrideAtIndex, gpuAddress, stride, bindingIndex);
+    }
+
+    public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
+    {
+        SetAddressAttributeStrideAtIndex(gpuAddress, stride, bindingIndex);
     }
 
     public void SetResourceAtBufferIndex(MTLResourceID resourceID, nuint bindingIndex)
@@ -36,14 +46,29 @@ public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetResource, resourceID, bindingIndex);
     }
 
+    public void SetResource(MTLResourceID resourceID, nuint bindingIndex)
+    {
+        SetResourceAtBufferIndex(resourceID, bindingIndex);
+    }
+
     public void SetTextureAtIndex(MTLResourceID resourceID, nuint bindingIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetTexture, resourceID, bindingIndex);
     }
 
+    public void SetTexture(MTLResourceID resourceID, nuint bindingIndex)
+    {
+        SetTextureAtIndex(resourceID, bindingIndex);
+    }
+
     public void SetSamplerStateAtIndex(MTLResourceID resourceID, nuint bindingIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetSamplerState, resourceID, bindingIndex);
+    }
+
+    public void SetSamplerState(MTLResourceID resourceID, nuint bindingIndex)
+    {
+        SetSamplerStateAtIndex(resourceID, bindingIndex);
     }
 }
 

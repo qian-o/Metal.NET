@@ -112,11 +112,21 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLFXTemporalScaler NewTemporalScaler(MTLDevice device)
+    {
+        return NewTemporalScalerWithDevice(device);
+    }
+
     public MTL4FXTemporalScaler NewTemporalScalerWithDeviceCompiler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTL4FXTemporalScaler NewTemporalScaler(MTLDevice device, MTL4Compiler compiler)
+    {
+        return NewTemporalScalerWithDeviceCompiler(device, compiler);
     }
 
     public static float SupportedInputContentMinScaleForDevice(MTLDevice device)

@@ -21,6 +21,11 @@ public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) :
         return ObjectiveC.MsgSendNInt(NativePtr, MTLTensorExtentsBindings.InitWithRank, rank, values);
     }
 
+    public nint Init(nuint rank, nint values)
+    {
+        return InitWithRankValues(rank, values);
+    }
+
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {
         return ObjectiveC.MsgSendNInt(NativePtr, MTLTensorExtentsBindings.ExtentAtDimensionIndex, dimensionIndex);

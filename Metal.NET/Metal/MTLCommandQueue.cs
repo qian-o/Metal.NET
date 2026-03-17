@@ -64,6 +64,11 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
+    public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
+    {
+        AddResidencySetsCount(residencySets);
+    }
+
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
@@ -78,6 +83,11 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         }
 
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
+
+    public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
+    {
+        RemoveResidencySetsCount(residencySets);
     }
 }
 

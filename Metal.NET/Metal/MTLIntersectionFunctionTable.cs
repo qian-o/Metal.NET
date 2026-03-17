@@ -21,9 +21,19 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetBuffer, buffer.NativePtr, offset, index);
     }
 
+    public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
+    {
+        SetBufferOffsetAtIndex(buffer, offset, index);
+    }
+
     public void SetFunctionAtIndex(MTLFunctionHandle function, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetFunction, function.NativePtr, index);
+    }
+
+    public void SetFunction(MTLFunctionHandle function, nuint index)
+    {
+        SetFunctionAtIndex(function, index);
     }
 
     public void SetOpaqueTriangleIntersectionFunctionWithSignatureAtIndex(MTLIntersectionFunctionSignature signature, nuint index)
@@ -31,9 +41,19 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunctionWithSignature, (nuint)signature, index);
     }
 
+    public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
+    {
+        SetOpaqueTriangleIntersectionFunctionWithSignatureAtIndex(signature, index);
+    }
+
     public void SetOpaqueTriangleIntersectionFunctionWithSignatureWithRange(MTLIntersectionFunctionSignature signature, NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunctionWithSignatureWithRange, (nuint)signature, range);
+    }
+
+    public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
+    {
+        SetOpaqueTriangleIntersectionFunctionWithSignatureWithRange(signature, range);
     }
 
     public void SetOpaqueCurveIntersectionFunctionWithSignatureAtIndex(MTLIntersectionFunctionSignature signature, nuint index)
@@ -41,14 +61,29 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueCurveIntersectionFunctionWithSignature, (nuint)signature, index);
     }
 
+    public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
+    {
+        SetOpaqueCurveIntersectionFunctionWithSignatureAtIndex(signature, index);
+    }
+
     public void SetOpaqueCurveIntersectionFunctionWithSignatureWithRange(MTLIntersectionFunctionSignature signature, NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueCurveIntersectionFunctionWithSignatureWithRange, (nuint)signature, range);
     }
 
+    public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
+    {
+        SetOpaqueCurveIntersectionFunctionWithSignatureWithRange(signature, range);
+    }
+
     public void SetVisibleFunctionTableAtBufferIndex(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetVisibleFunctionTable, functionTable.NativePtr, bufferIndex);
+    }
+
+    public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
+    {
+        SetVisibleFunctionTableAtBufferIndex(functionTable, bufferIndex);
     }
 }
 

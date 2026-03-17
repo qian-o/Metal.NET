@@ -69,6 +69,11 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
+    {
+        return NewArgumentEncoderWithBufferIndex(bufferIndex);
+    }
+
     /// <summary>
     /// Deprecated: Use MTLDevice's newArgumentEncoderWithBufferBinding: instead
     /// </summary>
@@ -80,6 +85,11 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, out MTLArgument reflection)
+    {
+        return NewArgumentEncoderWithBufferIndexReflection(bufferIndex, out reflection);
     }
 }
 

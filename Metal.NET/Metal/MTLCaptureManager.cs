@@ -40,6 +40,11 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLCaptureScope NewCaptureScope(MTLDevice device)
+    {
+        return NewCaptureScopeWithDevice(device);
+    }
+
     public MTLCaptureScope NewCaptureScopeWithCommandQueue(MTLCommandQueue commandQueue)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr);
@@ -47,11 +52,21 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLCaptureScope NewCaptureScope(MTLCommandQueue commandQueue)
+    {
+        return NewCaptureScopeWithCommandQueue(commandQueue);
+    }
+
     public MTLCaptureScope NewCaptureScopeWithMTL4CommandQueue(MTL4CommandQueue commandQueue)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLCaptureScope NewCaptureScope(MTL4CommandQueue commandQueue)
+    {
+        return NewCaptureScopeWithMTL4CommandQueue(commandQueue);
     }
 
     public bool SupportsDestination(MTLCaptureDestination destination)
@@ -68,6 +83,11 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         return result;
     }
 
+    public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
+    {
+        return StartCaptureWithDescriptorError(descriptor, out error);
+    }
+
     /// <summary>
     /// Deprecated: Use startCaptureWithDescriptor:error: instead
     /// </summary>
@@ -75,6 +95,11 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
     public void StartCaptureWithDevice(MTLDevice device)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDevice, device.NativePtr);
+    }
+
+    public void StartCapture(MTLDevice device)
+    {
+        StartCaptureWithDevice(device);
     }
 
     /// <summary>
@@ -86,6 +111,11 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithCommandQueue, commandQueue.NativePtr);
     }
 
+    public void StartCapture(MTLCommandQueue commandQueue)
+    {
+        StartCaptureWithCommandQueue(commandQueue);
+    }
+
     /// <summary>
     /// Deprecated: Use startCaptureWithDescriptor:error: instead
     /// </summary>
@@ -93,6 +123,11 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
     public void StartCaptureWithScope(MTLCaptureScope captureScope)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithScope, captureScope.NativePtr);
+    }
+
+    public void StartCapture(MTLCaptureScope captureScope)
+    {
+        StartCaptureWithScope(captureScope);
     }
 
     public void StopCapture()

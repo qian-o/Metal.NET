@@ -64,11 +64,21 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOwnership 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLFXSpatialScaler NewSpatialScaler(MTLDevice device)
+    {
+        return NewSpatialScalerWithDevice(device);
+    }
+
     public MTL4FXSpatialScaler NewSpatialScalerWithDeviceCompiler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTL4FXSpatialScaler NewSpatialScaler(MTLDevice device, MTL4Compiler compiler)
+    {
+        return NewSpatialScalerWithDeviceCompiler(device, compiler);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)

@@ -124,6 +124,11 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
+    {
+        return Texture2DDescriptorWithPixelFormatWidthHeightMipmapped(pixelFormat, width, height, mipmapped);
+    }
+
     public static MTLTextureDescriptor TextureCubeDescriptorWithPixelFormatSizeMipmapped(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptorWithPixelFormat, (nuint)pixelFormat, size, mipmapped);
@@ -131,11 +136,21 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
+    {
+        return TextureCubeDescriptorWithPixelFormatSizeMipmapped(pixelFormat, size, mipmapped);
+    }
+
     public static MTLTextureDescriptor TextureBufferDescriptorWithPixelFormatWidthResourceOptionsUsage(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureBufferDescriptorWithPixelFormat, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
+    {
+        return TextureBufferDescriptorWithPixelFormatWidthResourceOptionsUsage(pixelFormat, width, resourceOptions, usage);
     }
 }
 

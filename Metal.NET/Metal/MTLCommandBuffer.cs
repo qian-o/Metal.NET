@@ -117,6 +117,11 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableAtTime, drawable.NativePtr, presentationTime);
     }
 
+    public void PresentDrawable(MTLDrawable drawable, double presentationTime)
+    {
+        PresentDrawableAtTime(drawable, presentationTime);
+    }
+
     public void PresentDrawableAfterMinimumDuration(MTLDrawable drawable, double duration)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableAfterMinimumDuration, drawable.NativePtr, duration);
@@ -142,6 +147,11 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.RenderCommandEncoderWithDescriptor, renderPassDescriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLRenderCommandEncoder RenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
+    {
+        return RenderCommandEncoderWithDescriptor(renderPassDescriptor);
     }
 
     public MTLComputeCommandEncoder ComputeCommandEncoderWithDescriptor(MTLComputePassDescriptor computePassDescriptor)
@@ -170,9 +180,19 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWaitForEvent, @event.NativePtr, value);
     }
 
+    public void EncodeWaitForEvent(MTLEvent @event, ulong value)
+    {
+        EncodeWaitForEventValue(@event, value);
+    }
+
     public void EncodeSignalEventValue(MTLEvent @event, ulong value)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent, @event.NativePtr, value);
+    }
+
+    public void EncodeSignalEvent(MTLEvent @event, ulong value)
+    {
+        EncodeSignalEventValue(@event, value);
     }
 
     public MTLParallelRenderCommandEncoder ParallelRenderCommandEncoderWithDescriptor(MTLRenderPassDescriptor renderPassDescriptor)
@@ -180,6 +200,11 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.ParallelRenderCommandEncoderWithDescriptor, renderPassDescriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLParallelRenderCommandEncoder ParallelRenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
+    {
+        return ParallelRenderCommandEncoderWithDescriptor(renderPassDescriptor);
     }
 
     public MTLResourceStateCommandEncoder ResourceStateCommandEncoderWithDescriptor(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
@@ -220,6 +245,11 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         }
 
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
+
+    public unsafe void UseResidencySets(MTLResidencySet[] residencySets)
+    {
+        UseResidencySetsCount(residencySets);
     }
 }
 

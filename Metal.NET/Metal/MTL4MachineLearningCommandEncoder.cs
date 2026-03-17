@@ -25,6 +25,11 @@ public class MTL4MachineLearningCommandEncoder(nint nativePtr, NativeObjectOwner
     {
         ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetworkWithIntermediatesHeap, heap.NativePtr);
     }
+
+    public void DispatchNetwork(MTLHeap heap)
+    {
+        DispatchNetworkWithIntermediatesHeap(heap);
+    }
 }
 
 file static class MTL4MachineLearningCommandEncoderBindings

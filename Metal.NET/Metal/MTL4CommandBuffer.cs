@@ -37,12 +37,17 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocator, allocator.NativePtr);
     }
 
+    public void BeginCommandBuffer(MTL4CommandAllocator allocator)
+    {
+        BeginCommandBufferWithAllocator(allocator);
+    }
+
     public void BeginCommandBufferWithAllocatorOptions(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatorOptions, allocator.NativePtr, options.NativePtr);
     }
 
-    public void BeginCommandBufferWithAllocator(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
+    public void BeginCommandBuffer(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
         BeginCommandBufferWithAllocatorOptions(allocator, options);
     }
@@ -59,6 +64,11 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
+    {
+        return RenderCommandEncoderWithDescriptor(descriptor);
+    }
+
     public MTL4RenderCommandEncoder RenderCommandEncoderWithDescriptorOptions(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptorOptions, descriptor.NativePtr, (nuint)options);
@@ -66,7 +76,7 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4RenderCommandEncoder RenderCommandEncoderWithDescriptor(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
+    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         return RenderCommandEncoderWithDescriptorOptions(descriptor, options);
     }
@@ -87,6 +97,11 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
+    public unsafe void UseResidencySets(MTLResidencySet[] residencySets)
+    {
+        UseResidencySetsCount(residencySets);
+    }
+
     public void PushDebugGroup(NSString @string)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.PushDebugGroup, @string.NativePtr);
@@ -102,9 +117,19 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.WriteTimestampIntoHeap, counterHeap.NativePtr, index);
     }
 
+    public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, nuint index)
+    {
+        WriteTimestampIntoHeapAtIndex(counterHeap, index);
+    }
+
     public void ResolveCounterHeapWithRangeIntoBufferWaitFenceUpdateFence(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.ResolveCounterHeap, counterHeap.NativePtr, range, bufferRange, fenceToWait.NativePtr, fenceToUpdate.NativePtr);
+    }
+
+    public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)
+    {
+        ResolveCounterHeapWithRangeIntoBufferWaitFenceUpdateFence(counterHeap, range, bufferRange, fenceToWait, fenceToUpdate);
     }
 }
 

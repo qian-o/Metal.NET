@@ -31,6 +31,11 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
+    public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError error)
+    {
+        return AddComputePipelineFunctionsWithDescriptorError(descriptor, out error);
+    }
+
     public bool AddRenderPipelineFunctionsWithDescriptorError(MTLRenderPipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
@@ -38,6 +43,11 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
+    }
+
+    public bool AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError error)
+    {
+        return AddRenderPipelineFunctionsWithDescriptorError(descriptor, out error);
     }
 
     public bool AddTileRenderPipelineFunctionsWithDescriptorError(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
@@ -49,6 +59,11 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
+    public bool AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
+    {
+        return AddTileRenderPipelineFunctionsWithDescriptorError(descriptor, out error);
+    }
+
     public bool AddMeshRenderPipelineFunctionsWithDescriptorError(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
@@ -56,6 +71,11 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
+    }
+
+    public bool AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
+    {
+        return AddMeshRenderPipelineFunctionsWithDescriptorError(descriptor, out error);
     }
 
     public bool AddLibraryWithDescriptorError(MTLStitchedLibraryDescriptor descriptor, out NSError error)
@@ -67,6 +87,11 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
+    public bool AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError error)
+    {
+        return AddLibraryWithDescriptorError(descriptor, out error);
+    }
+
     public bool SerializeToURLError(NSURL url, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
@@ -76,6 +101,11 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
+    public bool SerializeToURL(NSURL url, out NSError error)
+    {
+        return SerializeToURLError(url, out error);
+    }
+
     public bool AddFunctionWithDescriptorLibraryError(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunctionWithDescriptor, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
@@ -83,6 +113,11 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
+    }
+
+    public bool AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
+    {
+        return AddFunctionWithDescriptorLibraryError(descriptor, library, out error);
     }
 }
 

@@ -21,6 +21,11 @@ public class MTLFunctionStitchingInputNode(nint nativePtr, NativeObjectOwnership
     {
         return ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionStitchingInputNodeBindings.InitWithArgumentIndex, argument);
     }
+
+    public nint Init(nuint argument)
+    {
+        return InitWithArgumentIndex(argument);
+    }
 }
 
 file static class MTLFunctionStitchingInputNodeBindings

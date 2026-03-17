@@ -26,9 +26,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.SetThreadgroupMemoryLength, length, index);
     }
 
+    public void SetThreadgroupMemoryLength(nuint length, nuint index)
+    {
+        SetThreadgroupMemoryLengthAtIndex(length, index);
+    }
+
     public void SetImageblockWidthHeight(nuint width, nuint height)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.SetImageblockWidth, width, height);
+    }
+
+    public void SetImageblockWidth(nuint width, nuint height)
+    {
+        SetImageblockWidthHeight(width, height);
     }
 
     public void DispatchThreadsThreadsPerThreadgroup(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
@@ -36,9 +46,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.DispatchThreads, threadsPerGrid, threadsPerThreadgroup);
     }
 
+    public void DispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
+    {
+        DispatchThreadsThreadsPerThreadgroup(threadsPerGrid, threadsPerThreadgroup);
+    }
+
     public void DispatchThreadgroupsThreadsPerThreadgroup(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.DispatchThreadgroups, threadgroupsPerGrid, threadsPerThreadgroup);
+    }
+
+    public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
+    {
+        DispatchThreadgroupsThreadsPerThreadgroup(threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
     public void DispatchThreadgroupsWithIndirectBufferThreadsPerThreadgroup(nuint indirectBuffer, MTLSize threadsPerThreadgroup)
@@ -46,9 +66,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.DispatchThreadgroupsWithIndirectBuffer, indirectBuffer, threadsPerThreadgroup);
     }
 
+    public void DispatchThreadgroups(nuint indirectBuffer, MTLSize threadsPerThreadgroup)
+    {
+        DispatchThreadgroupsWithIndirectBufferThreadsPerThreadgroup(indirectBuffer, threadsPerThreadgroup);
+    }
+
     public void DispatchThreadsWithIndirectBuffer(nuint indirectBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.DispatchThreadsWithIndirectBuffer, indirectBuffer);
+    }
+
+    public void DispatchThreads(nuint indirectBuffer)
+    {
+        DispatchThreadsWithIndirectBuffer(indirectBuffer);
     }
 
     public void ExecuteCommandsInBufferWithRange(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
@@ -56,9 +86,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.ExecuteCommandsInBuffer, indirectCommandBuffer.NativePtr, executionRange);
     }
 
+    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
+    {
+        ExecuteCommandsInBufferWithRange(indirectCommandBuffer, executionRange);
+    }
+
     public void ExecuteCommandsInBufferIndirectBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, nuint indirectRangeBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.ExecuteCommandsInBufferIndirectBuffer, indirectCommandbuffer.NativePtr, indirectRangeBuffer);
+    }
+
+    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, nuint indirectRangeBuffer)
+    {
+        ExecuteCommandsInBufferIndirectBuffer(indirectCommandbuffer, indirectRangeBuffer);
     }
 
     public void CopyFromTextureToTexture(MTLTexture sourceTexture, MTLTexture destinationTexture)
@@ -66,9 +106,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromTexture, sourceTexture.NativePtr, destinationTexture.NativePtr);
     }
 
+    public void CopyFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture)
+    {
+        CopyFromTextureToTexture(sourceTexture, destinationTexture);
+    }
+
     public void CopyFromTextureSourceSliceSourceLevelToTextureDestinationSliceDestinationLevelSliceCountLevelCount(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, nuint sliceCount, nuint levelCount)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromTextureSourceSliceSourceLevelToTextureDestinationSliceDestinationLevelSliceCountLevelCount, sourceTexture.NativePtr, sourceSlice, sourceLevel, destinationTexture.NativePtr, destinationSlice, destinationLevel, sliceCount, levelCount);
+    }
+
+    public void CopyFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, nuint sliceCount, nuint levelCount)
+    {
+        CopyFromTextureSourceSliceSourceLevelToTextureDestinationSliceDestinationLevelSliceCountLevelCount(sourceTexture, sourceSlice, sourceLevel, destinationTexture, destinationSlice, destinationLevel, sliceCount, levelCount);
     }
 
     public void CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToTextureDestinationSliceDestinationLevelDestinationOrigin(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
@@ -76,9 +126,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToTextureDestinationSliceDestinationLevelDestinationOrigin, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, destinationSlice, destinationLevel, destinationOrigin);
     }
 
+    public void CopyFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
+    {
+        CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToTextureDestinationSliceDestinationLevelDestinationOrigin(sourceTexture, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationTexture, destinationSlice, destinationLevel, destinationOrigin);
+    }
+
     public void CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImage(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, nuint destinationOffset, nuint destinationBytesPerRow, nuint destinationBytesPerImage)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImage, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationBuffer.NativePtr, destinationOffset, destinationBytesPerRow, destinationBytesPerImage);
+    }
+
+    public void CopyFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, nuint destinationOffset, nuint destinationBytesPerRow, nuint destinationBytesPerImage)
+    {
+        CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImage(sourceTexture, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationBuffer, destinationOffset, destinationBytesPerRow, destinationBytesPerImage);
     }
 
     public void CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImageOptions(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, nuint destinationOffset, nuint destinationBytesPerRow, nuint destinationBytesPerImage, MTLBlitOption options)
@@ -86,7 +146,7 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImageOptions, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationBuffer.NativePtr, destinationOffset, destinationBytesPerRow, destinationBytesPerImage, (nuint)options);
     }
 
-    public void CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImage(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, nuint destinationOffset, nuint destinationBytesPerRow, nuint destinationBytesPerImage, MTLBlitOption options)
+    public void CopyFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, nuint destinationOffset, nuint destinationBytesPerRow, nuint destinationBytesPerImage, MTLBlitOption options)
     {
         CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImageOptions(sourceTexture, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationBuffer, destinationOffset, destinationBytesPerRow, destinationBytesPerImage, options);
     }
@@ -96,9 +156,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromBuffer, sourceBuffer.NativePtr, sourceOffset, destinationBuffer.NativePtr, destinationOffset, size);
     }
 
+    public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, MTLBuffer destinationBuffer, nuint destinationOffset, nuint size)
+    {
+        CopyFromBufferSourceOffsetToBufferDestinationOffsetSize(sourceBuffer, sourceOffset, destinationBuffer, destinationOffset, size);
+    }
+
     public void CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeToTextureDestinationSliceDestinationLevelDestinationOrigin(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeToTextureDestinationSliceDestinationLevelDestinationOrigin, sourceBuffer.NativePtr, sourceOffset, sourceBytesPerRow, sourceBytesPerImage, sourceSize, destinationTexture.NativePtr, destinationSlice, destinationLevel, destinationOrigin);
+    }
+
+    public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
+    {
+        CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeToTextureDestinationSliceDestinationLevelDestinationOrigin(sourceBuffer, sourceOffset, sourceBytesPerRow, sourceBytesPerImage, sourceSize, destinationTexture, destinationSlice, destinationLevel, destinationOrigin);
     }
 
     public void CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeToTextureDestinationSliceDestinationLevelDestinationOriginOptions(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin, MTLBlitOption options)
@@ -106,7 +176,7 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeToTextureDestinationSliceDestinationLevelDestinationOriginOptions, sourceBuffer.NativePtr, sourceOffset, sourceBytesPerRow, sourceBytesPerImage, sourceSize, destinationTexture.NativePtr, destinationSlice, destinationLevel, destinationOrigin, (nuint)options);
     }
 
-    public void CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeToTextureDestinationSliceDestinationLevelDestinationOrigin(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin, MTLBlitOption options)
+    public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin, MTLBlitOption options)
     {
         CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeToTextureDestinationSliceDestinationLevelDestinationOriginOptions(sourceBuffer, sourceOffset, sourceBytesPerRow, sourceBytesPerImage, sourceSize, destinationTexture, destinationSlice, destinationLevel, destinationOrigin, options);
     }
@@ -114,6 +184,11 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
     public void CopyFromTensorSourceOriginSourceDimensionsToTensorDestinationOriginDestinationDimensions(MTLTensor sourceTensor, MTLTensorExtents sourceOrigin, MTLTensorExtents sourceDimensions, MTLTensor destinationTensor, MTLTensorExtents destinationOrigin, MTLTensorExtents destinationDimensions)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyFromTensor, sourceTensor.NativePtr, sourceOrigin.NativePtr, sourceDimensions.NativePtr, destinationTensor.NativePtr, destinationOrigin.NativePtr, destinationDimensions.NativePtr);
+    }
+
+    public void CopyFromTensor(MTLTensor sourceTensor, MTLTensorExtents sourceOrigin, MTLTensorExtents sourceDimensions, MTLTensor destinationTensor, MTLTensorExtents destinationOrigin, MTLTensorExtents destinationDimensions)
+    {
+        CopyFromTensorSourceOriginSourceDimensionsToTensorDestinationOriginDestinationDimensions(sourceTensor, sourceOrigin, sourceDimensions, destinationTensor, destinationOrigin, destinationDimensions);
     }
 
     public void GenerateMipmapsForTexture(MTLTexture texture)
@@ -126,6 +201,11 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.FillBuffer, buffer.NativePtr, range, value);
     }
 
+    public void FillBuffer(MTLBuffer buffer, NSRange range, byte value)
+    {
+        FillBufferRangeValue(buffer, range, value);
+    }
+
     public void OptimizeContentsForGPUAccess(MTLTexture texture)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.OptimizeContentsForGPUAccess, texture.NativePtr);
@@ -134,6 +214,11 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
     public void OptimizeContentsForGPUAccessSliceLevel(MTLTexture texture, nuint slice, nuint level)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.OptimizeContentsForGPUAccessSliceLevel, texture.NativePtr, slice, level);
+    }
+
+    public void OptimizeContentsForGPUAccess(MTLTexture texture, nuint slice, nuint level)
+    {
+        OptimizeContentsForGPUAccessSliceLevel(texture, slice, level);
     }
 
     public void OptimizeContentsForCPUAccess(MTLTexture texture)
@@ -146,9 +231,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.OptimizeContentsForCPUAccessSliceLevel, texture.NativePtr, slice, level);
     }
 
+    public void OptimizeContentsForCPUAccess(MTLTexture texture, nuint slice, nuint level)
+    {
+        OptimizeContentsForCPUAccessSliceLevel(texture, slice, level);
+    }
+
     public void ResetCommandsInBufferWithRange(MTLIndirectCommandBuffer buffer, NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.ResetCommandsInBuffer, buffer.NativePtr, range);
+    }
+
+    public void ResetCommandsInBuffer(MTLIndirectCommandBuffer buffer, NSRange range)
+    {
+        ResetCommandsInBufferWithRange(buffer, range);
     }
 
     public void CopyIndirectCommandBufferSourceRangeDestinationDestinationIndex(MTLIndirectCommandBuffer source, NSRange sourceRange, MTLIndirectCommandBuffer destination, nuint destinationIndex)
@@ -156,9 +251,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyIndirectCommandBuffer, source.NativePtr, sourceRange, destination.NativePtr, destinationIndex);
     }
 
+    public void CopyIndirectCommandBuffer(MTLIndirectCommandBuffer source, NSRange sourceRange, MTLIndirectCommandBuffer destination, nuint destinationIndex)
+    {
+        CopyIndirectCommandBufferSourceRangeDestinationDestinationIndex(source, sourceRange, destination, destinationIndex);
+    }
+
     public void OptimizeIndirectCommandBufferWithRange(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.OptimizeIndirectCommandBuffer, indirectCommandBuffer.NativePtr, range);
+    }
+
+    public void OptimizeIndirectCommandBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange range)
+    {
+        OptimizeIndirectCommandBufferWithRange(indirectCommandBuffer, range);
     }
 
     public void SetArgumentTable(MTL4ArgumentTable argumentTable)
@@ -171,9 +276,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.BuildAccelerationStructure, accelerationStructure.NativePtr, descriptor.NativePtr, scratchBuffer);
     }
 
+    public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTL4BufferRange scratchBuffer)
+    {
+        BuildAccelerationStructureDescriptorScratchBuffer(accelerationStructure, descriptor, scratchBuffer);
+    }
+
     public void RefitAccelerationStructureDescriptorDestinationScratchBuffer(MTLAccelerationStructure sourceAccelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTL4BufferRange scratchBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.RefitAccelerationStructure, sourceAccelerationStructure.NativePtr, descriptor.NativePtr, destinationAccelerationStructure.NativePtr, scratchBuffer);
+    }
+
+    public void RefitAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTL4BufferRange scratchBuffer)
+    {
+        RefitAccelerationStructureDescriptorDestinationScratchBuffer(sourceAccelerationStructure, descriptor, destinationAccelerationStructure, scratchBuffer);
     }
 
     public void RefitAccelerationStructureDescriptorDestinationScratchBufferOptions(MTLAccelerationStructure sourceAccelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTL4BufferRange scratchBuffer, MTLAccelerationStructureRefitOptions options)
@@ -181,7 +296,7 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.RefitAccelerationStructureDescriptorDestinationScratchBufferOptions, sourceAccelerationStructure.NativePtr, descriptor.NativePtr, destinationAccelerationStructure.NativePtr, scratchBuffer, (nuint)options);
     }
 
-    public void RefitAccelerationStructureDescriptorDestinationScratchBuffer(MTLAccelerationStructure sourceAccelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTL4BufferRange scratchBuffer, MTLAccelerationStructureRefitOptions options)
+    public void RefitAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTL4BufferRange scratchBuffer, MTLAccelerationStructureRefitOptions options)
     {
         RefitAccelerationStructureDescriptorDestinationScratchBufferOptions(sourceAccelerationStructure, descriptor, destinationAccelerationStructure, scratchBuffer, options);
     }
@@ -191,9 +306,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyAccelerationStructure, sourceAccelerationStructure.NativePtr, destinationAccelerationStructure.NativePtr);
     }
 
+    public void CopyAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructure destinationAccelerationStructure)
+    {
+        CopyAccelerationStructureToAccelerationStructure(sourceAccelerationStructure, destinationAccelerationStructure);
+    }
+
     public void WriteCompactedAccelerationStructureSizeToBuffer(MTLAccelerationStructure accelerationStructure, MTL4BufferRange buffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.WriteCompactedAccelerationStructureSize, accelerationStructure.NativePtr, buffer);
+    }
+
+    public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTL4BufferRange buffer)
+    {
+        WriteCompactedAccelerationStructureSizeToBuffer(accelerationStructure, buffer);
     }
 
     public void CopyAndCompactAccelerationStructureToAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructure destinationAccelerationStructure)
@@ -201,9 +326,19 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.CopyAndCompactAccelerationStructure, sourceAccelerationStructure.NativePtr, destinationAccelerationStructure.NativePtr);
     }
 
+    public void CopyAndCompactAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructure destinationAccelerationStructure)
+    {
+        CopyAndCompactAccelerationStructureToAccelerationStructure(sourceAccelerationStructure, destinationAccelerationStructure);
+    }
+
     public void WriteTimestampWithGranularityIntoHeapAtIndex(MTL4TimestampGranularity granularity, MTL4CounterHeap counterHeap, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.WriteTimestampWithGranularity, (nint)granularity, counterHeap.NativePtr, index);
+    }
+
+    public void WriteTimestamp(MTL4TimestampGranularity granularity, MTL4CounterHeap counterHeap, nuint index)
+    {
+        WriteTimestampWithGranularityIntoHeapAtIndex(granularity, counterHeap, index);
     }
 }
 

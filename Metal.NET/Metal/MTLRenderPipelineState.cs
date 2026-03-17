@@ -103,11 +103,21 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLFunctionHandle FunctionHandle(NSString name, MTLRenderStages stage)
+    {
+        return FunctionHandleWithNameStage(name, stage);
+    }
+
     public MTLFunctionHandle FunctionHandleWithBinaryFunctionStage(MTL4BinaryFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
+    {
+        return FunctionHandleWithBinaryFunctionStage(function, stage);
     }
 
     public MTLRenderPipelineState NewRenderPipelineStateWithBinaryFunctionsError(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError error)
@@ -117,6 +127,11 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError error)
+    {
+        return NewRenderPipelineStateWithBinaryFunctionsError(binaryFunctionsDescriptor, out error);
     }
 
     public MTL4PipelineDescriptor NewRenderPipelineDescriptorForSpecialization()
@@ -138,11 +153,21 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLFunctionHandle FunctionHandle(MTLFunction function, MTLRenderStages stage)
+    {
+        return FunctionHandleWithFunctionStage(function, stage);
+    }
+
     public MTLVisibleFunctionTable NewVisibleFunctionTableWithDescriptorStage(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
+    {
+        return NewVisibleFunctionTableWithDescriptorStage(descriptor, stage);
     }
 
     public MTLIntersectionFunctionTable NewIntersectionFunctionTableWithDescriptorStage(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
@@ -152,6 +177,11 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
+    {
+        return NewIntersectionFunctionTableWithDescriptorStage(descriptor, stage);
+    }
+
     public MTLRenderPipelineState NewRenderPipelineStateWithAdditionalBinaryFunctionsError(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithAdditionalBinaryFunctions, additionalBinaryFunctions.NativePtr, out nint errorPtr);
@@ -159,6 +189,11 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError error)
+    {
+        return NewRenderPipelineStateWithAdditionalBinaryFunctionsError(additionalBinaryFunctions, out error);
     }
 }
 

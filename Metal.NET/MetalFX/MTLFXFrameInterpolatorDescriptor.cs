@@ -82,11 +82,21 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice device)
+    {
+        return NewFrameInterpolatorWithDevice(device);
+    }
+
     public MTL4FXFrameInterpolator NewFrameInterpolatorWithDeviceCompiler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTL4FXFrameInterpolator NewFrameInterpolator(MTLDevice device, MTL4Compiler compiler)
+    {
+        return NewFrameInterpolatorWithDeviceCompiler(device, compiler);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)

@@ -48,6 +48,11 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
+    {
+        return NewTextureWithDescriptorOffsetBytesPerRow(descriptor, offset, bytesPerRow);
+    }
+
     public MTLTensor NewTensorWithDescriptorOffsetError(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTensorWithDescriptor, descriptor.NativePtr, offset, out nint errorPtr);
@@ -57,9 +62,19 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
+    {
+        return NewTensorWithDescriptorOffsetError(descriptor, offset, out error);
+    }
+
     public void AddDebugMarkerRange(NSString marker, NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.AddDebugMarker, marker.NativePtr, range);
+    }
+
+    public void AddDebugMarker(NSString marker, NSRange range)
+    {
+        AddDebugMarkerRange(marker, range);
     }
 
     public void RemoveAllDebugMarkers()

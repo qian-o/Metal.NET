@@ -62,6 +62,11 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
         ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocations, (nint)pAllocations, (nuint)allocations.Length);
     }
 
+    public unsafe void AddAllocations(MTLAllocation[] allocations)
+    {
+        AddAllocationsCount(allocations);
+    }
+
     public void RemoveAllocation(MTLAllocation allocation)
     {
         ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocation, allocation.NativePtr);
@@ -76,6 +81,11 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
         }
 
         ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocations, (nint)pAllocations, (nuint)allocations.Length);
+    }
+
+    public unsafe void RemoveAllocations(MTLAllocation[] allocations)
+    {
+        RemoveAllocationsCount(allocations);
     }
 
     public void RemoveAllAllocations()

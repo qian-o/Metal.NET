@@ -35,6 +35,11 @@ public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership
     {
         return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.CopyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, destinationIndex);
     }
+
+    public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
+    {
+        return CopyResourceViewsFromPoolSourceRangeDestinationIndex(sourcePool, sourceRange, destinationIndex);
+    }
 }
 
 file static class MTLResourceViewPoolBindings

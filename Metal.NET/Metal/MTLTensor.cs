@@ -51,9 +51,19 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.ReplaceSliceOrigin, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 
+    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
+    {
+        ReplaceSliceOriginSliceDimensionsWithBytesStrides(sliceOrigin, sliceDimensions, bytes, strides);
+    }
+
     public void GetBytesStridesFromSliceOriginSliceDimensions(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.GetBytes, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
+    }
+
+    public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
+    {
+        GetBytesStridesFromSliceOriginSliceDimensions(bytes, strides, sliceOrigin, sliceDimensions);
     }
 }
 

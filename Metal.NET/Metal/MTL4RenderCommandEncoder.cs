@@ -41,9 +41,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetViewports, viewports, count);
     }
 
+    public void SetViewports(MTLViewport viewports, nuint count)
+    {
+        SetViewportsCount(viewports, count);
+    }
+
     public void SetVertexAmplificationCountViewMappings(nuint count, MTLVertexAmplificationViewMapping viewMappings)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetVertexAmplificationCount, count, viewMappings);
+    }
+
+    public void SetVertexAmplificationCount(nuint count, MTLVertexAmplificationViewMapping viewMappings)
+    {
+        SetVertexAmplificationCountViewMappings(count, viewMappings);
     }
 
     public void SetCullMode(MTLCullMode cullMode)
@@ -61,9 +71,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthBias, depthBias, slopeScale, clamp);
     }
 
+    public void SetDepthBias(float depthBias, float slopeScale, float clamp)
+    {
+        SetDepthBiasSlopeScaleClamp(depthBias, slopeScale, clamp);
+    }
+
     public void SetDepthTestMinBoundMaxBound(float minBound, float maxBound)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthTestMinBound, minBound, maxBound);
+    }
+
+    public void SetDepthTestMinBound(float minBound, float maxBound)
+    {
+        SetDepthTestMinBoundMaxBound(minBound, maxBound);
     }
 
     public void SetScissorRect(MTLScissorRect rect)
@@ -76,6 +96,11 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRects, scissorRects, count);
     }
 
+    public void SetScissorRects(MTLScissorRect scissorRects, nuint count)
+    {
+        SetScissorRectsCount(scissorRects, count);
+    }
+
     public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetTriangleFillMode, (nuint)fillMode);
@@ -84,6 +109,11 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
     public void SetBlendColorRedGreenBlueAlpha(float red, float green, float blue, float alpha)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetBlendColorRed, red, green, blue, alpha);
+    }
+
+    public void SetBlendColorRed(float red, float green, float blue, float alpha)
+    {
+        SetBlendColorRedGreenBlueAlpha(red, green, blue, alpha);
     }
 
     public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
@@ -101,14 +131,29 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilFrontReferenceValue, frontReferenceValue, backReferenceValue);
     }
 
+    public void SetStencilFrontReferenceValue(uint frontReferenceValue, uint backReferenceValue)
+    {
+        SetStencilFrontReferenceValueBackReferenceValue(frontReferenceValue, backReferenceValue);
+    }
+
     public void SetVisibilityResultModeOffset(MTLVisibilityResultMode mode, nuint offset)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetVisibilityResultMode, (nuint)mode, offset);
     }
 
+    public void SetVisibilityResultMode(MTLVisibilityResultMode mode, nuint offset)
+    {
+        SetVisibilityResultModeOffset(mode, offset);
+    }
+
     public void SetColorStoreActionAtIndex(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
+    }
+
+    public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
+    {
+        SetColorStoreActionAtIndex(storeAction, colorAttachmentIndex);
     }
 
     public void SetDepthStoreAction(MTLStoreAction storeAction)
@@ -126,9 +171,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitives, (nuint)primitiveType, vertexStart, vertexCount);
     }
 
+    public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount)
+    {
+        DrawPrimitivesVertexStartVertexCount(primitiveType, vertexStart, vertexCount);
+    }
+
     public void DrawPrimitivesVertexStartVertexCountInstanceCount(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesVertexStartVertexCountInstanceCount, (nuint)primitiveType, vertexStart, vertexCount, instanceCount);
+    }
+
+    public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount)
+    {
+        DrawPrimitivesVertexStartVertexCountInstanceCount(primitiveType, vertexStart, vertexCount, instanceCount);
     }
 
     public void DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
@@ -136,9 +191,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
     }
 
+    public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
+    {
+        DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance(primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
+    }
+
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLength(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitives, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength);
+    }
+
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength)
+    {
+        DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLength(primitiveType, indexCount, indexType, indexBuffer, indexBufferLength);
     }
 
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCount(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount)
@@ -146,9 +211,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCount, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount);
     }
 
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount)
+    {
+        DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCount(primitiveType, indexCount, indexType, indexBuffer, indexBufferLength, instanceCount);
+    }
+
     public void DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCountBaseVertexBaseInstance(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCountBaseVertexBaseInstance, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount, baseVertex, baseInstance);
+    }
+
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount, nint baseVertex, nuint baseInstance)
+    {
+        DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCountBaseVertexBaseInstance(primitiveType, indexCount, indexType, indexBuffer, indexBufferLength, instanceCount, baseVertex, baseInstance);
     }
 
     public void DrawPrimitivesIndirectBuffer(MTLPrimitiveType primitiveType, nuint indirectBuffer)
@@ -156,9 +231,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesIndirectBuffer, (nuint)primitiveType, indirectBuffer);
     }
 
+    public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint indirectBuffer)
+    {
+        DrawPrimitivesIndirectBuffer(primitiveType, indirectBuffer);
+    }
+
     public void DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferLengthIndirectBuffer(MTLPrimitiveType primitiveType, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint indirectBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferLengthIndirectBuffer, (nuint)primitiveType, (nuint)indexType, indexBuffer, indexBufferLength, indirectBuffer);
+    }
+
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint indirectBuffer)
+    {
+        DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferLengthIndirectBuffer(primitiveType, indexType, indexBuffer, indexBufferLength, indirectBuffer);
     }
 
     public void ExecuteCommandsInBufferWithRange(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
@@ -166,9 +251,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBuffer, indirectCommandBuffer.NativePtr, executionRange);
     }
 
+    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
+    {
+        ExecuteCommandsInBufferWithRange(indirectCommandBuffer, executionRange);
+    }
+
     public void ExecuteCommandsInBufferIndirectBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint indirectRangeBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBufferIndirectBuffer, indirectCommandBuffer.NativePtr, indirectRangeBuffer);
+    }
+
+    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint indirectRangeBuffer)
+    {
+        ExecuteCommandsInBufferIndirectBuffer(indirectCommandBuffer, indirectRangeBuffer);
     }
 
     public void SetObjectThreadgroupMemoryLengthAtIndex(nuint length, nuint index)
@@ -176,9 +271,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetObjectThreadgroupMemoryLength, length, index);
     }
 
+    public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
+    {
+        SetObjectThreadgroupMemoryLengthAtIndex(length, index);
+    }
+
     public void DrawMeshThreadgroupsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreadgroups, threadgroupsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+    }
+
+    public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
+    {
+        DrawMeshThreadgroupsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup(threadgroupsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
     public void DrawMeshThreadsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup(MTLSize threadsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -186,9 +291,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreads, threadsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
+    public void DrawMeshThreads(MTLSize threadsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
+    {
+        DrawMeshThreadsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup(threadsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+    }
+
     public void DrawMeshThreadgroupsWithIndirectBufferThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup(nuint indirectBuffer, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreadgroupsWithIndirectBuffer, indirectBuffer, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+    }
+
+    public void DrawMeshThreadgroups(nuint indirectBuffer, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
+    {
+        DrawMeshThreadgroupsWithIndirectBufferThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup(indirectBuffer, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
     public void DispatchThreadsPerTile(MTLSize threadsPerTile)
@@ -201,9 +316,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetThreadgroupMemoryLength, length, offset, index);
     }
 
+    public void SetThreadgroupMemoryLength(nuint length, nuint offset, nuint index)
+    {
+        SetThreadgroupMemoryLengthOffsetAtIndex(length, offset, index);
+    }
+
     public void SetArgumentTableAtStages(MTL4ArgumentTable argumentTable, MTLRenderStages stages)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetArgumentTable, argumentTable.NativePtr, (nuint)stages);
+    }
+
+    public void SetArgumentTable(MTL4ArgumentTable argumentTable, MTLRenderStages stages)
+    {
+        SetArgumentTableAtStages(argumentTable, stages);
     }
 
     public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
@@ -214,6 +339,11 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
     public void WriteTimestampWithGranularityAfterStageIntoHeapAtIndex(MTL4TimestampGranularity granularity, MTLRenderStages stage, MTL4CounterHeap counterHeap, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.WriteTimestampWithGranularity, (nint)granularity, (nuint)stage, counterHeap.NativePtr, index);
+    }
+
+    public void WriteTimestamp(MTL4TimestampGranularity granularity, MTLRenderStages stage, MTL4CounterHeap counterHeap, nuint index)
+    {
+        WriteTimestampWithGranularityAfterStageIntoHeapAtIndex(granularity, stage, counterHeap, index);
     }
 }
 

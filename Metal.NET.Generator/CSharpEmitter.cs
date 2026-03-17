@@ -663,6 +663,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         // === Methods (in JSON order, no grouping) ===
+        HashSet<string> propertyNames = [.. properties.Select(p => TypeMapper.ToPascalCase(p.Getter.Name))];
+        HashSet<string> usedOverloadSignatures = [];
         foreach (MethodInfo method in nonIndexerMethods)
         {
             if (hasPrecedingMember)
@@ -670,7 +672,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, selectors, hasZeroParamVersion);
+            EmitMethod(sb, method, csClassName, selectors, hasZeroParamVersion, propertyNames, usedOverloadSignatures);
             hasPrecedingMember = true;
         }
 
@@ -1094,7 +1096,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Emits a single method into <paramref name="sb"/>, handling parameter marshalling
     /// (arrays, blocks, out-params, enums) and selecting the correct <c>MsgSend</c> variant.
     /// </summary>
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion)
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion, HashSet<string> propertyNames, HashSet<string> usedOverloadSignatures)
     {
         string csMethodName;
         string selectorObjC;
@@ -1499,35 +1501,55 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         sb.AppendLine("    }");
 
-        // Generate "WithOptions" overload — if the last selector part ends with "options",
-        // emit a forwarding method with that suffix removed from the method name.
+        // Generate short-name overload for multi-part selectors.
+        // The overload name is derived from the first selector part (before the first colon),
+        // with any "With..." parameter-description suffix stripped.
+        // E.g., "newTextureWithDescriptor:offset:bytesPerRow:" → overload "NewTexture"
+        // E.g., "commit:count:options:" → overload "Commit"
+        // E.g., "signalEvent:value:" → overload "SignalEvent"
         string? overloadName = null;
-        if (method.Selector != null)
+        if (method.Selector != null && method.Selector.Contains(':') && method.Parameters.Count > 0)
         {
-            string[] selectorParts = method.Selector.Split(':', StringSplitOptions.RemoveEmptyEntries);
+            string firstPart = method.Selector[..method.Selector.IndexOf(':')];
 
-            // Multi-part selector: check if last part ends with "options"
-            if (selectorParts.Length > 1)
+            // Strip "With..." suffix from the first part (e.g., "newTextureWithDescriptor" → "newTexture")
+            int withIdx = firstPart.IndexOf("With", StringComparison.Ordinal);
+            if (withIdx > 0 && withIdx + 4 < firstPart.Length && char.IsUpper(firstPart[withIdx + 4]))
             {
-                string lastPart = selectorParts[^1];
-                if (lastPart.EndsWith("options", StringComparison.OrdinalIgnoreCase))
-                {
-                    string lastPartPascal = TypeMapper.ToPascalCase(lastPart);
-                    if (csMethodName.EndsWith(lastPartPascal, StringComparison.Ordinal) && csMethodName.Length > lastPartPascal.Length)
-                    {
-                        overloadName = csMethodName[..^lastPartPascal.Length];
-                    }
-                }
+                firstPart = firstPart[..withIdx];
             }
 
-            // Any selector: check if method name contains literal "WithOptions"
-            if (overloadName == null && csMethodName.Contains("WithOptions"))
+            string candidate = TypeMapper.ToPascalCase(firstPart);
+            if (candidate != csMethodName)
             {
-                string candidate = csMethodName.Replace("WithOptions", "");
-                if (candidate.Length > 0)
-                {
-                    overloadName = candidate;
-                }
+                overloadName = candidate;
+            }
+        }
+
+        if (overloadName != null)
+        {
+            // Skip if overload name clashes with a property name
+            if (propertyNames.Contains(overloadName))
+            {
+                overloadName = null;
+            }
+        }
+
+        if (overloadName != null)
+        {
+            // Build a signature key using parameter types only (not names) to detect
+            // duplicate overloads that C# would consider ambiguous.
+            // E.g., "PresentDrawable(MTLDrawable, double)" from both atTime: and afterMinimumDuration:
+            string typeOnlySig = string.Join(",", csParams.Select(p =>
+            {
+                // Extract the type portion: "out MTLFoo bar" → "out MTLFoo", "nuint length" → "nuint"
+                string[] parts = p.Split(' ');
+                return p.StartsWith("out ") ? $"out {parts[1]}" : parts[0];
+            }));
+            string signatureKey = $"{overloadName}({typeOnlySig})";
+            if (!usedOverloadSignatures.Add(signatureKey))
+            {
+                overloadName = null;
             }
         }
 

@@ -17,6 +17,11 @@ public class MTLIOScratchBufferAllocator(nint nativePtr, NativeObjectOwnership o
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+
+    public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
+    {
+        return NewScratchBufferWithMinimumSize(minimumSize);
+    }
 }
 
 file static class MTLIOScratchBufferAllocatorBindings

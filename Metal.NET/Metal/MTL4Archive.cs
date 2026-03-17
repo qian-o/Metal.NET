@@ -26,6 +26,11 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, out NSError error)
+    {
+        return NewComputePipelineStateWithDescriptorError(descriptor, out error);
+    }
+
     public MTLComputePipelineState NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
@@ -33,6 +38,11 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
+    {
+        return NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError(descriptor, dynamicLinkingDescriptor, out error);
     }
 
     public MTLRenderPipelineState NewRenderPipelineStateWithDescriptorError(MTL4PipelineDescriptor descriptor, out NSError error)
@@ -44,6 +54,11 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, out NSError error)
+    {
+        return NewRenderPipelineStateWithDescriptorError(descriptor, out error);
+    }
+
     public MTLRenderPipelineState NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
@@ -53,6 +68,11 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
+    {
+        return NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError(descriptor, dynamicLinkingDescriptor, out error);
+    }
+
     public MTL4BinaryFunction NewBinaryFunctionWithDescriptorError(MTL4BinaryFunctionDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewBinaryFunctionWithDescriptor, descriptor.NativePtr, out nint errorPtr);
@@ -60,6 +80,11 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError error)
+    {
+        return NewBinaryFunctionWithDescriptorError(descriptor, out error);
     }
 }
 

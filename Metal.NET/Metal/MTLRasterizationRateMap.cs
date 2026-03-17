@@ -46,6 +46,11 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapBindings.CopyParameterDataToBuffer, buffer.NativePtr, offset);
     }
 
+    public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
+    {
+        CopyParameterDataToBufferOffset(buffer, offset);
+    }
+
     public MTLSize PhysicalSizeForLayer(nuint layerIndex)
     {
         return ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalSizeForLayer, layerIndex);
@@ -56,9 +61,19 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
         return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapScreenToPhysicalCoordinates, screenCoordinates, layerIndex);
     }
 
+    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
+    {
+        return MapScreenToPhysicalCoordinatesForLayer(screenCoordinates, layerIndex);
+    }
+
     public MTLSamplePosition MapPhysicalToScreenCoordinatesForLayer(MTLSamplePosition physicalCoordinates, nuint layerIndex)
     {
         return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapPhysicalToScreenCoordinates, physicalCoordinates, layerIndex);
+    }
+
+    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
+    {
+        return MapPhysicalToScreenCoordinatesForLayer(physicalCoordinates, layerIndex);
     }
 }
 

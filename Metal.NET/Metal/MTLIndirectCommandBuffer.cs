@@ -26,6 +26,11 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.ResetWithRange, range);
     }
 
+    public void Reset(NSRange range)
+    {
+        ResetWithRange(range);
+    }
+
     public MTLIndirectRenderCommand IndirectRenderCommandAtIndex(nuint commandIndex)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommandAtIndex, commandIndex);

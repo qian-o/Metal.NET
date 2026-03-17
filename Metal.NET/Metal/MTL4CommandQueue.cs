@@ -32,6 +32,11 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit, (nint)pCommandBuffers, (nuint)commandBuffers.Length);
     }
 
+    public unsafe void Commit(MTL4CommandBuffer[] commandBuffers)
+    {
+        CommitCount(commandBuffers);
+    }
+
     public unsafe void CommitCountOptions(MTL4CommandBuffer[] commandBuffers, MTL4CommitOptions options)
     {
         nint* pCommandBuffers = stackalloc nint[commandBuffers.Length];
@@ -43,7 +48,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CommitCountOptions, (nint)pCommandBuffers, (nuint)commandBuffers.Length, options.NativePtr);
     }
 
-    public unsafe void CommitCount(MTL4CommandBuffer[] commandBuffers, MTL4CommitOptions options)
+    public unsafe void Commit(MTL4CommandBuffer[] commandBuffers, MTL4CommitOptions options)
     {
         CommitCountOptions(commandBuffers, options);
     }
@@ -53,9 +58,19 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent, @event.NativePtr, value);
     }
 
+    public void SignalEvent(MTLEvent @event, ulong value)
+    {
+        SignalEventValue(@event, value);
+    }
+
     public void WaitForEventValue(MTLEvent @event, ulong value)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.WaitForEvent, @event.NativePtr, value);
+    }
+
+    public void WaitForEvent(MTLEvent @event, ulong value)
+    {
+        WaitForEventValue(@event, value);
     }
 
     public void SignalDrawable(MTLDrawable drawable)
@@ -84,6 +99,11 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
+    public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
+    {
+        AddResidencySetsCount(residencySets);
+    }
+
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
@@ -100,9 +120,19 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
+    public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
+    {
+        RemoveResidencySetsCount(residencySets);
+    }
+
     public void UpdateTextureMappingsHeapOperationsCount(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation operations, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateTextureMappings, texture.NativePtr, heap.NativePtr, operations, count);
+    }
+
+    public void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation operations, nuint count)
+    {
+        UpdateTextureMappingsHeapOperationsCount(texture, heap, operations, count);
     }
 
     public void CopyTextureMappingsFromTextureToTextureOperationsCount(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, nuint count)
@@ -110,14 +140,29 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyTextureMappingsFromTexture, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, count);
     }
 
+    public void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, nuint count)
+    {
+        CopyTextureMappingsFromTextureToTextureOperationsCount(sourceTexture, destinationTexture, operations, count);
+    }
+
     public void UpdateBufferMappingsHeapOperationsCount(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation operations, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateBufferMappings, buffer.NativePtr, heap.NativePtr, operations, count);
     }
 
+    public void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation operations, nuint count)
+    {
+        UpdateBufferMappingsHeapOperationsCount(buffer, heap, operations, count);
+    }
+
     public void CopyBufferMappingsFromBufferToBufferOperationsCount(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyBufferMappingsFromBuffer, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
+    }
+
+    public void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
+    {
+        CopyBufferMappingsFromBufferToBufferOperationsCount(sourceBuffer, destinationBuffer, operations, count);
     }
 }
 
