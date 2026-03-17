@@ -207,6 +207,25 @@ partial class AstJsonParser
                     }
                 }
 
+                // Handle leading underscores: strip '_' and PascalCase the first word
+                // e.g. _iOS_GPUFamily1_v1 → Ios_GPUFamily1_v1
+                if (memberName.Length > 0 && memberName[0] == '_')
+                {
+                    memberName = memberName.TrimStart('_');
+                    if (memberName.Length > 0 && char.IsLower(memberName[0]))
+                    {
+                        int sepIdx = memberName.IndexOf('_');
+                        if (sepIdx > 0)
+                        {
+                            memberName = char.ToUpper(memberName[0]) + memberName[1..sepIdx].ToLowerInvariant() + memberName[sepIdx..];
+                        }
+                        else
+                        {
+                            memberName = char.ToUpper(memberName[0]) + memberName[1..].ToLowerInvariant();
+                        }
+                    }
+                }
+
                 if (memberName.Length > 0 && char.IsDigit(memberName[0]))
                 {
                     memberName = prefix + memberName;
