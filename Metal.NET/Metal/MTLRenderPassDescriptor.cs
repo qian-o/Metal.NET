@@ -116,12 +116,12 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void SetSamplePositionsCount(MTLSamplePosition positions, nuint count)
+    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSamplePositions, positions, count);
     }
 
-    public nuint GetSamplePositionsCount(MTLSamplePosition positions, nuint count)
+    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
     {
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositions, positions, count);
     }

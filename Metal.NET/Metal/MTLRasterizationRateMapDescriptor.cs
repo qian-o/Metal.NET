@@ -44,9 +44,9 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSizeLayer(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSizelayer, screenSize, layer.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSizeLayer, screenSize, layer.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -58,7 +58,7 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void SetLayerAtIndex(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
+    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLayer, layer.NativePtr, layerIndex);
     }
@@ -78,7 +78,7 @@ file static class MTLRasterizationRateMapDescriptorBindings
 
     public static readonly Selector RasterizationRateMapDescriptorWithScreenSize = "rasterizationRateMapDescriptorWithScreenSize:";
 
-    public static readonly Selector RasterizationRateMapDescriptorWithScreenSizelayer = "rasterizationRateMapDescriptorWithScreenSize:layer:";
+    public static readonly Selector RasterizationRateMapDescriptorWithScreenSizeLayer = "rasterizationRateMapDescriptorWithScreenSize:layer:";
 
     public static readonly Selector ScreenSize = "screenSize";
 
