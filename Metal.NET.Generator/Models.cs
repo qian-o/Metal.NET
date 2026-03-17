@@ -1,60 +1,78 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>Parsed enum definition.</summary>
+/// <summary>Parsed enum definition with its namespace, backing type, members, and deprecation info.</summary>
 record EnumDef(string Namespace, string Name, string BackingType, bool IsFlags, List<EnumMember> Members, bool Deprecated = false, string? DeprecationMessage = null);
 
 /// <summary>A single enum member with its resolved C# name and numeric value.</summary>
 record EnumMember(string Name, string Value);
 
-/// <summary>A free C function declared with <c>extern "C"</c>.</summary>
+/// <summary>A free C function declared with <c>extern "C"</c> in the Metal framework headers.</summary>
 record FreeFunctionDef(string CEntryPoint, string ReturnType, string Name, List<ParamDef> Parameters, string LibraryPath, string Namespace, string TargetClassName);
 
 /// <summary>
 /// A method or function parameter.
-/// <c>Type</c> may contain special prefixes like <c>OBJ_ARRAY:</c>, <c>STRUCT_ARRAY:</c>, or <c>PRIM_ARRAY:</c>.
+/// <para><c>Type</c> may contain special prefixes:
+/// <c>OBJ_ARRAY:</c>, <c>STRUCT_ARRAY:</c>, <c>PRIM_ARRAY:</c>, or <c>INLINE_BLOCK:</c>.</para>
 /// </summary>
 record ParamDef(string Type, string Name);
 
 /// <summary>A property defined by a getter and optional setter method pair.</summary>
 record PropertyDef(MethodInfo Getter, MethodInfo? Setter);
 
-/// <summary>Parsed class/protocol definition with its namespace, inheritance, and method declarations.</summary>
+/// <summary>
+/// Parsed class or protocol definition with its namespace, inheritance chain,
+/// method declarations, and whether it supports <c>AllocInit</c>.
+/// </summary>
 class ClassDef
 {
-    public string Namespace { get; set; } = "";
+    /// <summary>Logical namespace prefix (e.g., "MTL", "MTL4", "NS").</summary>
+    public required string Namespace { get; set; }
 
-    public string Name { get; set; } = "";
+    /// <summary>Bare class name without prefix (e.g., "Device", "Buffer").</summary>
+    public required string Name { get; set; }
 
+    /// <summary>Optional C# base class name, or <c>null</c> if it inherits <c>NSObject</c>.</summary>
     public string? BaseClassName { get; set; }
 
+    /// <summary>All parsed methods (both property-derived and explicit).</summary>
     public List<MethodInfo> Methods { get; set; } = [];
 
-    /// <summary>Whether this class supports AllocInit (has a registered ObjC class).</summary>
+    /// <summary>Whether this class supports <c>AllocInit</c> (has a registered ObjC class).</summary>
     public bool HasAllocInit { get; set; }
 }
 
-/// <summary>A parsed method declaration with its return type, parameters, and metadata.</summary>
+/// <summary>A parsed method declaration with its return type, parameters, and ObjC metadata.</summary>
 class MethodInfo
 {
-    public string Name { get; set; } = "";
+    /// <summary>Base method name derived from the ObjC selector.</summary>
+    public required string Name { get; set; }
 
+    /// <summary>Return type in the internal model representation.</summary>
     public string ReturnType { get; set; } = "void";
 
+    /// <summary>Whether this is a class-level (static) method.</summary>
     public bool IsStatic { get; set; }
 
+    /// <summary>Whether the method is read-only (const in ObjC).</summary>
     public bool IsConst { get; set; }
 
+    /// <summary>Method parameters.</summary>
     public List<ParamDef> Parameters { get; set; } = [];
 
+    /// <summary>Whether the method targets the ObjC class object rather than an instance.</summary>
     public bool UsesClassTarget { get; set; }
 
-    /// <summary>The ObjC selector string, provided directly from metal-ast.json.</summary>
+    /// <summary>The ObjC selector string, provided directly from <c>metal-ast.json</c>.</summary>
     public string? Selector { get; set; }
 
+    /// <summary>Deprecation message if the method is deprecated, otherwise <c>null</c>.</summary>
     public string? DeprecationMessage { get; set; }
 }
 
-/// <summary>A parsed ObjC block type alias (e.g., <c>typedef void (^MTLCommandBufferHandler)(id&lt;MTLCommandBuffer&gt;)</c>).</summary>
+/// <summary>
+/// A parsed ObjC block type alias
+/// (e.g., <c>typedef void (^MTLCommandBufferHandler)(id&lt;MTLCommandBuffer&gt;)</c>).
+/// </summary>
 record BlockTypeAlias(string Namespace, string ObjCName, string CsDelegateName, List<BlockParam> Parameters);
 
 /// <summary>A parameter in a block type alias signature.</summary>

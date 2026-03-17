@@ -226,6 +226,7 @@ partial class AstJsonParser
         }
     }
 
+    /// <summary>Maps an ObjC enum underlying type to a C# backing type.</summary>
     static string MapEnumBackingType(string objcType) => objcType.Trim() switch
     {
         "NSUInteger" => "ulong",
@@ -376,6 +377,7 @@ partial class AstJsonParser
         }
     }
 
+    /// <summary>Infers a meaningful parameter name from an ObjC type string.</summary>
     static string InferParamNameFromObjCType(string objcType, int index)
     {
         // Strip nullability annotations
@@ -416,6 +418,7 @@ partial class AstJsonParser
         };
     }
 
+    /// <summary>Maps an ObjC block parameter type to its C# equivalent.</summary>
     static string MapBlockParamType(string objcType)
     {
         string t = StripNullability(objcType).Trim();
@@ -448,6 +451,7 @@ partial class AstJsonParser
         };
     }
 
+    /// <summary>Splits a block signature parameter list respecting nested angle brackets and parens.</summary>
     static List<string> SplitBlockParams(string paramsStr)
     {
         List<string> result = [];
@@ -768,12 +772,12 @@ partial class AstJsonParser
         }
     }
 
-    static string DeriveTargetClassName(string prefix)
-    {
+    /// <summary>Derives the target C# class name for a free function based on its prefix.</summary>
+    static string DeriveTargetClassName(string prefix) =>
         // e.g., MTLCopyAllDevices → MTLDevice, MTLCreateSystemDefaultDevice → MTLDevice
-        return prefix + "Device";
-    }
+        prefix + "Device";
 
+    /// <summary>Maps a framework name to the native library path on macOS.</summary>
     static string FrameworkToLibraryPath(string framework) => framework switch
     {
         "Metal" => "/System/Library/Frameworks/Metal.framework/Metal",
@@ -788,8 +792,10 @@ partial class AstJsonParser
     #region Type Mapping Helpers
 
     /// <summary>
-    /// Maps an ObjC type string to the internal C++-style type used in the model.
-    /// This bridges ObjC types from the AST to what the existing TypeMapper expects.
+    /// Maps an ObjC type string to the internal model representation that
+    /// <see cref="TypeMapper.MapType"/> can subsequently resolve to a final C# type.
+    /// Handles <c>id&lt;Protocol&gt;</c>, <c>NSArray</c>/<c>NSDictionary</c> generics,
+    /// block handler types, inline blocks, and standard ObjC → C++ style type names.
     /// </summary>
     static string MapObjCTypeForModel(string objcType)
     {
@@ -799,275 +805,125 @@ partial class AstJsonParser
         Match idMatch = IdProtocolRegex().Match(t);
         if (idMatch.Success)
         {
-            string protoName = idMatch.Groups[1].Value;
-            return protoName + "*";
+            return idMatch.Groups[1].Value + "*";
         }
 
-        // NSArray<...> → NSArray (element type extracted by emitter)
-        if (t.StartsWith("NSArray<") || t == "NSArray" || t.StartsWith("NSArray *"))
+        // NSArray<...> / NSDictionary<...> → pointer form (element type resolved by emitter)
+        if (t is "NSArray" || t.StartsWith("NSArray<") || t.StartsWith("NSArray *"))
         {
             return "NSArray*";
         }
 
-        // NSDictionary<...> → NSDictionary
-        if (t.StartsWith("NSDictionary<") || t == "NSDictionary" || t.StartsWith("NSDictionary *"))
+        if (t is "NSDictionary" || t.StartsWith("NSDictionary<") || t.StartsWith("NSDictionary *"))
         {
             return "NSDictionary*";
         }
 
-        // Bare 'id' → NSObject
-        if (t == "id")
+        // Well-known exact-match types → switch expression
+        string? exactMatch = t switch
         {
-            return "NSObject*";
+            "id" => "NSObject*",
+            "BOOL" => "bool",
+            "instancetype" => "void*",
+            "NSUInteger" => "NS::UInteger",
+            "NSInteger" => "NS::Integer",
+            "CGColorSpaceRef" => "CGColorSpaceRef",
+            "IOSurfaceRef" => "IOSurfaceRef",
+            "CFTimeInterval" => "CFTimeInterval",
+            "CGSize" => "CGSize",
+            "dispatch_queue_t" => "dispatch_queue_t",
+            "dispatch_data_t" => "dispatch_data_t",
+            "CGFloat" => "double",
+            "size_t" => "NS::UInteger",
+            "simd_float4x4" => "SimdFloat4x4",
+            "MTLGPUAddress" => "NS::UInteger",
+            "MTLCoordinate2D" => "MTL::Coordinate2D*",
+            "const char *" or "char *" => "char*",
+            _ => null
+        };
+        if (exactMatch is not null)
+        {
+            return exactMatch;
         }
 
-        // BOOL → bool
-        if (t == "BOOL")
+        // Block handler types (named typedefs like MTLCommandBufferHandler)
+        if ((t.Contains("Handler") || t.Contains("Block")) &&
+            !t.Contains('*') && !t.Contains('<') && !t.Contains('('))
         {
-            return "bool";
-        }
-
-        // instancetype → id (treated as object pointer)
-        if (t == "instancetype")
-        {
-            return "void*";
-        }
-
-        // NSUInteger/NSInteger
-        if (t == "NSUInteger")
-        {
-            return "NS::UInteger";
-        }
-
-        if (t == "NSInteger")
-        {
-            return "NS::Integer";
-        }
-
-        // Block handler types (named typedefs)
-        if (t.Contains("Handler") || t.Contains("Block"))
-        {
-            // If it's a known block typedef name, return as-is
-            if (!t.Contains('*') && !t.Contains('<') && !t.Contains('('))
-            {
-                return t;
-            }
+            return t;
         }
 
         // Inline block: void (^ _Nullable)(...) or void (^)(...)
         if (t.Contains("(^"))
         {
-            // Parse the inline block signature and try to resolve it
             Match inlineBlockMatch = InlineBlockTypeRegex().Match(t);
-            if (inlineBlockMatch.Success)
+            if (inlineBlockMatch.Success &&
+                InlineBlockDelegateNames.TryGetValue(inlineBlockMatch.Groups[1].Value.Trim(), out string? delegateName))
             {
-                string paramPart = inlineBlockMatch.Groups[1].Value.Trim();
-                if (InlineBlockDelegateNames.TryGetValue(paramPart, out string? delegateName))
-                {
-                    return $"INLINE_BLOCK:{delegateName}";
-                }
-                return "INLINE_BLOCK:UNKNOWN_BLOCK";
+                return $"INLINE_BLOCK:{delegateName}";
             }
             return "INLINE_BLOCK:UNKNOWN_BLOCK";
         }
 
-        // CGColorSpaceRef
-        if (t == "CGColorSpaceRef")
-        {
-            return "CGColorSpaceRef";
-        }
-
-        // IOSurfaceRef
-        if (t == "IOSurfaceRef")
-        {
-            return "IOSurfaceRef";
-        }
-
-        // CFTimeInterval
-        if (t == "CFTimeInterval")
-        {
-            return "CFTimeInterval";
-        }
-
-        // CGSize
-        if (t == "CGSize")
-        {
-            return "CGSize";
-        }
-
-        // dispatch_queue_t
-        if (t == "dispatch_queue_t")
-        {
-            return "dispatch_queue_t";
-        }
-
-        // dispatch_data_t
-        if (t == "dispatch_data_t")
-        {
-            return "dispatch_data_t";
-        }
-
-        // CGFloat
-        if (t == "CGFloat")
-        {
-            return "double";
-        }
-
-        // size_t → nuint
-        if (t == "size_t")
-        {
-            return "NS::UInteger";
-        }
-
-        // simd types
-        if (t == "simd_float4x4")
-        {
-            return "SimdFloat4x4";
-        }
-
-        // C primitive types
+        // C primitive types — pass through as-is
         if (t is "uint32_t" or "int32_t" or "uint8_t" or "int8_t" or "uint16_t" or "int16_t"
-            or "uint64_t" or "int64_t" or "float" or "double" or "void")
+                or "uint64_t" or "int64_t" or "float" or "double" or "void")
         {
             return t;
         }
 
-        // MTLGPUAddress → nuint mapping
-        if (t == "MTLGPUAddress")
-        {
-            return "NS::UInteger";
-        }
-
-        // MTLCoordinate2D → MTLSamplePosition
-        if (t == "MTLCoordinate2D")
-        {
-            return "MTL::Coordinate2D*";
-        }
-
-        // char *
-        if (t is "const char *" or "char *")
-        {
-            return "char*";
-        }
-
         // NSError ** → Error**
-        if (t.Contains("NSError") && t.Contains('*') && t.Contains('*'))
+        if (t.Contains("NSError") && t.Count(c => c == '*') >= 2)
         {
-            int stars = t.Count(c => c == '*');
-            if (stars >= 2)
-            {
-                return "NS::Error**";
-            }
+            return "NS::Error**";
         }
 
-        // Pointer types: MTLFoo * → MTL::Foo* style (but keep ObjC name directly)
+        // Pointer types: MTLFoo * → BaseName* (optionally with const)
         if (t.EndsWith('*'))
         {
             string baseName = t.TrimEnd('*', ' ').Trim();
-            // Handle const prefix
             if (baseName.StartsWith("const "))
             {
                 baseName = baseName["const ".Length..].Trim();
-                string ns = InferNamespaceFromName(baseName);
-                if (ns != "")
+                if (InferNamespaceFromName(baseName) is not "")
                 {
                     return "const " + baseName + "*";
                 }
             }
-
             return baseName + "*";
         }
 
-        // Non-pointer ObjC types (enum values, struct values)
-        // These are returned as-is since they're already the ObjC name
+        // Non-pointer ObjC types (enum values, struct values) — return as-is
         return t;
     }
 
     /// <summary>
-    /// Returns true if an ObjC type cannot be mapped to a C# type and should cause the method to be skipped.
+    /// Returns <see langword="true"/> if an ObjC type from the AST cannot be mapped to C#
+    /// and the containing method/property should be skipped.
     /// </summary>
     static bool IsUnmappableObjCType(string objcType)
     {
         string t = StripNullability(objcType).Trim();
 
-        // Skip NSSet, Class, IMP
-        if (t.StartsWith("NSSet<"))
+        // Exact-match unmappable types
+        if (t is "Class" or "IMP" or "SEL" or "FourCharCode" or "id *")
         {
             return true;
         }
 
-        if (t is "Class" or "IMP" or "SEL" or "FourCharCode")
-        {
-            return true;
-        }
-
-        // Skip bare 'id' (without protocol qualifier) — except in property context
-        // Bare 'id' in methods is too generic; for properties it maps to NSObject
-        if (t == "id *")
-        {
-            return true;
-        }
-
-        if (t.Contains("NS::Process") || t.Contains("NS::Observer") || t.Contains("NSProcess") || t.Contains("NSObserver"))
-        {
-            return true;
-        }
-
-        if (t.Contains("kern_return_t") || t.Contains("task_id_token_t"))
-        {
-            return true;
-        }
-
-        // Skip ObjectType (generic NSArray type params)
-        if (t.Contains("ObjectType"))
-        {
-            return true;
-        }
-
-        // Skip NS_RETURNS_INNER_POINTER annotated types
-        if (t.Contains("NS_RETURNS_INNER_POINTER"))
-        {
-            return true;
-        }
-
-        // Skip NSStringEncoding (typedef for NSUInteger but context-dependent)
-        if (t.Contains("NSStringEncoding"))
-        {
-            return true;
-        }
-
-        // Skip const data pointer params (array params from ObjC will need special handling)
-        // but keep the simpler ones
-        if (t.Contains("*const ") || (t.Contains("const") && t.Contains("* _Nonnull *")))
-        {
-            return true;
-        }
-
-        // Skip 'const unichar *'
-        if (t.Contains("unichar"))
-        {
-            return true;
-        }
-
-        // Skip CAEDRMetadata
-        if (t.Contains("CAEDRMetadata"))
-        {
-            return true;
-        }
-
-        // Skip NSCoder
-        if (t.Contains("NSCoder"))
-        {
-            return true;
-        }
-
-        // Skip MTLIOCompressionContext (opaque C type, not generated)
-        if (t.Contains("MTLIOCompressionContext"))
-        {
-            return true;
-        }
-
-        return false;
+        // Pattern-based exclusions
+        return t.StartsWith("NSSet<")
+            || t.Contains("NS::Process") || t.Contains("NS::Observer")
+            || t.Contains("NSProcess") || t.Contains("NSObserver")
+            || t.Contains("kern_return_t") || t.Contains("task_id_token_t")
+            || t.Contains("ObjectType")
+            || t.Contains("NS_RETURNS_INNER_POINTER")
+            || t.Contains("NSStringEncoding")
+            || t.Contains("*const ") || (t.Contains("const") && t.Contains("* _Nonnull *"))
+            || t.Contains("unichar")
+            || t.Contains("CAEDRMetadata")
+            || t.Contains("NSCoder")
+            || t.Contains("MTLIOCompressionContext");
     }
 
     #endregion
@@ -1094,21 +950,23 @@ partial class AstJsonParser
     }
 
     /// <summary>
-    /// Infers a C++ namespace prefix from an ObjC name.
-    /// E.g., "MTLDevice" → "MTL", "MTL4Compiler" → "MTL4", "NSString" → "NS"
+    /// Infers a logical namespace prefix from an ObjC name by matching the longest
+    /// known prefix (e.g., "MTL4FXFoo" → "MTL4FX", "MTLDevice" → "MTL").
+    /// Returns an empty string if no known prefix matches.
     /// </summary>
-    static string InferNamespaceFromName(string name)
+    static string InferNamespaceFromName(string name) => name switch
     {
-        if (name.StartsWith("MTL4FX")) return "MTL4FX";
-        if (name.StartsWith("MTLFX")) return "MTLFX";
-        if (name.StartsWith("MTL4")) return "MTL4";
-        if (name.StartsWith("MTL")) return "MTL";
-        if (name.StartsWith("NS")) return "NS";
-        if (name.StartsWith("CA")) return "CA";
-        if (name.StartsWith("CG")) return "CG";
-        return "";
-    }
+        _ when name.StartsWith("MTL4FX") => "MTL4FX",
+        _ when name.StartsWith("MTLFX") => "MTLFX",
+        _ when name.StartsWith("MTL4") => "MTL4",
+        _ when name.StartsWith("MTL") => "MTL",
+        _ when name.StartsWith("NS") => "NS",
+        _ when name.StartsWith("CA") => "CA",
+        _ when name.StartsWith("CG") => "CG",
+        _ => ""
+    };
 
+    /// <summary>Maps a framework name to its logical namespace prefix.</summary>
     static string FrameworkToNamespace(string framework) => framework switch
     {
         "Metal" => "MTL",
