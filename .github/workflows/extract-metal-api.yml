@@ -194,6 +194,7 @@ jobs:
                       else:
                           m["value"] = str(next_value)
                           next_value += 1
+                      _apply_deprecation(m, get_attrs(c))
                       members.append(m)
               if not members:
                   return None
@@ -416,6 +417,87 @@ jobs:
                               applied += 1
               return applied
 
+          def _split_enum_members(body):
+              """Split enum body by commas, respecting balanced parentheses."""
+              members = []
+              current = []
+              depth = 0
+              for ch in body:
+                  if ch == '(':
+                      depth += 1
+                      current.append(ch)
+                  elif ch == ')':
+                      depth -= 1
+                      current.append(ch)
+                  elif ch == ',' and depth == 0:
+                      members.append(''.join(current).strip())
+                      current = []
+                  else:
+                      current.append(ch)
+              last = ''.join(current).strip()
+              if last:
+                  members.append(last)
+              return members
+
+          def scan_enum_header_deprecations(sdk_path):
+              """Scan Metal headers for deprecated enum constants."""
+              dep = {}
+              for fw in ("Metal", "MetalFX"):
+                  scan_dir = os.path.join(sdk_path, f"System/Library/Frameworks/{fw}.framework/Headers")
+                  if not os.path.isdir(scan_dir):
+                      continue
+                  for fn in sorted(os.listdir(scan_dir)):
+                      if not fn.endswith('.h'):
+                          continue
+                      with open(os.path.join(scan_dir, fn)) as hf:
+                          text = hf.read()
+                      text = re.sub(r'/\*.*?\*/', ' ', text, flags=re.DOTALL)
+                      text = re.sub(r'//[^\n]*', '', text)
+                      for em in re.finditer(r'(?:NS_ENUM|NS_OPTIONS)\s*\([^,]+,\s*(\w+)\)', text):
+                          enum_name = em.group(1)
+                          brace_start = text.find('{', em.end())
+                          if brace_start < 0:
+                              continue
+                          depth, i = 1, brace_start + 1
+                          while i < len(text) and depth > 0:
+                              if text[i] == '{':
+                                  depth += 1
+                              elif text[i] == '}':
+                                  depth -= 1
+                              i += 1
+                          enum_body = text[brace_start + 1:i - 1]
+                          for entry in _split_enum_members(enum_body):
+                              if 'API_DEPRECATED' not in entry:
+                                  continue
+                              nm = re.match(r'(\w+)\s', entry)
+                              if not nm:
+                                  continue
+                              member_name = nm.group(1)
+                              msg = None
+                              dm = re.search(r'API_DEPRECATED_WITH_REPLACEMENT\s*\(\s*"([^"]*)"', entry)
+                              if dm:
+                                  r = dm.group(1)
+                                  msg = r if r.lower().startswith('use ') else f"Use {r} instead"
+                              else:
+                                  dm = re.search(r'API_DEPRECATED\s*\(\s*"([^"]*)"', entry)
+                                  if dm:
+                                      msg = dm.group(1)
+                              if msg:
+                                  dep[(enum_name, member_name)] = msg
+              return dep
+
+          def apply_enum_header_deprecations(api, dep):
+              applied = 0
+              for e in api['enums']:
+                  ename = e['name']
+                  for m in e.get('members', []):
+                      key = (ename, m['name'])
+                      if key in dep and not m.get('deprecated'):
+                          m['deprecated'] = True
+                          m['deprecationMessage'] = dep[key]
+                          applied += 1
+              return applied
+
           def _dedup_by_key(items, key):
               seen = {}
               for item in items:
@@ -530,7 +612,9 @@ jobs:
                       api["classes"].append(t)
               elif kind == "TypedefDecl":
                   ut = (node.get("type") or {}).get("qualType", "")
-                  api["typedefs"].append({"name": name, "underlyingType": ut, "framework": fw})
+                  td_entry = {"name": name, "underlyingType": ut, "framework": fw}
+                  _apply_deprecation(td_entry, get_attrs(node))
+                  api["typedefs"].append(td_entry)
                   if ut.startswith("struct "):
                       fields, method = None, None
                       fields = find_struct_fields(node)
@@ -573,13 +657,17 @@ jobs:
               elif kind == "RecordDecl" and node.get("tagUsed") == "struct":
                   fields = extract_fields(node) or find_struct_fields(node)
                   if fields:
-                      api["structs"].append({"name": name, "fields": fields, "framework": fw})
+                      st_entry = {"name": name, "fields": fields, "framework": fw}
+                      _apply_deprecation(st_entry, get_attrs(node))
+                      api["structs"].append(st_entry)
               elif kind == "RecordDecl":
                   tag = node.get("tagUsed", "<none>")
                   if tag != "union":
                       fields = find_struct_fields(node)
                       if fields:
-                          api["structs"].append({"name": name, "fields": fields, "framework": fw})
+                          st_entry = {"name": name, "fields": fields, "framework": fw}
+                          _apply_deprecation(st_entry, get_attrs(node))
+                          api["structs"].append(st_entry)
                           print(f"  Struct '{name}' via RecordDecl (tagUsed={tag}): {len(fields)} fields")
 
           api["enums"] = _dedup_by_key(api["enums"], "name")
@@ -592,6 +680,10 @@ jobs:
           applied = apply_header_deprecations(api, dep_from_headers)
           print(f"Header scan: {len(dep_from_headers)} deprecation annotations found, {applied} applied")
 
+          enum_dep_from_headers = scan_enum_header_deprecations(sdk_path)
+          enum_applied = apply_enum_header_deprecations(api, enum_dep_from_headers)
+          print(f"Enum header scan: {len(enum_dep_from_headers)} deprecation annotations found, {enum_applied} applied")
+
           print(f"Enums: {len(api['enums'])}, Protocols: {len(api['protocols'])}, "
                 f"Classes: {len(api['classes'])}, Functions: {len(api['functions'])}, "
                 f"Structs: {len(api['structs'])}, Typedefs: {len(api['typedefs'])}")
@@ -599,7 +691,9 @@ jobs:
                            for m in t.get('methods', []) if m.get('deprecated'))
           dep_props = sum(1 for t in api['protocols'] + api['classes']
                          for p in t.get('properties', []) if p.get('deprecated'))
-          print(f"Deprecated: {dep_methods} methods, {dep_props} properties")
+          dep_enum_members = sum(1 for e in api['enums']
+                                for m in e.get('members', []) if m.get('deprecated'))
+          print(f"Deprecated: {dep_methods} methods, {dep_props} properties, {dep_enum_members} enum members")
 
           with open(out_path, "w", encoding="utf-8-sig") as f:
               json.dump(api, f, indent=2, ensure_ascii=False)
