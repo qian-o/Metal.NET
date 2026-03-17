@@ -135,7 +135,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string key = string.Join(", ", argTypes);
         if (!context.MsgSendSignatures.TryGetValue(group, out var set))
         {
+#pragma warning disable IDE0028 // Collection initialization can be simplified (requires custom comparer)
             set = new SortedSet<string>(StringComparer.Ordinal);
+#pragma warning restore IDE0028
             context.MsgSendSignatures[group] = set;
         }
         set.Add(key);
@@ -367,7 +369,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             List<string> fieldLines = [];
             foreach (StructFieldDef field in structDef.Fields)
             {
-                string csType = TypeMapper.MapType(field.Type, structDef.Namespace);
+                string csType = TypeMapper.MapType(field.Type);
                 string csFieldName = TypeMapper.ToPascalCase(field.Name);
                 string csParamName = TypeMapper.ToCamelCase(field.Name);
 
@@ -499,7 +501,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         // Use TypeMapper to resolve the strong type
-        return TypeMapper.MapType(param.ObjCType, ns);
+        return TypeMapper.MapType(param.ObjCType);
     }
 
     #endregion
@@ -619,7 +621,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             selectors.TryAdd("Object", getterSelectorObjC);
 
-            string elemType = TypeMapper.MapType(indexerGetter.ReturnType, classDef.Namespace);
+            string elemType = TypeMapper.MapType(indexerGetter.ReturnType);
             string indexParam = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(indexerGetter.Parameters[0].Name));
 
             sb.AppendLine();
@@ -752,9 +754,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         List<PropertyDef> properties = [];
         List<MethodInfo> methods = [];
+#pragma warning disable IDE0028 // Collection initialization can be simplified (requires custom comparer)
         HashSet<MethodInfo> used = new(ReferenceEqualityComparer.Instance);
 
         Dictionary<string, MethodInfo> setterMap = new(StringComparer.Ordinal);
+#pragma warning restore IDE0028
         foreach (MethodInfo m in allMethods)
         {
             if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]) &&
@@ -850,7 +854,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             if (p.Type.Contains("Handler") || p.Type.Contains("Block"))
             {
-                string csType = TypeMapper.MapType(p.Type, "MTL");
+                string csType = TypeMapper.MapType(p.Type);
                 return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
             }
 
@@ -865,7 +869,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         if (type.Contains("Handler") || type.Contains("Block"))
         {
-            string csType = TypeMapper.MapType(type, "MTL");
+            string csType = TypeMapper.MapType(type);
             return context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
         }
 
@@ -936,7 +940,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             return false;
         }
 
-        string csType = TypeMapper.MapType(getter.ReturnType, ns);
+        string csType = TypeMapper.MapType(getter.ReturnType);
 
         string? nsArrayElemType = null;
         if (csType == "NSArray")
@@ -1120,7 +1124,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string selectorRef = $"{csClassName}Bindings.{selectorKey}";
 
-        string returnType = TypeMapper.MapType(method.ReturnType, ns);
+        string returnType = TypeMapper.MapType(method.ReturnType);
 
         string? returnArrayElemType = null;
         if (returnType == "NSArray")
@@ -1158,7 +1162,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 needsUnsafeContext = true;
                 string elemType = param.Type["OBJ_ARRAY:".Length..];
-                string elemCsType = TypeMapper.MapType(elemType + "*", ns);
+                string elemCsType = TypeMapper.MapType(elemType + "*");
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
@@ -1210,7 +1214,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 needsUnsafeContext = true;
                 string elemType = param.Type["STRUCT_ARRAY:".Length..];
-                string elemCsType = TypeMapper.MapType(elemType, ns);
+                string elemCsType = TypeMapper.MapType(elemType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
@@ -1246,7 +1250,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             if (IsBlockHandlerType(param.Type))
             {
-                string csType = TypeMapper.MapType(param.Type, ns);
+                string csType = TypeMapper.MapType(param.Type);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{csType} {csParamName}");
                 callArgs.Add($"{csParamName}.NativePtr");
@@ -1254,14 +1258,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            string csParamType = TypeMapper.MapType(param.Type, ns);
+            string csParamType = TypeMapper.MapType(param.Type);
             string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
             // Autoreleased* types → out parameters (strip "Autoreleased" prefix to resolve underlying type)
             if (param.Type.Contains("Autoreleased"))
             {
                 string resolvedType = param.Type.Replace("Autoreleased", "");
-                string csType = TypeMapper.MapType(resolvedType, ns);
+                string csType = TypeMapper.MapType(resolvedType);
                 string ptrVarName = $"{paramName}Ptr";
                 csParams.Add($"out {csType} {paramName}");
                 callArgs.Add($"out nint {ptrVarName}");
@@ -1491,7 +1495,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string ns, string csClassName)
     {
-        string csReturnType = TypeMapper.MapType(func.ReturnType, ns);
+        string csReturnType = TypeMapper.MapType(func.ReturnType);
 
         string? returnArrayElemType = null;
         if (csReturnType == "NSArray")
@@ -1504,7 +1508,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> pinvokeParams = [];
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = TypeMapper.MapType(p.Type, ns);
+            string csType = TypeMapper.MapType(p.Type);
             if (typeMapper.IsNativeObjectType(csType))
             {
                 pinvokeParams.Add($"nint {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
@@ -1525,7 +1529,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> callArgs = [];
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = TypeMapper.MapType(p.Type, ns);
+            string csType = TypeMapper.MapType(p.Type);
             string csName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name));
             if (typeMapper.IsNativeObjectType(csType))
             {

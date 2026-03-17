@@ -480,7 +480,7 @@ partial class AstJsonParser
 
     #region Protocol & Class Parsing
 
-    void ParseProtocols(AstRoot ast, GeneratorContext context)
+    static void ParseProtocols(AstRoot ast, GeneratorContext context)
     {
         foreach (AstClass proto in ast.Protocols)
         {
@@ -498,7 +498,7 @@ partial class AstJsonParser
         }
     }
 
-    void ParseClasses(AstRoot ast, GeneratorContext context)
+    static void ParseClasses(AstRoot ast, GeneratorContext context)
     {
         foreach (AstClass cls in ast.Classes)
         {
@@ -758,7 +758,7 @@ partial class AstJsonParser
                 : func.Name;
 
             // Determine target class name from function name
-            string targetClassName = DeriveTargetClassName(func.Name, prefix);
+            string targetClassName = DeriveTargetClassName(prefix);
 
             string ns = funcNs != "" ? funcNs : FrameworkToNamespace(func.Framework);
 
@@ -768,7 +768,7 @@ partial class AstJsonParser
         }
     }
 
-    static string DeriveTargetClassName(string _funcName, string prefix)
+    static string DeriveTargetClassName(string prefix)
     {
         // e.g., MTLCopyAllDevices → MTLDevice, MTLCreateSystemDefaultDevice → MTLDevice
         return prefix + "Device";

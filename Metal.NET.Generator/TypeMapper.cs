@@ -73,7 +73,7 @@ partial class TypeMapper(GeneratorContext context)
     /// Handles pointers, namespaced types (e.g., MTL::Device*), ObjC types (e.g., MTLDevice*),
     /// and special aliases.
     /// </summary>
-    public static string MapType(string objcType, string defaultNs)
+    public static string MapType(string objcType)
     {
         string t = objcType.Trim();
 
