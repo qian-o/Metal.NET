@@ -291,21 +291,23 @@ jobs:
                       return result
               return None
 
-          # First pass: collect ALL struct RecordDecl definitions by name.
-          # Uses recursive search because clang AST may nest the full definition
-          # (with FieldDecl children) inside a forward-declaration RecordDecl.
-          # Also scans recursively into ALL top-level nodes (not just RecordDecl)
-          # to catch definitions embedded inside TypedefDecl / ElaboratedType.
-          top_struct_defs = {}
+          # First pass: collect ALL RecordDecl struct definitions.
+          # - By name: for named structs (e.g. CGSize, _MTLPackedFloat3)
+          # - By id: for anonymous structs in typedef patterns like
+          #   typedef struct { ... } MTLOrigin;  (RecordDecl has name="" but has an id)
+          # The TypedefDecl then links via ownedTagDecl.id to the anonymous RecordDecl.
+          struct_defs_by_name = {}
+          struct_defs_by_id = {}
           def collect_struct_defs(node, depth=0):
-              """Recursively collect named RecordDecl struct definitions."""
               if node.get("kind") == "RecordDecl" and node.get("tagUsed") == "struct":
                   rec_name = node.get("name", "")
-                  if rec_name and rec_name not in top_struct_defs:
-                      fields = extract_fields(node)
-                      if fields:
-                          top_struct_defs[rec_name] = fields
-              # Only recurse a few levels deep (structs won't be deeply nested)
+                  rec_id = node.get("id", "")
+                  fields = extract_fields(node)
+                  if fields:
+                      if rec_id:
+                          struct_defs_by_id[rec_id] = fields
+                      if rec_name:
+                          struct_defs_by_name[rec_name] = fields
               if depth < 5:
                   for c in node.get("inner", []):
                       collect_struct_defs(c, depth + 1)
@@ -313,7 +315,18 @@ jobs:
           for node in ast.get("inner", []):
               collect_struct_defs(node)
 
-          print(f"Pre-scan: {len(top_struct_defs)} named struct definitions found")
+          print(f"Pre-scan: {len(struct_defs_by_name)} named + {len(struct_defs_by_id)} by-id struct definitions")
+
+          def find_owned_tag_id(node):
+              """Recursively search for ownedTagDecl id in a node's inner tree."""
+              otd = node.get("ownedTagDecl")
+              if otd:
+                  return otd.get("id")
+              for c in node.get("inner", []):
+                  r = find_owned_tag_id(c)
+                  if r:
+                      return r
+              return None
 
           api = {
               "sdkVersion": sdk_version,
@@ -363,16 +376,25 @@ jobs:
                   })
                   # Extract struct if this typedef references a struct type
                   if ut.startswith("struct "):
+                      fields = None
+                      method = None
                       # Method 1: recursively search inside TypedefDecl for embedded RecordDecl
                       fields = find_struct_fields(node)
-                      method = "embedded" if fields else None
+                      if fields:
+                          method = "embedded"
+                      # Method 2: match via ownedTagDecl id (anonymous struct pattern)
                       if not fields:
-                          # Method 2: match struct name from underlyingType to top-level defs
+                          tag_id = find_owned_tag_id(node)
+                          if tag_id and tag_id in struct_defs_by_id:
+                              fields = struct_defs_by_id[tag_id]
+                              method = f"ownedTag({tag_id[:8]})"
+                      # Method 3: match struct name from underlyingType to named defs
+                      if not fields:
                           m = re.match(r'^struct\s+(\w+)$', ut)
                           if m:
-                              fields = top_struct_defs.get(m.group(1))
+                              fields = struct_defs_by_name.get(m.group(1))
                               if fields:
-                                  method = f"top-level({m.group(1)})"
+                                  method = f"by-name({m.group(1)})"
                       if fields:
                           api["structs"].append({"name": name, "fields": fields})
                           print(f"  Struct '{name}': {len(fields)} fields via {method}")
