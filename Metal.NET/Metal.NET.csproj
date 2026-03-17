@@ -13,7 +13,7 @@
         <Authors>qian-o</Authors>
         <Copyright>MIT</Copyright>
         <PackageTags>metal;apple;gpu;graphics;macos</PackageTags>
-        <Description>C# bindings for Apple's Metal graphics API, auto-generated from metal-cpp headers.</Description>
+        <Description>C# bindings for Apple's Metal graphics API, auto-generated from the Objective-C headers via Clang AST extraction.</Description>
         <RepositoryUrl>https://github.com/qian-o/Metal.NET</RepositoryUrl>
         <PackageProjectUrl>https://github.com/qian-o/Metal.NET</PackageProjectUrl>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>

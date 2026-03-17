@@ -3,7 +3,7 @@
 namespace Metal.NET.Generator;
 
 /// <summary>
-/// Maps C++ types to C# types, resolves MsgSend method variants,
+/// Maps ObjC types to C# types, resolves MsgSend method variants,
 /// and provides naming helpers (PascalCase, camelCase, reserved word escaping).
 /// </summary>
 partial class TypeMapper(GeneratorContext context)
@@ -44,7 +44,7 @@ partial class TypeMapper(GeneratorContext context)
 
     #region Namespace Mapping
 
-    public static string GetPrefix(string cppNamespace) => cppNamespace switch
+    public static string GetPrefix(string ns) => ns switch
     {
         "MTL" => "MTL",
         "MTL4" => "MTL4",
@@ -52,10 +52,10 @@ partial class TypeMapper(GeneratorContext context)
         "CA" => "CA",
         "MTLFX" => "MTLFX",
         "MTL4FX" => "MTL4FX",
-        _ => cppNamespace
+        _ => ns
     };
 
-    public static string GetOutputSubdir(string cppNamespace) => cppNamespace switch
+    public static string GetOutputSubdir(string ns) => ns switch
     {
         "MTL" or "MTL4" => "Metal",
         "NS" => "Foundation",
@@ -69,13 +69,13 @@ partial class TypeMapper(GeneratorContext context)
     #region Type Mapping
 
     /// <summary>
-    /// Maps a C++ type string to a C# type name.
+    /// Maps an ObjC type string to a C# type name.
     /// Handles pointers, namespaced types (e.g., MTL::Device*), ObjC types (e.g., MTLDevice*),
     /// and special aliases.
     /// </summary>
-    public static string MapCppType(string cppType, string defaultNs)
+    public static string MapType(string objcType, string defaultNs)
     {
-        string t = cppType.Trim();
+        string t = objcType.Trim();
 
         // Remove const and class keywords
         t = t.Replace("const ", "").Replace("class ", "").Trim();
@@ -237,11 +237,11 @@ partial class TypeMapper(GeneratorContext context)
     public bool IsEnumType(string csType) => context.EnumBackingTypes.ContainsKey(csType);
 
     /// <summary>
-    /// Returns true if the C++ type cannot be mapped to a C# type (templates, references, etc.).
+    /// Returns true if the ObjC type cannot be mapped to a C# type (templates, references, etc.).
     /// </summary>
-    public static bool IsUnmappableCppType(string cppType)
+    public static bool IsUnmappableType(string objcType)
     {
-        string t = cppType;
+        string t = objcType;
 
         if (t.Contains('<') || t.Contains('>'))
         {
@@ -357,29 +357,29 @@ partial class TypeMapper(GeneratorContext context)
     /// Returns true if the method name implies an ownership transfer per ObjC naming conventions
     /// (new*, alloc*, copy*, mutableCopy*, init*). Callers receive owned references from these methods.
     /// </summary>
-    public static bool IsOwnershipTransferMethod(string cppName)
+    public static bool IsOwnershipTransferMethod(string name)
     {
-        if (cppName.StartsWith("new") && (cppName.Length == 3 || char.IsUpper(cppName[3])))
+        if (name.StartsWith("new") && (name.Length == 3 || char.IsUpper(name[3])))
         {
             return true;
         }
 
-        if (cppName.StartsWith("alloc") && (cppName.Length == 5 || char.IsUpper(cppName[5])))
+        if (name.StartsWith("alloc") && (name.Length == 5 || char.IsUpper(name[5])))
         {
             return true;
         }
 
-        if (cppName.StartsWith("copy") && (cppName.Length == 4 || char.IsUpper(cppName[4])))
+        if (name.StartsWith("copy") && (name.Length == 4 || char.IsUpper(name[4])))
         {
             return true;
         }
 
-        if (cppName.StartsWith("mutableCopy") && (cppName.Length == 11 || char.IsUpper(cppName[11])))
+        if (name.StartsWith("mutableCopy") && (name.Length == 11 || char.IsUpper(name[11])))
         {
             return true;
         }
 
-        if (cppName.StartsWith("init") && (cppName.Length == 4 || char.IsUpper(cppName[4])))
+        if (name.StartsWith("init") && (name.Length == 4 || char.IsUpper(name[4])))
         {
             return true;
         }

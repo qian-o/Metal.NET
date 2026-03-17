@@ -146,14 +146,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     public void GenerateAll()
     {
         // Group enums by namespace into consolidated files (e.g., MTLEnums.cs, NSEnums.cs, MTLFXEnums.cs)
-        var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.CppNamespace));
+        var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.Namespace));
         foreach (var group in enumsBySubdir)
         {
             GenerateEnumFile(group.Key, group.ToList());
         }
 
         // Group structs by namespace into consolidated files (e.g., MTLStructs.cs)
-        var structsBySubdir = context.Structs.GroupBy(s => TypeMapper.GetOutputSubdir(s.CppNamespace));
+        var structsBySubdir = context.Structs.GroupBy(s => TypeMapper.GetOutputSubdir(s.Namespace));
         foreach (var group in structsBySubdir)
         {
             GenerateStructFile(group.Key, group.ToList());
@@ -168,7 +168,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Build known class names (both generated and hand-written)
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
         }
         context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
@@ -177,12 +177,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         Dictionary<string, HashSet<string>> classPropertyMap = [];
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
             string csClassName = prefix + classDef.Name;
             classPropertyMap[csClassName] =
             [
                 .. classDef.Methods.Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget && m.IsConst)
-                                   .Select(m => TypeMapper.ToPascalCase(m.CppName))
+                                   .Select(m => TypeMapper.ToPascalCase(m.Name))
             ];
         }
 
@@ -194,12 +194,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 return result;
             }
-            ClassDef classDef = context.Classes.First(c => TypeMapper.GetPrefix(c.CppNamespace) + c.Name == csClassName);
+            ClassDef classDef = context.Classes.First(c => TypeMapper.GetPrefix(c.Namespace) + c.Name == csClassName);
             string? current = classDef.BaseClassName;
             while (current != null && context.KnownClassNames.Contains(current) && classPropertyMap.TryGetValue(current, out HashSet<string>? parentProps))
             {
                 result.UnionWith(parentProps);
-                ClassDef? parentDef = context.Classes.FirstOrDefault(c => TypeMapper.GetPrefix(c.CppNamespace) + c.Name == current);
+                ClassDef? parentDef = context.Classes.FirstOrDefault(c => TypeMapper.GetPrefix(c.Namespace) + c.Name == current);
                 current = parentDef?.BaseClassName;
             }
             return result;
@@ -240,7 +240,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
             string csClassName = prefix + classDef.Name;
             HashSet<string> inheritedProps = GetInheritedProperties(csClassName);
             freeFuncsByClass.TryGetValue(csClassName, out List<FreeFunctionDef>? classFuncs);
@@ -269,7 +269,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         foreach (EnumDef enumDef in enums)
         {
-            string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(enumDef.Namespace);
             string oldFile = Path.Combine(dir, $"{prefix}{enumDef.Name}.cs");
             if (File.Exists(oldFile))
             {
@@ -283,7 +283,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         for (int ei = 0; ei < enums.Count; ei++)
         {
             EnumDef enumDef = enums[ei];
-            string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(enumDef.Namespace);
             string csEnumName = prefix + enumDef.Name;
 
             sb.AppendLine();
@@ -329,7 +329,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     void GenerateStructFile(string subdir, List<StructDef> structs)
     {
-        static string GetCsStructName(StructDef s) => TypeMapper.GetPrefix(s.CppNamespace) + s.Name;
+        static string GetCsStructName(StructDef s) => TypeMapper.GetPrefix(s.Namespace) + s.Name;
 
         // Filter out hand-written structs
         List<StructDef> generatable = structs
@@ -368,7 +368,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             List<string> fieldLines = [];
             foreach (StructFieldDef field in structDef.Fields)
             {
-                string csType = TypeMapper.MapCppType(field.CppType, structDef.CppNamespace);
+                string csType = TypeMapper.MapType(field.Type, structDef.Namespace);
                 string csFieldName = TypeMapper.ToPascalCase(field.Name);
                 string csParamName = TypeMapper.ToCamelCase(field.Name);
 
@@ -427,7 +427,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             foreach (BlockParam p in callbackParams)
             {
-                string strongType = ResolveStrongType(p, alias.CppNamespace);
+                string strongType = ResolveStrongType(p, alias.Namespace);
                 actionTypeArgs.Add(strongType);
 
                 // Trampoline receives the low-level type
@@ -484,23 +484,23 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Pointer types that map to known NativeObject classes get their class name;
     /// value types (ulong, long, nuint, nint from void*) pass through unchanged.
     /// </summary>
-    static string ResolveStrongType(BlockParam param, string cppNamespace)
+    static string ResolveStrongType(BlockParam param, string ns)
     {
         // Value types pass through directly
-        if (!param.CppType.TrimEnd().EndsWith('*'))
+        if (!param.ObjCType.TrimEnd().EndsWith('*'))
         {
             return param.CsType;
         }
 
         // void* stays as nint (e.g., MTLDeallocator's pointer param)
-        string stripped = param.CppType.TrimEnd().TrimEnd('*').Trim();
+        string stripped = param.ObjCType.TrimEnd().TrimEnd('*').Trim();
         if (stripped is "void" or "")
         {
             return "nint";
         }
 
         // Use TypeMapper to resolve the strong type
-        return TypeMapper.MapCppType(param.CppType, cppNamespace);
+        return TypeMapper.MapType(param.ObjCType, ns);
     }
 
     #endregion
@@ -509,7 +509,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, List<FreeFunctionDef> freeFunctions)
     {
-        string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
+        string prefix = TypeMapper.GetPrefix(classDef.Namespace);
         string csClassName = prefix + classDef.Name;
 
         if (SkipClasses.Contains(csClassName))
@@ -517,7 +517,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             return;
         }
 
-        string subdir = TypeMapper.GetOutputSubdir(classDef.CppNamespace);
+        string subdir = TypeMapper.GetOutputSubdir(classDef.Namespace);
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
@@ -526,7 +526,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         List<MethodInfo> validMethods =
         [
-            .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM")
+            .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.Type == "ARRAY_PARAM")
                                             && !HasUnmergableArrayParam(m)
                                             && !HasFunctionPointerParam(m)
                                             && !HasUnmappableParam(m))
@@ -536,7 +536,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         [
             .. validMethods
                 .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
-                .Select(m => m.CppName)
+                .Select(m => m.Name)
         ];
 
         (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
@@ -544,10 +544,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Detect indexer
         MethodInfo? indexerGetter = methods.FirstOrDefault(m =>
             m.Selector is "objectAtIndexedSubscript:"
-            || (m.CppName == "object" && m.Parameters.Count == 1 && m.ReturnType != "void"));
+            || (m.Name == "object" && m.Parameters.Count == 1 && m.ReturnType != "void"));
         MethodInfo? indexerSetter = methods.FirstOrDefault(m =>
             m.Selector is "setObject:atIndexedSubscript:"
-            || (m.CppName == "setObject" && m.Parameters.Count == 2 && m.ReturnType == "void"));
+            || (m.Name == "setObject" && m.Parameters.Count == 2 && m.ReturnType == "void"));
 
         List<MethodInfo> nonIndexerMethods = methods
             .Where(m => m != indexerGetter && m != indexerSetter)
@@ -603,7 +603,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            if (EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties))
+            if (EmitProperty(sb, prop, csClassName, classDef.Namespace, selectors, inheritedProperties))
             {
                 hasPrecedingMember = true;
             }
@@ -621,7 +621,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             selectors.TryAdd("Object", getterSelectorObjC);
 
-            string elemType = TypeMapper.MapCppType(indexerGetter.ReturnType, classDef.CppNamespace);
+            string elemType = TypeMapper.MapType(indexerGetter.ReturnType, classDef.Namespace);
             string indexParam = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(indexerGetter.Parameters[0].Name));
 
             sb.AppendLine();
@@ -658,7 +658,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, classDef.CppNamespace, selectors, hasZeroParamVersion);
+            EmitMethod(sb, method, csClassName, classDef.Namespace, selectors, hasZeroParamVersion);
             hasPrecedingMember = true;
         }
 
@@ -670,7 +670,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            EmitFreeFunction(sb, func, classDef.CppNamespace, csClassName);
+            EmitFreeFunction(sb, func, classDef.Namespace, csClassName);
             hasPrecedingMember = true;
         }
 
@@ -707,7 +707,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     #region Member Categorization
 
     /// <summary>
-    /// Derives the ObjC property name from a method's selector accessor (or C++ name).
+    /// Derives the ObjC property name from a method's name.
     /// Strips <c>set</c> then <c>is</c> prefixes sequentially so that setters and boolean
     /// getters always resolve to the same canonical name:
     /// <list type="bullet">
@@ -719,9 +719,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// </summary>
     static string GetPropertyName(MethodInfo m)
     {
-        string name = m.SelectorAccessor ?? m.CppName;
+        string name = m.Name;
 
-        // Selector accessors use trailing _ for ObjC colons (e.g., setFoo_ → setFoo:).
+        // Strip trailing underscore (e.g., setFoo_ → setFoo).
         if (name.EndsWith('_'))
         {
             name = name[..^1];
@@ -747,7 +747,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// A method is treated as a property getter if it has no parameters, returns non-void,
     /// is const, is not static, and is not an ownership-transfer method (new/alloc/copy/init).
     /// Getter-setter pairing uses <see cref="GetPropertyName"/> to derive the ObjC property
-    /// name from each method's selector accessor, so all naming conventions (including
+    /// name from each method's name, so all naming conventions (including
     /// boolean <c>isXxx</c> getters paired with <c>setXxx:</c> setters) are handled uniformly.
     /// </summary>
     static (List<PropertyDef> Properties, List<MethodInfo> Methods) CategorizeMembers(List<MethodInfo> allMethods)
@@ -759,7 +759,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         Dictionary<string, MethodInfo> setterMap = new(StringComparer.Ordinal);
         foreach (MethodInfo m in allMethods)
         {
-            if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]) &&
+            if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]) &&
                 m.ReturnType == "void" && m.Parameters.Count == 1)
             {
                 setterMap[GetPropertyName(m)] = m;
@@ -788,12 +788,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]))
+            if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]))
             {
                 continue;
             }
 
-            if (TypeMapper.IsOwnershipTransferMethod(m.CppName))
+            if (TypeMapper.IsOwnershipTransferMethod(m.Name))
             {
                 continue;
             }
@@ -839,24 +839,24 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         return method.Parameters.Any(p =>
         {
-            if (p.CppType.StartsWith("INLINE_BLOCK:"))
+            if (p.Type.StartsWith("INLINE_BLOCK:"))
             {
-                string delegateName = p.CppType["INLINE_BLOCK:".Length..];
+                string delegateName = p.Type["INLINE_BLOCK:".Length..];
                 return delegateName == "UNKNOWN_BLOCK";
             }
 
-            if (p.CppType.Contains("std::function") || p.CppType.Contains("Function&") || p.CppType.Contains("Function &"))
+            if (p.Type.Contains("std::function") || p.Type.Contains("Function&") || p.Type.Contains("Function &"))
             {
                 return true;
             }
 
-            if (p.CppType.Contains("Handler") || p.CppType.Contains("Block"))
+            if (p.Type.Contains("Handler") || p.Type.Contains("Block"))
             {
-                string csType = TypeMapper.MapCppType(p.CppType, "MTL");
+                string csType = TypeMapper.MapType(p.Type, "MTL");
                 return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
             }
 
-            if (p.CppType.Contains("function") || p.CppType.Contains("void("))
+            if (p.Type.Contains("function") || p.Type.Contains("void("))
             {
                 return true;
             }
@@ -866,13 +866,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     }
 
     /// <summary>
-    /// Returns true if the C++ parameter type is a known block handler type (using-aliased).
+    /// Returns true if the parameter type is a known block handler type.
     /// </summary>
-    bool IsBlockHandlerCppType(string cppType)
+    bool IsBlockHandlerType(string type)
     {
-        if (cppType.Contains("Handler") || cppType.Contains("Block"))
+        if (type.Contains("Handler") || type.Contains("Block"))
         {
-            string csType = TypeMapper.MapCppType(cppType, "MTL");
+            string csType = TypeMapper.MapType(type, "MTL");
             return context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
         }
 
@@ -883,29 +883,29 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         foreach (ParamDef p in method.Parameters)
         {
-            if (p.CppType.StartsWith("OBJ_ARRAY:") ||
-                p.CppType.StartsWith("PRIM_ARRAY:") ||
-                p.CppType.StartsWith("STRUCT_ARRAY:") ||
-                p.CppType.StartsWith("INLINE_BLOCK:") ||
-                p.CppType == "ARRAY_PARAM")
+            if (p.Type.StartsWith("OBJ_ARRAY:") ||
+                p.Type.StartsWith("PRIM_ARRAY:") ||
+                p.Type.StartsWith("STRUCT_ARRAY:") ||
+                p.Type.StartsWith("INLINE_BLOCK:") ||
+                p.Type == "ARRAY_PARAM")
             {
                 continue;
             }
 
-            if (p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
-                p.CppType.Contains("Function&") || p.CppType.Contains("Function &") ||
-                p.CppType.Contains("std::function"))
+            if (p.Type.Contains("Handler") || p.Type.Contains("Block") ||
+                p.Type.Contains("Function&") || p.Type.Contains("Function &") ||
+                p.Type.Contains("std::function"))
             {
                 continue;
             }
 
-            if (TypeMapper.IsUnmappableCppType(p.CppType))
+            if (TypeMapper.IsUnmappableType(p.Type))
             {
                 return true;
             }
         }
 
-        return TypeMapper.IsUnmappableCppType(method.ReturnType);
+        return TypeMapper.IsUnmappableType(method.ReturnType);
     }
 
     static bool HasUnmergableArrayParam(MethodInfo method)
@@ -913,12 +913,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<ParamDef> p = method.Parameters;
         for (int i = 0; i < p.Count; i++)
         {
-            if (p[i].CppType.StartsWith("OBJ_ARRAY:") ||
-                p[i].CppType.StartsWith("PRIM_ARRAY:") ||
-                p[i].CppType.StartsWith("STRUCT_ARRAY:"))
+            if (p[i].Type.StartsWith("OBJ_ARRAY:") ||
+                p[i].Type.StartsWith("PRIM_ARRAY:") ||
+                p[i].Type.StartsWith("STRUCT_ARRAY:"))
             {
                 bool nextIsCount = i + 1 < p.Count &&
-                    p[i + 1].CppType is "NS::UInteger" &&
+                    p[i + 1].Type is "NS::UInteger" &&
                     p[i + 1].Name is "count";
                 if (!nextIsCount)
                 {
@@ -936,14 +936,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
         MethodInfo getter = prop.Getter;
-        string csPropName = TypeMapper.ToPascalCase(getter.CppName);
+        string csPropName = TypeMapper.ToPascalCase(getter.Name);
 
         if (inheritedProperties.Contains(csPropName))
         {
             return false;
         }
 
-        string csType = TypeMapper.MapCppType(getter.ReturnType, ns);
+        string csType = TypeMapper.MapType(getter.ReturnType, ns);
 
         string? nsArrayElemType = null;
         if (csType == "NSArray")
@@ -963,13 +963,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             selectorObjC = getter.Selector;
         }
-        else if (getter.SelectorAccessor != null)
-        {
-            selectorObjC = getter.SelectorAccessor.Replace('_', ':');
-        }
         else
         {
-            selectorObjC = getter.CppName;
+            selectorObjC = getter.Name;
         }
         selectors.TryAdd(selectorName, selectorObjC);
 
@@ -981,15 +977,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string? setSelName = null;
         if (prop.Setter != null)
         {
-            setSelName = TypeMapper.ToPascalCase(prop.Setter.CppName);
+            setSelName = TypeMapper.ToPascalCase(prop.Setter.Name);
             string setSelObjC;
             if (prop.Setter.Selector != null)
             {
                 setSelObjC = prop.Setter.Selector;
-            }
-            else if (prop.Setter.SelectorAccessor != null)
-            {
-                setSelObjC = prop.Setter.SelectorAccessor.Replace('_', ':');
             }
             else
             {
@@ -1098,7 +1090,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         string csMethodName;
         string selectorObjC;
-        string cppName = method.CppName;
+        string methodName = method.Name;
 
         if (method.Selector != null)
         {
@@ -1115,50 +1107,33 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 // Build name from all parts: "presentDrawable:atTime:" → "PresentDrawableAtTime"
                 csMethodName = BuildMethodNameFromSelector(selectorObjC);
             }
-            else if (hasZeroParamVersion.Contains(cppName) && method.Parameters.Count > 0)
+            else if (hasZeroParamVersion.Contains(methodName) && method.Parameters.Count > 0)
             {
                 csMethodName = TypeMapper.ToPascalCase(selectorBaseName);
             }
             else
             {
-                csMethodName = TypeMapper.ToPascalCase(cppName);
-            }
-        }
-        else if (method.SelectorAccessor != null)
-        {
-            selectorObjC = method.SelectorAccessor.Replace('_', ':');
-
-            string selectorBaseName = selectorObjC.Contains(':')
-                ? selectorObjC[..selectorObjC.IndexOf(':')]
-                : selectorObjC;
-
-            if (hasZeroParamVersion.Contains(cppName) && method.Parameters.Count > 0)
-            {
-                csMethodName = TypeMapper.ToPascalCase(selectorBaseName);
-            }
-            else
-            {
-                csMethodName = TypeMapper.ToPascalCase(cppName);
+                csMethodName = TypeMapper.ToPascalCase(methodName);
             }
         }
         else
         {
-            csMethodName = TypeMapper.ToPascalCase(cppName);
+            csMethodName = TypeMapper.ToPascalCase(methodName);
             int colonCount = method.Parameters.Count;
-            selectorObjC = method.CppName + (colonCount > 0 ? new string(':', colonCount) : "");
+            selectorObjC = method.Name + (colonCount > 0 ? new string(':', colonCount) : "");
         }
 
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
         string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
         string selectorKey;
-        if (hasZeroParamVersion.Contains(method.CppName) && method.Parameters.Count > 0)
+        if (hasZeroParamVersion.Contains(method.Name) && method.Parameters.Count > 0)
         {
             selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
         }
         else
         {
-            selectorKey = TypeMapper.ToPascalCase(method.CppName);
+            selectorKey = TypeMapper.ToPascalCase(method.Name);
         }
         if (selectors.TryGetValue(selectorKey, out string? existingSelector) && existingSelector != selectorObjC)
         {
@@ -1168,7 +1143,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string selectorRef = $"{csClassName}Bindings.{selectorKey}";
 
-        string returnType = TypeMapper.MapCppType(method.ReturnType, ns);
+        string returnType = TypeMapper.MapType(method.ReturnType, ns);
 
         string? returnArrayElemType = null;
         if (returnType == "NSArray")
@@ -1183,7 +1158,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isBool = returnType == "bool";
         bool isVoid = returnType == "void";
 
-        bool hasOutError = method.Parameters.Any(p => p.CppType.Contains("Error**"));
+        bool hasOutError = method.Parameters.Any(p => p.Type.Contains("Error**"));
 
         List<string> csParams = [];
         List<string> callArgs = [target, selectorRef];
@@ -1197,22 +1172,22 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
             ParamDef param = method.Parameters[pi];
-            if (param.CppType == "ARRAY_PARAM")
+            if (param.Type == "ARRAY_PARAM")
             {
                 continue;
             }
 
-            if (param.CppType.StartsWith("OBJ_ARRAY:"))
+            if (param.Type.StartsWith("OBJ_ARRAY:"))
             {
                 needsUnsafeContext = true;
-                string elemCppType = param.CppType["OBJ_ARRAY:".Length..];
-                string elemCsType = TypeMapper.MapCppType(elemCppType + "*", ns);
+                string elemType = param.Type["OBJ_ARRAY:".Length..];
+                string elemCsType = TypeMapper.MapType(elemType + "*", ns);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
-                    method.Parameters[pi + 1].CppType is "NS::UInteger" &&
+                    method.Parameters[pi + 1].Type is "NS::UInteger" &&
                     method.Parameters[pi + 1].Name is "count";
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
@@ -1234,10 +1209,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.StartsWith("PRIM_ARRAY:"))
+            if (param.Type.StartsWith("PRIM_ARRAY:"))
             {
                 needsUnsafeContext = true;
-                string elemType = param.CppType["PRIM_ARRAY:".Length..];
+                string elemType = param.Type["PRIM_ARRAY:".Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemType}[] {csParamName}");
@@ -1254,17 +1229,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.StartsWith("STRUCT_ARRAY:"))
+            if (param.Type.StartsWith("STRUCT_ARRAY:"))
             {
                 needsUnsafeContext = true;
-                string elemCppType = param.CppType["STRUCT_ARRAY:".Length..];
-                string elemCsType = TypeMapper.MapCppType(elemCppType, ns);
+                string elemType = param.Type["STRUCT_ARRAY:".Length..];
+                string elemCsType = TypeMapper.MapType(elemType, ns);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
-                    method.Parameters[pi + 1].CppType is "NS::UInteger" &&
+                    method.Parameters[pi + 1].Type is "NS::UInteger" &&
                     method.Parameters[pi + 1].Name is "count";
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
@@ -1282,9 +1257,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.StartsWith("INLINE_BLOCK:"))
+            if (param.Type.StartsWith("INLINE_BLOCK:"))
             {
-                string delegateName = param.CppType["INLINE_BLOCK:".Length..];
+                string delegateName = param.Type["INLINE_BLOCK:".Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
                 callArgs.Add($"{csParamName}.NativePtr");
@@ -1292,9 +1267,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (IsBlockHandlerCppType(param.CppType))
+            if (IsBlockHandlerType(param.Type))
             {
-                string csType = TypeMapper.MapCppType(param.CppType, ns);
+                string csType = TypeMapper.MapType(param.Type, ns);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{csType} {csParamName}");
                 callArgs.Add($"{csParamName}.NativePtr");
@@ -1302,14 +1277,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            string csParamType = TypeMapper.MapCppType(param.CppType, ns);
+            string csParamType = TypeMapper.MapType(param.Type, ns);
             string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
             // Autoreleased* types → out parameters (strip "Autoreleased" prefix to resolve underlying type)
-            if (param.CppType.Contains("Autoreleased"))
+            if (param.Type.Contains("Autoreleased"))
             {
-                string resolvedCppType = param.CppType.Replace("Autoreleased", "");
-                string csType = TypeMapper.MapCppType(resolvedCppType, ns);
+                string resolvedType = param.Type.Replace("Autoreleased", "");
+                string csType = TypeMapper.MapType(resolvedType, ns);
                 string ptrVarName = $"{paramName}Ptr";
                 csParams.Add($"out {csType} {paramName}");
                 callArgs.Add($"out nint {ptrVarName}");
@@ -1318,7 +1293,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.Contains("Error**"))
+            if (param.Type.Contains("Error**"))
             {
                 csParams.Add("out NSError error");
                 callArgs.Add("out nint errorPtr");
@@ -1326,7 +1301,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.Contains("Timestamp*") && !param.CppType.Contains("TimestampGranularity"))
+            if (param.Type.Contains("Timestamp*") && !param.Type.Contains("TimestampGranularity"))
             {
                 csParams.Add($"out ulong {paramName}");
                 callArgs.Add($"out {paramName}");
@@ -1537,14 +1512,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Free Function Emission
 
-    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string cppNamespace, string csClassName)
+    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string ns, string csClassName)
     {
-        string csReturnType = TypeMapper.MapCppType(func.ReturnType, cppNamespace);
+        string csReturnType = TypeMapper.MapType(func.ReturnType, ns);
 
         string? returnArrayElemType = null;
         if (csReturnType == "NSArray")
         {
-            returnArrayElemType = TryResolveNSArrayElementType(csClassName, func.CppName);
+            returnArrayElemType = TryResolveNSArrayElementType(csClassName, func.Name);
         }
         bool returnsArray = returnArrayElemType != null;
         bool nullable = !returnsArray && typeMapper.IsNativeObjectType(csReturnType);
@@ -1552,7 +1527,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> pinvokeParams = [];
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
+            string csType = TypeMapper.MapType(p.Type, ns);
             if (typeMapper.IsNativeObjectType(csType))
             {
                 pinvokeParams.Add($"nint {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
@@ -1573,7 +1548,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> callArgs = [];
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
+            string csType = TypeMapper.MapType(p.Type, ns);
             string csName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name));
             if (typeMapper.IsNativeObjectType(csType))
             {
@@ -1593,7 +1568,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         if (returnsArray)
         {
-            sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
+            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({wrapperParamStr})");
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
             sb.AppendLine();
@@ -1606,7 +1581,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         else if (nullable)
         {
-            sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
+            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({wrapperParamStr})");
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
             sb.AppendLine();
@@ -1615,11 +1590,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         else if (csReturnType == "void")
         {
-            sb.AppendLine($"    public static void {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"    public static void {func.Name}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
         }
         else
         {
-            sb.AppendLine($"    public static {csReturnType} {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"    public static {csReturnType} {func.Name}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
         }
     }
 

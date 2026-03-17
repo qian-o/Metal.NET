@@ -14,7 +14,7 @@ class GeneratorContext
     /// <summary>All parsed packed structs.</summary>
     public List<StructDef> Structs { get; } = [];
 
-    /// <summary>All parsed free functions (extern "C").</summary>
+    /// <summary>All parsed free functions.</summary>
     public List<FreeFunctionDef> FreeFunctions { get; } = [];
 
     /// <summary>Enum C# name → backing type (e.g., "MTLPixelFormat" → "ulong").</summary>

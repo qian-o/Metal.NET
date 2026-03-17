@@ -174,8 +174,8 @@ partial class AstJsonParser
                 continue;
             }
 
-            string cppNamespace = InferNamespaceFromName(astEnum.Name);
-            string prefix = TypeMapper.GetPrefix(cppNamespace);
+            string ns = InferNamespaceFromName(astEnum.Name);
+            string prefix = TypeMapper.GetPrefix(ns);
             string backingType = MapEnumBackingType(astEnum.UnderlyingType);
 
             // Strip the ObjC prefix from enum name to get the bare name
@@ -221,7 +221,7 @@ partial class AstJsonParser
             }
 
             context.Enums.Add(new EnumDef(
-                cppNamespace, bareName, backingType, astEnum.IsOptions, members,
+                ns, bareName, backingType, astEnum.IsOptions, members,
                 astEnum.Deprecated, astEnum.DeprecationMessage));
         }
     }
@@ -251,14 +251,14 @@ partial class AstJsonParser
                 continue;
             }
 
-            string cppNamespace = InferNamespaceFromName(astStruct.Name);
-            if (cppNamespace == "")
+            string ns = InferNamespaceFromName(astStruct.Name);
+            if (ns == "")
             {
                 // Structs without a known prefix (like CGSize) are skipped
                 continue;
             }
 
-            string prefix = TypeMapper.GetPrefix(cppNamespace);
+            string prefix = TypeMapper.GetPrefix(ns);
             string bareName = astStruct.Name.StartsWith(prefix)
                 ? astStruct.Name[prefix.Length..]
                 : astStruct.Name;
@@ -266,7 +266,7 @@ partial class AstJsonParser
             // Special handling for MTLPackedFloat3 which has a union in the AST
             if (astStruct.Name == "MTLPackedFloat3")
             {
-                context.Structs.Add(new StructDef(cppNamespace, bareName, [
+                context.Structs.Add(new StructDef(ns, bareName, [
                     new StructFieldDef("float", "x"),
                     new StructFieldDef("float", "y"),
                     new StructFieldDef("float", "z"),
@@ -305,7 +305,7 @@ partial class AstJsonParser
 
             if (fields.Count > 0)
             {
-                context.Structs.Add(new StructDef(cppNamespace, bareName, fields));
+                context.Structs.Add(new StructDef(ns, bareName, fields));
             }
         }
     }
@@ -323,7 +323,7 @@ partial class AstJsonParser
                 continue;
             }
 
-            string cppNamespace = InferNamespaceFromName(td.Name);
+            string ns = InferNamespaceFromName(td.Name);
 
             // Parse the block signature: "void (^)(ParamType1 name1, ParamType2 name2)"
             Match blockMatch = BlockSignatureRegex().Match(td.UnderlyingType);
@@ -372,7 +372,7 @@ partial class AstJsonParser
                 }
             }
 
-            context.BlockTypeAliases.Add(new BlockTypeAlias(cppNamespace, td.Name, td.Name, blockParams));
+            context.BlockTypeAliases.Add(new BlockTypeAlias(ns, td.Name, td.Name, blockParams));
         }
     }
 
@@ -518,8 +518,8 @@ partial class AstJsonParser
 
     void ParseClassOrProtocol(AstClass ast, GeneratorContext context, bool isProtocol)
     {
-        string cppNamespace = InferNamespaceFromName(ast.Name);
-        string prefix = TypeMapper.GetPrefix(cppNamespace);
+        string ns = InferNamespaceFromName(ast.Name);
+        string prefix = TypeMapper.GetPrefix(ns);
 
         string bareName = ast.Name.StartsWith(prefix) ? ast.Name[prefix.Length..] : ast.Name;
 
@@ -565,20 +565,19 @@ partial class AstJsonParser
             }
 
             string getterSelector = prop.Getter ?? prop.Name;
-            string cppGetterName = SelectorToMethodName(getterSelector);
+            string getterName = SelectorToMethodName(getterSelector);
             string returnType = MapObjCTypeForModel(propObjcType);
 
             // Getter
             propertySelectors.Add(getterSelector);
             methods.Add(new MethodInfo
             {
-                CppName = cppGetterName,
+                Name = getterName,
                 ReturnType = returnType,
                 IsStatic = false,
                 IsConst = true,
                 Parameters = [],
                 UsesClassTarget = false,
-                SelectorAccessor = null,
                 Selector = getterSelector,
                 DeprecationMessage = prop.Deprecated ? prop.DeprecationMessage : null,
             });
@@ -587,8 +586,8 @@ partial class AstJsonParser
             if (!prop.Readonly)
             {
                 string setterSelector = prop.Setter ?? $"set{char.ToUpper(prop.Name[0])}{prop.Name[1..]}:";
-                string setCppName = $"set{char.ToUpper(cppGetterName[0])}{cppGetterName[1..]}";
-                string paramName = cppGetterName;
+                string setName = $"set{char.ToUpper(getterName[0])}{getterName[1..]}";
+                string paramName = getterName;
 
                 // Map the parameter type
                 string paramType = returnType;
@@ -596,13 +595,12 @@ partial class AstJsonParser
                 propertySelectors.Add(setterSelector);
                 methods.Add(new MethodInfo
                 {
-                    CppName = setCppName,
+                    Name = setName,
                     ReturnType = "void",
                     IsStatic = false,
                     IsConst = false,
                     Parameters = [new ParamDef(paramType, paramName)],
                     UsesClassTarget = false,
-                    SelectorAccessor = null,
                     Selector = setterSelector,
                     DeprecationMessage = prop.Deprecated ? prop.DeprecationMessage : null,
                 });
@@ -624,9 +622,9 @@ partial class AstJsonParser
             }
 
             string selector = astMethod.Selector;
-            string cppName = SelectorToMethodName(selector);
+            string name = SelectorToMethodName(selector);
 
-            if (SkipMethods.Contains(cppName))
+            if (SkipMethods.Contains(name))
             {
                 continue;
             }
@@ -677,13 +675,12 @@ partial class AstJsonParser
 
             methods.Add(new MethodInfo
             {
-                CppName = cppName,
+                Name = name,
                 ReturnType = returnType,
                 IsStatic = astMethod.IsClassMethod,
                 IsConst = !astMethod.IsClassMethod && returnType != "void",
                 Parameters = parameters,
                 UsesClassTarget = usesClassTarget,
-                SelectorAccessor = null,
                 Selector = selector,
                 DeprecationMessage = astMethod.Deprecated ? astMethod.DeprecationMessage : null,
             });
@@ -691,9 +688,8 @@ partial class AstJsonParser
 
         context.Classes.Add(new ClassDef
         {
-            CppNamespace = cppNamespace,
+            Namespace = ns,
             Name = bareName,
-            IsCopying = false,
             BaseClassName = csBaseClassName,
             Methods = methods,
             HasAllocInit = hasAllocInit,
@@ -757,18 +753,18 @@ partial class AstJsonParser
             string funcNs = InferNamespaceFromName(func.Name);
             string prefix = funcNs != "" ? TypeMapper.GetPrefix(funcNs) : "";
 
-            string cppName = func.Name.StartsWith(prefix) && prefix.Length > 0
+            string name = func.Name.StartsWith(prefix) && prefix.Length > 0
                 ? func.Name[prefix.Length..]
                 : func.Name;
 
             // Determine target class name from function name
             string targetClassName = DeriveTargetClassName(func.Name, prefix);
 
-            string cppNamespace = funcNs != "" ? funcNs : FrameworkToNamespace(func.Framework);
+            string ns = funcNs != "" ? funcNs : FrameworkToNamespace(func.Framework);
 
             context.FreeFunctions.Add(new FreeFunctionDef(
-                func.Name, returnType, cppName, parameters,
-                libraryPath, cppNamespace, targetClassName));
+                func.Name, returnType, name, parameters,
+                libraryPath, ns, targetClassName));
         }
     }
 

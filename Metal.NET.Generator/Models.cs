@@ -1,34 +1,29 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>Parsed C++ enum definition.</summary>
-record EnumDef(string CppNamespace, string Name, string BackingType, bool IsFlags, List<EnumMember> Members, bool Deprecated = false, string? DeprecationMessage = null);
+/// <summary>Parsed enum definition.</summary>
+record EnumDef(string Namespace, string Name, string BackingType, bool IsFlags, List<EnumMember> Members, bool Deprecated = false, string? DeprecationMessage = null);
 
 /// <summary>A single enum member with its resolved C# name and numeric value.</summary>
 record EnumMember(string Name, string Value);
 
 /// <summary>A free C function declared with <c>extern "C"</c>.</summary>
-record FreeFunctionDef(string CEntryPoint, string ReturnType, string CppName, List<ParamDef> Parameters, string LibraryPath, string CppNamespace, string TargetClassName);
+record FreeFunctionDef(string CEntryPoint, string ReturnType, string Name, List<ParamDef> Parameters, string LibraryPath, string Namespace, string TargetClassName);
 
 /// <summary>
 /// A method or function parameter.
-/// <c>CppType</c> may contain special prefixes like <c>OBJ_ARRAY:</c>, <c>STRUCT_ARRAY:</c>, or <c>PRIM_ARRAY:</c>.
+/// <c>Type</c> may contain special prefixes like <c>OBJ_ARRAY:</c>, <c>STRUCT_ARRAY:</c>, or <c>PRIM_ARRAY:</c>.
 /// </summary>
-record ParamDef(string CppType, string Name);
+record ParamDef(string Type, string Name);
 
 /// <summary>A property defined by a getter and optional setter method pair.</summary>
 record PropertyDef(MethodInfo Getter, MethodInfo? Setter);
 
-/// <summary>Implementation info extracted from inline method bodies in the header.</summary>
-record ImplInfo(string? Accessor, bool UsesClassTarget);
-
-/// <summary>Parsed C++ class definition with its namespace, inheritance, and method declarations.</summary>
+/// <summary>Parsed class/protocol definition with its namespace, inheritance, and method declarations.</summary>
 class ClassDef
 {
-    public string CppNamespace { get; set; } = "";
+    public string Namespace { get; set; } = "";
 
     public string Name { get; set; } = "";
-
-    public bool IsCopying { get; set; }
 
     public string? BaseClassName { get; set; }
 
@@ -38,10 +33,10 @@ class ClassDef
     public bool HasAllocInit { get; set; }
 }
 
-/// <summary>A parsed C++ method declaration with its return type, parameters, and implementation metadata.</summary>
+/// <summary>A parsed method declaration with its return type, parameters, and metadata.</summary>
 class MethodInfo
 {
-    public string CppName { get; set; } = "";
+    public string Name { get; set; } = "";
 
     public string ReturnType { get; set; } = "void";
 
@@ -53,22 +48,20 @@ class MethodInfo
 
     public bool UsesClassTarget { get; set; }
 
-    public string? SelectorAccessor { get; set; }
-
     /// <summary>The ObjC selector string, provided directly from metal-ast.json.</summary>
     public string? Selector { get; set; }
 
     public string? DeprecationMessage { get; set; }
 }
 
-/// <summary>A parsed ObjC block type alias (e.g., <c>using CommandBufferHandler = void (^)(CommandBuffer*)</c>).</summary>
-record BlockTypeAlias(string CppNamespace, string CppName, string CsDelegateName, List<BlockParam> Parameters);
+/// <summary>A parsed ObjC block type alias (e.g., <c>typedef void (^MTLCommandBufferHandler)(id&lt;MTLCommandBuffer&gt;)</c>).</summary>
+record BlockTypeAlias(string Namespace, string ObjCName, string CsDelegateName, List<BlockParam> Parameters);
 
 /// <summary>A parameter in a block type alias signature.</summary>
-record BlockParam(string CppType, string CsType, string Name);
+record BlockParam(string ObjCType, string CsType, string Name);
 
-/// <summary>Parsed C++ packed struct definition (marked with <c>_MTL_PACKED</c>).</summary>
-record StructDef(string CppNamespace, string Name, List<StructFieldDef> Fields);
+/// <summary>Parsed packed struct definition.</summary>
+record StructDef(string Namespace, string Name, List<StructFieldDef> Fields);
 
 /// <summary>A single field in a packed struct definition.</summary>
-record StructFieldDef(string CppType, string Name);
+record StructFieldDef(string Type, string Name);
