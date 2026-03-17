@@ -15,6 +15,30 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
     {
     }
 
+    public MTLFunction[] Functions
+    {
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.Functions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetFunctions, value);
+    }
+
+    public MTLFunction[] BinaryFunctions
+    {
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.BinaryFunctions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
+    }
+
+    public NSDictionary Groups
+    {
+        get => GetProperty(ref field, MTLLinkedFunctionsBindings.Groups);
+        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetGroups, value);
+    }
+
+    public MTLFunction[] PrivateFunctions
+    {
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.PrivateFunctions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
+    }
+
     public static MTLLinkedFunctions LinkedFunctions()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
@@ -27,5 +51,21 @@ file static class MTLLinkedFunctionsBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLLinkedFunctions");
 
+    public static readonly Selector BinaryFunctions = "binaryFunctions";
+
+    public static readonly Selector Functions = "functions";
+
+    public static readonly Selector Groups = "groups";
+
     public static readonly Selector LinkedFunctions = "linkedFunctions";
+
+    public static readonly Selector PrivateFunctions = "privateFunctions";
+
+    public static readonly Selector SetBinaryFunctions = "setBinaryFunctions:";
+
+    public static readonly Selector SetFunctions = "setFunctions:";
+
+    public static readonly Selector SetGroups = "setGroups:";
+
+    public static readonly Selector SetPrivateFunctions = "setPrivateFunctions:";
 }

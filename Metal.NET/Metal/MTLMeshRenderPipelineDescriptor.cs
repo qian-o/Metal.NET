@@ -143,6 +143,12 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
 
+    public MTLBinaryArchive[] BinaryArchives
+    {
+        get => GetArrayProperty<MTLBinaryArchive>(MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+    }
+
     public MTLLinkedFunctions ObjectLinkedFunctions
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectLinkedFunctions);
@@ -188,6 +194,8 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
 file static class MTLMeshRenderPipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLMeshRenderPipelineDescriptor");
+
+    public static readonly Selector BinaryArchives = "binaryArchives";
 
     public static readonly Selector ColorAttachments = "colorAttachments";
 
@@ -240,6 +248,8 @@ file static class MTLMeshRenderPipelineDescriptorBindings
     public static readonly Selector RequiredThreadsPerObjectThreadgroup = "requiredThreadsPerObjectThreadgroup";
 
     public static readonly Selector Reset = "reset";
+
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
     public static readonly Selector SetDepthAttachmentPixelFormat = "setDepthAttachmentPixelFormat:";
 

@@ -15,6 +15,12 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeO
     {
     }
 
+    public MTLAccelerationStructureGeometryDescriptor[] GeometryDescriptors
+    {
+        get => GetArrayProperty<MTLAccelerationStructureGeometryDescriptor>(MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
+        set => SetArrayProperty(MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
+    }
+
     public MTLMotionBorderMode MotionStartBorderMode
     {
         get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartBorderMode);
@@ -57,6 +63,8 @@ file static class MTLPrimitiveAccelerationStructureDescriptorBindings
 
     public static readonly Selector Descriptor = "descriptor";
 
+    public static readonly Selector GeometryDescriptors = "geometryDescriptors";
+
     public static readonly Selector MotionEndBorderMode = "motionEndBorderMode";
 
     public static readonly Selector MotionEndTime = "motionEndTime";
@@ -66,6 +74,8 @@ file static class MTLPrimitiveAccelerationStructureDescriptorBindings
     public static readonly Selector MotionStartBorderMode = "motionStartBorderMode";
 
     public static readonly Selector MotionStartTime = "motionStartTime";
+
+    public static readonly Selector SetGeometryDescriptors = "setGeometryDescriptors:";
 
     public static readonly Selector SetMotionEndBorderMode = "setMotionEndBorderMode:";
 

@@ -177,6 +177,11 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDeviceBindings.MaxBufferLength);
     }
 
+    public MTLCounterSet[] CounterSets
+    {
+        get => GetArrayProperty<MTLCounterSet>(MTLDeviceBindings.CounterSets);
+    }
+
     public Bool8 SupportsDynamicLibraries
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsDynamicLibraries);
@@ -998,6 +1003,8 @@ file static class MTLDeviceBindings
     public static readonly Selector ConvertSparsePixelRegions = "convertSparsePixelRegions:toTileRegions:withTileSize:alignmentMode:numRegions:";
 
     public static readonly Selector ConvertSparseTileRegions = "convertSparseTileRegions:toPixelRegions:withTileSize:numRegions:";
+
+    public static readonly Selector CounterSets = "counterSets";
 
     public static readonly Selector CurrentAllocatedSize = "currentAllocatedSize";
 

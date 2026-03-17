@@ -11,6 +11,11 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
     }
     #endregion
 
+    public MTLStructMember[] Members
+    {
+        get => GetArrayProperty<MTLStructMember>(MTLStructTypeBindings.Members);
+    }
+
     public MTLStructMember MemberByName(NSString name)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
@@ -22,4 +27,6 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
 file static class MTLStructTypeBindings
 {
     public static readonly Selector MemberByName = "memberByName:";
+
+    public static readonly Selector Members = "members";
 }

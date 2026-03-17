@@ -160,6 +160,24 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
 
+    public MTLBinaryArchive[] BinaryArchives
+    {
+        get => GetArrayProperty<MTLBinaryArchive>(MTLRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+    }
+
+    public MTLDynamicLibrary[] VertexPreloadedLibraries
+    {
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);
+    }
+
+    public MTLDynamicLibrary[] FragmentPreloadedLibraries
+    {
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
+    }
+
     public MTLLinkedFunctions VertexLinkedFunctions
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexLinkedFunctions);
@@ -212,6 +230,8 @@ file static class MTLRenderPipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPipelineDescriptor");
 
+    public static readonly Selector BinaryArchives = "binaryArchives";
+
     public static readonly Selector ColorAttachments = "colorAttachments";
 
     public static readonly Selector DepthAttachmentPixelFormat = "depthAttachmentPixelFormat";
@@ -221,6 +241,8 @@ file static class MTLRenderPipelineDescriptorBindings
     public static readonly Selector FragmentFunction = "fragmentFunction";
 
     public static readonly Selector FragmentLinkedFunctions = "fragmentLinkedFunctions";
+
+    public static readonly Selector FragmentPreloadedLibraries = "fragmentPreloadedLibraries";
 
     public static readonly Selector InputPrimitiveTopology = "inputPrimitiveTopology";
 
@@ -248,11 +270,15 @@ file static class MTLRenderPipelineDescriptorBindings
 
     public static readonly Selector SampleCount = "sampleCount";
 
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
+
     public static readonly Selector SetDepthAttachmentPixelFormat = "setDepthAttachmentPixelFormat:";
 
     public static readonly Selector SetFragmentFunction = "setFragmentFunction:";
 
     public static readonly Selector SetFragmentLinkedFunctions = "setFragmentLinkedFunctions:";
+
+    public static readonly Selector SetFragmentPreloadedLibraries = "setFragmentPreloadedLibraries:";
 
     public static readonly Selector SetInputPrimitiveTopology = "setInputPrimitiveTopology:";
 
@@ -304,6 +330,8 @@ file static class MTLRenderPipelineDescriptorBindings
 
     public static readonly Selector SetVertexLinkedFunctions = "setVertexLinkedFunctions:";
 
+    public static readonly Selector SetVertexPreloadedLibraries = "setVertexPreloadedLibraries:";
+
     public static readonly Selector ShaderValidation = "shaderValidation";
 
     public static readonly Selector StencilAttachmentPixelFormat = "stencilAttachmentPixelFormat";
@@ -331,4 +359,6 @@ file static class MTLRenderPipelineDescriptorBindings
     public static readonly Selector VertexFunction = "vertexFunction";
 
     public static readonly Selector VertexLinkedFunctions = "vertexLinkedFunctions";
+
+    public static readonly Selector VertexPreloadedLibraries = "vertexPreloadedLibraries";
 }

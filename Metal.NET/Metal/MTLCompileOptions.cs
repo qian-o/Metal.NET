@@ -15,6 +15,12 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
     {
     }
 
+    public NSDictionary PreprocessorMacros
+    {
+        get => GetProperty(ref field, MTLCompileOptionsBindings.PreprocessorMacros);
+        set => SetProperty(ref field, MTLCompileOptionsBindings.SetPreprocessorMacros, value);
+    }
+
     /// <summary>
     /// Deprecated: Use mathMode instead
     /// </summary>
@@ -53,6 +59,12 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
     {
         get => GetProperty(ref field, MTLCompileOptionsBindings.InstallName);
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetInstallName, value);
+    }
+
+    public MTLDynamicLibrary[] Libraries
+    {
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLCompileOptionsBindings.Libraries);
+        set => SetArrayProperty(MTLCompileOptionsBindings.SetLibraries, value);
     }
 
     public Bool8 PreserveInvariance
@@ -114,6 +126,8 @@ file static class MTLCompileOptionsBindings
 
     public static readonly Selector LanguageVersion = "languageVersion";
 
+    public static readonly Selector Libraries = "libraries";
+
     public static readonly Selector LibraryType = "libraryType";
 
     public static readonly Selector MathFloatingPointFunctions = "mathFloatingPointFunctions";
@@ -123,6 +137,8 @@ file static class MTLCompileOptionsBindings
     public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
     public static readonly Selector OptimizationLevel = "optimizationLevel";
+
+    public static readonly Selector PreprocessorMacros = "preprocessorMacros";
 
     public static readonly Selector PreserveInvariance = "preserveInvariance";
 
@@ -140,6 +156,8 @@ file static class MTLCompileOptionsBindings
 
     public static readonly Selector SetLanguageVersion = "setLanguageVersion:";
 
+    public static readonly Selector SetLibraries = "setLibraries:";
+
     public static readonly Selector SetLibraryType = "setLibraryType:";
 
     public static readonly Selector SetMathFloatingPointFunctions = "setMathFloatingPointFunctions:";
@@ -149,6 +167,8 @@ file static class MTLCompileOptionsBindings
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
     public static readonly Selector SetOptimizationLevel = "setOptimizationLevel:";
+
+    public static readonly Selector SetPreprocessorMacros = "setPreprocessorMacros:";
 
     public static readonly Selector SetPreserveInvariance = "setPreserveInvariance:";
 

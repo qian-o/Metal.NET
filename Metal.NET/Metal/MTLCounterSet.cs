@@ -15,9 +15,16 @@ public class MTLCounterSet(nint nativePtr, NativeObjectOwnership ownership) : NS
     {
         get => GetProperty(ref field, MTLCounterSetBindings.Name);
     }
+
+    public MTLCounter[] Counters
+    {
+        get => GetArrayProperty<MTLCounter>(MTLCounterSetBindings.Counters);
+    }
 }
 
 file static class MTLCounterSetBindings
 {
+    public static readonly Selector Counters = "counters";
+
     public static readonly Selector Name = "name";
 }

@@ -15,6 +15,12 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr, Native
     {
     }
 
+    public MTLAccelerationStructureGeometryDescriptor[] GeometryDescriptors
+    {
+        get => GetArrayProperty<MTLAccelerationStructureGeometryDescriptor>(MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
+        set => SetArrayProperty(MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
+    }
+
     public MTLMotionBorderMode MotionStartBorderMode
     {
         get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.MotionStartBorderMode);
@@ -50,6 +56,8 @@ file static class MTL4PrimitiveAccelerationStructureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTL4PrimitiveAccelerationStructureDescriptor");
 
+    public static readonly Selector GeometryDescriptors = "geometryDescriptors";
+
     public static readonly Selector MotionEndBorderMode = "motionEndBorderMode";
 
     public static readonly Selector MotionEndTime = "motionEndTime";
@@ -59,6 +67,8 @@ file static class MTL4PrimitiveAccelerationStructureDescriptorBindings
     public static readonly Selector MotionStartBorderMode = "motionStartBorderMode";
 
     public static readonly Selector MotionStartTime = "motionStartTime";
+
+    public static readonly Selector SetGeometryDescriptors = "setGeometryDescriptors:";
 
     public static readonly Selector SetMotionEndBorderMode = "setMotionEndBorderMode:";
 

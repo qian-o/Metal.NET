@@ -16,6 +16,11 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr, NativeObjectOwnership o
         get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.Label);
     }
 
+    public NSString[] DebugSignposts
+    {
+        get => GetArrayProperty<NSString>(MTLCommandBufferEncoderInfoBindings.DebugSignposts);
+    }
+
     public MTLCommandEncoderErrorState ErrorState
     {
         get => (MTLCommandEncoderErrorState)ObjectiveC.MsgSendLong(NativePtr, MTLCommandBufferEncoderInfoBindings.ErrorState);
@@ -24,6 +29,8 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr, NativeObjectOwnership o
 
 file static class MTLCommandBufferEncoderInfoBindings
 {
+    public static readonly Selector DebugSignposts = "debugSignposts";
+
     public static readonly Selector ErrorState = "errorState";
 
     public static readonly Selector Label = "label";

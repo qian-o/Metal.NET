@@ -22,6 +22,11 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         get => GetProperty(ref field, MTLLibraryBindings.Device);
     }
 
+    public NSString[] FunctionNames
+    {
+        get => GetArrayProperty<NSString>(MTLLibraryBindings.FunctionNames);
+    }
+
     public MTLLibraryType Type
     {
         get => (MTLLibraryType)ObjectiveC.MsgSendLong(NativePtr, MTLLibraryBindings.Type);
@@ -77,6 +82,8 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 file static class MTLLibraryBindings
 {
     public static readonly Selector Device = "device";
+
+    public static readonly Selector FunctionNames = "functionNames";
 
     public static readonly Selector InstallName = "installName";
 

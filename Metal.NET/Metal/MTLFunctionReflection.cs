@@ -11,6 +11,11 @@ public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownersh
     }
     #endregion
 
+    public MTLBinding[] Bindings
+    {
+        get => GetArrayProperty<MTLBinding>(MTLFunctionReflectionBindings.Bindings);
+    }
+
     public NSString UserAnnotation
     {
         get => GetProperty(ref field, MTLFunctionReflectionBindings.UserAnnotation);
@@ -19,5 +24,7 @@ public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownersh
 
 file static class MTLFunctionReflectionBindings
 {
+    public static readonly Selector Bindings = "bindings";
+
     public static readonly Selector UserAnnotation = "userAnnotation";
 }

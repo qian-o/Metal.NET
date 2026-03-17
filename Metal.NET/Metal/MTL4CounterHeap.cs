@@ -17,6 +17,11 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
         set => SetProperty(ref field, MTL4CounterHeapBindings.SetLabel, value);
     }
 
+    public nuint Count
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4CounterHeapBindings.Count);
+    }
+
     public MTL4CounterHeapType Type
     {
         get => (MTL4CounterHeapType)ObjectiveC.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
@@ -37,6 +42,8 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
 
 file static class MTL4CounterHeapBindings
 {
+    public static readonly Selector Count = "count";
+
     public static readonly Selector InvalidateCounterRange = "invalidateCounterRange:";
 
     public static readonly Selector Label = "label";

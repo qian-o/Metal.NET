@@ -10,8 +10,14 @@ public class MTL4MachineLearningPipelineReflection(nint nativePtr, NativeObjectO
         return new(nativePtr, ownership);
     }
     #endregion
+
+    public MTLBinding[] Bindings
+    {
+        get => GetArrayProperty<MTLBinding>(MTL4MachineLearningPipelineReflectionBindings.Bindings);
+    }
 }
 
 file static class MTL4MachineLearningPipelineReflectionBindings
 {
+    public static readonly Selector Bindings = "bindings";
 }

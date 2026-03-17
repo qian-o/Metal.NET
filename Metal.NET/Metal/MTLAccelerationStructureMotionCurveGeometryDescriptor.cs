@@ -15,6 +15,12 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
     {
     }
 
+    public MTLMotionKeyframeData[] ControlPointBuffers
+    {
+        get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointBuffers);
+        set => SetArrayProperty(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointBuffers, value);
+    }
+
     public nuint ControlPointCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointCount);
@@ -31,6 +37,12 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
     {
         get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointFormat, (nuint)value);
+    }
+
+    public MTLMotionKeyframeData[] RadiusBuffers
+    {
+        get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.RadiusBuffers);
+        set => SetArrayProperty(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetRadiusBuffers, value);
     }
 
     public MTLAttributeFormat RadiusFormat
@@ -103,6 +115,8 @@ file static class MTLAccelerationStructureMotionCurveGeometryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLAccelerationStructureMotionCurveGeometryDescriptor");
 
+    public static readonly Selector ControlPointBuffers = "controlPointBuffers";
+
     public static readonly Selector ControlPointCount = "controlPointCount";
 
     public static readonly Selector ControlPointFormat = "controlPointFormat";
@@ -123,6 +137,8 @@ file static class MTLAccelerationStructureMotionCurveGeometryDescriptorBindings
 
     public static readonly Selector IndexType = "indexType";
 
+    public static readonly Selector RadiusBuffers = "radiusBuffers";
+
     public static readonly Selector RadiusFormat = "radiusFormat";
 
     public static readonly Selector RadiusStride = "radiusStride";
@@ -130,6 +146,8 @@ file static class MTLAccelerationStructureMotionCurveGeometryDescriptorBindings
     public static readonly Selector SegmentControlPointCount = "segmentControlPointCount";
 
     public static readonly Selector SegmentCount = "segmentCount";
+
+    public static readonly Selector SetControlPointBuffers = "setControlPointBuffers:";
 
     public static readonly Selector SetControlPointCount = "setControlPointCount:";
 
@@ -148,6 +166,8 @@ file static class MTLAccelerationStructureMotionCurveGeometryDescriptorBindings
     public static readonly Selector SetIndexBufferOffset = "setIndexBufferOffset:";
 
     public static readonly Selector SetIndexType = "setIndexType:";
+
+    public static readonly Selector SetRadiusBuffers = "setRadiusBuffers:";
 
     public static readonly Selector SetRadiusFormat = "setRadiusFormat:";
 

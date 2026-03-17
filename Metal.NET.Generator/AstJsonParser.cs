@@ -28,7 +28,7 @@ partial class AstJsonParser
         "supportsSecureCoding", "countByEnumeratingWithState:objects:count:",
         "copyWithZone:", "mutableCopyWithZone:",
         "array", "arrayWithObject:", "arrayWithObjects:count:",
-        "objectAtIndex:", "count",
+        "objectAtIndex:",
     ];
 
     /// <summary>Known inline block signatures mapped to delegate names.</summary>
@@ -638,6 +638,12 @@ partial class AstJsonParser
                 continue;
             }
 
+            // Skip methods that return NSArray (can only be used as properties)
+            if (returnType.StartsWith("NSArray"))
+            {
+                continue;
+            }
+
             // Parse parameters
             List<ParamDef> parameters = [];
             bool skipMethod = false;
@@ -650,6 +656,14 @@ partial class AstJsonParser
                 }
 
                 string paramType = MapObjCTypeForModel(p.Type);
+
+                // Skip methods with NSArray/NSDictionary parameters (static class, can't be used as params)
+                if (paramType.StartsWith("NSArray") || paramType.StartsWith("NSDictionary"))
+                {
+                    skipMethod = true;
+                    break;
+                }
+
                 parameters.Add(new ParamDef(paramType, p.Name));
             }
 
@@ -704,6 +718,12 @@ partial class AstJsonParser
                 continue;
             }
 
+            // Skip free functions returning NSArray (static class, can't be returned)
+            if (returnType.StartsWith("NSArray"))
+            {
+                continue;
+            }
+
             List<ParamDef> parameters = [];
             bool skip = false;
             foreach (AstParam p in func.Parameters)
@@ -713,7 +733,17 @@ partial class AstJsonParser
                     skip = true;
                     break;
                 }
-                parameters.Add(new ParamDef(MapObjCTypeForModel(p.Type), p.Name));
+
+                string paramType = MapObjCTypeForModel(p.Type);
+
+                // Skip functions with NSArray/NSDictionary parameters
+                if (paramType.StartsWith("NSArray") || paramType.StartsWith("NSDictionary"))
+                {
+                    skip = true;
+                    break;
+                }
+
+                parameters.Add(new ParamDef(paramType, p.Name));
             }
             if (skip)
             {
@@ -774,6 +804,24 @@ partial class AstJsonParser
         {
             string protoName = idMatch.Groups[1].Value;
             return protoName + "*";
+        }
+
+        // NSArray<...> → NSArray (element type extracted by emitter)
+        if (t.StartsWith("NSArray<") || t == "NSArray" || t.StartsWith("NSArray *"))
+        {
+            return "NSArray*";
+        }
+
+        // NSDictionary<...> → NSDictionary
+        if (t.StartsWith("NSDictionary<") || t == "NSDictionary" || t.StartsWith("NSDictionary *"))
+        {
+            return "NSDictionary*";
+        }
+
+        // Bare 'id' → NSObject
+        if (t == "id")
+        {
+            return "NSObject*";
         }
 
         // BOOL → bool
@@ -945,20 +993,8 @@ partial class AstJsonParser
     {
         string t = StripNullability(objcType).Trim();
 
-        // Skip API_UNAVAILABLE types
-        if (t.StartsWith("API_UNAVAILABLE"))
-        {
-            return true;
-        }
-
-        // Skip NSDictionary, NSSet, Class, IMP
-        if (t.StartsWith("NSDictionary") || t.StartsWith("NSSet<"))
-        {
-            return true;
-        }
-
-        // Skip NSArray<> (generic array types)
-        if (t.Contains("NSArray<"))
+        // Skip NSSet, Class, IMP
+        if (t.StartsWith("NSSet<"))
         {
             return true;
         }
@@ -968,8 +1004,9 @@ partial class AstJsonParser
             return true;
         }
 
-        // Skip bare 'id' (without protocol qualifier)
-        if (t is "id" || t == "id *")
+        // Skip bare 'id' (without protocol qualifier) — except in property context
+        // Bare 'id' in methods is too generic; for properties it maps to NSObject
+        if (t == "id *")
         {
             return true;
         }
@@ -1084,10 +1121,12 @@ partial class AstJsonParser
         _ => "MTL"
     };
 
-    /// <summary>Strips nullability annotations from ObjC type strings.</summary>
+    /// <summary>Strips nullability and API availability annotations from ObjC type strings.</summary>
     static string StripNullability(string objcType)
     {
-        return NullabilityRegex().Replace(objcType, "").Trim();
+        string result = NullabilityRegex().Replace(objcType, "");
+        result = ApiAvailabilityRegex().Replace(result, "");
+        return result.Trim();
     }
 
     #endregion
@@ -1096,6 +1135,9 @@ partial class AstJsonParser
 
     [GeneratedRegex(@"\b(?:_Nonnull|_Nullable|_Nullable_result|__nonnull|__nullable|_Null_unspecified|__null_unspecified)\b")]
     private static partial Regex NullabilityRegex();
+
+    [GeneratedRegex(@"\bAPI_(?:UN)?AVAILABLE\b(?:\([^)]*\))?")]
+    private static partial Regex ApiAvailabilityRegex();
 
     [GeneratedRegex(@"^id<(\w+)>$")]
     private static partial Regex IdProtocolRegex();

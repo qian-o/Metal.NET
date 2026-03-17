@@ -21,15 +21,18 @@ public class MTL4CounterHeapDescriptor(nint nativePtr, NativeObjectOwnership own
         set => ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetType, (nint)value);
     }
 
-    public void SetCount(nuint count)
+    public nuint Count
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetCount, count);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorBindings.Count);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetCount, value);
     }
 }
 
 file static class MTL4CounterHeapDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTL4CounterHeapDescriptor");
+
+    public static readonly Selector Count = "count";
 
     public static readonly Selector SetCount = "setCount:";
 

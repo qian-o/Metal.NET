@@ -56,6 +56,28 @@ public class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership 
         set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
 
+    /// <summary>
+    /// Deprecated: Use preloadedLibraries instead
+    /// </summary>
+    [Obsolete("Use preloadedLibraries instead")]
+    public MTLDynamicLibrary[] InsertLibraries
+    {
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLComputePipelineDescriptorBindings.InsertLibraries);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
+    }
+
+    public MTLDynamicLibrary[] PreloadedLibraries
+    {
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLComputePipelineDescriptorBindings.PreloadedLibraries);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
+    }
+
+    public MTLBinaryArchive[] BinaryArchives
+    {
+        get => GetArrayProperty<MTLBinaryArchive>(MTLComputePipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
+    }
+
     public MTLLinkedFunctions LinkedFunctions
     {
         get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.LinkedFunctions);
@@ -96,9 +118,13 @@ file static class MTLComputePipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLComputePipelineDescriptor");
 
+    public static readonly Selector BinaryArchives = "binaryArchives";
+
     public static readonly Selector Buffers = "buffers";
 
     public static readonly Selector ComputeFunction = "computeFunction";
+
+    public static readonly Selector InsertLibraries = "insertLibraries";
 
     public static readonly Selector Label = "label";
 
@@ -108,11 +134,17 @@ file static class MTLComputePipelineDescriptorBindings
 
     public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
+    public static readonly Selector PreloadedLibraries = "preloadedLibraries";
+
     public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
 
     public static readonly Selector Reset = "reset";
 
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
+
     public static readonly Selector SetComputeFunction = "setComputeFunction:";
+
+    public static readonly Selector SetInsertLibraries = "setInsertLibraries:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
@@ -121,6 +153,8 @@ file static class MTLComputePipelineDescriptorBindings
     public static readonly Selector SetMaxCallStackDepth = "setMaxCallStackDepth:";
 
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
+
+    public static readonly Selector SetPreloadedLibraries = "setPreloadedLibraries:";
 
     public static readonly Selector SetRequiredThreadsPerThreadgroup = "setRequiredThreadsPerThreadgroup:";
 

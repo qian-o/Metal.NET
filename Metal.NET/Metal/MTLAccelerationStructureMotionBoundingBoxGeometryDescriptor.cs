@@ -15,6 +15,12 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint na
     {
     }
 
+    public MTLMotionKeyframeData[] BoundingBoxBuffers
+    {
+        get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffers);
+        set => SetArrayProperty(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value);
+    }
+
     public nuint BoundingBoxStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);
@@ -37,11 +43,15 @@ file static class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBin
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
+    public static readonly Selector BoundingBoxBuffers = "boundingBoxBuffers";
+
     public static readonly Selector BoundingBoxCount = "boundingBoxCount";
 
     public static readonly Selector BoundingBoxStride = "boundingBoxStride";
 
     public static readonly Selector Descriptor = "descriptor";
+
+    public static readonly Selector SetBoundingBoxBuffers = "setBoundingBoxBuffers:";
 
     public static readonly Selector SetBoundingBoxCount = "setBoundingBoxCount:";
 

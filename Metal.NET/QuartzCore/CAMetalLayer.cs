@@ -21,6 +21,11 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
         set => SetProperty(ref field, CAMetalLayerBindings.SetDevice, value);
     }
 
+    public MTLDevice PreferredDevice
+    {
+        get => GetProperty(ref field, CAMetalLayerBindings.PreferredDevice);
+    }
+
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, CAMetalLayerBindings.PixelFormat);
@@ -75,6 +80,17 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, value);
     }
 
+    public NSDictionary DeveloperHUDProperties
+    {
+        get => GetProperty(ref field, CAMetalLayerBindings.DeveloperHUDProperties);
+        set => SetProperty(ref field, CAMetalLayerBindings.SetDeveloperHUDProperties, value);
+    }
+
+    public MTLResidencySet ResidencySet
+    {
+        get => GetProperty(ref field, CAMetalLayerBindings.ResidencySet);
+    }
+
     public CAMetalDrawable NextDrawable
     {
         get => GetProperty(ref field, CAMetalLayerBindings.NextDrawable);
@@ -88,6 +104,8 @@ file static class CAMetalLayerBindings
     public static readonly Selector AllowsNextDrawableTimeout = "allowsNextDrawableTimeout";
 
     public static readonly Selector Colorspace = "colorspace";
+
+    public static readonly Selector DeveloperHUDProperties = "developerHUDProperties";
 
     public static readonly Selector Device = "device";
 
@@ -103,11 +121,17 @@ file static class CAMetalLayerBindings
 
     public static readonly Selector PixelFormat = "pixelFormat";
 
+    public static readonly Selector PreferredDevice = "preferredDevice";
+
     public static readonly Selector PresentsWithTransaction = "presentsWithTransaction";
+
+    public static readonly Selector ResidencySet = "residencySet";
 
     public static readonly Selector SetAllowsNextDrawableTimeout = "setAllowsNextDrawableTimeout:";
 
     public static readonly Selector SetColorspace = "setColorspace:";
+
+    public static readonly Selector SetDeveloperHUDProperties = "setDeveloperHUDProperties:";
 
     public static readonly Selector SetDevice = "setDevice:";
 

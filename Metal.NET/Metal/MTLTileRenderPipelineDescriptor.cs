@@ -55,6 +55,18 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
+    public MTLBinaryArchive[] BinaryArchives
+    {
+        get => GetArrayProperty<MTLBinaryArchive>(MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+    }
+
+    public MTLDynamicLibrary[] PreloadedLibraries
+    {
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
+        set => SetArrayProperty(MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
+    }
+
     public MTLLinkedFunctions LinkedFunctions
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
@@ -95,6 +107,8 @@ file static class MTLTileRenderPipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLTileRenderPipelineDescriptor");
 
+    public static readonly Selector BinaryArchives = "binaryArchives";
+
     public static readonly Selector ColorAttachments = "colorAttachments";
 
     public static readonly Selector Label = "label";
@@ -105,11 +119,15 @@ file static class MTLTileRenderPipelineDescriptorBindings
 
     public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
+    public static readonly Selector PreloadedLibraries = "preloadedLibraries";
+
     public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
     public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
 
     public static readonly Selector Reset = "reset";
+
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
@@ -118,6 +136,8 @@ file static class MTLTileRenderPipelineDescriptorBindings
     public static readonly Selector SetMaxCallStackDepth = "setMaxCallStackDepth:";
 
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
+
+    public static readonly Selector SetPreloadedLibraries = "setPreloadedLibraries:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 

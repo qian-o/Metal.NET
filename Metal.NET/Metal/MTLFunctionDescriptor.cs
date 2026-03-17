@@ -39,6 +39,12 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
         set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 
+    public MTLBinaryArchive[] BinaryArchives
+    {
+        get => GetArrayProperty<MTLBinaryArchive>(MTLFunctionDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLFunctionDescriptorBindings.SetBinaryArchives, value);
+    }
+
     public static MTLFunctionDescriptor FunctionDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
@@ -51,6 +57,8 @@ file static class MTLFunctionDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionDescriptor");
 
+    public static readonly Selector BinaryArchives = "binaryArchives";
+
     public static readonly Selector ConstantValues = "constantValues";
 
     public static readonly Selector FunctionDescriptor = "functionDescriptor";
@@ -58,6 +66,8 @@ file static class MTLFunctionDescriptorBindings
     public static readonly Selector Name = "name";
 
     public static readonly Selector Options = "options";
+
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
     public static readonly Selector SetConstantValues = "setConstantValues:";
 

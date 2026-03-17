@@ -37,9 +37,24 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         get => ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.PatchControlPointCount);
     }
 
+    public MTLVertexAttribute[] VertexAttributes
+    {
+        get => GetArrayProperty<MTLVertexAttribute>(MTLFunctionBindings.VertexAttributes);
+    }
+
+    public MTLAttribute[] StageInputAttributes
+    {
+        get => GetArrayProperty<MTLAttribute>(MTLFunctionBindings.StageInputAttributes);
+    }
+
     public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionBindings.Name);
+    }
+
+    public NSDictionary FunctionConstantsDictionary
+    {
+        get => GetProperty(ref field, MTLFunctionBindings.FunctionConstantsDictionary);
     }
 
     public MTLFunctionOptions Options
@@ -72,6 +87,8 @@ file static class MTLFunctionBindings
 {
     public static readonly Selector Device = "device";
 
+    public static readonly Selector FunctionConstantsDictionary = "functionConstantsDictionary";
+
     public static readonly Selector FunctionType = "functionType";
 
     public static readonly Selector Label = "label";
@@ -89,4 +106,8 @@ file static class MTLFunctionBindings
     public static readonly Selector PatchType = "patchType";
 
     public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector StageInputAttributes = "stageInputAttributes";
+
+    public static readonly Selector VertexAttributes = "vertexAttributes";
 }

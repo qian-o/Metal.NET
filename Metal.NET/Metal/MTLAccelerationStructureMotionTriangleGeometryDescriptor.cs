@@ -15,6 +15,12 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
     {
     }
 
+    public MTLMotionKeyframeData[] VertexBuffers
+    {
+        get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexBuffers);
+        set => SetArrayProperty(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexBuffers, value);
+    }
+
     public MTLAttributeFormat VertexFormat
     {
         get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexFormat);
@@ -101,6 +107,8 @@ file static class MTLAccelerationStructureMotionTriangleGeometryDescriptorBindin
 
     public static readonly Selector SetTriangleCount = "setTriangleCount:";
 
+    public static readonly Selector SetVertexBuffers = "setVertexBuffers:";
+
     public static readonly Selector SetVertexFormat = "setVertexFormat:";
 
     public static readonly Selector SetVertexStride = "setVertexStride:";
@@ -112,6 +120,8 @@ file static class MTLAccelerationStructureMotionTriangleGeometryDescriptorBindin
     public static readonly Selector TransformationMatrixLayout = "transformationMatrixLayout";
 
     public static readonly Selector TriangleCount = "triangleCount";
+
+    public static readonly Selector VertexBuffers = "vertexBuffers";
 
     public static readonly Selector VertexFormat = "vertexFormat";
 

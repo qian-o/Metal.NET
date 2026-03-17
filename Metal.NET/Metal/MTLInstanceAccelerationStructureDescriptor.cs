@@ -39,6 +39,12 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, NativeOb
         set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceCount, value);
     }
 
+    public MTLAccelerationStructure[] InstancedAccelerationStructures
+    {
+        get => GetArrayProperty<MTLAccelerationStructure>(MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
+        set => SetArrayProperty(MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
+    }
+
     public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
     {
         get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveC.MsgSendULong(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
@@ -95,6 +101,8 @@ file static class MTLInstanceAccelerationStructureDescriptorBindings
 
     public static readonly Selector InstanceCount = "instanceCount";
 
+    public static readonly Selector InstancedAccelerationStructures = "instancedAccelerationStructures";
+
     public static readonly Selector InstanceDescriptorBuffer = "instanceDescriptorBuffer";
 
     public static readonly Selector InstanceDescriptorBufferOffset = "instanceDescriptorBufferOffset";
@@ -116,6 +124,8 @@ file static class MTLInstanceAccelerationStructureDescriptorBindings
     public static readonly Selector MotionTransformType = "motionTransformType";
 
     public static readonly Selector SetInstanceCount = "setInstanceCount:";
+
+    public static readonly Selector SetInstancedAccelerationStructures = "setInstancedAccelerationStructures:";
 
     public static readonly Selector SetInstanceDescriptorBuffer = "setInstanceDescriptorBuffer:";
 

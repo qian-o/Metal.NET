@@ -10,8 +10,25 @@ public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership 
         return new(nativePtr, ownership);
     }
     #endregion
+
+    public MTLBinding[] Bindings
+    {
+        get => GetArrayProperty<MTLBinding>(MTLComputePipelineReflectionBindings.Bindings);
+    }
+
+    /// <summary>
+    /// Deprecated: Use bindings instead
+    /// </summary>
+    [Obsolete("Use bindings instead")]
+    public MTLArgument[] Arguments
+    {
+        get => GetArrayProperty<MTLArgument>(MTLComputePipelineReflectionBindings.Arguments);
+    }
 }
 
 file static class MTLComputePipelineReflectionBindings
 {
+    public static readonly Selector Arguments = "arguments";
+
+    public static readonly Selector Bindings = "bindings";
 }
