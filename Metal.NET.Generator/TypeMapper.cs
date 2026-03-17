@@ -22,7 +22,7 @@ partial class TypeMapper(GeneratorContext context)
         "MTLIndirectCommandBufferExecutionRange",
     ];
 
-    /// <summary>Known typos in metal-cpp headers (parameter name corrections).</summary>
+    /// <summary>Known typos in metal-ast.json parameter names (parameter name corrections).</summary>
     static readonly Dictionary<string, string> ParamNameCorrections = new()
     {
         ["frontFacingWindning"] = "frontFacingWinding"

@@ -1,10 +1,9 @@
 ﻿using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
 /// <summary>
-/// Emits C# source files from parsed metal-cpp definitions.
+/// Emits C# source files from parsed metal-ast.json definitions.
 /// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
 /// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
 /// </summary>
@@ -127,15 +126,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         return null;
     }
-
-    /// <summary>Escapes XML special characters for doc comment content.</summary>
-    static string XmlEscape(string text)
-    {
-        return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
-    }
-
-    /// <summary>Regex to strip Apple documentation disambiguation suffixes like <c>-5o46e</c>.</summary>
-    static readonly Regex DisambiguationSuffix = new(@"-[a-z0-9]+$", RegexOptions.Compiled);
 
     /// <summary>
     /// Records a MsgSend overload signature for later generation of ObjectiveC.cs.
@@ -943,7 +933,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Property Emission
 
-    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties, bool skipDocComment = false)
+    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
         MethodInfo getter = prop.Getter;
         string csPropName = TypeMapper.ToPascalCase(getter.CppName);
@@ -1010,12 +1000,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         if (getter.DeprecationMessage != null)
         {
-            if (!skipDocComment)
-            {
-                sb.AppendLine("    /// <summary>");
-                sb.AppendLine($"    /// Deprecated: {getter.DeprecationMessage}");
-                sb.AppendLine("    /// </summary>");
-            }
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// Deprecated: {getter.DeprecationMessage}");
+            sb.AppendLine("    /// </summary>");
             sb.AppendLine($"    [Obsolete(\"{getter.DeprecationMessage}\")]");
         }
 
@@ -1107,7 +1094,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Emission
 
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion, bool skipDocComment = false)
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion)
     {
         string csMethodName;
         string selectorObjC;
@@ -1394,12 +1381,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         if (method.DeprecationMessage != null)
         {
-            if (!skipDocComment)
-            {
-                sb.AppendLine("    /// <summary>");
-                sb.AppendLine($"    /// Deprecated: {method.DeprecationMessage}");
-                sb.AppendLine("    /// </summary>");
-            }
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// Deprecated: {method.DeprecationMessage}");
+            sb.AppendLine("    /// </summary>");
             sb.AppendLine($"    [Obsolete(\"{method.DeprecationMessage}\")]");
         }
 
