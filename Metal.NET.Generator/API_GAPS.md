@@ -10,7 +10,7 @@ This document records API differences between the refactored generator output (f
 |---|---|---|
 | Missing types | 1 | Cosmetic — moved into `MTLEnums.cs` |
 | Extra types | 1 | New API from SDK |
-| Missing base-class protocols | 3 | Empty marker protocols absent from `metal-ast.json` |
+| Missing base-class protocols | 0 | ~~Fixed~~ — empty marker protocols now included in `metal-ast.json` |
 | Missing properties (deprecated `Bool8` aliases) | 23 | Intentional — see below |
 | Missing properties (absent from AST) | 4 | Data gap in `metal-ast.json` |
 | Missing selectors / methods | 0 | — |
@@ -26,21 +26,17 @@ The `MTLIOCompressionStatus` enum was previously in its own file `Metal/MTLIOCom
 
 This class was not present in the old `metal-cpp` headers but exists in the SDK's ObjC headers (via `metal-ast.json`). **New API coverage.**
 
-## 3. Missing Base-Class Protocols
+## 3. ~~Missing Base-Class Protocols~~ (RESOLVED)
 
-Three empty marker protocols exist in the ObjC headers but are absent from `metal-ast.json`:
+The following empty marker protocols were absent from `metal-ast.json` but are now included after relaxing the protocol extraction condition in `extract-metal-api.yml`:
 
-| Missing Protocol | Affected Classes |
-|---|---|
-| `MTLFunctionStitchingNode` | `MTLFunctionStitchingInputNode`, `MTLFunctionStitchingFunctionNode` |
-| `MTLFunctionStitchingAttribute` | `MTLFunctionStitchingAttributeAlwaysInline` |
-| `MTLFXFrameInterpolatableScaler` | `MTLFXTemporalScalerBase`, `MTLFXTemporalDenoisedScalerBase` |
+| Protocol | Affected Classes | Status |
+|---|---|---|
+| `MTLFunctionStitchingNode` | `MTLFunctionStitchingInputNode`, `MTLFunctionStitchingFunctionNode` | ✅ Fixed |
+| `MTLFunctionStitchingAttribute` | `MTLFunctionStitchingAttributeAlwaysInline` | ✅ Fixed |
+| `MTLFXFrameInterpolatableScaler` | `MTLFXTemporalScalerBase`, `MTLFXTemporalDenoisedScalerBase` | ✅ Fixed |
 
-These protocols define no properties or methods — they only serve as type markers. The affected classes now inherit directly from `NSObject` instead. **No functional loss; type hierarchy is flatter.**
-
-### Potential fix
-
-Add these three protocols to `metal-ast.json` (even though they declare no members), or hard-code them in `AstJsonParser.cs` as stub base classes.
+These protocols now exist in `metal-ast.json` and the affected classes properly inherit from them instead of `NSObject`.
 
 ## 4. Deprecated Bool8 Property Aliases (23 properties)
 

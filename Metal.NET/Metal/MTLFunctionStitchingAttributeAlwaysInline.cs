@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingAttributeAlwaysInline>
+public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionStitchingAttribute(nativePtr, ownership), INativeObject<MTLFunctionStitchingAttributeAlwaysInline>
 {
     #region INativeObject
     public static new MTLFunctionStitchingAttributeAlwaysInline Null { get; } = new(0, NativeObjectOwnership.Borrowed);

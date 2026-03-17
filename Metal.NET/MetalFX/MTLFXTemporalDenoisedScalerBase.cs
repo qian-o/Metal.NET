@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXTemporalDenoisedScalerBase>
+public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, NativeObjectOwnership ownership) : MTLFXFrameInterpolatableScaler(nativePtr, ownership), INativeObject<MTLFXTemporalDenoisedScalerBase>
 {
     #region INativeObject
     public static new MTLFXTemporalDenoisedScalerBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);

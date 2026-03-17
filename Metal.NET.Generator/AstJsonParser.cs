@@ -529,9 +529,10 @@ partial class AstJsonParser
         {
             csBaseClassName = ast.Super;
         }
-        else if (isProtocol && ast.Protocols.Count > 0)
+        else if (ast.Protocols.Count > 0)
         {
-            // For protocols, use the first conforming protocol as the base class
+            // For protocols (and classes whose super is NSObject), use the first
+            // conforming protocol as the base class.
             string? parentProto = ast.Protocols.FirstOrDefault(p => p != "NSObject" && !SkipProtocols.Contains(p));
             if (parentProto != null)
             {
