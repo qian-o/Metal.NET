@@ -17,7 +17,7 @@ class Generator(string astJsonPath, string outputDir)
     {
         Console.WriteLine($"Parsing {astJsonPath}...");
 
-        GeneratorContext context = new AstJsonParser().Parse(astJsonPath);
+        GeneratorContext context = AstJsonParser.Parse(astJsonPath);
 
         Console.WriteLine($"Found {context.Enums.Count} enums, {context.Structs.Count} structs, {context.Classes.Count} classes, {context.FreeFunctions.Count} free functions");
 

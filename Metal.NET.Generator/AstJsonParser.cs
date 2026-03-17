@@ -143,7 +143,7 @@ partial class AstJsonParser
     /// <summary>Structs to skip during parsing.</summary>
     static readonly HashSet<string> SkipStructParseNames = ["CGSize"];
 
-    public GeneratorContext Parse(string astJsonPath)
+    public static GeneratorContext Parse(string astJsonPath)
     {
         GeneratorContext context = new();
 

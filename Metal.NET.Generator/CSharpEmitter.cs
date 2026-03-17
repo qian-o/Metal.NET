@@ -436,7 +436,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             foreach (BlockParam p in callbackParams)
             {
-                string strongType = ResolveStrongType(p, alias.Namespace);
+                string strongType = ResolveStrongType(p);
                 actionTypeArgs.Add(strongType);
 
                 // Trampoline receives the low-level type
@@ -493,7 +493,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Pointer types that map to known NativeObject classes get their class name;
     /// value types (ulong, long, nuint, nint from void*) pass through unchanged.
     /// </summary>
-    static string ResolveStrongType(BlockParam param, string ns)
+    static string ResolveStrongType(BlockParam param)
     {
         // Value types pass through directly
         if (!param.ObjCType.TrimEnd().EndsWith('*'))
@@ -615,7 +615,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            if (EmitProperty(sb, prop, csClassName, classDef.Namespace, selectors, inheritedProperties))
+            if (EmitProperty(sb, prop, csClassName, selectors, inheritedProperties))
             {
                 hasPrecedingMember = true;
             }
@@ -670,7 +670,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, classDef.Namespace, selectors, hasZeroParamVersion);
+            EmitMethod(sb, method, csClassName, selectors, hasZeroParamVersion);
             hasPrecedingMember = true;
         }
 
@@ -682,7 +682,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            EmitFreeFunction(sb, func, classDef.Namespace, csClassName);
+            EmitFreeFunction(sb, func, csClassName);
             hasPrecedingMember = true;
         }
 
@@ -953,7 +953,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Emits a single property (getter + optional setter) into <paramref name="sb"/>.
     /// Returns <see langword="false"/> if the property is inherited and should be skipped.
     /// </summary>
-    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
+    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
         MethodInfo getter = prop.Getter;
         string csPropName = TypeMapper.ToPascalCase(getter.Name);
@@ -1094,7 +1094,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Emits a single method into <paramref name="sb"/>, handling parameter marshalling
     /// (arrays, blocks, out-params, enums) and selecting the correct <c>MsgSend</c> variant.
     /// </summary>
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion)
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion)
     {
         string csMethodName;
         string selectorObjC;
@@ -1524,7 +1524,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Emits a free function as a <c>[LibraryImport]</c> P/Invoke declaration followed
     /// by a public static wrapper that handles <c>NativeObject</c> marshalling.
     /// </summary>
-    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string ns, string csClassName)
+    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string csClassName)
     {
         string csReturnType = TypeMapper.MapType(func.ReturnType);
 
