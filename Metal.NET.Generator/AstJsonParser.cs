@@ -169,7 +169,7 @@ partial class AstJsonParser
     {
         foreach (AstEnum astEnum in ast.Enums)
         {
-            if (astEnum.Framework is null or "CoreFoundation" or "CoreImage" or "CoreGraphics")
+            if (astEnum.Framework is null or "CoreFoundation" or "CoreGraphics")
             {
                 continue;
             }
@@ -493,7 +493,7 @@ partial class AstJsonParser
                 continue;
             }
 
-            if (proto.Framework is null or "CoreFoundation" or "CoreImage" or "CoreGraphics")
+            if (proto.Framework is null or "CoreFoundation" or "CoreGraphics")
             {
                 continue;
             }
@@ -511,7 +511,7 @@ partial class AstJsonParser
                 continue;
             }
 
-            if (cls.Framework is null or "CoreFoundation" or "CoreImage" or "CoreGraphics")
+            if (cls.Framework is null or "CoreFoundation" or "CoreGraphics")
             {
                 continue;
             }
