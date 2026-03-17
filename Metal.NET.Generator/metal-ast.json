@@ -1628,7 +1628,9 @@
           "value": "27"
         }
       ],
-      "framework": "Metal"
+      "framework": "Metal",
+      "deprecated": true,
+      "deprecationMessage": "Use MTLBindingType instead"
     },
     {
       "kind": "enum",
@@ -2191,7 +2193,9 @@
           "value": "30005"
         }
       ],
-      "framework": "Metal"
+      "framework": "Metal",
+      "deprecated": true,
+      "deprecationMessage": "Use MTLGPUFamily instead"
     },
     {
       "kind": "enum",
