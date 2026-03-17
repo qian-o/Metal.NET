@@ -119,22 +119,8 @@ jobs:
               type_str = re.sub(r'\bNS_RETURNS_RETAINED\b\s*', '', type_str)
               return type_str.strip()
 
-          def get_framework(node):
-              """Extract framework name from the AST node's source location."""
-              loc = node.get("loc", {})
-              for key in ("file", ):
-                  fp = loc.get(key, "")
-                  if fp:
-                      m = re.search(r'/(\w+)\.framework/', fp)
-                      if m:
-                          return m.group(1)
-              for sub_key in ("spellingLoc", "expansionLoc"):
-                  fp = loc.get(sub_key, {}).get("file", "")
-                  if fp:
-                      m = re.search(r'/(\w+)\.framework/', fp)
-                      if m:
-                          return m.group(1)
-              return None
+          # NOTE: framework is now tracked via last_file in the main loop
+          # because clang AST only emits loc.file on file transitions.
 
           def extract_fields(record_node):
               fields = []
@@ -496,7 +482,23 @@ jobs:
               "typedefs": [], "functions": [], "structs": [],
           }
 
+          last_file = ""
           for node in ast.get("inner", []):
+              loc = node.get("loc", {})
+              for _key in ("file", ):
+                  _fp = loc.get(_key, "")
+                  if _fp:
+                      last_file = _fp
+                      break
+              else:
+                  for _sub in ("spellingLoc", "expansionLoc"):
+                      _fp = loc.get(_sub, {}).get("file", "")
+                      if _fp:
+                          last_file = _fp
+                          break
+              _fw_match = re.search(r'/(\w+)\.framework/', last_file)
+              fw = _fw_match.group(1) if _fw_match else None
+
               kind = node.get("kind", "")
               name = node.get("name", "")
               if kind == "ObjCCategoryDecl":
@@ -505,7 +507,7 @@ jobs:
                       t = extract_type(node)
                       t["name"] = cat_name
                       t["kind"] = "category"
-                      t["framework"] = get_framework(node)
+                      t["framework"] = fw
                       if t["methods"] or t["properties"]:
                           api["classes"].append(t)
                   continue
@@ -514,21 +516,20 @@ jobs:
               if kind == "EnumDecl":
                   e = extract_enum(node)
                   if e:
-                      e["framework"] = get_framework(node)
+                      e["framework"] = fw
                       api["enums"].append(e)
               elif kind == "ObjCProtocolDecl":
                   t = extract_type(node)
                   if t and (t["methods"] or t["properties"]):
-                      t["framework"] = get_framework(node)
+                      t["framework"] = fw
                       api["protocols"].append(t)
               elif kind == "ObjCInterfaceDecl":
                   t = extract_type(node)
                   if t:
-                      t["framework"] = get_framework(node)
+                      t["framework"] = fw
                       api["classes"].append(t)
               elif kind == "TypedefDecl":
                   ut = (node.get("type") or {}).get("qualType", "")
-                  fw = get_framework(node)
                   api["typedefs"].append({"name": name, "underlyingType": ut, "framework": fw})
                   if ut.startswith("struct "):
                       fields, method = None, None
@@ -565,20 +566,20 @@ jobs:
                       "name": name,
                       "returnType": clean_type(ret_type),
                       "parameters": params,
-                      "framework": get_framework(node),
+                      "framework": fw,
                   }
                   _apply_deprecation(fn_entry, get_attrs(node))
                   api["functions"].append(fn_entry)
               elif kind == "RecordDecl" and node.get("tagUsed") == "struct":
                   fields = extract_fields(node) or find_struct_fields(node)
                   if fields:
-                      api["structs"].append({"name": name, "fields": fields, "framework": get_framework(node)})
+                      api["structs"].append({"name": name, "fields": fields, "framework": fw})
               elif kind == "RecordDecl":
                   tag = node.get("tagUsed", "<none>")
                   if tag != "union":
                       fields = find_struct_fields(node)
                       if fields:
-                          api["structs"].append({"name": name, "fields": fields, "framework": get_framework(node)})
+                          api["structs"].append({"name": name, "fields": fields, "framework": fw})
                           print(f"  Struct '{name}' via RecordDecl (tagUsed={tag}): {len(fields)} fields")
 
           api["enums"] = _dedup_by_key(api["enums"], "name")
