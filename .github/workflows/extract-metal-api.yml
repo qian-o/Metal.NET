@@ -13,7 +13,7 @@ on:
         description: 'Commit results to the repo'
         required: false
         type: boolean
-        default: false
+        default: true
 
 jobs:
   extract:
@@ -88,11 +88,11 @@ jobs:
           RAW_AST=$(mktemp /tmp/metal_ast_XXXXXX.json)
 
           cat > "$TEMP_HEADER" <<'HEADER'
-          @import Metal;
-          @import Foundation;
-          @import QuartzCore;
+          #import <Metal/Metal.h>
+          #import <Foundation/Foundation.h>
+          #import <QuartzCore/QuartzCore.h>
           #if __has_include(<MetalFX/MetalFX.h>)
-          @import MetalFX;
+          #import <MetalFX/MetalFX.h>
           #endif
           HEADER
 
@@ -100,7 +100,6 @@ jobs:
           xcrun clang \
             -Xclang -ast-dump=json \
             -fsyntax-only \
-            -fmodules \
             -x objective-c \
             -isysroot "$SDK_PATH" \
             -target "arm64-apple-${DEPLOY_TARGET}" \
@@ -174,7 +173,7 @@ jobs:
                   "kind": "enum",
                   "name": name,
                   "underlyingType": (node.get("fixedUnderlyingType") or {}).get("qualType"),
-                  "isOptions": node.get("scopedEnumTag") == "struct",
+                  "isOptions": any(c.get("kind") == "FlagEnumAttr" for c in node.get("inner", [])),
                   "members": members,
                   "availability": get_availability(node),
               }
@@ -195,7 +194,7 @@ jobs:
                       })
               return {
                   "selector": name,
-                  "isClassMethod": node.get("storageClass") == "static",
+                  "isClassMethod": not node.get("instance", True),
                   "returnType": ret,
                   "returnNullability": get_nullability(ret),
                   "parameters": params,
@@ -211,7 +210,7 @@ jobs:
                   "name": name,
                   "type": pt,
                   "nullability": get_nullability(pt),
-                  "readonly": "readonly" in node.get("control", ""),
+                  "readonly": node.get("readonly", False),
               }
               if node.get("getter"):
                   r["getter"] = node["getter"].get("name", "")
