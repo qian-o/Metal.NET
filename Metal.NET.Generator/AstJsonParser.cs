@@ -188,7 +188,9 @@ partial class AstJsonParser
             string csEnumName = prefix + bareName;
             context.EnumBackingTypes[csEnumName] = backingType;
 
-            List<EnumMember> members = [];
+            // First pass: strip prefixes and collect processed names
+            List<(string name, AstEnumMember src)> processed = [];
+            bool anyDigitLeading = false;
             foreach (AstEnumMember m in astEnum.Members)
             {
                 // Strip the enum prefix from member names
@@ -226,17 +228,30 @@ partial class AstJsonParser
                     }
                 }
 
-                if (memberName.Length > 0 && char.IsDigit(memberName[0]))
-                {
-                    memberName = prefix + memberName;
-                }
-
                 if (string.IsNullOrEmpty(memberName))
                 {
                     memberName = m.Name;
                 }
 
-                members.Add(new EnumMember(memberName, m.Value, m.Deprecated, m.DeprecationMessage));
+                if (memberName.Length > 0 && char.IsDigit(memberName[0]))
+                {
+                    anyDigitLeading = true;
+                }
+
+                processed.Add((memberName, m));
+            }
+
+            // Second pass: when any member starts with a digit, prefix ALL members for consistency
+            List<EnumMember> members = [];
+            foreach (var (name, src) in processed)
+            {
+                string finalName = name;
+                if (anyDigitLeading && name.Length > 0 && !name.StartsWith(prefix))
+                {
+                    finalName = prefix + name;
+                }
+
+                members.Add(new EnumMember(finalName, src.Value, src.Deprecated, src.DeprecationMessage));
             }
 
             // Strip common PascalCase prefix shared by all enum members
@@ -259,7 +274,8 @@ partial class AstJsonParser
 
                         if (char.IsDigit(newName[0]))
                         {
-                            newName = prefix + newName;
+                            valid = false;
+                            break;
                         }
 
                         if (!uniqueCheck.Add(newName))

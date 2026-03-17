@@ -124,14 +124,14 @@ public enum MTLSparsePageSize : long
 
 public enum MTLBufferSparseTier : long
 {
-    None = 0,
+    MTLNone = 0,
 
     MTL1 = 1
 }
 
 public enum MTLTextureSparseTier : long
 {
-    None = 0,
+    MTLNone = 0,
 
     MTL1 = 1,
 
@@ -680,15 +680,15 @@ public enum MTLTextureType : ulong
 
     MTL2DMultisample = 4,
 
-    Cube = 5,
+    MTLCube = 5,
 
-    CubeArray = 6,
+    MTLCubeArray = 6,
 
     MTL3D = 7,
 
     MTL2DMultisampleArray = 8,
 
-    TextureBuffer = 9
+    MTLTextureBuffer = 9
 }
 
 public enum MTLTextureSwizzle : byte
@@ -1115,7 +1115,7 @@ public enum MTLPipelineOption : ulong
 
 public enum MTLReadWriteTextureTier : ulong
 {
-    None = 0,
+    MTLNone = 0,
 
     MTL1 = 1,
 
