@@ -1,0 +1,346 @@
+﻿name: Extract Metal API
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner:
+        required: false
+        default: 'macos-26'
+      xcode_version:
+        required: false
+        default: 'latest'
+      commit_result:
+        description: 'Commit results to the repo'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  extract:
+    runs-on: ${{ github.event.inputs.runner || 'macos-26' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: |
+          ls -d /Applications/Xcode*.app 2>/dev/null || echo 'No Xcode installations found'
+
+          INPUT_VERSION="${{ github.event.inputs.xcode_version }}"
+          if [ "$INPUT_VERSION" != "latest" ] && [ -n "$INPUT_VERSION" ]; then
+            XCODE_PATH="/Applications/Xcode_${INPUT_VERSION}.app"
+            XCODE_BETA_PATH="/Applications/Xcode_${INPUT_VERSION}_beta.app"
+            if [ -d "$XCODE_PATH" ]; then
+              sudo xcode-select -s "$XCODE_PATH"
+            elif [ -d "$XCODE_BETA_PATH" ]; then
+              sudo xcode-select -s "$XCODE_BETA_PATH"
+            else
+              echo "::error::Xcode $INPUT_VERSION not found."
+              exit 1
+            fi
+          fi
+
+          echo "--- Environment ---"
+          xcodebuild -version
+          echo "SDK: $(xcrun --show-sdk-path)"
+          echo "SDK version: $(xcrun --show-sdk-version)"
+
+      - name: Extract framework headers
+        run: |
+          SDK_PATH=$(xcrun --show-sdk-path)
+          SDK_VERSION=$(xcrun --show-sdk-version)
+          OUTPUT="metal-headers"
+          mkdir -p "$OUTPUT"
+
+          for FW in Metal MetalFX Foundation QuartzCore CoreGraphics IOSurface; do
+            DIR="$SDK_PATH/System/Library/Frameworks/${FW}.framework/Headers"
+            if [ -d "$DIR" ]; then
+              mkdir -p "$OUTPUT/$FW"
+              cp -R "$DIR/"* "$OUTPUT/$FW/"
+              echo "$FW: $(ls "$OUTPUT/$FW/" | wc -l | tr -d ' ') files"
+            fi
+          done
+
+          for SYS_DIR in dispatch os; do
+            DIR="$SDK_PATH/usr/include/$SYS_DIR"
+            if [ -d "$DIR" ]; then
+              mkdir -p "$OUTPUT/$SYS_DIR"
+              cp -R "$DIR/"* "$OUTPUT/$SYS_DIR/"
+              echo "$SYS_DIR: $(ls "$OUTPUT/$SYS_DIR/" | wc -l | tr -d ' ') files"
+            fi
+          done
+
+          cat > "$OUTPUT/metadata.json" <<EOF
+          {
+            "sdkVersion": "$SDK_VERSION",
+            "xcodeVersion": "$(xcodebuild -version | head -1)",
+            "extractedAt": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          }
+          EOF
+
+          echo "Total headers: $(find "$OUTPUT" -name '*.h' | wc -l | tr -d ' ')"
+
+      - name: Generate API snapshot
+        run: |
+          SDK_PATH=$(xcrun --show-sdk-path)
+          SDK_VERSION=$(xcrun --show-sdk-version)
+          DEPLOY_TARGET="macos$(echo $SDK_VERSION | cut -d. -f1).0"
+          TEMP_HEADER=$(mktemp /tmp/metal_XXXXXX.h)
+          RAW_AST=$(mktemp /tmp/metal_ast_XXXXXX.json)
+
+          cat > "$TEMP_HEADER" <<'HEADER'
+          @import Metal;
+          @import Foundation;
+          @import QuartzCore;
+          #if __has_include(<MetalFX/MetalFX.h>)
+          @import MetalFX;
+          #endif
+          HEADER
+
+          echo "Clang AST dump (target: $DEPLOY_TARGET)..."
+          xcrun clang \
+            -Xclang -ast-dump=json \
+            -fsyntax-only \
+            -fmodules \
+            -x objective-c \
+            -isysroot "$SDK_PATH" \
+            -target "arm64-apple-${DEPLOY_TARGET}" \
+            -std=gnu17 \
+            -Wno-everything \
+            "$TEMP_HEADER" \
+            2>/dev/null \
+            > "$RAW_AST"
+          rm -f "$TEMP_HEADER"
+          echo "Raw AST: $(du -h "$RAW_AST" | cut -f1)"
+
+          echo "Filtering to Metal API..."
+          python3 - "$RAW_AST" "Metal.NET.Generator/metal-ast.json" "$SDK_VERSION" <<'PYEOF'
+          import json, sys, os
+
+          raw_path, out_path, sdk_version = sys.argv[1], sys.argv[2], sys.argv[3]
+
+          WANTED_PREFIXES = ("MTL", "MTLFX")
+          WANTED_EXTRA = {
+              "NSObject", "NSString", "NSError", "NSArray", "NSDictionary",
+              "NSURL", "NSBundle", "NSData", "NSNumber",
+              "NSRange", "NSNotificationName",
+              "CAMetalLayer", "CAMetalDrawable",
+              "CGSize", "CGColorSpaceRef",
+          }
+
+          def is_wanted(name):
+              if not name:
+                  return False
+              return any(name.startswith(p) for p in WANTED_PREFIXES) or name in WANTED_EXTRA
+
+          def get_availability(node):
+              attrs = []
+              for child in node.get("inner", []):
+                  if child.get("kind") == "AvailabilityAttr":
+                      a = {"platform": child.get("platform", "")}
+                      for key in ("introduced", "deprecated", "obsoleted", "message", "replacement"):
+                          if child.get(key):
+                              a[key] = child[key]
+                      if a.get("platform"):
+                          attrs.append(a)
+              return attrs or None
+
+          def get_nullability(type_str):
+              if not type_str:
+                  return None
+              if "_Nullable" in type_str:
+                  return "nullable"
+              if "_Nonnull" in type_str:
+                  return "nonnull"
+              return None
+
+          def extract_enum(node):
+              name = node.get("name", "")
+              if not name:
+                  return None
+              members = []
+              for c in node.get("inner", []):
+                  if c.get("kind") == "EnumConstantDecl":
+                      m = {"name": c["name"]}
+                      for v in c.get("inner", []):
+                          if v.get("value"):
+                              m["value"] = v["value"]
+                              break
+                          for v2 in v.get("inner", []):
+                              if v2.get("value"):
+                                  m["value"] = v2["value"]
+                                  break
+                      members.append(m)
+              return {
+                  "kind": "enum",
+                  "name": name,
+                  "underlyingType": (node.get("fixedUnderlyingType") or {}).get("qualType"),
+                  "isOptions": node.get("scopedEnumTag") == "struct",
+                  "members": members,
+                  "availability": get_availability(node),
+              }
+
+          def extract_method(node):
+              name = node.get("name", "")
+              if not name:
+                  return None
+              ret = (node.get("returnType") or {}).get("qualType", "void")
+              params = []
+              for c in node.get("inner", []):
+                  if c.get("kind") == "ParmVarDecl":
+                      pt = (c.get("type") or {}).get("qualType", "")
+                      params.append({
+                          "name": c.get("name", ""),
+                          "type": pt,
+                          "nullability": get_nullability(pt),
+                      })
+              return {
+                  "selector": name,
+                  "isClassMethod": node.get("storageClass") == "static",
+                  "returnType": ret,
+                  "returnNullability": get_nullability(ret),
+                  "parameters": params,
+                  "availability": get_availability(node),
+              }
+
+          def extract_property(node):
+              name = node.get("name", "")
+              if not name:
+                  return None
+              pt = (node.get("type") or {}).get("qualType", "")
+              r = {
+                  "name": name,
+                  "type": pt,
+                  "nullability": get_nullability(pt),
+                  "readonly": "readonly" in node.get("control", ""),
+              }
+              if node.get("getter"):
+                  r["getter"] = node["getter"].get("name", "")
+              if node.get("setter"):
+                  r["setter"] = node["setter"].get("name", "")
+              r["availability"] = get_availability(node)
+              return r
+
+          def extract_type(node):
+              name = node.get("name", "")
+              kind_str = node.get("kind", "")
+              r = {
+                  "kind": "protocol" if "Protocol" in kind_str else "class",
+                  "name": name,
+                  "methods": [],
+                  "properties": [],
+                  "protocols": [p.get("name", "") for p in (node.get("protocols") or [])],
+              }
+              if node.get("super"):
+                  r["super"] = node["super"].get("name", "")
+              for c in node.get("inner", []):
+                  ck = c.get("kind", "")
+                  if ck == "ObjCMethodDecl":
+                      m = extract_method(c)
+                      if m:
+                          r["methods"].append(m)
+                  elif ck == "ObjCPropertyDecl":
+                      p = extract_property(c)
+                      if p:
+                          r["properties"].append(p)
+              r["availability"] = get_availability(node)
+              return r
+
+          with open(raw_path) as f:
+              ast = json.load(f)
+
+          api = {
+              "sdkVersion": sdk_version,
+              "enums": [],
+              "protocols": [],
+              "classes": [],
+              "typedefs": [],
+              "functions": [],
+              "structs": [],
+          }
+
+          for node in ast.get("inner", []):
+              kind = node.get("kind", "")
+              name = node.get("name", "")
+              if not is_wanted(name):
+                  continue
+
+              if kind == "EnumDecl":
+                  e = extract_enum(node)
+                  if e:
+                      api["enums"].append(e)
+              elif kind == "ObjCProtocolDecl":
+                  t = extract_type(node)
+                  if t and (t["methods"] or t["properties"]):
+                      api["protocols"].append(t)
+              elif kind == "ObjCInterfaceDecl":
+                  t = extract_type(node)
+                  if t:
+                      api["classes"].append(t)
+              elif kind == "ObjCCategoryDecl":
+                  cat_name = node.get("interface", {}).get("name", "")
+                  if is_wanted(cat_name):
+                      t = extract_type(node)
+                      t["name"] = cat_name
+                      t["kind"] = "category"
+                      if t["methods"] or t["properties"]:
+                          api["protocols"].append(t)
+              elif kind == "TypedefDecl":
+                  api["typedefs"].append({
+                      "name": name,
+                      "underlyingType": (node.get("type") or {}).get("qualType", ""),
+                  })
+              elif kind == "FunctionDecl":
+                  ft = (node.get("type") or {}).get("qualType", "")
+                  params = []
+                  for c in node.get("inner", []):
+                      if c.get("kind") == "ParmVarDecl":
+                          params.append({
+                              "name": c.get("name", ""),
+                              "type": (c.get("type") or {}).get("qualType", ""),
+                          })
+                  api["functions"].append({
+                      "name": name,
+                      "returnType": ft.split("(")[0].strip() if "(" in ft else ft,
+                      "parameters": params,
+                      "availability": get_availability(node),
+                  })
+              elif kind == "RecordDecl" and node.get("tagUsed") == "struct":
+                  fields = []
+                  for c in node.get("inner", []):
+                      if c.get("kind") == "FieldDecl":
+                          fields.append({
+                              "name": c.get("name", ""),
+                              "type": (c.get("type") or {}).get("qualType", ""),
+                          })
+                  if fields:
+                      api["structs"].append({"name": name, "fields": fields})
+
+          print(f"Enums: {len(api['enums'])}, Protocols: {len(api['protocols'])}, "
+                f"Classes: {len(api['classes'])}, Functions: {len(api['functions'])}, "
+                f"Structs: {len(api['structs'])}, Typedefs: {len(api['typedefs'])}")
+
+          with open(out_path, "w") as f:
+              json.dump(api, f, indent=2, ensure_ascii=False)
+          print(f"Written: {out_path} ({os.path.getsize(out_path) / 1024:.0f} KB)")
+          os.remove(raw_path)
+          PYEOF
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: metal-api-data
+          path: |
+            Metal.NET.Generator/metal-ast.json
+            metal-headers/
+          retention-days: 90
+
+      - name: Commit metal-ast.json
+        if: ${{ github.event.inputs.commit_result == 'true' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add Metal.NET.Generator/metal-ast.json
+          git diff --cached --quiet && echo "No changes to commit" && exit 0
+          SDK_VERSION=$(xcrun --show-sdk-version)
+          git commit -m "Update metal-ast.json (SDK $SDK_VERSION)"
+          git push
