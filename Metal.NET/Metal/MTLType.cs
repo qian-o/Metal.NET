@@ -15,11 +15,6 @@ public class MTLType(nint nativePtr, NativeObjectOwnership ownership) : NSObject
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTypeBindings.DataType);
     }
-
-    public MTLDataType DataType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTypeBindings.DataType);
-    }
 }
 
 file static class MTLTypeBindings

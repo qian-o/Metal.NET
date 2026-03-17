@@ -32,39 +32,6 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr, NativeO
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
-
-    public MTLCounterSampleBuffer SampleBuffer
-    {
-        get => GetProperty(ref field, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
-        set => SetProperty(ref field, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
-    }
-
-    public nuint StartOfEncoderSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
-    }
-
-    public nuint EndOfEncoderSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
-    }
-
-    public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, sampleBuffer.NativePtr);
-    }
-
-    public void SetStartOfEncoderSampleIndex(nuint startOfEncoderSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, startOfEncoderSampleIndex);
-    }
-
-    public void SetEndOfEncoderSampleIndex(nuint endOfEncoderSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, endOfEncoderSampleIndex);
-    }
 }
 
 file static class MTLBlitPassSampleBufferAttachmentDescriptorBindings

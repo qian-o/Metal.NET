@@ -114,13 +114,13 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
     public Bool8 IsAutoExposureEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsAutoExposureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetAutoExposureEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsAutoExposureEnabled, value);
     }
 
     public Bool8 IsReactiveMaskTextureEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsReactiveMaskTextureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetReactiveMaskTextureEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsReactiveMaskTextureEnabled, value);
     }
 
     public MTLPixelFormat ReactiveMaskTextureFormat
@@ -132,261 +132,19 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
     public Bool8 IsSpecularHitDistanceTextureEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsSpecularHitDistanceTextureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularHitDistanceTextureEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsSpecularHitDistanceTextureEnabled, value);
     }
 
     public Bool8 IsDenoiseStrengthMaskTextureEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsDenoiseStrengthMaskTextureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDenoiseStrengthMaskTextureEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsDenoiseStrengthMaskTextureEnabled, value);
     }
 
     public Bool8 IsTransparencyOverlayTextureEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsTransparencyOverlayTextureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetTransparencyOverlayTextureEnabled, value);
-    }
-
-    public MTLPixelFormat ColorTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.ColorTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetColorTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat DepthTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.DepthTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDepthTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat MotionTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.MotionTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetMotionTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat DiffuseAlbedoTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.DiffuseAlbedoTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDiffuseAlbedoTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat SpecularAlbedoTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SpecularAlbedoTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularAlbedoTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat NormalTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.NormalTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetNormalTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat RoughnessTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.RoughnessTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetRoughnessTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat SpecularHitDistanceTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SpecularHitDistanceTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularHitDistanceTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat DenoiseStrengthMaskTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.DenoiseStrengthMaskTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDenoiseStrengthMaskTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat TransparencyOverlayTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.TransparencyOverlayTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetTransparencyOverlayTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat OutputTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.OutputTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetOutputTextureFormat, (nuint)value);
-    }
-
-    public nuint InputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.InputWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetInputWidth, value);
-    }
-
-    public nuint InputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.InputHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetInputHeight, value);
-    }
-
-    public nuint OutputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.OutputWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetOutputWidth, value);
-    }
-
-    public nuint OutputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.OutputHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetOutputHeight, value);
-    }
-
-    public Bool8 RequiresSynchronousInitialization
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.RequiresSynchronousInitialization);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetRequiresSynchronousInitialization, value);
-    }
-
-    public Bool8 IsAutoExposureEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsAutoExposureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetAutoExposureEnabled, value);
-    }
-
-    public Bool8 IsReactiveMaskTextureEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsReactiveMaskTextureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetReactiveMaskTextureEnabled, value);
-    }
-
-    public MTLPixelFormat ReactiveMaskTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.ReactiveMaskTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetReactiveMaskTextureFormat, (nuint)value);
-    }
-
-    public Bool8 IsSpecularHitDistanceTextureEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsSpecularHitDistanceTextureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularHitDistanceTextureEnabled, value);
-    }
-
-    public Bool8 IsDenoiseStrengthMaskTextureEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsDenoiseStrengthMaskTextureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDenoiseStrengthMaskTextureEnabled, value);
-    }
-
-    public Bool8 IsTransparencyOverlayTextureEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsTransparencyOverlayTextureEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetTransparencyOverlayTextureEnabled, value);
-    }
-
-    public void SetColorTextureFormat(MTLPixelFormat colorTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetColorTextureFormat, (nuint)colorTextureFormat);
-    }
-
-    public void SetDepthTextureFormat(MTLPixelFormat depthTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDepthTextureFormat, (nuint)depthTextureFormat);
-    }
-
-    public void SetMotionTextureFormat(MTLPixelFormat motionTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetMotionTextureFormat, (nuint)motionTextureFormat);
-    }
-
-    public void SetDiffuseAlbedoTextureFormat(MTLPixelFormat diffuseAlbedoTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDiffuseAlbedoTextureFormat, (nuint)diffuseAlbedoTextureFormat);
-    }
-
-    public void SetSpecularAlbedoTextureFormat(MTLPixelFormat specularAlbedoTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularAlbedoTextureFormat, (nuint)specularAlbedoTextureFormat);
-    }
-
-    public void SetNormalTextureFormat(MTLPixelFormat normalTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetNormalTextureFormat, (nuint)normalTextureFormat);
-    }
-
-    public void SetRoughnessTextureFormat(MTLPixelFormat roughnessTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetRoughnessTextureFormat, (nuint)roughnessTextureFormat);
-    }
-
-    public void SetSpecularHitDistanceTextureFormat(MTLPixelFormat specularHitDistanceTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularHitDistanceTextureFormat, (nuint)specularHitDistanceTextureFormat);
-    }
-
-    public void SetDenoiseStrengthMaskTextureFormat(MTLPixelFormat denoiseStrengthMaskTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDenoiseStrengthMaskTextureFormat, (nuint)denoiseStrengthMaskTextureFormat);
-    }
-
-    public void SetTransparencyOverlayTextureFormat(MTLPixelFormat transparencyOverlayTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetTransparencyOverlayTextureFormat, (nuint)transparencyOverlayTextureFormat);
-    }
-
-    public void SetOutputTextureFormat(MTLPixelFormat outputTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetOutputTextureFormat, (nuint)outputTextureFormat);
-    }
-
-    public void SetInputWidth(nuint inputWidth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetInputWidth, inputWidth);
-    }
-
-    public void SetInputHeight(nuint inputHeight)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetInputHeight, inputHeight);
-    }
-
-    public void SetOutputWidth(nuint outputWidth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetOutputWidth, outputWidth);
-    }
-
-    public void SetOutputHeight(nuint outputHeight)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetOutputHeight, outputHeight);
-    }
-
-    public void SetRequiresSynchronousInitialization(bool requiresSynchronousInitialization)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetRequiresSynchronousInitialization, requiresSynchronousInitialization);
-    }
-
-    public void SetIsAutoExposureEnabled(bool isAutoExposureEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsAutoExposureEnabled, isAutoExposureEnabled);
-    }
-
-    public void SetIsReactiveMaskTextureEnabled(bool isReactiveMaskTextureEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsReactiveMaskTextureEnabled, isReactiveMaskTextureEnabled);
-    }
-
-    public void SetReactiveMaskTextureFormat(MTLPixelFormat reactiveMaskTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetReactiveMaskTextureFormat, (nuint)reactiveMaskTextureFormat);
-    }
-
-    public void SetIsSpecularHitDistanceTextureEnabled(bool isSpecularHitDistanceTextureEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsSpecularHitDistanceTextureEnabled, isSpecularHitDistanceTextureEnabled);
-    }
-
-    public void SetIsDenoiseStrengthMaskTextureEnabled(bool isDenoiseStrengthMaskTextureEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsDenoiseStrengthMaskTextureEnabled, isDenoiseStrengthMaskTextureEnabled);
-    }
-
-    public void SetIsTransparencyOverlayTextureEnabled(bool isTransparencyOverlayTextureEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsTransparencyOverlayTextureEnabled, isTransparencyOverlayTextureEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsTransparencyOverlayTextureEnabled, value);
     }
 
     public MTLFXTemporalDenoisedScaler NewTemporalDenoisedScalerWithDevice(MTLDevice device)
@@ -396,7 +154,7 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4FXTemporalDenoisedScaler NewTemporalDenoisedScalerWithDevice(MTLDevice device, MTL4Compiler compiler)
+    public MTL4FXTemporalDenoisedScaler NewTemporalDenoisedScalerWithDeviceCompiler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.NewTemporalDenoisedScalerWithDevicecompiler, device.NativePtr, compiler.NativePtr);
 
@@ -470,11 +228,7 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector RoughnessTextureFormat = "roughnessTextureFormat";
 
-    public static readonly Selector SetAutoExposureEnabled = "setAutoExposureEnabled:";
-
     public static readonly Selector SetColorTextureFormat = "setColorTextureFormat:";
-
-    public static readonly Selector SetDenoiseStrengthMaskTextureEnabled = "setDenoiseStrengthMaskTextureEnabled:";
 
     public static readonly Selector SetDenoiseStrengthMaskTextureFormat = "setDenoiseStrengthMaskTextureFormat:";
 
@@ -506,8 +260,6 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector SetOutputWidth = "setOutputWidth:";
 
-    public static readonly Selector SetReactiveMaskTextureEnabled = "setReactiveMaskTextureEnabled:";
-
     public static readonly Selector SetReactiveMaskTextureFormat = "setReactiveMaskTextureFormat:";
 
     public static readonly Selector SetRequiresSynchronousInitialization = "setRequiresSynchronousInitialization:";
@@ -516,11 +268,7 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector SetSpecularAlbedoTextureFormat = "setSpecularAlbedoTextureFormat:";
 
-    public static readonly Selector SetSpecularHitDistanceTextureEnabled = "setSpecularHitDistanceTextureEnabled:";
-
     public static readonly Selector SetSpecularHitDistanceTextureFormat = "setSpecularHitDistanceTextureFormat:";
-
-    public static readonly Selector SetTransparencyOverlayTextureEnabled = "setTransparencyOverlayTextureEnabled:";
 
     public static readonly Selector SetTransparencyOverlayTextureFormat = "setTransparencyOverlayTextureFormat:";
 

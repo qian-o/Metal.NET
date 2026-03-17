@@ -26,28 +26,6 @@ public class MTLResourceViewPoolDescriptor(nint nativePtr, NativeObjectOwnership
         get => GetProperty(ref field, MTLResourceViewPoolDescriptorBindings.Label);
         set => SetProperty(ref field, MTLResourceViewPoolDescriptorBindings.SetLabel, value);
     }
-
-    public nuint ResourceViewCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorBindings.ResourceViewCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetResourceViewCount, value);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLResourceViewPoolDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLResourceViewPoolDescriptorBindings.SetLabel, value);
-    }
-
-    public void SetResourceViewCount(nuint resourceViewCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetResourceViewCount, resourceViewCount);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetLabel, label.NativePtr);
-    }
 }
 
 file static class MTLResourceViewPoolDescriptorBindings

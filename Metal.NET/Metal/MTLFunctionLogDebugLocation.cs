@@ -30,26 +30,6 @@ public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership o
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Column);
     }
-
-    public NSString FunctionName
-    {
-        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.FunctionName);
-    }
-
-    public NSURL URL
-    {
-        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.URL);
-    }
-
-    public nuint Line
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Line);
-    }
-
-    public nuint Column
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Column);
-    }
 }
 
 file static class MTLFunctionLogDebugLocationBindings

@@ -20,17 +20,6 @@ public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr, NativeObjec
         get => (MTL4PipelineDataSetSerializerConfiguration)ObjectiveC.MsgSendULong(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.Configuration);
         set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.SetConfiguration, (nuint)value);
     }
-
-    public MTL4PipelineDataSetSerializerConfiguration Configuration
-    {
-        get => (MTL4PipelineDataSetSerializerConfiguration)ObjectiveC.MsgSendULong(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.Configuration);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.SetConfiguration, (nuint)value);
-    }
-
-    public void SetConfiguration(MTL4PipelineDataSetSerializerConfiguration configuration)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.SetConfiguration, (nuint)configuration);
-    }
 }
 
 file static class MTL4PipelineDataSetSerializerDescriptorBindings

@@ -22,22 +22,6 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
         get => (MTL4CounterHeapType)ObjectiveC.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
     }
 
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4CounterHeapBindings.Label);
-        set => SetProperty(ref field, MTL4CounterHeapBindings.SetLabel, value);
-    }
-
-    public MTL4CounterHeapType Type
-    {
-        get => (MTL4CounterHeapType)ObjectiveC.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapBindings.SetLabel, label.NativePtr);
-    }
-
     public NSData ResolveCounterRange(NSRange range)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);

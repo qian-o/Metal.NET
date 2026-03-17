@@ -20,16 +20,6 @@ public class CAMetalDrawable(nint nativePtr, NativeObjectOwnership ownership) : 
     {
         get => GetProperty(ref field, CAMetalDrawableBindings.Layer);
     }
-
-    public MTLTexture Texture
-    {
-        get => GetProperty(ref field, CAMetalDrawableBindings.Texture);
-    }
-
-    public CAMetalLayer Layer
-    {
-        get => GetProperty(ref field, CAMetalDrawableBindings.Layer);
-    }
 }
 
 file static class CAMetalDrawableBindings

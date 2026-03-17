@@ -25,21 +25,6 @@ public class MTLDepthStencilState(nint nativePtr, NativeObjectOwnership ownershi
     {
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLDepthStencilStateBindings.GpuResourceID);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLDepthStencilStateBindings.Label);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLDepthStencilStateBindings.Device);
-    }
-
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLDepthStencilStateBindings.GpuResourceID);
-    }
 }
 
 file static class MTLDepthStencilStateBindings

@@ -32,39 +32,6 @@ public class MTLAttributeDescriptor(nint nativePtr, NativeObjectOwnership owners
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.BufferIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetBufferIndex, value);
     }
-
-    public MTLAttributeFormat Format
-    {
-        get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAttributeDescriptorBindings.Format);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetFormat, (nuint)value);
-    }
-
-    public nuint Offset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.Offset);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetOffset, value);
-    }
-
-    public nuint BufferIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.BufferIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetBufferIndex, value);
-    }
-
-    public void SetFormat(MTLAttributeFormat format)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetFormat, (nuint)format);
-    }
-
-    public void SetOffset(nuint offset)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetOffset, offset);
-    }
-
-    public void SetBufferIndex(nuint bufferIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetBufferIndex, bufferIndex);
-    }
 }
 
 file static class MTLAttributeDescriptorBindings

@@ -20,11 +20,6 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObject
         get => GetProperty(ref field, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
     }
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => GetProperty(ref field, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
-    }
-
     public static MTLAccelerationStructurePassDescriptor AccelerationStructurePassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);

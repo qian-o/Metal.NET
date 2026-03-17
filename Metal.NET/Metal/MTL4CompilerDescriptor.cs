@@ -26,28 +26,6 @@ public class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership owners
         get => GetProperty(ref field, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
         set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4CompilerDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetLabel, value);
-    }
-
-    public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
-    {
-        get => GetProperty(ref field, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
-        set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CompilerDescriptorBindings.SetLabel, label.NativePtr);
-    }
-
-    public void SetPipelineDataSetSerializer(MTL4PipelineDataSetSerializer pipelineDataSetSerializer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, pipelineDataSetSerializer.NativePtr);
-    }
 }
 
 file static class MTL4CompilerDescriptorBindings

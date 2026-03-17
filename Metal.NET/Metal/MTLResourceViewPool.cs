@@ -31,27 +31,7 @@ public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership
         get => GetProperty(ref field, MTLResourceViewPoolBindings.Label);
     }
 
-    public MTLResourceID BaseResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.BaseResourceID);
-    }
-
-    public nuint ResourceViewCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceViewPoolBindings.ResourceViewCount);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLResourceViewPoolBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLResourceViewPoolBindings.Label);
-    }
-
-    public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
+    public MTLResourceID CopyResourceViewsFromPoolSourceRangeDestinationIndex(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
     {
         return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.CopyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, destinationIndex);
     }

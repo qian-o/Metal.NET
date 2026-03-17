@@ -109,170 +109,6 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
-    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.ColorAttachments);
-    }
-
-    public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
-    {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.DepthAttachment);
-        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetDepthAttachment, value);
-    }
-
-    public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
-    {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.StencilAttachment);
-        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetStencilAttachment, value);
-    }
-
-    public MTLBuffer VisibilityResultBuffer
-    {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.VisibilityResultBuffer);
-        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
-    }
-
-    public nuint RenderTargetArrayLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetArrayLength);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetArrayLength, value);
-    }
-
-    public nuint ImageblockSampleLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.ImageblockSampleLength);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetImageblockSampleLength, value);
-    }
-
-    public nuint ThreadgroupMemoryLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.ThreadgroupMemoryLength);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetThreadgroupMemoryLength, value);
-    }
-
-    public nuint TileWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.TileWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileWidth, value);
-    }
-
-    public nuint TileHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.TileHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileHeight, value);
-    }
-
-    public nuint DefaultRasterSampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.DefaultRasterSampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDefaultRasterSampleCount, value);
-    }
-
-    public nuint RenderTargetWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetWidth, value);
-    }
-
-    public nuint RenderTargetHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.RenderTargetHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetHeight, value);
-    }
-
-    public MTLRasterizationRateMap RasterizationRateMap
-    {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.RasterizationRateMap);
-        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, value);
-    }
-
-    public MTLRenderPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.SampleBufferAttachments);
-    }
-
-    public MTLVisibilityResultType VisibilityResultType
-    {
-        get => (MTLVisibilityResultType)ObjectiveC.MsgSendLong(NativePtr, MTLRenderPassDescriptorBindings.VisibilityResultType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultType, (nint)value);
-    }
-
-    public Bool8 SupportColorAttachmentMapping
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPassDescriptorBindings.SupportColorAttachmentMapping);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
-    }
-
-    public void SetDepthAttachment(MTLRenderPassDepthAttachmentDescriptor depthAttachment)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDepthAttachment, depthAttachment.NativePtr);
-    }
-
-    public void SetStencilAttachment(MTLRenderPassStencilAttachmentDescriptor stencilAttachment)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetStencilAttachment, stencilAttachment.NativePtr);
-    }
-
-    public void SetVisibilityResultBuffer(MTLBuffer visibilityResultBuffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, visibilityResultBuffer.NativePtr);
-    }
-
-    public void SetRenderTargetArrayLength(nuint renderTargetArrayLength)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetArrayLength, renderTargetArrayLength);
-    }
-
-    public void SetImageblockSampleLength(nuint imageblockSampleLength)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetImageblockSampleLength, imageblockSampleLength);
-    }
-
-    public void SetThreadgroupMemoryLength(nuint threadgroupMemoryLength)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetThreadgroupMemoryLength, threadgroupMemoryLength);
-    }
-
-    public void SetTileWidth(nuint tileWidth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileWidth, tileWidth);
-    }
-
-    public void SetTileHeight(nuint tileHeight)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileHeight, tileHeight);
-    }
-
-    public void SetDefaultRasterSampleCount(nuint defaultRasterSampleCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDefaultRasterSampleCount, defaultRasterSampleCount);
-    }
-
-    public void SetRenderTargetWidth(nuint renderTargetWidth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetWidth, renderTargetWidth);
-    }
-
-    public void SetRenderTargetHeight(nuint renderTargetHeight)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetHeight, renderTargetHeight);
-    }
-
-    public void SetRasterizationRateMap(MTLRasterizationRateMap rasterizationRateMap)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, rasterizationRateMap.NativePtr);
-    }
-
-    public void SetVisibilityResultType(MTLVisibilityResultType visibilityResultType)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultType, (nint)visibilityResultType);
-    }
-
-    public void SetSupportColorAttachmentMapping(bool supportColorAttachmentMapping)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, supportColorAttachmentMapping);
-    }
-
     public static MTLRenderPassDescriptor RenderPassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
@@ -280,12 +116,12 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
+    public void SetSamplePositionsCount(MTLSamplePosition positions, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSamplePositions, positions, count);
     }
 
-    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
+    public nuint GetSamplePositionsCount(MTLSamplePosition positions, nuint count)
     {
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositions, positions, count);
     }

@@ -25,21 +25,6 @@ public class MTLTensorBinding(nint nativePtr, NativeObjectOwnership ownership) :
     {
         get => GetProperty(ref field, MTLTensorBindingBindings.Dimensions);
     }
-
-    public MTLTensorDataType TensorDataType
-    {
-        get => (MTLTensorDataType)ObjectiveC.MsgSendLong(NativePtr, MTLTensorBindingBindings.TensorDataType);
-    }
-
-    public MTLDataType IndexType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindingBindings.IndexType);
-    }
-
-    public MTLTensorExtents Dimensions
-    {
-        get => GetProperty(ref field, MTLTensorBindingBindings.Dimensions);
-    }
 }
 
 file static class MTLTensorBindingBindings

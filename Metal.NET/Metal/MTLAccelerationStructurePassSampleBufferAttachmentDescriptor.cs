@@ -32,39 +32,6 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint n
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
-
-    public MTLCounterSampleBuffer SampleBuffer
-    {
-        get => GetProperty(ref field, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
-    }
-
-    public nuint StartOfEncoderSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
-    }
-
-    public nuint EndOfEncoderSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
-    }
-
-    public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, sampleBuffer.NativePtr);
-    }
-
-    public void SetStartOfEncoderSampleIndex(nuint startOfEncoderSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, startOfEncoderSampleIndex);
-    }
-
-    public void SetEndOfEncoderSampleIndex(nuint endOfEncoderSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, endOfEncoderSampleIndex);
-    }
 }
 
 file static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings

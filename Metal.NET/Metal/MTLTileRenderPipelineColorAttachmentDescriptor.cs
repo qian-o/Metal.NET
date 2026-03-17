@@ -20,17 +20,6 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr, Nati
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.PixelFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)value);
     }
-
-    public MTLPixelFormat PixelFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.PixelFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)value);
-    }
-
-    public void SetPixelFormat(MTLPixelFormat pixelFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)pixelFormat);
-    }
 }
 
 file static class MTLTileRenderPipelineColorAttachmentDescriptorBindings

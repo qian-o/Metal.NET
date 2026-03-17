@@ -38,50 +38,6 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr, NativeObjectOwners
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.SampleCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetSampleCount, value);
     }
-
-    public MTLCounterSet CounterSet
-    {
-        get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.CounterSet);
-        set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetLabel, value);
-    }
-
-    public MTLStorageMode StorageMode
-    {
-        get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLCounterSampleBufferDescriptorBindings.StorageMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetStorageMode, (nuint)value);
-    }
-
-    public nuint SampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.SampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetSampleCount, value);
-    }
-
-    public void SetCounterSet(MTLCounterSet counterSet)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, counterSet.NativePtr);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetLabel, label.NativePtr);
-    }
-
-    public void SetStorageMode(MTLStorageMode storageMode)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetStorageMode, (nuint)storageMode);
-    }
-
-    public void SetSampleCount(nuint sampleCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetSampleCount, sampleCount);
-    }
 }
 
 file static class MTLCounterSampleBufferDescriptorBindings

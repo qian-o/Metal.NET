@@ -20,16 +20,6 @@ public class MTLThreadgroupBinding(nint nativePtr, NativeObjectOwnership ownersh
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryDataSize);
     }
-
-    public nuint ThreadgroupMemoryAlignment
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryAlignment);
-    }
-
-    public nuint ThreadgroupMemoryDataSize
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryDataSize);
-    }
 }
 
 file static class MTLThreadgroupBindingBindings

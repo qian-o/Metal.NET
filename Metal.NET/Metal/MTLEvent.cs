@@ -21,22 +21,6 @@ public class MTLEvent(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
         get => GetProperty(ref field, MTLEventBindings.Label);
         set => SetProperty(ref field, MTLEventBindings.SetLabel, value);
     }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLEventBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLEventBindings.Label);
-        set => SetProperty(ref field, MTLEventBindings.SetLabel, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLEventBindings.SetLabel, label.NativePtr);
-    }
 }
 
 file static class MTLEventBindings

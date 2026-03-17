@@ -32,39 +32,6 @@ public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership 
         get => (MTL4BinaryFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorBindings.Options);
         set => ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.Name);
-        set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetName, value);
-    }
-
-    public MTL4FunctionDescriptor FunctionDescriptor
-    {
-        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.FunctionDescriptor);
-        set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, value);
-    }
-
-    public MTL4BinaryFunctionOptions Options
-    {
-        get => (MTL4BinaryFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorBindings.Options);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)value);
-    }
-
-    public void SetName(NSString name)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetName, name.NativePtr);
-    }
-
-    public void SetFunctionDescriptor(MTL4FunctionDescriptor functionDescriptor)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, functionDescriptor.NativePtr);
-    }
-
-    public void SetOptions(MTL4BinaryFunctionOptions options)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)options);
-    }
 }
 
 file static class MTL4BinaryFunctionDescriptorBindings

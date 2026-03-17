@@ -75,111 +75,6 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
         set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputHeight, value);
     }
 
-    public MTLPixelFormat ColorTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.ColorTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetColorTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat OutputTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.OutputTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat DepthTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.DepthTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetDepthTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat MotionTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.MotionTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetMotionTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat UiTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.UiTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetUiTextureFormat, (nuint)value);
-    }
-
-    public MTLFXFrameInterpolatableScaler Scaler
-    {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.Scaler);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value);
-    }
-
-    public nuint InputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.InputWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetInputWidth, value);
-    }
-
-    public nuint InputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.InputHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetInputHeight, value);
-    }
-
-    public nuint OutputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.OutputWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputWidth, value);
-    }
-
-    public nuint OutputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.OutputHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputHeight, value);
-    }
-
-    public void SetColorTextureFormat(MTLPixelFormat colorTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetColorTextureFormat, (nuint)colorTextureFormat);
-    }
-
-    public void SetOutputTextureFormat(MTLPixelFormat outputTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputTextureFormat, (nuint)outputTextureFormat);
-    }
-
-    public void SetDepthTextureFormat(MTLPixelFormat depthTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetDepthTextureFormat, (nuint)depthTextureFormat);
-    }
-
-    public void SetMotionTextureFormat(MTLPixelFormat motionTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetMotionTextureFormat, (nuint)motionTextureFormat);
-    }
-
-    public void SetScaler(MTLFXFrameInterpolatableScaler scaler)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, scaler.NativePtr);
-    }
-
-    public void SetInputWidth(nuint inputWidth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetInputWidth, inputWidth);
-    }
-
-    public void SetInputHeight(nuint inputHeight)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetInputHeight, inputHeight);
-    }
-
-    public void SetOutputWidth(nuint outputWidth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputWidth, outputWidth);
-    }
-
-    public void SetOutputHeight(nuint outputHeight)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputHeight, outputHeight);
-    }
-
     public MTLFXFrameInterpolator NewFrameInterpolatorWithDevice(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevice, device.NativePtr);
@@ -187,7 +82,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4FXFrameInterpolator NewFrameInterpolatorWithDevice(MTLDevice device, MTL4Compiler compiler)
+    public MTL4FXFrameInterpolator NewFrameInterpolatorWithDeviceCompiler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevicecompiler, device.NativePtr, compiler.NativePtr);
 
@@ -202,11 +97,6 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
     public static bool SupportsDevice(MTLDevice device)
     {
         return ObjectiveC.MsgSendBool(MTLFXFrameInterpolatorDescriptorBindings.Class, MTLFXFrameInterpolatorDescriptorBindings.SupportsDevice, device.NativePtr);
-    }
-
-    public void SetUITextureFormat(MTLPixelFormat uiTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetUITextureFormat, (nuint)uiTextureFormat);
     }
 }
 
@@ -255,8 +145,6 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
     public static readonly Selector SetScaler = "setScaler:";
 
     public static readonly Selector SetUiTextureFormat = "setUITextureFormat:";
-
-    public static readonly Selector SetUITextureFormat = "setUITextureFormat:";
 
     public static readonly Selector SupportsDevice = "supportsDevice:";
 

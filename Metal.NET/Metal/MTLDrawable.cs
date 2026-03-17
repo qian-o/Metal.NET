@@ -21,16 +21,6 @@ public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);
     }
 
-    public double PresentedTime
-    {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTLDrawableBindings.PresentedTime);
-    }
-
-    public nuint DrawableID
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);
-    }
-
     public void Present()
     {
         ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.Present);

@@ -55,26 +55,6 @@ public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTL
     {
         get => GetProperty(ref field, MTLArrayTypeBindings.ElementTensorReferenceType);
     }
-
-    public MTLDataType ElementType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLArrayTypeBindings.ElementType);
-    }
-
-    public nuint ArrayLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArrayLength);
-    }
-
-    public nuint Stride
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.Stride);
-    }
-
-    public nuint ArgumentIndexStride
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArgumentIndexStride);
-    }
 }
 
 file static class MTLArrayTypeBindings

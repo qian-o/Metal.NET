@@ -21,17 +21,6 @@ public class MTLIntersectionFunctionTableDescriptor(nint nativePtr, NativeObject
         set => ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.SetFunctionCount, value);
     }
 
-    public nuint FunctionCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.FunctionCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.SetFunctionCount, value);
-    }
-
-    public void SetFunctionCount(nuint functionCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.SetFunctionCount, functionCount);
-    }
-
     public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);

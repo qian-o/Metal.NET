@@ -27,28 +27,6 @@ public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownersh
         set => ObjectiveC.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetOffset, value);
     }
 
-    public MTLBuffer Buffer
-    {
-        get => GetProperty(ref field, MTLMotionKeyframeDataBindings.Buffer);
-        set => SetProperty(ref field, MTLMotionKeyframeDataBindings.SetBuffer, value);
-    }
-
-    public nuint Offset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataBindings.Offset);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetOffset, value);
-    }
-
-    public void SetBuffer(MTLBuffer buffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetBuffer, buffer.NativePtr);
-    }
-
-    public void SetOffset(nuint offset)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetOffset, offset);
-    }
-
     public static nint Data()
     {
         return ObjectiveC.MsgSendNInt(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);

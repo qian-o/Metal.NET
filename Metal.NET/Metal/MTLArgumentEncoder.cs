@@ -32,53 +32,27 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.Alignment);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLArgumentEncoderBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLArgumentEncoderBindings.Label);
-        set => SetProperty(ref field, MTLArgumentEncoderBindings.SetLabel, value);
-    }
-
-    public nuint EncodedLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.EncodedLength);
-    }
-
-    public nuint Alignment
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.Alignment);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetLabel, label.NativePtr);
-    }
-
-    public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint offset)
+    public void SetArgumentBufferOffset(MTLBuffer argumentBuffer, nuint offset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBuffer, argumentBuffer.NativePtr, offset);
     }
 
-    public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint startOffset, nuint arrayElement)
+    public void SetArgumentBufferStartOffsetArrayElement(MTLBuffer argumentBuffer, nuint startOffset, nuint arrayElement)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBufferstartOffsetarrayElement, argumentBuffer.NativePtr, startOffset, arrayElement);
     }
 
-    public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
+    public void SetBufferOffsetAtIndex(MTLBuffer buffer, nuint offset, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetBuffer, buffer.NativePtr, offset, index);
     }
 
-    public void SetTexture(MTLTexture texture, nuint index)
+    public void SetTextureAtIndex(MTLTexture texture, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetTexture, texture.NativePtr, index);
     }
 
-    public void SetSamplerState(MTLSamplerState sampler, nuint index)
+    public void SetSamplerStateAtIndex(MTLSamplerState sampler, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetSamplerState, sampler.NativePtr, index);
     }
@@ -88,22 +62,22 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
         return ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.ConstantDataAtIndex, index);
     }
 
-    public void SetRenderPipelineState(MTLRenderPipelineState pipeline, nuint index)
+    public void SetRenderPipelineStateAtIndex(MTLRenderPipelineState pipeline, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetRenderPipelineState, pipeline.NativePtr, index);
     }
 
-    public void SetComputePipelineState(MTLComputePipelineState pipeline, nuint index)
+    public void SetComputePipelineStateAtIndex(MTLComputePipelineState pipeline, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetComputePipelineState, pipeline.NativePtr, index);
     }
 
-    public void SetIndirectCommandBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint index)
+    public void SetIndirectCommandBufferAtIndex(MTLIndirectCommandBuffer indirectCommandBuffer, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIndirectCommandBuffer, indirectCommandBuffer.NativePtr, index);
     }
 
-    public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)
+    public void SetAccelerationStructureAtIndex(MTLAccelerationStructure accelerationStructure, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetAccelerationStructure, accelerationStructure.NativePtr, index);
     }
@@ -115,17 +89,17 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint index)
+    public void SetVisibleFunctionTableAtIndex(MTLVisibleFunctionTable visibleFunctionTable, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetVisibleFunctionTable, visibleFunctionTable.NativePtr, index);
     }
 
-    public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint index)
+    public void SetIntersectionFunctionTableAtIndex(MTLIntersectionFunctionTable intersectionFunctionTable, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIntersectionFunctionTable, intersectionFunctionTable.NativePtr, index);
     }
 
-    public void SetDepthStencilState(MTLDepthStencilState depthStencilState, nuint index)
+    public void SetDepthStencilStateAtIndex(MTLDepthStencilState depthStencilState, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetDepthStencilState, depthStencilState.NativePtr, index);
     }

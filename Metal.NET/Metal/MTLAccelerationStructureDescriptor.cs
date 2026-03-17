@@ -20,17 +20,6 @@ public class MTLAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwne
         get => (MTLAccelerationStructureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureDescriptorBindings.Usage);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
     }
-
-    public MTLAccelerationStructureUsage Usage
-    {
-        get => (MTLAccelerationStructureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureDescriptorBindings.Usage);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
-    }
-
-    public void SetUsage(MTLAccelerationStructureUsage usage)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureDescriptorBindings.SetUsage, (nuint)usage);
-    }
 }
 
 file static class MTLAccelerationStructureDescriptorBindings

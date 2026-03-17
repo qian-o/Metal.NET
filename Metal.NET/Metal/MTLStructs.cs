@@ -307,6 +307,40 @@ public struct MTL4BufferRange(nuint bufferAddress, ulong length)
 }
 
 [StructLayout(LayoutKind.Sequential)]
+public struct MTLPackedFloat3(float x, float y, float z)
+{
+    public float X = x;
+
+    public float Y = y;
+
+    public float Z = z;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLPackedFloatQuaternion(float x, float y, float z, float w)
+{
+    public float X = x;
+
+    public float Y = y;
+
+    public float Z = z;
+
+    public float W = w;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLPackedFloat4x3(MTLPackedFloat3 columns0, MTLPackedFloat3 columns1, MTLPackedFloat3 columns2, MTLPackedFloat3 columns3)
+{
+    public MTLPackedFloat3 Columns0 = columns0;
+
+    public MTLPackedFloat3 Columns1 = columns1;
+
+    public MTLPackedFloat3 Columns2 = columns2;
+
+    public MTLPackedFloat3 Columns3 = columns3;
+}
+
+[StructLayout(LayoutKind.Sequential)]
 public struct MTLAxisAlignedBoundingBox(MTLPackedFloat3 min, MTLPackedFloat3 max)
 {
     public MTLPackedFloat3 Min = min;

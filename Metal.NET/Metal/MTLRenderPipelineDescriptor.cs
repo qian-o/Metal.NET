@@ -58,19 +58,19 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
     public Bool8 IsAlphaToCoverageEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsAlphaToCoverageEnabled, value);
     }
 
     public Bool8 IsAlphaToOneEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsAlphaToOneEnabled, value);
     }
 
     public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsRasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
     }
 
     public nuint MaxVertexAmplificationCount
@@ -117,7 +117,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
     public Bool8 IsTessellationFactorScaleEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsTessellationFactorScaleEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorScaleEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsTessellationFactorScaleEnabled, value);
     }
 
     public MTLTessellationFactorFormat TessellationFactorFormat
@@ -200,333 +200,6 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
     {
         get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLRenderPipelineDescriptorBindings.ShaderValidation);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetShaderValidation, (nint)value);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetLabel, value);
-    }
-
-    public MTLFunction VertexFunction
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexFunction);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexFunction, value);
-    }
-
-    public MTLFunction FragmentFunction
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentFunction);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentFunction, value);
-    }
-
-    public MTLVertexDescriptor VertexDescriptor
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexDescriptor);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexDescriptor, value);
-    }
-
-    public nuint SampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.SampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSampleCount, value);
-    }
-
-    public nuint RasterSampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.RasterSampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
-    }
-
-    public Bool8 IsAlphaToCoverageEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
-    }
-
-    public Bool8 IsAlphaToOneEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
-    }
-
-    public Bool8 IsRasterizationEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsRasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
-    }
-
-    public nuint MaxVertexAmplificationCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.MaxVertexAmplificationCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
-    }
-
-    public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.ColorAttachments);
-    }
-
-    public MTLPixelFormat DepthAttachmentPixelFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.DepthAttachmentPixelFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetDepthAttachmentPixelFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat StencilAttachmentPixelFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.StencilAttachmentPixelFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetStencilAttachmentPixelFormat, (nuint)value);
-    }
-
-    public MTLPrimitiveTopologyClass InputPrimitiveTopology
-    {
-        get => (MTLPrimitiveTopologyClass)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.InputPrimitiveTopology);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetInputPrimitiveTopology, (nuint)value);
-    }
-
-    public MTLTessellationPartitionMode TessellationPartitionMode
-    {
-        get => (MTLTessellationPartitionMode)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationPartitionMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationPartitionMode, (nuint)value);
-    }
-
-    public nuint MaxTessellationFactor
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.MaxTessellationFactor);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetMaxTessellationFactor, value);
-    }
-
-    public Bool8 IsTessellationFactorScaleEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsTessellationFactorScaleEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorScaleEnabled, value);
-    }
-
-    public MTLTessellationFactorFormat TessellationFactorFormat
-    {
-        get => (MTLTessellationFactorFormat)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationFactorFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorFormat, (nuint)value);
-    }
-
-    public MTLTessellationControlPointIndexType TessellationControlPointIndexType
-    {
-        get => (MTLTessellationControlPointIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationControlPointIndexType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationControlPointIndexType, (nuint)value);
-    }
-
-    public MTLTessellationFactorStepFunction TessellationFactorStepFunction
-    {
-        get => (MTLTessellationFactorStepFunction)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationFactorStepFunction);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorStepFunction, (nuint)value);
-    }
-
-    public MTLWinding TessellationOutputWindingOrder
-    {
-        get => (MTLWinding)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationOutputWindingOrder);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationOutputWindingOrder, (nuint)value);
-    }
-
-    public MTLPipelineBufferDescriptorArray VertexBuffers
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexBuffers);
-    }
-
-    public MTLPipelineBufferDescriptorArray FragmentBuffers
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentBuffers);
-    }
-
-    public Bool8 SupportIndirectCommandBuffers
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
-    }
-
-    public MTLLinkedFunctions VertexLinkedFunctions
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexLinkedFunctions);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value);
-    }
-
-    public MTLLinkedFunctions FragmentLinkedFunctions
-    {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
-    }
-
-    public Bool8 SupportAddingVertexBinaryFunctions
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.SupportAddingVertexBinaryFunctions);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportAddingVertexBinaryFunctions, value);
-    }
-
-    public Bool8 SupportAddingFragmentBinaryFunctions
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.SupportAddingFragmentBinaryFunctions);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportAddingFragmentBinaryFunctions, value);
-    }
-
-    public nuint MaxVertexCallStackDepth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.MaxVertexCallStackDepth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetMaxVertexCallStackDepth, value);
-    }
-
-    public nuint MaxFragmentCallStackDepth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.MaxFragmentCallStackDepth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetMaxFragmentCallStackDepth, value);
-    }
-
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLRenderPipelineDescriptorBindings.ShaderValidation);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetShaderValidation, (nint)value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetLabel, label.NativePtr);
-    }
-
-    public void SetVertexFunction(MTLFunction vertexFunction)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexFunction, vertexFunction.NativePtr);
-    }
-
-    public void SetFragmentFunction(MTLFunction fragmentFunction)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentFunction, fragmentFunction.NativePtr);
-    }
-
-    public void SetVertexDescriptor(MTLVertexDescriptor vertexDescriptor)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexDescriptor, vertexDescriptor.NativePtr);
-    }
-
-    /// <summary>
-    /// Deprecated: Use rasterSampleCount instead
-    /// </summary>
-    [Obsolete("Use rasterSampleCount instead")]
-    public void SetSampleCount(nuint sampleCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSampleCount, sampleCount);
-    }
-
-    public void SetRasterSampleCount(nuint rasterSampleCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterSampleCount, rasterSampleCount);
-    }
-
-    public void SetIsAlphaToCoverageEnabled(bool isAlphaToCoverageEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsAlphaToCoverageEnabled, isAlphaToCoverageEnabled);
-    }
-
-    public void SetIsAlphaToOneEnabled(bool isAlphaToOneEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsAlphaToOneEnabled, isAlphaToOneEnabled);
-    }
-
-    public void SetIsRasterizationEnabled(bool isRasterizationEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, isRasterizationEnabled);
-    }
-
-    public void SetMaxVertexAmplificationCount(nuint maxVertexAmplificationCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, maxVertexAmplificationCount);
-    }
-
-    public void SetDepthAttachmentPixelFormat(MTLPixelFormat depthAttachmentPixelFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetDepthAttachmentPixelFormat, (nuint)depthAttachmentPixelFormat);
-    }
-
-    public void SetStencilAttachmentPixelFormat(MTLPixelFormat stencilAttachmentPixelFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetStencilAttachmentPixelFormat, (nuint)stencilAttachmentPixelFormat);
-    }
-
-    public void SetInputPrimitiveTopology(MTLPrimitiveTopologyClass inputPrimitiveTopology)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetInputPrimitiveTopology, (nuint)inputPrimitiveTopology);
-    }
-
-    public void SetTessellationPartitionMode(MTLTessellationPartitionMode tessellationPartitionMode)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationPartitionMode, (nuint)tessellationPartitionMode);
-    }
-
-    public void SetMaxTessellationFactor(nuint maxTessellationFactor)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetMaxTessellationFactor, maxTessellationFactor);
-    }
-
-    public void SetIsTessellationFactorScaleEnabled(bool isTessellationFactorScaleEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsTessellationFactorScaleEnabled, isTessellationFactorScaleEnabled);
-    }
-
-    public void SetTessellationFactorFormat(MTLTessellationFactorFormat tessellationFactorFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorFormat, (nuint)tessellationFactorFormat);
-    }
-
-    public void SetTessellationControlPointIndexType(MTLTessellationControlPointIndexType tessellationControlPointIndexType)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationControlPointIndexType, (nuint)tessellationControlPointIndexType);
-    }
-
-    public void SetTessellationFactorStepFunction(MTLTessellationFactorStepFunction tessellationFactorStepFunction)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorStepFunction, (nuint)tessellationFactorStepFunction);
-    }
-
-    public void SetTessellationOutputWindingOrder(MTLWinding tessellationOutputWindingOrder)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationOutputWindingOrder, (nuint)tessellationOutputWindingOrder);
-    }
-
-    public void SetSupportIndirectCommandBuffers(bool supportIndirectCommandBuffers)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, supportIndirectCommandBuffers);
-    }
-
-    public void SetVertexLinkedFunctions(MTLLinkedFunctions vertexLinkedFunctions)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, vertexLinkedFunctions.NativePtr);
-    }
-
-    public void SetFragmentLinkedFunctions(MTLLinkedFunctions fragmentLinkedFunctions)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, fragmentLinkedFunctions.NativePtr);
-    }
-
-    public void SetSupportAddingVertexBinaryFunctions(bool supportAddingVertexBinaryFunctions)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportAddingVertexBinaryFunctions, supportAddingVertexBinaryFunctions);
-    }
-
-    public void SetSupportAddingFragmentBinaryFunctions(bool supportAddingFragmentBinaryFunctions)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportAddingFragmentBinaryFunctions, supportAddingFragmentBinaryFunctions);
-    }
-
-    public void SetMaxVertexCallStackDepth(nuint maxVertexCallStackDepth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetMaxVertexCallStackDepth, maxVertexCallStackDepth);
-    }
-
-    public void SetMaxFragmentCallStackDepth(nuint maxFragmentCallStackDepth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetMaxFragmentCallStackDepth, maxFragmentCallStackDepth);
-    }
-
-    public void SetShaderValidation(MTLShaderValidation shaderValidation)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetShaderValidation, (nint)shaderValidation);
     }
 
     public void Reset()
@@ -575,10 +248,6 @@ file static class MTLRenderPipelineDescriptorBindings
 
     public static readonly Selector SampleCount = "sampleCount";
 
-    public static readonly Selector SetAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
-
-    public static readonly Selector SetAlphaToOneEnabled = "setAlphaToOneEnabled:";
-
     public static readonly Selector SetDepthAttachmentPixelFormat = "setDepthAttachmentPixelFormat:";
 
     public static readonly Selector SetFragmentFunction = "setFragmentFunction:";
@@ -605,8 +274,6 @@ file static class MTLRenderPipelineDescriptorBindings
 
     public static readonly Selector SetMaxVertexCallStackDepth = "setMaxVertexCallStackDepth:";
 
-    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
-
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 
     public static readonly Selector SetSampleCount = "setSampleCount:";
@@ -624,8 +291,6 @@ file static class MTLRenderPipelineDescriptorBindings
     public static readonly Selector SetTessellationControlPointIndexType = "setTessellationControlPointIndexType:";
 
     public static readonly Selector SetTessellationFactorFormat = "setTessellationFactorFormat:";
-
-    public static readonly Selector SetTessellationFactorScaleEnabled = "setTessellationFactorScaleEnabled:";
 
     public static readonly Selector SetTessellationFactorStepFunction = "setTessellationFactorStepFunction:";
 

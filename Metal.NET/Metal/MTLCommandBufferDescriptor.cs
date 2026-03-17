@@ -32,39 +32,6 @@ public class MTLCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ow
         get => GetProperty(ref field, MTLCommandBufferDescriptorBindings.LogState);
         set => SetProperty(ref field, MTLCommandBufferDescriptorBindings.SetLogState, value);
     }
-
-    public Bool8 RetainedReferences
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLCommandBufferDescriptorBindings.RetainedReferences);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetRetainedReferences, value);
-    }
-
-    public MTLCommandBufferErrorOption ErrorOptions
-    {
-        get => (MTLCommandBufferErrorOption)ObjectiveC.MsgSendULong(NativePtr, MTLCommandBufferDescriptorBindings.ErrorOptions);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetErrorOptions, (nuint)value);
-    }
-
-    public MTLLogState LogState
-    {
-        get => GetProperty(ref field, MTLCommandBufferDescriptorBindings.LogState);
-        set => SetProperty(ref field, MTLCommandBufferDescriptorBindings.SetLogState, value);
-    }
-
-    public void SetRetainedReferences(bool retainedReferences)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetRetainedReferences, retainedReferences);
-    }
-
-    public void SetErrorOptions(MTLCommandBufferErrorOption errorOptions)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetErrorOptions, (nuint)errorOptions);
-    }
-
-    public void SetLogState(MTLLogState logState)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetLogState, logState.NativePtr);
-    }
 }
 
 file static class MTLCommandBufferDescriptorBindings

@@ -26,28 +26,6 @@ public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, NativeObje
         get => (MTLMultisampleStencilResolveFilter)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.StencilResolveFilter);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetStencilResolveFilter, (nuint)value);
     }
-
-    public uint ClearStencil
-    {
-        get => ObjectiveC.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.ClearStencil);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetClearStencil, value);
-    }
-
-    public MTLMultisampleStencilResolveFilter StencilResolveFilter
-    {
-        get => (MTLMultisampleStencilResolveFilter)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.StencilResolveFilter);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetStencilResolveFilter, (nuint)value);
-    }
-
-    public void SetClearStencil(uint clearStencil)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetClearStencil, clearStencil);
-    }
-
-    public void SetStencilResolveFilter(MTLMultisampleStencilResolveFilter stencilResolveFilter)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetStencilResolveFilter, (nuint)stencilResolveFilter);
-    }
 }
 
 file static class MTLRenderPassStencilAttachmentDescriptorBindings

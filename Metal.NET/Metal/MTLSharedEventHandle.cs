@@ -15,11 +15,6 @@ public class MTLSharedEventHandle(nint nativePtr, NativeObjectOwnership ownershi
     {
         get => GetProperty(ref field, MTLSharedEventHandleBindings.Label);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLSharedEventHandleBindings.Label);
-    }
 }
 
 file static class MTLSharedEventHandleBindings

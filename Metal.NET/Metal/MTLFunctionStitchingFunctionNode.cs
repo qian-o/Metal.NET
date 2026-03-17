@@ -16,17 +16,6 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwners
         get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
-        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
-    }
-
-    public void SetName(NSString name)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingFunctionNodeBindings.SetName, name.NativePtr);
-    }
 }
 
 file static class MTLFunctionStitchingFunctionNodeBindings

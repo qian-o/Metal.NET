@@ -26,22 +26,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         get => GetProperty(ref field, MTL4CompilerBindings.PipelineDataSetSerializer);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTL4CompilerBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4CompilerBindings.Label);
-    }
-
-    public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
-    {
-        get => GetProperty(ref field, MTL4CompilerBindings.PipelineDataSetSerializer);
-    }
-
-    public MTLLibrary NewLibraryWithDescriptor(MTL4LibraryDescriptor descriptor, out NSError error)
+    public MTLLibrary NewLibraryWithDescriptorError(MTL4LibraryDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewLibraryWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -50,7 +35,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLDynamicLibrary NewDynamicLibrary(MTLLibrary library, out NSError error)
+    public MTLDynamicLibrary NewDynamicLibraryError(MTLLibrary library, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewDynamicLibrary, library.NativePtr, out nint errorPtr);
 
@@ -59,7 +44,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLDynamicLibrary NewDynamicLibraryWithURL(NSURL url, out NSError error)
+    public MTLDynamicLibrary NewDynamicLibraryWithURLError(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewDynamicLibraryWithURL, url.NativePtr, out nint errorPtr);
 
@@ -68,7 +53,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLComputePipelineState NewComputePipelineStateWithDescriptor(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTLComputePipelineState NewComputePipelineStateWithDescriptorCompilerTaskOptionsError(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewComputePipelineStateWithDescriptor, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
@@ -77,7 +62,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLComputePipelineState NewComputePipelineStateWithDescriptor(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTLComputePipelineState NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsError(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
@@ -86,7 +71,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateWithDescriptor(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineStateWithDescriptorCompilerTaskOptionsError(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateWithDescriptor, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
@@ -95,7 +80,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateWithDescriptor(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsError(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
@@ -104,7 +89,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateBySpecializationWithDescriptor(MTL4PipelineDescriptor descriptor, MTLRenderPipelineState pipeline, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineStateBySpecializationWithDescriptorPipelineError(MTL4PipelineDescriptor descriptor, MTLRenderPipelineState pipeline, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateBySpecializationWithDescriptor, descriptor.NativePtr, pipeline.NativePtr, out nint errorPtr);
 
@@ -113,7 +98,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4BinaryFunction NewBinaryFunctionWithDescriptor(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTL4BinaryFunction NewBinaryFunctionWithDescriptorCompilerTaskOptionsError(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewBinaryFunctionWithDescriptor, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
@@ -122,70 +107,70 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewLibraryWithDescriptor(MTL4LibraryDescriptor descriptor, MTLNewLibraryCompletionHandler completionHandler)
+    public MTL4CompilerTask NewLibraryWithDescriptorCompletionHandler(MTL4LibraryDescriptor descriptor, MTLNewLibraryCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewLibraryWithDescriptorcompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewDynamicLibrary(MTLLibrary library, MTLNewDynamicLibraryCompletionHandler completionHandler)
+    public MTL4CompilerTask NewDynamicLibraryCompletionHandler(MTLLibrary library, MTLNewDynamicLibraryCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewDynamicLibrarycompletionHandler, library.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewDynamicLibraryWithURL(NSURL url, MTLNewDynamicLibraryCompletionHandler completionHandler)
+    public MTL4CompilerTask NewDynamicLibraryWithURLCompletionHandler(NSURL url, MTLNewDynamicLibraryCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewDynamicLibraryWithURLcompletionHandler, url.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewComputePipelineStateWithDescriptor(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewComputePipelineStateCompletionHandler completionHandler)
+    public MTL4CompilerTask NewComputePipelineStateWithDescriptorCompilerTaskOptionsCompletionHandler(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewComputePipelineStateCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewComputePipelineStateWithDescriptorcompilerTaskOptionscompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewComputePipelineStateWithDescriptor(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewComputePipelineStateCompletionHandler completionHandler)
+    public MTL4CompilerTask NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewComputePipelineStateCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionscompletionHandler, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewRenderPipelineStateWithDescriptor(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewRenderPipelineStateCompletionHandler completionHandler)
+    public MTL4CompilerTask NewRenderPipelineStateWithDescriptorCompilerTaskOptionsCompletionHandler(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewRenderPipelineStateCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateWithDescriptorcompilerTaskOptionscompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewRenderPipelineStateWithDescriptor(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewRenderPipelineStateCompletionHandler completionHandler)
+    public MTL4CompilerTask NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewRenderPipelineStateCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionscompletionHandler, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewRenderPipelineStateBySpecializationWithDescriptor(MTL4PipelineDescriptor descriptor, MTLRenderPipelineState pipeline, MTLNewRenderPipelineStateCompletionHandler completionHandler)
+    public MTL4CompilerTask NewRenderPipelineStateBySpecializationWithDescriptorPipelineCompletionHandler(MTL4PipelineDescriptor descriptor, MTLRenderPipelineState pipeline, MTLNewRenderPipelineStateCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateBySpecializationWithDescriptorpipelinecompletionHandler, descriptor.NativePtr, pipeline.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewBinaryFunctionWithDescriptor(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTL4NewBinaryFunctionCompletionHandler completionHandler)
+    public MTL4CompilerTask NewBinaryFunctionWithDescriptorCompilerTaskOptionsCompletionHandler(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTL4NewBinaryFunctionCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewBinaryFunctionWithDescriptorcompilerTaskOptionscompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, completionHandler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4MachineLearningPipelineState NewMachineLearningPipelineStateWithDescriptor(MTL4MachineLearningPipelineDescriptor descriptor, out NSError error)
+    public MTL4MachineLearningPipelineState NewMachineLearningPipelineStateWithDescriptorError(MTL4MachineLearningPipelineDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewMachineLearningPipelineStateWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -194,7 +179,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4CompilerTask NewMachineLearningPipelineStateWithDescriptor(MTL4MachineLearningPipelineDescriptor descriptor, MTL4NewMachineLearningPipelineStateCompletionHandler completionHandler)
+    public MTL4CompilerTask NewMachineLearningPipelineStateWithDescriptorCompletionHandler(MTL4MachineLearningPipelineDescriptor descriptor, MTL4NewMachineLearningPipelineStateCompletionHandler completionHandler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewMachineLearningPipelineStateWithDescriptorcompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
 

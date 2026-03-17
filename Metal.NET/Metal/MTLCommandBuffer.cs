@@ -92,72 +92,6 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLCommandBufferBindings.Device);
-    }
-
-    public MTLCommandQueue CommandQueue
-    {
-        get => GetProperty(ref field, MTLCommandBufferBindings.CommandQueue);
-    }
-
-    public Bool8 RetainedReferences
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLCommandBufferBindings.RetainedReferences);
-    }
-
-    public MTLCommandBufferErrorOption ErrorOptions
-    {
-        get => (MTLCommandBufferErrorOption)ObjectiveC.MsgSendULong(NativePtr, MTLCommandBufferBindings.ErrorOptions);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLCommandBufferBindings.Label);
-        set => SetProperty(ref field, MTLCommandBufferBindings.SetLabel, value);
-    }
-
-    public double KernelStartTime
-    {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.KernelStartTime);
-    }
-
-    public double KernelEndTime
-    {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.KernelEndTime);
-    }
-
-    public MTLLogContainer Logs
-    {
-        get => GetProperty(ref field, MTLCommandBufferBindings.Logs);
-    }
-
-    public double GPUStartTime
-    {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUStartTime);
-    }
-
-    public double GPUEndTime
-    {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUEndTime);
-    }
-
-    public MTLCommandBufferStatus Status
-    {
-        get => (MTLCommandBufferStatus)ObjectiveC.MsgSendULong(NativePtr, MTLCommandBufferBindings.Status);
-    }
-
-    public NSError Error
-    {
-        get => GetProperty(ref field, MTLCommandBufferBindings.Error);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.SetLabel, label.NativePtr);
-    }
-
     public void Enqueue()
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.Enqueue);
@@ -178,12 +112,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawable, drawable.NativePtr);
     }
 
-    public void PresentDrawable(MTLDrawable drawable, double presentationTime)
+    public void PresentDrawableAtTime(MTLDrawable drawable, double presentationTime)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableatTime, drawable.NativePtr, presentationTime);
     }
 
-    public void PresentDrawable(MTLDrawable drawable, double duration)
+    public void PresentDrawableAfterMinimumDuration(MTLDrawable drawable, double duration)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableafterMinimumDuration, drawable.NativePtr, duration);
     }
@@ -231,12 +165,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void EncodeWaitForEvent(MTLEvent @event, ulong value)
+    public void EncodeWaitForEventValue(MTLEvent @event, ulong value)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWaitForEvent, @event.NativePtr, value);
     }
 
-    public void EncodeSignalEvent(MTLEvent @event, ulong value)
+    public void EncodeSignalEventValue(MTLEvent @event, ulong value)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent, @event.NativePtr, value);
     }

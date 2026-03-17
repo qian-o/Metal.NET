@@ -37,38 +37,6 @@ public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership
         set => ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexBufferIndex, value);
     }
 
-    public MTLBufferLayoutDescriptorArray Layouts
-    {
-        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
-    }
-
-    public MTLAttributeDescriptorArray Attributes
-    {
-        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Attributes);
-    }
-
-    public MTLIndexType IndexType
-    {
-        get => (MTLIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLStageInputOutputDescriptorBindings.IndexType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexType, (nuint)value);
-    }
-
-    public nuint IndexBufferIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStageInputOutputDescriptorBindings.IndexBufferIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexBufferIndex, value);
-    }
-
-    public void SetIndexType(MTLIndexType indexType)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexType, (nuint)indexType);
-    }
-
-    public void SetIndexBufferIndex(nuint indexBufferIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexBufferIndex, indexBufferIndex);
-    }
-
     public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);

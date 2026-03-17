@@ -15,11 +15,6 @@ public class MTLCounterSet(nint nativePtr, NativeObjectOwnership ownership) : NS
     {
         get => GetProperty(ref field, MTLCounterSetBindings.Name);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLCounterSetBindings.Name);
-    }
 }
 
 file static class MTLCounterSetBindings

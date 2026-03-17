@@ -96,106 +96,21 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateBindings.RequiredThreadsPerMeshThreadgroup);
     }
 
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLRenderPipelineStateBindings.Label);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLRenderPipelineStateBindings.Device);
-    }
-
-    public MTLRenderPipelineReflection Reflection
-    {
-        get => GetProperty(ref field, MTLRenderPipelineStateBindings.Reflection);
-    }
-
-    public nuint MaxTotalThreadsPerThreadgroup
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MaxTotalThreadsPerThreadgroup);
-    }
-
-    public Bool8 ThreadgroupSizeMatchesTileSize
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineStateBindings.ThreadgroupSizeMatchesTileSize);
-    }
-
-    public nuint ImageblockSampleLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.ImageblockSampleLength);
-    }
-
-    public Bool8 SupportIndirectCommandBuffers
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineStateBindings.SupportIndirectCommandBuffers);
-    }
-
-    public nuint MaxTotalThreadsPerObjectThreadgroup
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MaxTotalThreadsPerObjectThreadgroup);
-    }
-
-    public nuint MaxTotalThreadsPerMeshThreadgroup
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MaxTotalThreadsPerMeshThreadgroup);
-    }
-
-    public nuint ObjectThreadExecutionWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.ObjectThreadExecutionWidth);
-    }
-
-    public nuint MeshThreadExecutionWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MeshThreadExecutionWidth);
-    }
-
-    public nuint MaxTotalThreadgroupsPerMeshGrid
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MaxTotalThreadgroupsPerMeshGrid);
-    }
-
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLRenderPipelineStateBindings.GpuResourceID);
-    }
-
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLRenderPipelineStateBindings.ShaderValidation);
-    }
-
-    public MTLSize RequiredThreadsPerTileThreadgroup
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateBindings.RequiredThreadsPerTileThreadgroup);
-    }
-
-    public MTLSize RequiredThreadsPerObjectThreadgroup
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateBindings.RequiredThreadsPerObjectThreadgroup);
-    }
-
-    public MTLSize RequiredThreadsPerMeshThreadgroup
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateBindings.RequiredThreadsPerMeshThreadgroup);
-    }
-
-    public MTLFunctionHandle FunctionHandleWithName(NSString name, MTLRenderStages stage)
+    public MTLFunctionHandle FunctionHandleWithNameStage(NSString name, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithName, name.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLFunctionHandle FunctionHandleWithBinaryFunction(MTL4BinaryFunction function, MTLRenderStages stage)
+    public MTLFunctionHandle FunctionHandleWithBinaryFunctionStage(MTL4BinaryFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateWithBinaryFunctions(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineStateWithBinaryFunctionsError(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithBinaryFunctions, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
 
@@ -216,28 +131,28 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.ImageblockMemoryLengthForDimensions, imageblockDimensions);
     }
 
-    public MTLFunctionHandle FunctionHandleWithFunction(MTLFunction function, MTLRenderStages stage)
+    public MTLFunctionHandle FunctionHandleWithFunctionStage(MTLFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithFunction, function.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLVisibleFunctionTable NewVisibleFunctionTableWithDescriptor(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
+    public MTLVisibleFunctionTable NewVisibleFunctionTableWithDescriptorStage(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTableWithDescriptor(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
+    public MTLIntersectionFunctionTable NewIntersectionFunctionTableWithDescriptorStage(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewIntersectionFunctionTableWithDescriptor, descriptor.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateWithAdditionalBinaryFunctions(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineStateWithAdditionalBinaryFunctionsError(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithAdditionalBinaryFunctions, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 

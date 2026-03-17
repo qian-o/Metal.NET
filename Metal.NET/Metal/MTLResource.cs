@@ -62,57 +62,6 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         get => ObjectiveC.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
     }
 
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLResourceBindings.Label);
-        set => SetProperty(ref field, MTLResourceBindings.SetLabel, value);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLResourceBindings.Device);
-    }
-
-    public MTLCPUCacheMode CpuCacheMode
-    {
-        get => (MTLCPUCacheMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.CpuCacheMode);
-    }
-
-    public MTLStorageMode StorageMode
-    {
-        get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.StorageMode);
-    }
-
-    public MTLHazardTrackingMode HazardTrackingMode
-    {
-        get => (MTLHazardTrackingMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.HazardTrackingMode);
-    }
-
-    public MTLResourceOptions ResourceOptions
-    {
-        get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.ResourceOptions);
-    }
-
-    public MTLHeap Heap
-    {
-        get => GetProperty(ref field, MTLResourceBindings.Heap);
-    }
-
-    public nuint HeapOffset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
-    }
-
-    public nuint AllocatedSize
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.AllocatedSize);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceBindings.SetLabel, label.NativePtr);
-    }
-
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
         return (MTLPurgeableState)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.SetPurgeableState, (nuint)state);

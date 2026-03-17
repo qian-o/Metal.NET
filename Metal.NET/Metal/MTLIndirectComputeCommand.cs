@@ -16,22 +16,22 @@ public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetComputePipelineState, pipelineState.NativePtr);
     }
 
-    public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint index)
+    public void SetKernelBufferOffsetAtIndex(MTLBuffer buffer, nuint offset, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBuffer, buffer.NativePtr, offset, index);
     }
 
-    public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
+    public void SetKernelBufferOffsetAttributeStrideAtIndex(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBufferoffsetattributeStrideatIndex, buffer.NativePtr, offset, stride, index);
     }
 
-    public void ConcurrentDispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
+    public void ConcurrentDispatchThreadgroupsThreadsPerThreadgroup(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ConcurrentDispatchThreadgroups, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
-    public void ConcurrentDispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
+    public void ConcurrentDispatchThreadsThreadsPerThreadgroup(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ConcurrentDispatchThreads, threadsPerGrid, threadsPerThreadgroup);
     }
@@ -46,7 +46,7 @@ public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ClearBarrier);
     }
 
-    public void SetImageblockWidth(nuint width, nuint height)
+    public void SetImageblockWidthHeight(nuint width, nuint height)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetImageblockWidth, width, height);
     }
@@ -56,7 +56,7 @@ public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership own
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.Reset);
     }
 
-    public void SetThreadgroupMemoryLength(nuint length, nuint index)
+    public void SetThreadgroupMemoryLengthAtIndex(nuint length, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetThreadgroupMemoryLength, length, index);
     }

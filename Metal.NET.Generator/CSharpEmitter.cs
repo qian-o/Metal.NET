@@ -1121,7 +1121,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 ? selectorObjC[..selectorObjC.IndexOf(':')]
                 : selectorObjC;
 
-            if (hasZeroParamVersion.Contains(cppName) && method.Parameters.Count > 0)
+            // Multi-part selector (e.g., "presentDrawable:atTime:") → use full selector for method name
+            int colonCount = selectorObjC.Count(c => c == ':');
+            if (colonCount > 1)
+            {
+                // Build name from all parts: "presentDrawable:atTime:" → "PresentDrawableAtTime"
+                csMethodName = BuildMethodNameFromSelector(selectorObjC);
+            }
+            else if (hasZeroParamVersion.Contains(cppName) && method.Parameters.Count > 0)
             {
                 csMethodName = TypeMapper.ToPascalCase(selectorBaseName);
             }
@@ -1524,6 +1531,22 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         sb.AppendLine("    }");
+    }
+
+    /// <summary>
+    /// Builds a C# method name from a multi-part ObjC selector.
+    /// E.g., "presentDrawable:atTime:" → "PresentDrawableAtTime"
+    /// E.g., "newBufferWithLength:options:" → "NewBufferWithLength"
+    /// </summary>
+    static string BuildMethodNameFromSelector(string selector)
+    {
+        string[] parts = selector.Split(':', StringSplitOptions.RemoveEmptyEntries);
+        StringBuilder sb = new();
+        foreach (string part in parts)
+        {
+            sb.Append(TypeMapper.ToPascalCase(part));
+        }
+        return sb.ToString();
     }
 
     #endregion

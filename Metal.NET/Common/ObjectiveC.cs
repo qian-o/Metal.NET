@@ -268,6 +268,16 @@ internal static unsafe partial class ObjectiveC
         ((delegate* unmanaged<nint, Selector, NSRange, void>)msgSend)(receiver, selector, a);
     }
 
+    public static void MsgSend(nint receiver, Selector selector, SimdFloat4x4 a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        ((delegate* unmanaged<nint, Selector, SimdFloat4x4, void>)msgSend)(receiver, selector, a);
+    }
+
     public static void MsgSend(nint receiver, Selector selector, double a)
     {
         if (receiver is 0)
@@ -1914,6 +1924,20 @@ internal static unsafe partial class ObjectiveC
         }
 
         return ((delegate* unmanaged<nint, Selector, nuint, nuint>)msgSend)(receiver, selector, a);
+    }
+
+    #endregion
+
+    #region MsgSendSimdFloat4x4
+
+    public static SimdFloat4x4 MsgSendSimdFloat4x4(nint receiver, Selector selector)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return ((delegate* unmanaged<nint, Selector, SimdFloat4x4>)msgSend)(receiver, selector);
     }
 
     #endregion

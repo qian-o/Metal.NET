@@ -32,39 +32,6 @@ public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint n
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
     }
-
-    public MTL4BufferRange BoundingBoxBuffers
-    {
-        get => ObjectiveC.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffers);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value);
-    }
-
-    public nuint BoundingBoxStride
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, value);
-    }
-
-    public nuint BoundingBoxCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
-    }
-
-    public void SetBoundingBoxBuffers(MTL4BufferRange boundingBoxBuffers)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, boundingBoxBuffers);
-    }
-
-    public void SetBoundingBoxStride(nuint boundingBoxStride)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, boundingBoxStride);
-    }
-
-    public void SetBoundingBoxCount(nuint boundingBoxCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, boundingBoxCount);
-    }
 }
 
 file static class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings

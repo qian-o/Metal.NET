@@ -21,22 +21,12 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, MTL4CommandQueueBindings.Label);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTL4CommandQueueBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4CommandQueueBindings.Label);
-    }
-
-    public void SignalEvent(MTLEvent @event, ulong value)
+    public void SignalEventValue(MTLEvent @event, ulong value)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent, @event.NativePtr, value);
     }
 
-    public void WaitForEvent(MTLEvent @event, ulong value)
+    public void WaitForEventValue(MTLEvent @event, ulong value)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.WaitForEvent, @event.NativePtr, value);
     }
@@ -61,22 +51,22 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
     }
 
-    public void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation operations, nuint count)
+    public void UpdateTextureMappingsHeapOperationsCount(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation operations, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateTextureMappings, texture.NativePtr, heap.NativePtr, operations, count);
     }
 
-    public void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, nuint count)
+    public void CopyTextureMappingsFromTextureToTextureOperationsCount(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyTextureMappingsFromTexture, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, count);
     }
 
-    public void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation operations, nuint count)
+    public void UpdateBufferMappingsHeapOperationsCount(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation operations, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateBufferMappings, buffer.NativePtr, heap.NativePtr, operations, count);
     }
 
-    public void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
+    public void CopyBufferMappingsFromBufferToBufferOperationsCount(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyBufferMappingsFromBuffer, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
     }

@@ -141,7 +141,7 @@ partial class AstJsonParser
     ];
 
     /// <summary>Structs to skip during parsing.</summary>
-    static readonly HashSet<string> SkipStructParseNames = ["CGSize", "SimdFloat4", "SimdFloat4x4", "MTLPackedFloat3", "MTLPackedFloat4x3", "MTLPackedFloatQuaternion"];
+    static readonly HashSet<string> SkipStructParseNames = ["CGSize"];
 
     public GeneratorContext Parse(string astJsonPath)
     {
@@ -262,6 +262,17 @@ partial class AstJsonParser
             string bareName = astStruct.Name.StartsWith(prefix)
                 ? astStruct.Name[prefix.Length..]
                 : astStruct.Name;
+
+            // Special handling for MTLPackedFloat3 which has a union in the AST
+            if (astStruct.Name == "MTLPackedFloat3")
+            {
+                context.Structs.Add(new StructDef(cppNamespace, bareName, [
+                    new StructFieldDef("float", "x"),
+                    new StructFieldDef("float", "y"),
+                    new StructFieldDef("float", "z"),
+                ]));
+                continue;
+            }
 
             List<StructFieldDef> fields = [];
             foreach (AstStructField f in astStruct.Fields)
@@ -848,6 +859,18 @@ partial class AstJsonParser
             return "double";
         }
 
+        // size_t → nuint
+        if (t == "size_t")
+        {
+            return "NS::UInteger";
+        }
+
+        // simd types
+        if (t == "simd_float4x4")
+        {
+            return "SimdFloat4x4";
+        }
+
         // C primitive types
         if (t is "uint32_t" or "int32_t" or "uint8_t" or "int8_t" or "uint16_t" or "int16_t"
             or "uint64_t" or "int64_t" or "float" or "double" or "void")
@@ -925,7 +948,19 @@ partial class AstJsonParser
             return true;
         }
 
+        // Skip NSArray<> (generic array types)
+        if (t.Contains("NSArray<"))
+        {
+            return true;
+        }
+
         if (t is "Class" or "IMP" or "SEL" or "FourCharCode")
+        {
+            return true;
+        }
+
+        // Skip bare 'id' (without protocol qualifier)
+        if (t is "id" || t == "id *")
         {
             return true;
         }
@@ -973,6 +1008,18 @@ partial class AstJsonParser
 
         // Skip CAEDRMetadata
         if (t.Contains("CAEDRMetadata"))
+        {
+            return true;
+        }
+
+        // Skip NSCoder
+        if (t.Contains("NSCoder"))
+        {
+            return true;
+        }
+
+        // Skip MTLIOCompressionContext (opaque C type, not generated)
+        if (t.Contains("MTLIOCompressionContext"))
         {
             return true;
         }

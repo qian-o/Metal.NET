@@ -61,56 +61,6 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLComputePipelineStateBindings.RequiredThreadsPerThreadgroup);
     }
 
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLComputePipelineStateBindings.Label);
-    }
-
-    public MTLComputePipelineReflection Reflection
-    {
-        get => GetProperty(ref field, MTLComputePipelineStateBindings.Reflection);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLComputePipelineStateBindings.Device);
-    }
-
-    public nuint MaxTotalThreadsPerThreadgroup
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.MaxTotalThreadsPerThreadgroup);
-    }
-
-    public nuint ThreadExecutionWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.ThreadExecutionWidth);
-    }
-
-    public nuint StaticThreadgroupMemoryLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.StaticThreadgroupMemoryLength);
-    }
-
-    public Bool8 SupportIndirectCommandBuffers
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLComputePipelineStateBindings.SupportIndirectCommandBuffers);
-    }
-
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLComputePipelineStateBindings.GpuResourceID);
-    }
-
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLComputePipelineStateBindings.ShaderValidation);
-    }
-
-    public MTLSize RequiredThreadsPerThreadgroup
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLComputePipelineStateBindings.RequiredThreadsPerThreadgroup);
-    }
-
     public MTLFunctionHandle FunctionHandleWithName(NSString name)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithName, name.NativePtr);

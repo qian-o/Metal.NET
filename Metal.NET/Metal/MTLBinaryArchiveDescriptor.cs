@@ -20,17 +20,6 @@ public class MTLBinaryArchiveDescriptor(nint nativePtr, NativeObjectOwnership ow
         get => GetProperty(ref field, MTLBinaryArchiveDescriptorBindings.Url);
         set => SetProperty(ref field, MTLBinaryArchiveDescriptorBindings.SetUrl, value);
     }
-
-    public NSURL Url
-    {
-        get => GetProperty(ref field, MTLBinaryArchiveDescriptorBindings.Url);
-        set => SetProperty(ref field, MTLBinaryArchiveDescriptorBindings.SetUrl, value);
-    }
-
-    public void SetUrl(NSURL url)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLBinaryArchiveDescriptorBindings.SetUrl, url.NativePtr);
-    }
 }
 
 file static class MTLBinaryArchiveDescriptorBindings

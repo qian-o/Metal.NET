@@ -16,12 +16,7 @@ public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) :
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorExtentsBindings.Rank);
     }
 
-    public nuint Rank
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorExtentsBindings.Rank);
-    }
-
-    public nint InitWithRank(nuint rank, nint values)
+    public nint InitWithRankValues(nuint rank, nint values)
     {
         return ObjectiveC.MsgSendNInt(NativePtr, MTLTensorExtentsBindings.InitWithRank, rank, values);
     }

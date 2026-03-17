@@ -46,43 +46,12 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
         get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
     }
 
-    public MTLSize SampleCount
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SetSampleCount, value);
-    }
-
-    public MTLSize MaxSampleCount
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.MaxSampleCount);
-    }
-
-    public float HorizontalSampleStorage
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorBindings.HorizontalSampleStorage);
-    }
-
-    public float VerticalSampleStorage
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorBindings.VerticalSampleStorage);
-    }
-
-    public MTLRasterizationRateSampleArray Horizontal
-    {
-        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
-    }
-
-    public MTLRasterizationRateSampleArray Vertical
-    {
-        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
-    }
-
     public nint InitWithSampleCount(MTLSize sampleCount)
     {
         return ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCount, sampleCount);
     }
 
-    public nint InitWithSampleCount(MTLSize sampleCount, float horizontal, float vertical)
+    public nint InitWithSampleCountHorizontalVertical(MTLSize sampleCount, float horizontal, float vertical)
     {
         return ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCounthorizontalvertical, sampleCount, horizontal, vertical);
     }

@@ -27,28 +27,6 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint na
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
     }
 
-    public nuint BoundingBoxStride
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, value);
-    }
-
-    public nuint BoundingBoxCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
-    }
-
-    public void SetBoundingBoxStride(nuint boundingBoxStride)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, boundingBoxStride);
-    }
-
-    public void SetBoundingBoxCount(nuint boundingBoxCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, boundingBoxCount);
-    }
-
     public static nint Descriptor()
     {
         return ObjectiveC.MsgSendNInt(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Descriptor);

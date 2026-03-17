@@ -32,39 +32,6 @@ public class MTL4SpecializedFunctionDescriptor(nint nativePtr, NativeObjectOwner
         get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.ConstantValues);
         set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value);
     }
-
-    public MTL4FunctionDescriptor FunctionDescriptor
-    {
-        get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.FunctionDescriptor);
-        set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, value);
-    }
-
-    public NSString SpecializedName
-    {
-        get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SpecializedName);
-        set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, value);
-    }
-
-    public MTLFunctionConstantValues ConstantValues
-    {
-        get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.ConstantValues);
-        set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value);
-    }
-
-    public void SetFunctionDescriptor(MTL4FunctionDescriptor functionDescriptor)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, functionDescriptor.NativePtr);
-    }
-
-    public void SetSpecializedName(NSString specializedName)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, specializedName.NativePtr);
-    }
-
-    public void SetConstantValues(MTLFunctionConstantValues constantValues)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, constantValues.NativePtr);
-    }
 }
 
 file static class MTL4SpecializedFunctionDescriptorBindings

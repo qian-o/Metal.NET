@@ -16,82 +16,77 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         get => (MTLDispatchType)ObjectiveC.MsgSendULong(NativePtr, MTLComputeCommandEncoderBindings.DispatchType);
     }
 
-    public MTLDispatchType DispatchType
-    {
-        get => (MTLDispatchType)ObjectiveC.MsgSendULong(NativePtr, MTLComputeCommandEncoderBindings.DispatchType);
-    }
-
     public void SetComputePipelineState(MTLComputePipelineState state)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetComputePipelineState, state.NativePtr);
     }
 
-    public void SetBytes(nint bytes, nuint length, nuint index)
+    public void SetBytesLengthAtIndex(nint bytes, nuint length, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBytes, bytes, length, index);
     }
 
-    public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
+    public void SetBufferOffsetAtIndex(MTLBuffer buffer, nuint offset, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBuffer, buffer.NativePtr, offset, index);
     }
 
-    public void SetBufferOffset(nuint offset, nuint index)
+    public void SetBufferOffsetAtIndex(nuint offset, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBufferOffset, offset, index);
     }
 
-    public void SetBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
+    public void SetBufferOffsetAttributeStrideAtIndex(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBufferoffsetattributeStrideatIndex, buffer.NativePtr, offset, stride, index);
     }
 
-    public void SetBufferOffset(nuint offset, nuint stride, nuint index)
+    public void SetBufferOffsetAttributeStrideAtIndex(nuint offset, nuint stride, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBufferOffsetattributeStrideatIndex, offset, stride, index);
     }
 
-    public void SetBytes(nint bytes, nuint length, nuint stride, nuint index)
+    public void SetBytesLengthAttributeStrideAtIndex(nint bytes, nuint length, nuint stride, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetByteslengthattributeStrideatIndex, bytes, length, stride, index);
     }
 
-    public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint bufferIndex)
+    public void SetVisibleFunctionTableAtBufferIndex(MTLVisibleFunctionTable visibleFunctionTable, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetVisibleFunctionTable, visibleFunctionTable.NativePtr, bufferIndex);
     }
 
-    public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
+    public void SetIntersectionFunctionTableAtBufferIndex(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetIntersectionFunctionTable, intersectionFunctionTable.NativePtr, bufferIndex);
     }
 
-    public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
+    public void SetAccelerationStructureAtBufferIndex(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetAccelerationStructure, accelerationStructure.NativePtr, bufferIndex);
     }
 
-    public void SetTexture(MTLTexture texture, nuint index)
+    public void SetTextureAtIndex(MTLTexture texture, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetTexture, texture.NativePtr, index);
     }
 
-    public void SetSamplerState(MTLSamplerState sampler, nuint index)
+    public void SetSamplerStateAtIndex(MTLSamplerState sampler, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetSamplerState, sampler.NativePtr, index);
     }
 
-    public void SetSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
+    public void SetSamplerStateLodMinClampLodMaxClampAtIndex(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetSamplerStatelodMinClamplodMaxClampatIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
-    public void SetThreadgroupMemoryLength(nuint length, nuint index)
+    public void SetThreadgroupMemoryLengthAtIndex(nuint length, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetThreadgroupMemoryLength, length, index);
     }
 
-    public void SetImageblockWidth(nuint width, nuint height)
+    public void SetImageblockWidthHeight(nuint width, nuint height)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetImageblockWidth, width, height);
     }
@@ -101,22 +96,22 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetStageInRegion, region);
     }
 
-    public void SetStageInRegionWithIndirectBuffer(MTLBuffer indirectBuffer, nuint indirectBufferOffset)
+    public void SetStageInRegionWithIndirectBufferIndirectBufferOffset(MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetStageInRegionWithIndirectBuffer, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
-    public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
+    public void DispatchThreadgroupsThreadsPerThreadgroup(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreadgroups, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
-    public void DispatchThreadgroupsWithIndirectBuffer(MTLBuffer indirectBuffer, nuint indirectBufferOffset, MTLSize threadsPerThreadgroup)
+    public void DispatchThreadgroupsWithIndirectBufferIndirectBufferOffsetThreadsPerThreadgroup(MTLBuffer indirectBuffer, nuint indirectBufferOffset, MTLSize threadsPerThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreadgroupsWithIndirectBuffer, indirectBuffer.NativePtr, indirectBufferOffset, threadsPerThreadgroup);
     }
 
-    public void DispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
+    public void DispatchThreadsThreadsPerThreadgroup(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreads, threadsPerGrid, threadsPerThreadgroup);
     }
@@ -131,7 +126,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.WaitForFence, fence.NativePtr);
     }
 
-    public void UseResource(MTLResource resource, MTLResourceUsage usage)
+    public void UseResourceUsage(MTLResource resource, MTLResourceUsage usage)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseResource, resource.NativePtr, (nuint)usage);
     }
@@ -141,12 +136,12 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseHeap, heap.NativePtr);
     }
 
-    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
+    public void ExecuteCommandsInBufferWithRange(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.ExecuteCommandsInBuffer, indirectCommandBuffer.NativePtr, executionRange);
     }
 
-    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, MTLBuffer indirectRangeBuffer, nuint indirectBufferOffset)
+    public void ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset(MTLIndirectCommandBuffer indirectCommandbuffer, MTLBuffer indirectRangeBuffer, nuint indirectBufferOffset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.ExecuteCommandsInBufferindirectBufferindirectBufferOffset, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, indirectBufferOffset);
     }
@@ -156,7 +151,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrierWithScope, (nuint)scope);
     }
 
-    public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
+    public void SampleCountersInBufferAtSampleIndexWithBarrier(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, barrier);
     }

@@ -21,17 +21,6 @@ public class MTL4CounterHeapDescriptor(nint nativePtr, NativeObjectOwnership own
         set => ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetType, (nint)value);
     }
 
-    public MTL4CounterHeapType Type
-    {
-        get => (MTL4CounterHeapType)ObjectiveC.MsgSendLong(NativePtr, MTL4CounterHeapDescriptorBindings.Type);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetType, (nint)value);
-    }
-
-    public void SetType(MTL4CounterHeapType type)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetType, (nint)type);
-    }
-
     public void SetCount(nuint count)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetCount, count);

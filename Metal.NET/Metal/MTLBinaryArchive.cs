@@ -22,23 +22,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);
     }
 
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLBinaryArchiveBindings.Label);
-        set => SetProperty(ref field, MTLBinaryArchiveBindings.SetLabel, value);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLBinaryArchiveBindings.SetLabel, label.NativePtr);
-    }
-
-    public bool AddComputePipelineFunctionsWithDescriptor(MTLComputePipelineDescriptor descriptor, out NSError error)
+    public bool AddComputePipelineFunctionsWithDescriptorError(MTLComputePipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -47,7 +31,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
-    public bool AddRenderPipelineFunctionsWithDescriptor(MTLRenderPipelineDescriptor descriptor, out NSError error)
+    public bool AddRenderPipelineFunctionsWithDescriptorError(MTLRenderPipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -56,7 +40,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
-    public bool AddTileRenderPipelineFunctionsWithDescriptor(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
+    public bool AddTileRenderPipelineFunctionsWithDescriptorError(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -65,7 +49,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
-    public bool AddMeshRenderPipelineFunctionsWithDescriptor(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
+    public bool AddMeshRenderPipelineFunctionsWithDescriptorError(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctionsWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -74,7 +58,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
-    public bool AddLibraryWithDescriptor(MTLStitchedLibraryDescriptor descriptor, out NSError error)
+    public bool AddLibraryWithDescriptorError(MTLStitchedLibraryDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibraryWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 
@@ -83,7 +67,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
-    public bool SerializeToURL(NSURL url, out NSError error)
+    public bool SerializeToURLError(NSURL url, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
@@ -92,7 +76,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
         return result;
     }
 
-    public bool AddFunctionWithDescriptor(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
+    public bool AddFunctionWithDescriptorLibraryError(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunctionWithDescriptor, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
 

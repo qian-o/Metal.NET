@@ -55,26 +55,6 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
     {
         get => GetProperty(ref field, MTLStructMemberBindings.TensorReferenceType);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLStructMemberBindings.Name);
-    }
-
-    public nuint Offset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStructMemberBindings.Offset);
-    }
-
-    public MTLDataType DataType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLStructMemberBindings.DataType);
-    }
-
-    public nuint ArgumentIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStructMemberBindings.ArgumentIndex);
-    }
 }
 
 file static class MTLStructMemberBindings

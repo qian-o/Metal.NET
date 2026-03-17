@@ -32,39 +32,6 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
-
-    public MTLCounterSampleBuffer SampleBuffer
-    {
-        get => GetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
-        set => SetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
-    }
-
-    public nuint StartOfEncoderSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
-    }
-
-    public nuint EndOfEncoderSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
-    }
-
-    public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, sampleBuffer.NativePtr);
-    }
-
-    public void SetStartOfEncoderSampleIndex(nuint startOfEncoderSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, startOfEncoderSampleIndex);
-    }
-
-    public void SetEndOfEncoderSampleIndex(nuint endOfEncoderSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, endOfEncoderSampleIndex);
-    }
 }
 
 file static class MTLResourceStatePassSampleBufferAttachmentDescriptorBindings

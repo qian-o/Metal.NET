@@ -26,28 +26,6 @@ public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership
         get => (MTL4ShaderReflection)ObjectiveC.MsgSendULong(NativePtr, MTL4PipelineOptionsBindings.ShaderReflection);
         set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)value);
     }
-
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTL4PipelineOptionsBindings.ShaderValidation);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderValidation, (nint)value);
-    }
-
-    public MTL4ShaderReflection ShaderReflection
-    {
-        get => (MTL4ShaderReflection)ObjectiveC.MsgSendULong(NativePtr, MTL4PipelineOptionsBindings.ShaderReflection);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)value);
-    }
-
-    public void SetShaderValidation(MTLShaderValidation shaderValidation)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderValidation, (nint)shaderValidation);
-    }
-
-    public void SetShaderReflection(MTL4ShaderReflection shaderReflection)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)shaderReflection);
-    }
 }
 
 file static class MTL4PipelineOptionsBindings

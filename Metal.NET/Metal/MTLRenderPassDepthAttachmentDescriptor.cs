@@ -26,28 +26,6 @@ public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, NativeObject
         get => (MTLMultisampleDepthResolveFilter)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.DepthResolveFilter);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetDepthResolveFilter, (nuint)value);
     }
-
-    public double ClearDepth
-    {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.ClearDepth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetClearDepth, value);
-    }
-
-    public MTLMultisampleDepthResolveFilter DepthResolveFilter
-    {
-        get => (MTLMultisampleDepthResolveFilter)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.DepthResolveFilter);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetDepthResolveFilter, (nuint)value);
-    }
-
-    public void SetClearDepth(double clearDepth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetClearDepth, clearDepth);
-    }
-
-    public void SetDepthResolveFilter(MTLMultisampleDepthResolveFilter depthResolveFilter)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetDepthResolveFilter, (nuint)depthResolveFilter);
-    }
 }
 
 file static class MTLRenderPassDepthAttachmentDescriptorBindings

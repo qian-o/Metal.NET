@@ -26,28 +26,6 @@ public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ow
         get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
         set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetLabel, value);
-    }
-
-    public DispatchQueue FeedbackQueue
-    {
-        get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
-        set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetLabel, label.NativePtr);
-    }
-
-    public void SetFeedbackQueue(DispatchQueue feedbackQueue)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, feedbackQueue.NativePtr);
-    }
 }
 
 file static class MTL4CommandQueueDescriptorBindings

@@ -21,16 +21,6 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
     }
 
-    public nuint Size
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferBindings.Size);
-    }
-
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
-    }
-
     public void ResetWithRange(NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.ResetWithRange, range);

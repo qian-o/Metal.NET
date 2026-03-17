@@ -25,16 +25,6 @@ public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership
         get => GetProperty(ref field, MTLVertexDescriptorBindings.Attributes);
     }
 
-    public MTLVertexBufferLayoutDescriptorArray Layouts
-    {
-        get => GetProperty(ref field, MTLVertexDescriptorBindings.Layouts);
-    }
-
-    public MTLVertexAttributeDescriptorArray Attributes
-    {
-        get => GetProperty(ref field, MTLVertexDescriptorBindings.Attributes);
-    }
-
     public static MTLVertexDescriptor VertexDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);

@@ -20,16 +20,6 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr, NativeObjectOwnership o
     {
         get => (MTLCommandEncoderErrorState)ObjectiveC.MsgSendLong(NativePtr, MTLCommandBufferEncoderInfoBindings.ErrorState);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.Label);
-    }
-
-    public MTLCommandEncoderErrorState ErrorState
-    {
-        get => (MTLCommandEncoderErrorState)ObjectiveC.MsgSendLong(NativePtr, MTLCommandBufferEncoderInfoBindings.ErrorState);
-    }
 }
 
 file static class MTLCommandBufferEncoderInfoBindings

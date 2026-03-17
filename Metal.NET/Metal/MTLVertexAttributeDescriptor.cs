@@ -32,39 +32,6 @@ public class MTLVertexAttributeDescriptor(nint nativePtr, NativeObjectOwnership 
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.BufferIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetBufferIndex, value);
     }
-
-    public MTLVertexFormat Format
-    {
-        get => (MTLVertexFormat)ObjectiveC.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorBindings.Format);
-        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetFormat, (nuint)value);
-    }
-
-    public nuint Offset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.Offset);
-        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetOffset, value);
-    }
-
-    public nuint BufferIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.BufferIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetBufferIndex, value);
-    }
-
-    public void SetFormat(MTLVertexFormat format)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetFormat, (nuint)format);
-    }
-
-    public void SetOffset(nuint offset)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetOffset, offset);
-    }
-
-    public void SetBufferIndex(nuint bufferIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetBufferIndex, bufferIndex);
-    }
 }
 
 file static class MTLVertexAttributeDescriptorBindings

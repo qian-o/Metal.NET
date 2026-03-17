@@ -26,28 +26,6 @@ public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownersh
         get => ObjectiveC.MsgSendNInt(NativePtr, MTLLogStateDescriptorBindings.BufferSize);
         set => ObjectiveC.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetBufferSize, value);
     }
-
-    public MTLLogLevel Level
-    {
-        get => (MTLLogLevel)ObjectiveC.MsgSendLong(NativePtr, MTLLogStateDescriptorBindings.Level);
-        set => ObjectiveC.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetLevel, (nint)value);
-    }
-
-    public nint BufferSize
-    {
-        get => ObjectiveC.MsgSendNInt(NativePtr, MTLLogStateDescriptorBindings.BufferSize);
-        set => ObjectiveC.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetBufferSize, value);
-    }
-
-    public void SetLevel(MTLLogLevel level)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetLevel, (nint)level);
-    }
-
-    public void SetBufferSize(nint bufferSize)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetBufferSize, bufferSize);
-    }
 }
 
 file static class MTLLogStateDescriptorBindings

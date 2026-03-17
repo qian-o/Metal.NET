@@ -20,17 +20,6 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
         get => (MTLStitchedLibraryOptions)ObjectiveC.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
         set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
     }
-
-    public MTLStitchedLibraryOptions Options
-    {
-        get => (MTLStitchedLibraryOptions)ObjectiveC.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
-        set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
-    }
-
-    public void SetOptions(MTLStitchedLibraryOptions options)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)options);
-    }
 }
 
 file static class MTLStitchedLibraryDescriptorBindings

@@ -44,61 +44,6 @@ public class MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr, Nativ
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.EndOfFragmentSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfFragmentSampleIndex, value);
     }
-
-    public MTLCounterSampleBuffer SampleBuffer
-    {
-        get => GetProperty(ref field, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
-        set => SetProperty(ref field, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
-    }
-
-    public nuint StartOfVertexSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.StartOfVertexSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfVertexSampleIndex, value);
-    }
-
-    public nuint EndOfVertexSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.EndOfVertexSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfVertexSampleIndex, value);
-    }
-
-    public nuint StartOfFragmentSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.StartOfFragmentSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfFragmentSampleIndex, value);
-    }
-
-    public nuint EndOfFragmentSampleIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.EndOfFragmentSampleIndex);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfFragmentSampleIndex, value);
-    }
-
-    public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, sampleBuffer.NativePtr);
-    }
-
-    public void SetStartOfVertexSampleIndex(nuint startOfVertexSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfVertexSampleIndex, startOfVertexSampleIndex);
-    }
-
-    public void SetEndOfVertexSampleIndex(nuint endOfVertexSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfVertexSampleIndex, endOfVertexSampleIndex);
-    }
-
-    public void SetStartOfFragmentSampleIndex(nuint startOfFragmentSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetStartOfFragmentSampleIndex, startOfFragmentSampleIndex);
-    }
-
-    public void SetEndOfFragmentSampleIndex(nuint endOfFragmentSampleIndex)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetEndOfFragmentSampleIndex, endOfFragmentSampleIndex);
-    }
 }
 
 file static class MTLRenderPassSampleBufferAttachmentDescriptorBindings

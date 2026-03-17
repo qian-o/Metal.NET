@@ -26,28 +26,6 @@ public class MTL4PipelineDescriptor(nint nativePtr, NativeObjectOwnership owners
         get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Options);
         set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetOptions, value);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetLabel, value);
-    }
-
-    public MTL4PipelineOptions Options
-    {
-        get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Options);
-        set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetOptions, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetLabel, label.NativePtr);
-    }
-
-    public void SetOptions(MTL4PipelineOptions options)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetOptions, options.NativePtr);
-    }
 }
 
 file static class MTL4PipelineDescriptorBindings

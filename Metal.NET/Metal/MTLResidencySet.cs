@@ -31,26 +31,6 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocationCount);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLResidencySetBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLResidencySetBindings.Label);
-    }
-
-    public ulong AllocatedSize
-    {
-        get => ObjectiveC.MsgSendULong(NativePtr, MTLResidencySetBindings.AllocatedSize);
-    }
-
-    public nuint AllocationCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocationCount);
-    }
-
     public void RequestResidency()
     {
         ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RequestResidency);

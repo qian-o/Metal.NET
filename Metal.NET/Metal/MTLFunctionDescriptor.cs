@@ -39,50 +39,6 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
         set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.Name);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetName, value);
-    }
-
-    public NSString SpecializedName
-    {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.SpecializedName);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetSpecializedName, value);
-    }
-
-    public MTLFunctionConstantValues ConstantValues
-    {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.ConstantValues);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetConstantValues, value);
-    }
-
-    public MTLFunctionOptions Options
-    {
-        get => (MTLFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionDescriptorBindings.Options);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
-    }
-
-    public void SetName(NSString name)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetName, name.NativePtr);
-    }
-
-    public void SetSpecializedName(NSString specializedName)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetSpecializedName, specializedName.NativePtr);
-    }
-
-    public void SetConstantValues(MTLFunctionConstantValues constantValues)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetConstantValues, constantValues.NativePtr);
-    }
-
-    public void SetOptions(MTLFunctionOptions options)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)options);
-    }
-
     public static MTLFunctionDescriptor FunctionDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);

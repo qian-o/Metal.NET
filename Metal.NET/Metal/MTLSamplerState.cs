@@ -25,21 +25,6 @@ public class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : 
     {
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLSamplerStateBindings.GpuResourceID);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLSamplerStateBindings.Label);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLSamplerStateBindings.Device);
-    }
-
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLSamplerStateBindings.GpuResourceID);
-    }
 }
 
 file static class MTLSamplerStateBindings

@@ -160,167 +160,22 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         get => (MTLTextureSparseTier)ObjectiveC.MsgSendLong(NativePtr, MTLTextureBindings.SparseTextureTier);
     }
 
-    public MTLResource RootResource
-    {
-        get => GetProperty(ref field, MTLTextureBindings.RootResource);
-    }
-
-    public MTLTexture ParentTexture
-    {
-        get => GetProperty(ref field, MTLTextureBindings.ParentTexture);
-    }
-
-    public nuint ParentRelativeLevel
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ParentRelativeLevel);
-    }
-
-    public nuint ParentRelativeSlice
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ParentRelativeSlice);
-    }
-
-    public MTLBuffer Buffer
-    {
-        get => GetProperty(ref field, MTLTextureBindings.Buffer);
-    }
-
-    public nuint BufferOffset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.BufferOffset);
-    }
-
-    public nuint BufferBytesPerRow
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.BufferBytesPerRow);
-    }
-
-    public nint Iosurface
-    {
-        get => ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Iosurface);
-    }
-
-    public nuint IosurfacePlane
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.IosurfacePlane);
-    }
-
-    public MTLTextureType TextureType
-    {
-        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.TextureType);
-    }
-
-    public MTLPixelFormat PixelFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.PixelFormat);
-    }
-
-    public nuint Width
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Width);
-    }
-
-    public nuint Height
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Height);
-    }
-
-    public nuint Depth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Depth);
-    }
-
-    public nuint MipmapLevelCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.MipmapLevelCount);
-    }
-
-    public nuint SampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.SampleCount);
-    }
-
-    public nuint ArrayLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.ArrayLength);
-    }
-
-    public MTLTextureUsage Usage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.Usage);
-    }
-
-    public Bool8 IsShareable
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsShareable);
-    }
-
-    public Bool8 IsFramebufferOnly
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsFramebufferOnly);
-    }
-
-    public nuint FirstMipmapInTail
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.FirstMipmapInTail);
-    }
-
-    public nuint TailSizeInBytes
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.TailSizeInBytes);
-    }
-
-    public Bool8 IsSparse
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsSparse);
-    }
-
-    public Bool8 AllowGPUOptimizedContents
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.AllowGPUOptimizedContents);
-    }
-
-    public MTLTextureCompressionType CompressionType
-    {
-        get => (MTLTextureCompressionType)ObjectiveC.MsgSendLong(NativePtr, MTLTextureBindings.CompressionType);
-    }
-
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureBindings.GpuResourceID);
-    }
-
-    public MTLTexture RemoteStorageTexture
-    {
-        get => GetProperty(ref field, MTLTextureBindings.RemoteStorageTexture);
-    }
-
-    public MTLTextureSwizzleChannels Swizzle
-    {
-        get => ObjectiveC.MsgSendMTLTextureSwizzleChannels(NativePtr, MTLTextureBindings.Swizzle);
-    }
-
-    public MTLTextureSparseTier SparseTextureTier
-    {
-        get => (MTLTextureSparseTier)ObjectiveC.MsgSendLong(NativePtr, MTLTextureBindings.SparseTextureTier);
-    }
-
-    public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
+    public void GetBytesBytesPerRowBytesPerImageFromRegionMipmapLevelSlice(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.GetBytes, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
     }
 
-    public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
+    public void ReplaceRegionMipmapLevelSliceWithBytesBytesPerRowBytesPerImage(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegion, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
     }
 
-    public void GetBytes(nint pixelBytes, nuint bytesPerRow, MTLRegion region, nuint level)
+    public void GetBytesBytesPerRowFromRegionMipmapLevel(nint pixelBytes, nuint bytesPerRow, MTLRegion region, nuint level)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.GetBytesbytesPerRowfromRegionmipmapLevel, pixelBytes, bytesPerRow, region, level);
     }
 
-    public void ReplaceRegion(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
+    public void ReplaceRegionMipmapLevelWithBytesBytesPerRow(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegionmipmapLevelwithBytesbytesPerRow, region, level, pixelBytes, bytesPerRow);
     }
@@ -332,7 +187,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTexture NewTextureViewWithPixelFormat(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
+    public MTLTexture NewTextureViewWithPixelFormatTextureTypeLevelsSlices(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
 
@@ -360,7 +215,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTexture NewTextureViewWithPixelFormat(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
+    public MTLTexture NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
 

@@ -57,83 +57,6 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOwnership 
         set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorProcessingMode, (nint)value);
     }
 
-    public MTLPixelFormat ColorTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorBindings.ColorTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorTextureFormat, (nuint)value);
-    }
-
-    public MTLPixelFormat OutputTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorBindings.OutputTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputTextureFormat, (nuint)value);
-    }
-
-    public nuint InputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.InputWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetInputWidth, value);
-    }
-
-    public nuint InputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.InputHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetInputHeight, value);
-    }
-
-    public nuint OutputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.OutputWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputWidth, value);
-    }
-
-    public nuint OutputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.OutputHeight);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputHeight, value);
-    }
-
-    public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
-    {
-        get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveC.MsgSendLong(NativePtr, MTLFXSpatialScalerDescriptorBindings.ColorProcessingMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorProcessingMode, (nint)value);
-    }
-
-    public void SetColorTextureFormat(MTLPixelFormat colorTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorTextureFormat, (nuint)colorTextureFormat);
-    }
-
-    public void SetOutputTextureFormat(MTLPixelFormat outputTextureFormat)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputTextureFormat, (nuint)outputTextureFormat);
-    }
-
-    public void SetInputWidth(nuint inputWidth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetInputWidth, inputWidth);
-    }
-
-    public void SetInputHeight(nuint inputHeight)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetInputHeight, inputHeight);
-    }
-
-    public void SetOutputWidth(nuint outputWidth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputWidth, outputWidth);
-    }
-
-    public void SetOutputHeight(nuint outputHeight)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputHeight, outputHeight);
-    }
-
-    public void SetColorProcessingMode(MTLFXSpatialScalerColorProcessingMode colorProcessingMode)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorProcessingMode, (nint)colorProcessingMode);
-    }
-
     public MTLFXSpatialScaler NewSpatialScalerWithDevice(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevice, device.NativePtr);
@@ -141,7 +64,7 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOwnership 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4FXSpatialScaler NewSpatialScalerWithDevice(MTLDevice device, MTL4Compiler compiler)
+    public MTL4FXSpatialScaler NewSpatialScalerWithDeviceCompiler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevicecompiler, device.NativePtr, compiler.NativePtr);
 

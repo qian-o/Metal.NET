@@ -16,7 +16,7 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         get => GetProperty(ref field, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
     }
 
-    public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
+    public void SetColorStoreActionAtIndex(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
     }
@@ -31,7 +31,7 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetStencilStoreAction, (nuint)storeAction);
     }
 
-    public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
+    public void SetColorStoreActionOptionsAtIndex(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionOptions, (nuint)storeActionOptions, colorAttachmentIndex);
     }

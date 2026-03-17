@@ -15,11 +15,6 @@ public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : 
     {
         get => GetProperty(ref field, MTLArchitectureBindings.Name);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLArchitectureBindings.Name);
-    }
 }
 
 file static class MTLArchitectureBindings

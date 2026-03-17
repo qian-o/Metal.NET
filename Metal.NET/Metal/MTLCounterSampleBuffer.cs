@@ -26,21 +26,6 @@ public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership owners
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferBindings.SampleCount);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLCounterSampleBufferBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLCounterSampleBufferBindings.Label);
-    }
-
-    public nuint SampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferBindings.SampleCount);
-    }
-
     public NSData ResolveCounterRange(NSRange range)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCounterSampleBufferBindings.ResolveCounterRange, range);

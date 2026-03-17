@@ -16,12 +16,7 @@ public class MTLVisibleFunctionTable(nint nativePtr, NativeObjectOwnership owner
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableBindings.GpuResourceID);
     }
 
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableBindings.GpuResourceID);
-    }
-
-    public void SetFunction(MTLFunctionHandle function, nuint index)
+    public void SetFunctionAtIndex(MTLFunctionHandle function, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLVisibleFunctionTableBindings.SetFunction, function.NativePtr, index);
     }

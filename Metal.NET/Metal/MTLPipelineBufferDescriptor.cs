@@ -20,17 +20,6 @@ public class MTLPipelineBufferDescriptor(nint nativePtr, NativeObjectOwnership o
         get => (MTLMutability)ObjectiveC.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);
         set => ObjectiveC.MsgSend(NativePtr, MTLPipelineBufferDescriptorBindings.SetMutability, (nuint)value);
     }
-
-    public MTLMutability Mutability
-    {
-        get => (MTLMutability)ObjectiveC.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPipelineBufferDescriptorBindings.SetMutability, (nuint)value);
-    }
-
-    public void SetMutability(MTLMutability mutability)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLPipelineBufferDescriptorBindings.SetMutability, (nuint)mutability);
-    }
 }
 
 file static class MTLPipelineBufferDescriptorBindings

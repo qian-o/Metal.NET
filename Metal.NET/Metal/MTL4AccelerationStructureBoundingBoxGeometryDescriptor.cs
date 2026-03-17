@@ -32,39 +32,6 @@ public class MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativeP
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
     }
-
-    public MTL4BufferRange BoundingBoxBuffer
-    {
-        get => ObjectiveC.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffer);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value);
-    }
-
-    public nuint BoundingBoxStride
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, value);
-    }
-
-    public nuint BoundingBoxCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
-    }
-
-    public void SetBoundingBoxBuffer(MTL4BufferRange boundingBoxBuffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, boundingBoxBuffer);
-    }
-
-    public void SetBoundingBoxStride(nuint boundingBoxStride)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, boundingBoxStride);
-    }
-
-    public void SetBoundingBoxCount(nuint boundingBoxCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, boundingBoxCount);
-    }
 }
 
 file static class MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings

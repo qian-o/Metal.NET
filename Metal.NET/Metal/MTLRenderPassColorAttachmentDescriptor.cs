@@ -20,17 +20,6 @@ public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr, NativeObject
         get => ObjectiveC.MsgSendMTLClearColor(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.ClearColor);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.SetClearColor, value);
     }
-
-    public MTLClearColor ClearColor
-    {
-        get => ObjectiveC.MsgSendMTLClearColor(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.ClearColor);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.SetClearColor, value);
-    }
-
-    public void SetClearColor(MTLClearColor clearColor)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.SetClearColor, clearColor);
-    }
 }
 
 file static class MTLRenderPassColorAttachmentDescriptorBindings

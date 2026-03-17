@@ -21,37 +21,27 @@ public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) 
         get => GetProperty(ref field, MTL4ArgumentTableBindings.Label);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTL4ArgumentTableBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4ArgumentTableBindings.Label);
-    }
-
-    public void SetAddress(nuint gpuAddress, nuint bindingIndex)
+    public void SetAddressAtIndex(nuint gpuAddress, nuint bindingIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddress, gpuAddress, bindingIndex);
     }
 
-    public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
+    public void SetAddressAttributeStrideAtIndex(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressattributeStrideatIndex, gpuAddress, stride, bindingIndex);
     }
 
-    public void SetResource(MTLResourceID resourceID, nuint bindingIndex)
+    public void SetResourceAtBufferIndex(MTLResourceID resourceID, nuint bindingIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetResource, resourceID, bindingIndex);
     }
 
-    public void SetTexture(MTLResourceID resourceID, nuint bindingIndex)
+    public void SetTextureAtIndex(MTLResourceID resourceID, nuint bindingIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetTexture, resourceID, bindingIndex);
     }
 
-    public void SetSamplerState(MTLResourceID resourceID, nuint bindingIndex)
+    public void SetSamplerStateAtIndex(MTLResourceID resourceID, nuint bindingIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetSamplerState, resourceID, bindingIndex);
     }

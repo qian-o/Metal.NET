@@ -32,22 +32,6 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         get => GetProperty(ref field, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
     }
 
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLCommandQueueBindings.Label);
-        set => SetProperty(ref field, MTLCommandQueueBindings.SetLabel, value);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLCommandQueueBindings.Device);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.SetLabel, label.NativePtr);
-    }
-
     public MTLCommandBuffer CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);

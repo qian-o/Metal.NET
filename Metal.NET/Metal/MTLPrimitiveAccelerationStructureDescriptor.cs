@@ -45,61 +45,6 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeO
         set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionKeyframeCount, value);
     }
 
-    public MTLMotionBorderMode MotionStartBorderMode
-    {
-        get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartBorderMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartBorderMode, (uint)value);
-    }
-
-    public MTLMotionBorderMode MotionEndBorderMode
-    {
-        get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndBorderMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndBorderMode, (uint)value);
-    }
-
-    public float MotionStartTime
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartTime);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartTime, value);
-    }
-
-    public float MotionEndTime
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndTime);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndTime, value);
-    }
-
-    public nuint MotionKeyframeCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionKeyframeCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionKeyframeCount, value);
-    }
-
-    public void SetMotionStartBorderMode(MTLMotionBorderMode motionStartBorderMode)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartBorderMode, (uint)motionStartBorderMode);
-    }
-
-    public void SetMotionEndBorderMode(MTLMotionBorderMode motionEndBorderMode)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndBorderMode, (uint)motionEndBorderMode);
-    }
-
-    public void SetMotionStartTime(float motionStartTime)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartTime, motionStartTime);
-    }
-
-    public void SetMotionEndTime(float motionEndTime)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndTime, motionEndTime);
-    }
-
-    public void SetMotionKeyframeCount(nuint motionKeyframeCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionKeyframeCount, motionKeyframeCount);
-    }
-
     public static nint Descriptor()
     {
         return ObjectiveC.MsgSendNInt(MTLPrimitiveAccelerationStructureDescriptorBindings.Class, MTLPrimitiveAccelerationStructureDescriptorBindings.Descriptor);

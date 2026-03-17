@@ -15,11 +15,6 @@ public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownersh
     {
         get => GetProperty(ref field, MTLFunctionReflectionBindings.UserAnnotation);
     }
-
-    public NSString UserAnnotation
-    {
-        get => GetProperty(ref field, MTLFunctionReflectionBindings.UserAnnotation);
-    }
 }
 
 file static class MTLFunctionReflectionBindings

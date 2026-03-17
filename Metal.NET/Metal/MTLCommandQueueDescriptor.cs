@@ -26,28 +26,6 @@ public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership own
         get => GetProperty(ref field, MTLCommandQueueDescriptorBindings.LogState);
         set => SetProperty(ref field, MTLCommandQueueDescriptorBindings.SetLogState, value);
     }
-
-    public nuint MaxCommandBufferCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorBindings.MaxCommandBufferCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetMaxCommandBufferCount, value);
-    }
-
-    public MTLLogState LogState
-    {
-        get => GetProperty(ref field, MTLCommandQueueDescriptorBindings.LogState);
-        set => SetProperty(ref field, MTLCommandQueueDescriptorBindings.SetLogState, value);
-    }
-
-    public void SetMaxCommandBufferCount(nuint maxCommandBufferCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetMaxCommandBufferCount, maxCommandBufferCount);
-    }
-
-    public void SetLogState(MTLLogState logState)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetLogState, logState.NativePtr);
-    }
 }
 
 file static class MTLCommandQueueDescriptorBindings

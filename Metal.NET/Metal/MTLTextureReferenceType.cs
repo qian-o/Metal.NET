@@ -30,26 +30,6 @@ public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership owner
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
     }
-
-    public MTLDataType TextureDataType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureDataType);
-    }
-
-    public MTLTextureType TextureType
-    {
-        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureType);
-    }
-
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.Access);
-    }
-
-    public Bool8 IsDepthTexture
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
-    }
 }
 
 file static class MTLTextureReferenceTypeBindings

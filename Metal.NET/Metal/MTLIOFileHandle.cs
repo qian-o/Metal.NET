@@ -16,17 +16,6 @@ public class MTLIOFileHandle(nint nativePtr, NativeObjectOwnership ownership) : 
         get => GetProperty(ref field, MTLIOFileHandleBindings.Label);
         set => SetProperty(ref field, MTLIOFileHandleBindings.SetLabel, value);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLIOFileHandleBindings.Label);
-        set => SetProperty(ref field, MTLIOFileHandleBindings.SetLabel, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIOFileHandleBindings.SetLabel, label.NativePtr);
-    }
 }
 
 file static class MTLIOFileHandleBindings

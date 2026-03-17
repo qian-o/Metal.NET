@@ -22,28 +22,6 @@ public class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwnership own
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.OutputNode);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetOutputNode, value);
     }
-
-    public NSString FunctionName
-    {
-        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.FunctionName);
-        set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetFunctionName, value);
-    }
-
-    public MTLFunctionStitchingFunctionNode OutputNode
-    {
-        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.OutputNode);
-        set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetOutputNode, value);
-    }
-
-    public void SetFunctionName(NSString functionName)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetFunctionName, functionName.NativePtr);
-    }
-
-    public void SetOutputNode(MTLFunctionStitchingFunctionNode outputNode)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetOutputNode, outputNode.NativePtr);
-    }
 }
 
 file static class MTLFunctionStitchingGraphBindings

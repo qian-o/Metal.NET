@@ -20,11 +20,6 @@ public class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownersh
         get => GetProperty(ref field, MTLBlitPassDescriptorBindings.SampleBufferAttachments);
     }
 
-    public MTLBlitPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => GetProperty(ref field, MTLBlitPassDescriptorBindings.SampleBufferAttachments);
-    }
-
     public static MTLBlitPassDescriptor BlitPassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);

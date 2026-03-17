@@ -32,39 +32,6 @@ public class MTLBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnership own
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorBindings.StepRate);
         set => ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStepRate, value);
     }
-
-    public nuint Stride
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorBindings.Stride);
-        set => ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStride, value);
-    }
-
-    public MTLStepFunction StepFunction
-    {
-        get => (MTLStepFunction)ObjectiveC.MsgSendULong(NativePtr, MTLBufferLayoutDescriptorBindings.StepFunction);
-        set => ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStepFunction, (nuint)value);
-    }
-
-    public nuint StepRate
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorBindings.StepRate);
-        set => ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStepRate, value);
-    }
-
-    public void SetStride(nuint stride)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStride, stride);
-    }
-
-    public void SetStepFunction(MTLStepFunction stepFunction)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStepFunction, (nuint)stepFunction);
-    }
-
-    public void SetStepRate(nuint stepRate)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStepRate, stepRate);
-    }
 }
 
 file static class MTLBufferLayoutDescriptorBindings

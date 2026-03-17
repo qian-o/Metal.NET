@@ -21,17 +21,6 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr, NativeObjectOwner
         set => ObjectiveC.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorBindings.SetFunctionCount, value);
     }
 
-    public nuint FunctionCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVisibleFunctionTableDescriptorBindings.FunctionCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorBindings.SetFunctionCount, value);
-    }
-
-    public void SetFunctionCount(nuint functionCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorBindings.SetFunctionCount, functionCount);
-    }
-
     public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);

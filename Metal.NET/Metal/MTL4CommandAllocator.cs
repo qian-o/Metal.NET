@@ -26,16 +26,6 @@ public class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownershi
         get => ObjectiveC.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTL4CommandAllocatorBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4CommandAllocatorBindings.Label);
-    }
-
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandAllocatorBindings.Reset);

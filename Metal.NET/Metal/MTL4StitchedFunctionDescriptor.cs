@@ -20,17 +20,6 @@ public class MTL4StitchedFunctionDescriptor(nint nativePtr, NativeObjectOwnershi
         get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
         set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value);
     }
-
-    public MTLFunctionStitchingGraph FunctionGraph
-    {
-        get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
-        set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value);
-    }
-
-    public void SetFunctionGraph(MTLFunctionStitchingGraph functionGraph)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, functionGraph.NativePtr);
-    }
 }
 
 file static class MTL4StitchedFunctionDescriptorBindings

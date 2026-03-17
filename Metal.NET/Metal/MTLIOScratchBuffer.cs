@@ -15,11 +15,6 @@ public class MTLIOScratchBuffer(nint nativePtr, NativeObjectOwnership ownership)
     {
         get => GetProperty(ref field, MTLIOScratchBufferBindings.Buffer);
     }
-
-    public MTLBuffer Buffer
-    {
-        get => GetProperty(ref field, MTLIOScratchBufferBindings.Buffer);
-    }
 }
 
 file static class MTLIOScratchBufferBindings

@@ -30,26 +30,6 @@ public class MTLFunctionLog(nint nativePtr, NativeObjectOwnership ownership) : N
     {
         get => GetProperty(ref field, MTLFunctionLogBindings.DebugLocation);
     }
-
-    public MTLFunctionLogType Type
-    {
-        get => (MTLFunctionLogType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionLogBindings.Type);
-    }
-
-    public NSString EncoderLabel
-    {
-        get => GetProperty(ref field, MTLFunctionLogBindings.EncoderLabel);
-    }
-
-    public MTLFunction Function
-    {
-        get => GetProperty(ref field, MTLFunctionLogBindings.Function);
-    }
-
-    public MTLFunctionLogDebugLocation DebugLocation
-    {
-        get => GetProperty(ref field, MTLFunctionLogBindings.DebugLocation);
-    }
 }
 
 file static class MTLFunctionLogBindings

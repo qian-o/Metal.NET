@@ -17,7 +17,9 @@ partial class TypeMapper(GeneratorContext context)
         "MTLVertexAmplificationViewMapping", "MTL4BufferRange",
         "MTL4CopySparseBufferMappingOperation", "MTL4CopySparseTextureMappingOperation",
         "MTL4UpdateSparseBufferMappingOperation", "MTL4UpdateSparseTextureMappingOperation",
-        "SimdFloat4x4"
+        "SimdFloat4x4",
+        "MTLPackedFloat3", "MTLPackedFloatQuaternion", "MTLPackedFloat4x3",
+        "MTLIndirectCommandBufferExecutionRange",
     ];
 
     /// <summary>Known typos in metal-cpp headers (parameter name corrections).</summary>
@@ -130,6 +132,7 @@ partial class TypeMapper(GeneratorContext context)
             "CGSize" => "CGSize",
             "CGFloat" => "double",
             "simd::float4x4" => "SimdFloat4x4",
+            "SimdFloat4x4" => "SimdFloat4x4",
             "MTLGPUAddress" => "nuint",
             "MTLCoordinate2D" => "MTLSamplePosition",
             _ => null

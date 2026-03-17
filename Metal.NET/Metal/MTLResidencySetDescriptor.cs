@@ -26,28 +26,6 @@ public class MTLResidencySetDescriptor(nint nativePtr, NativeObjectOwnership own
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorBindings.InitialCapacity);
         set => ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, value);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLResidencySetDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLResidencySetDescriptorBindings.SetLabel, value);
-    }
-
-    public nuint InitialCapacity
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorBindings.InitialCapacity);
-        set => ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetLabel, label.NativePtr);
-    }
-
-    public void SetInitialCapacity(nuint initialCapacity)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, initialCapacity);
-    }
 }
 
 file static class MTLResidencySetDescriptorBindings

@@ -39,50 +39,6 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
     }
 
-    public MTLBuffer BoundingBoxBuffer
-    {
-        get => GetProperty(ref field, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value);
-    }
-
-    public nuint BoundingBoxBufferOffset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBufferOffset);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBufferOffset, value);
-    }
-
-    public nuint BoundingBoxStride
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, value);
-    }
-
-    public nuint BoundingBoxCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
-    }
-
-    public void SetBoundingBoxBuffer(MTLBuffer boundingBoxBuffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, boundingBoxBuffer.NativePtr);
-    }
-
-    public void SetBoundingBoxBufferOffset(nuint boundingBoxBufferOffset)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBufferOffset, boundingBoxBufferOffset);
-    }
-
-    public void SetBoundingBoxStride(nuint boundingBoxStride)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, boundingBoxStride);
-    }
-
-    public void SetBoundingBoxCount(nuint boundingBoxCount)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, boundingBoxCount);
-    }
-
     public static nint Descriptor()
     {
         return ObjectiveC.MsgSendNInt(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Descriptor);

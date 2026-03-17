@@ -32,28 +32,12 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         get => GetProperty(ref field, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTL4CommandBufferBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4CommandBufferBindings.Label);
-        set => SetProperty(ref field, MTL4CommandBufferBindings.SetLabel, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.SetLabel, label.NativePtr);
-    }
-
     public void BeginCommandBufferWithAllocator(MTL4CommandAllocator allocator)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocator, allocator.NativePtr);
     }
 
-    public void BeginCommandBufferWithAllocator(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
+    public void BeginCommandBufferWithAllocatorOptions(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatoroptions, allocator.NativePtr, options.NativePtr);
     }
@@ -70,7 +54,7 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4RenderCommandEncoder RenderCommandEncoderWithDescriptor(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
+    public MTL4RenderCommandEncoder RenderCommandEncoderWithDescriptorOptions(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
 
@@ -92,12 +76,12 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.PopDebugGroup);
     }
 
-    public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, nuint index)
+    public void WriteTimestampIntoHeapAtIndex(MTL4CounterHeap counterHeap, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.WriteTimestampIntoHeap, counterHeap.NativePtr, index);
     }
 
-    public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)
+    public void ResolveCounterHeapWithRangeIntoBufferWaitFenceUpdateFence(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.ResolveCounterHeap, counterHeap.NativePtr, range, bufferRange, fenceToWait.NativePtr, fenceToUpdate.NativePtr);
     }

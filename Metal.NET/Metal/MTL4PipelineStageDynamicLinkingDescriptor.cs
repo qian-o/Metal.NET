@@ -20,17 +20,6 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, NativeObj
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.MaxCallStackDepth);
         set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetMaxCallStackDepth, value);
     }
-
-    public nuint MaxCallStackDepth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.MaxCallStackDepth);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetMaxCallStackDepth, value);
-    }
-
-    public void SetMaxCallStackDepth(nuint maxCallStackDepth)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetMaxCallStackDepth, maxCallStackDepth);
-    }
 }
 
 file static class MTL4PipelineStageDynamicLinkingDescriptorBindings

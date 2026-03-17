@@ -24,7 +24,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
     public Bool8 IsDepthWriteEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.IsDepthWriteEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthWriteEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetIsDepthWriteEnabled, value);
     }
 
     public MTLStencilDescriptor FrontFaceStencil
@@ -43,61 +43,6 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
     {
         get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.Label);
         set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetLabel, value);
-    }
-
-    public MTLCompareFunction DepthCompareFunction
-    {
-        get => (MTLCompareFunction)ObjectiveC.MsgSendULong(NativePtr, MTLDepthStencilDescriptorBindings.DepthCompareFunction);
-        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthCompareFunction, (nuint)value);
-    }
-
-    public Bool8 IsDepthWriteEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.IsDepthWriteEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthWriteEnabled, value);
-    }
-
-    public MTLStencilDescriptor FrontFaceStencil
-    {
-        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.FrontFaceStencil);
-        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value);
-    }
-
-    public MTLStencilDescriptor BackFaceStencil
-    {
-        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.BackFaceStencil);
-        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetLabel, value);
-    }
-
-    public void SetDepthCompareFunction(MTLCompareFunction depthCompareFunction)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthCompareFunction, (nuint)depthCompareFunction);
-    }
-
-    public void SetIsDepthWriteEnabled(bool isDepthWriteEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetIsDepthWriteEnabled, isDepthWriteEnabled);
-    }
-
-    public void SetFrontFaceStencil(MTLStencilDescriptor frontFaceStencil)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, frontFaceStencil.NativePtr);
-    }
-
-    public void SetBackFaceStencil(MTLStencilDescriptor backFaceStencil)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, backFaceStencil.NativePtr);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetLabel, label.NativePtr);
     }
 }
 
@@ -118,8 +63,6 @@ file static class MTLDepthStencilDescriptorBindings
     public static readonly Selector SetBackFaceStencil = "setBackFaceStencil:";
 
     public static readonly Selector SetDepthCompareFunction = "setDepthCompareFunction:";
-
-    public static readonly Selector SetDepthWriteEnabled = "setDepthWriteEnabled:";
 
     public static readonly Selector SetFrontFaceStencil = "setFrontFaceStencil:";
 

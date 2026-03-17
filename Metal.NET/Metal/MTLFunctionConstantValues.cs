@@ -15,17 +15,17 @@ public class MTLFunctionConstantValues(nint nativePtr, NativeObjectOwnership own
     {
     }
 
-    public void SetConstantValue(nint value, MTLDataType type, nuint index)
+    public void SetConstantValueTypeAtIndex(nint value, MTLDataType type, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValue, value, (nuint)type, index);
     }
 
-    public void SetConstantValues(nint values, MTLDataType type, NSRange range)
+    public void SetConstantValuesTypeWithRange(nint values, MTLDataType type, NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValues, values, (nuint)type, range);
     }
 
-    public void SetConstantValue(nint value, MTLDataType type, NSString name)
+    public void SetConstantValueTypeWithName(nint value, MTLDataType type, NSString name)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFunctionConstantValuesBindings.SetConstantValuetypewithName, value, (nuint)type, name.NativePtr);
     }

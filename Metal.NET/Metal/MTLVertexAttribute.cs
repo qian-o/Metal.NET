@@ -40,36 +40,6 @@ public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership)
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
-    }
-
-    public nuint AttributeIndex
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeIndex);
-    }
-
-    public MTLDataType AttributeType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLVertexAttributeBindings.AttributeType);
-    }
-
-    public Bool8 IsActive
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
-    }
-
-    public Bool8 IsPatchData
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
-    }
-
-    public Bool8 IsPatchControlPointData
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
-    }
 }
 
 file static class MTLVertexAttributeBindings

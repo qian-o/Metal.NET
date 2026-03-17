@@ -21,22 +21,6 @@ public class MTLFence(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
         get => GetProperty(ref field, MTLFenceBindings.Label);
         set => SetProperty(ref field, MTLFenceBindings.SetLabel, value);
     }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLFenceBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLFenceBindings.Label);
-        set => SetProperty(ref field, MTLFenceBindings.SetLabel, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFenceBindings.SetLabel, label.NativePtr);
-    }
 }
 
 file static class MTLFenceBindings

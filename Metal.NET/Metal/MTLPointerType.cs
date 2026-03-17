@@ -45,31 +45,6 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
     {
         get => GetProperty(ref field, MTLPointerTypeBindings.ElementArrayType);
     }
-
-    public MTLDataType ElementType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.ElementType);
-    }
-
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.Access);
-    }
-
-    public nuint Alignment
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Alignment);
-    }
-
-    public nuint DataSize
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
-    }
-
-    public Bool8 ElementIsArgumentBuffer
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
-    }
 }
 
 file static class MTLPointerTypeBindings

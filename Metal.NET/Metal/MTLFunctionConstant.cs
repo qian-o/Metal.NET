@@ -30,26 +30,6 @@ public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLFunctionConstantBindings.Name);
-    }
-
-    public MTLDataType Type
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionConstantBindings.Type);
-    }
-
-    public nuint Index
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Index);
-    }
-
-    public Bool8 Required
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
-    }
 }
 
 file static class MTLFunctionConstantBindings

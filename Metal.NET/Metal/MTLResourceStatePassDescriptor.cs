@@ -20,11 +20,6 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnershi
         get => GetProperty(ref field, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
     }
 
-    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => GetProperty(ref field, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
-    }
-
     public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);

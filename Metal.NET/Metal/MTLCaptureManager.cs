@@ -26,22 +26,6 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
     }
 
-    public MTLCaptureScope DefaultCaptureScope
-    {
-        get => GetProperty(ref field, MTLCaptureManagerBindings.DefaultCaptureScope);
-        set => SetProperty(ref field, MTLCaptureManagerBindings.SetDefaultCaptureScope, value);
-    }
-
-    public Bool8 IsCapturing
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
-    }
-
-    public void SetDefaultCaptureScope(MTLCaptureScope defaultCaptureScope)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.SetDefaultCaptureScope, defaultCaptureScope.NativePtr);
-    }
-
     public static MTLCaptureManager SharedCaptureManager()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
@@ -75,7 +59,7 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.SupportsDestination, (nint)destination);
     }
 
-    public bool StartCaptureWithDescriptor(MTLCaptureDescriptor descriptor, out NSError error)
+    public bool StartCaptureWithDescriptorError(MTLCaptureDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDescriptor, descriptor.NativePtr, out nint errorPtr);
 

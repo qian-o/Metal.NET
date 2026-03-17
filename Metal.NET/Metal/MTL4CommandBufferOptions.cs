@@ -20,17 +20,6 @@ public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership owne
         get => GetProperty(ref field, MTL4CommandBufferOptionsBindings.LogState);
         set => SetProperty(ref field, MTL4CommandBufferOptionsBindings.SetLogState, value);
     }
-
-    public MTLLogState LogState
-    {
-        get => GetProperty(ref field, MTL4CommandBufferOptionsBindings.LogState);
-        set => SetProperty(ref field, MTL4CommandBufferOptionsBindings.SetLogState, value);
-    }
-
-    public void SetLogState(MTLLogState logState)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferOptionsBindings.SetLogState, logState.NativePtr);
-    }
 }
 
 file static class MTL4CommandBufferOptionsBindings

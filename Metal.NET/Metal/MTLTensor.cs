@@ -46,47 +46,12 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : NSObje
         get => (MTLTensorUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.Usage);
     }
 
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTensorBindings.GpuResourceID);
-    }
-
-    public MTLBuffer Buffer
-    {
-        get => GetProperty(ref field, MTLTensorBindings.Buffer);
-    }
-
-    public nuint BufferOffset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorBindings.BufferOffset);
-    }
-
-    public MTLTensorExtents Strides
-    {
-        get => GetProperty(ref field, MTLTensorBindings.Strides);
-    }
-
-    public MTLTensorExtents Dimensions
-    {
-        get => GetProperty(ref field, MTLTensorBindings.Dimensions);
-    }
-
-    public MTLTensorDataType DataType
-    {
-        get => (MTLTensorDataType)ObjectiveC.MsgSendLong(NativePtr, MTLTensorBindings.DataType);
-    }
-
-    public MTLTensorUsage Usage
-    {
-        get => (MTLTensorUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.Usage);
-    }
-
-    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
+    public void ReplaceSliceOriginSliceDimensionsWithBytesStrides(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.ReplaceSliceOrigin, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 
-    public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
+    public void GetBytesStridesFromSliceOriginSliceDimensions(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.GetBytes, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
     }

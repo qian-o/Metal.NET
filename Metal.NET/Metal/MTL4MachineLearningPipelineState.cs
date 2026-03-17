@@ -30,26 +30,6 @@ public class MTL4MachineLearningPipelineState(nint nativePtr, NativeObjectOwners
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateBindings.IntermediatesHeapSize);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Label);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Device);
-    }
-
-    public MTL4MachineLearningPipelineReflection Reflection
-    {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Reflection);
-    }
-
-    public nuint IntermediatesHeapSize
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateBindings.IntermediatesHeapSize);
-    }
 }
 
 file static class MTL4MachineLearningPipelineStateBindings

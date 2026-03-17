@@ -22,28 +22,12 @@ public class MTLCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) 
         set => SetProperty(ref field, MTLCommandEncoderBindings.SetLabel, value);
     }
 
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLCommandEncoderBindings.Device);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLCommandEncoderBindings.Label);
-        set => SetProperty(ref field, MTLCommandEncoderBindings.SetLabel, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.SetLabel, label.NativePtr);
-    }
-
     public void EndEncoding()
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.EndEncoding);
     }
 
-    public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
+    public void BarrierAfterQueueStagesBeforeStages(MTLStages afterQueueStages, MTLStages beforeStages)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages);
     }

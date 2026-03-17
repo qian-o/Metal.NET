@@ -40,36 +40,6 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLBindingBindings.Name);
-    }
-
-    public MTLBindingType Type
-    {
-        get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLBindingBindings.Type);
-    }
-
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLBindingBindings.Access);
-    }
-
-    public nuint Index
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBindingBindings.Index);
-    }
-
-    public Bool8 IsUsed
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsUsed);
-    }
-
-    public Bool8 IsArgument
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
-    }
 }
 
 file static class MTLBindingBindings

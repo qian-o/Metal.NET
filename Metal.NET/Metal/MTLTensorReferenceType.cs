@@ -30,26 +30,6 @@ public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership owners
     {
         get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.Access);
     }
-
-    public MTLTensorDataType TensorDataType
-    {
-        get => (MTLTensorDataType)ObjectiveC.MsgSendLong(NativePtr, MTLTensorReferenceTypeBindings.TensorDataType);
-    }
-
-    public MTLDataType IndexType
-    {
-        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.IndexType);
-    }
-
-    public MTLTensorExtents Dimensions
-    {
-        get => GetProperty(ref field, MTLTensorReferenceTypeBindings.Dimensions);
-    }
-
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.Access);
-    }
 }
 
 file static class MTLTensorReferenceTypeBindings

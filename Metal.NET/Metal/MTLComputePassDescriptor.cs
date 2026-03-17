@@ -26,22 +26,6 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
         get => GetProperty(ref field, MTLComputePassDescriptorBindings.SampleBufferAttachments);
     }
 
-    public MTLDispatchType DispatchType
-    {
-        get => (MTLDispatchType)ObjectiveC.MsgSendULong(NativePtr, MTLComputePassDescriptorBindings.DispatchType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLComputePassDescriptorBindings.SetDispatchType, (nuint)value);
-    }
-
-    public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => GetProperty(ref field, MTLComputePassDescriptorBindings.SampleBufferAttachments);
-    }
-
-    public void SetDispatchType(MTLDispatchType dispatchType)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLComputePassDescriptorBindings.SetDispatchType, (nuint)dispatchType);
-    }
-
     public static MTLComputePassDescriptor ComputePassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);

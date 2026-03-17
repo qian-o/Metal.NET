@@ -26,28 +26,6 @@ public class MTL4LibraryFunctionDescriptor(nint nativePtr, NativeObjectOwnership
         get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Library);
         set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value);
     }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Name);
-        set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetName, value);
-    }
-
-    public MTLLibrary Library
-    {
-        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Library);
-        set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value);
-    }
-
-    public void SetName(NSString name)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetName, name.NativePtr);
-    }
-
-    public void SetLibrary(MTLLibrary library)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetLibrary, library.NativePtr);
-    }
 }
 
 file static class MTL4LibraryFunctionDescriptorBindings

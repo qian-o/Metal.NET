@@ -30,26 +30,6 @@ public class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) 
     {
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleBindings.GpuResourceID);
     }
-
-    public MTLFunctionType FunctionType
-    {
-        get => (MTLFunctionType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionHandleBindings.FunctionType);
-    }
-
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTLFunctionHandleBindings.Name);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLFunctionHandleBindings.Device);
-    }
-
-    public MTLResourceID GpuResourceID
-    {
-        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleBindings.GpuResourceID);
-    }
 }
 
 file static class MTLFunctionHandleBindings

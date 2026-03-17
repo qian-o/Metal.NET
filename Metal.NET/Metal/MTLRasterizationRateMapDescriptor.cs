@@ -37,38 +37,6 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerCount);
     }
 
-    public MTLRasterizationRateLayerArray Layers
-    {
-        get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Layers);
-    }
-
-    public MTLSize ScreenSize
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapDescriptorBindings.ScreenSize);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetScreenSize, value);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.SetLabel, value);
-    }
-
-    public nuint LayerCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerCount);
-    }
-
-    public void SetScreenSize(MTLSize screenSize)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetScreenSize, screenSize);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLabel, label.NativePtr);
-    }
-
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize, screenSize);
@@ -76,7 +44,7 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSizeLayer(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSizelayer, screenSize, layer.NativePtr);
 
@@ -90,7 +58,7 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
+    public void SetLayerAtIndex(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLayer, layer.NativePtr, layerIndex);
     }

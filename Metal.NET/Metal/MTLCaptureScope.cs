@@ -32,32 +32,6 @@ public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : 
         get => GetProperty(ref field, MTLCaptureScopeBindings.Mtl4CommandQueue);
     }
 
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLCaptureScopeBindings.Label);
-        set => SetProperty(ref field, MTLCaptureScopeBindings.SetLabel, value);
-    }
-
-    public MTLDevice Device
-    {
-        get => GetProperty(ref field, MTLCaptureScopeBindings.Device);
-    }
-
-    public MTLCommandQueue CommandQueue
-    {
-        get => GetProperty(ref field, MTLCaptureScopeBindings.CommandQueue);
-    }
-
-    public MTL4CommandQueue Mtl4CommandQueue
-    {
-        get => GetProperty(ref field, MTLCaptureScopeBindings.Mtl4CommandQueue);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.SetLabel, label.NativePtr);
-    }
-
     public void BeginScope()
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.BeginScope);

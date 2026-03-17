@@ -21,16 +21,6 @@ public class MTL4CompilerTask(nint nativePtr, NativeObjectOwnership ownership) :
         get => (MTL4CompilerTaskStatus)ObjectiveC.MsgSendLong(NativePtr, MTL4CompilerTaskBindings.Status);
     }
 
-    public MTL4Compiler Compiler
-    {
-        get => GetProperty(ref field, MTL4CompilerTaskBindings.Compiler);
-    }
-
-    public MTL4CompilerTaskStatus Status
-    {
-        get => (MTL4CompilerTaskStatus)ObjectiveC.MsgSendLong(NativePtr, MTL4CompilerTaskBindings.Status);
-    }
-
     public void WaitUntilCompleted()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4CompilerTaskBindings.WaitUntilCompleted);

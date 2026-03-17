@@ -27,17 +27,6 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
         get => GetProperty(ref field, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
     }
 
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLIOCommandQueueBindings.Label);
-        set => SetProperty(ref field, MTLIOCommandQueueBindings.SetLabel, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueBindings.SetLabel, label.NativePtr);
-    }
-
     public void EnqueueBarrier()
     {
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueBindings.EnqueueBarrier);

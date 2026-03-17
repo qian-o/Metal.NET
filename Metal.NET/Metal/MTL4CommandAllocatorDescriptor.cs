@@ -20,17 +20,6 @@ public class MTL4CommandAllocatorDescriptor(nint nativePtr, NativeObjectOwnershi
         get => GetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.SetLabel, value);
     }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.SetLabel, value);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorBindings.SetLabel, label.NativePtr);
-    }
 }
 
 file static class MTL4CommandAllocatorDescriptorBindings
