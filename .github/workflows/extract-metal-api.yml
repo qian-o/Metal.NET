@@ -113,7 +113,7 @@ jobs:
 
           echo "Filtering to Metal API..."
           python3 - "$RAW_AST" "Metal.NET.Generator/metal-ast.json" "$SDK_VERSION" <<'PYEOF'
-          import json, sys, os
+          import json, sys, os, re
 
           raw_path, out_path, sdk_version = sys.argv[1], sys.argv[2], sys.argv[3]
 
@@ -152,23 +152,42 @@ jobs:
                   return "nonnull"
               return None
 
+          def clean_type(type_str):
+              if not type_str:
+                  return type_str
+              type_str = re.sub(r'\s*API_AVAILABLE\((?:[^()]*\([^()]*\))*[^()]*\)', '', type_str)
+              return type_str.strip()
+
           def extract_enum(node):
               name = node.get("name", "")
               if not name:
                   return None
               members = []
+              next_value = 0
               for c in node.get("inner", []):
                   if c.get("kind") == "EnumConstantDecl":
                       m = {"name": c["name"]}
+                      found_value = None
                       for v in c.get("inner", []):
                           if v.get("value"):
-                              m["value"] = v["value"]
+                              found_value = v["value"]
                               break
                           for v2 in v.get("inner", []):
                               if v2.get("value"):
-                                  m["value"] = v2["value"]
+                                  found_value = v2["value"]
                                   break
+                      if found_value is not None:
+                          m["value"] = found_value
+                          try:
+                              next_value = int(found_value, 0) + 1
+                          except (ValueError, TypeError):
+                              next_value += 1
+                      else:
+                          m["value"] = str(next_value)
+                          next_value += 1
                       members.append(m)
+              if not members:
+                  return None
               return {
                   "kind": "enum",
                   "name": name,
@@ -182,11 +201,11 @@ jobs:
               name = node.get("name", "")
               if not name:
                   return None
-              ret = (node.get("returnType") or {}).get("qualType", "void")
+              ret = clean_type((node.get("returnType") or {}).get("qualType", "void"))
               params = []
               for c in node.get("inner", []):
                   if c.get("kind") == "ParmVarDecl":
-                      pt = (c.get("type") or {}).get("qualType", "")
+                      pt = clean_type((c.get("type") or {}).get("qualType", ""))
                       params.append({
                           "name": c.get("name", ""),
                           "type": pt,
@@ -205,7 +224,7 @@ jobs:
               name = node.get("name", "")
               if not name:
                   return None
-              pt = (node.get("type") or {}).get("qualType", "")
+              pt = clean_type((node.get("type") or {}).get("qualType", ""))
               r = {
                   "name": name,
                   "type": pt,
@@ -295,11 +314,12 @@ jobs:
                       if c.get("kind") == "ParmVarDecl":
                           params.append({
                               "name": c.get("name", ""),
-                              "type": (c.get("type") or {}).get("qualType", ""),
+                              "type": clean_type((c.get("type") or {}).get("qualType", "")),
                           })
+                  ret_type = ft.split("(")[0].strip() if "(" in ft else ft
                   api["functions"].append({
                       "name": name,
-                      "returnType": ft.split("(")[0].strip() if "(" in ft else ft,
+                      "returnType": clean_type(ret_type),
                       "parameters": params,
                       "availability": get_availability(node),
                   })
@@ -313,6 +333,58 @@ jobs:
                           })
                   if fields:
                       api["structs"].append({"name": name, "fields": fields})
+
+          seen_enums = {}
+          for e in api["enums"]:
+              seen_enums[e["name"]] = e
+          api["enums"] = list(seen_enums.values())
+
+          merged_classes = {}
+          for cls in api["classes"]:
+              name = cls["name"]
+              if name not in merged_classes:
+                  merged_classes[name] = cls
+              else:
+                  existing = merged_classes[name]
+                  seen_sel = {m["selector"] for m in existing["methods"]}
+                  for m in cls["methods"]:
+                      if m["selector"] not in seen_sel:
+                          existing["methods"].append(m)
+                          seen_sel.add(m["selector"])
+                  seen_prop = {p["name"] for p in existing["properties"]}
+                  for p in cls["properties"]:
+                      if p["name"] not in seen_prop:
+                          existing["properties"].append(p)
+                          seen_prop.add(p["name"])
+                  seen_proto = set(existing.get("protocols", []))
+                  for p in cls.get("protocols", []):
+                      if p not in seen_proto:
+                          existing["protocols"].append(p)
+                          seen_proto.add(p)
+                  if not existing.get("super") and cls.get("super"):
+                      existing["super"] = cls["super"]
+                  if not existing.get("availability") and cls.get("availability"):
+                      existing["availability"] = cls["availability"]
+          api["classes"] = list(merged_classes.values())
+
+          merged_protocols = {}
+          for proto in api["protocols"]:
+              name = proto["name"]
+              if name not in merged_protocols:
+                  merged_protocols[name] = proto
+              else:
+                  existing = merged_protocols[name]
+                  seen_sel = {m["selector"] for m in existing["methods"]}
+                  for m in proto["methods"]:
+                      if m["selector"] not in seen_sel:
+                          existing["methods"].append(m)
+                          seen_sel.add(m["selector"])
+                  seen_prop = {p["name"] for p in existing["properties"]}
+                  for p in proto["properties"]:
+                      if p["name"] not in seen_prop:
+                          existing["properties"].append(p)
+                          seen_prop.add(p["name"])
+          api["protocols"] = list(merged_protocols.values())
 
           print(f"Enums: {len(api['enums'])}, Protocols: {len(api['protocols'])}, "
                 f"Classes: {len(api['classes'])}, Functions: {len(api['functions'])}, "
