@@ -156,6 +156,8 @@ jobs:
               if not type_str:
                   return type_str
               type_str = re.sub(r'\s*API_AVAILABLE\((?:[^()]*\([^()]*\))*[^()]*\)', '', type_str)
+              type_str = re.sub(r'\bAPI_AVAILABLE\b\s*', '', type_str)
+              type_str = re.sub(r'\bNS_RETURNS_RETAINED\b\s*', '', type_str)
               return type_str.strip()
 
           def extract_enum(node):
@@ -301,12 +303,23 @@ jobs:
                       t["name"] = cat_name
                       t["kind"] = "category"
                       if t["methods"] or t["properties"]:
-                          api["protocols"].append(t)
+                          api["classes"].append(t)
               elif kind == "TypedefDecl":
                   api["typedefs"].append({
                       "name": name,
                       "underlyingType": (node.get("type") or {}).get("qualType", ""),
                   })
+                  for c in node.get("inner", []):
+                      if c.get("kind") == "RecordDecl" and c.get("tagUsed") == "struct":
+                          fields = []
+                          for f in c.get("inner", []):
+                              if f.get("kind") == "FieldDecl":
+                                  fields.append({
+                                      "name": f.get("name", ""),
+                                      "type": clean_type((f.get("type") or {}).get("qualType", "")),
+                                  })
+                          if fields:
+                              api["structs"].append({"name": name, "fields": fields})
               elif kind == "FunctionDecl":
                   ft = (node.get("type") or {}).get("qualType", "")
                   params = []
@@ -329,7 +342,7 @@ jobs:
                       if c.get("kind") == "FieldDecl":
                           fields.append({
                               "name": c.get("name", ""),
-                              "type": (c.get("type") or {}).get("qualType", ""),
+                              "type": clean_type((c.get("type") or {}).get("qualType", "")),
                           })
                   if fields:
                       api["structs"].append({"name": name, "fields": fields})
@@ -338,6 +351,16 @@ jobs:
           for e in api["enums"]:
               seen_enums[e["name"]] = e
           api["enums"] = list(seen_enums.values())
+
+          seen_funcs = {}
+          for fn in api["functions"]:
+              seen_funcs[fn["name"]] = fn
+          api["functions"] = list(seen_funcs.values())
+
+          seen_structs = {}
+          for s in api["structs"]:
+              seen_structs[s["name"]] = s
+          api["structs"] = list(seen_structs.values())
 
           merged_classes = {}
           for cls in api["classes"]:

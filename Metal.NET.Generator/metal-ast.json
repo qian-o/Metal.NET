@@ -1,4 +1,4 @@
-{
+﻿{
   "sdkVersion": "26.2",
   "enums": [
     {
@@ -5662,7 +5662,7 @@
         {
           "selector": "remoteStorageBuffer",
           "isClassMethod": false,
-          "returnType": "API_AVAILABLE id<MTLBuffer>",
+          "returnType": "id<MTLBuffer>",
           "returnNullability": null,
           "parameters": [],
           "availability": null
@@ -5694,7 +5694,7 @@
         },
         {
           "name": "remoteStorageBuffer",
-          "type": "API_AVAILABLE id<MTLBuffer>",
+          "type": "id<MTLBuffer>",
           "nullability": null,
           "readonly": true,
           "availability": null
@@ -6183,7 +6183,7 @@
         {
           "selector": "remoteStorageTexture",
           "isClassMethod": false,
-          "returnType": "API_AVAILABLE id<MTLTexture>",
+          "returnType": "id<MTLTexture>",
           "returnNullability": null,
           "parameters": [],
           "availability": null
@@ -6392,7 +6392,7 @@
         },
         {
           "name": "remoteStorageTexture",
-          "type": "API_AVAILABLE id<MTLTexture>",
+          "type": "id<MTLTexture>",
           "nullability": null,
           "readonly": true,
           "availability": null
@@ -57690,19 +57690,19 @@
     },
     {
       "name": "MTLCreateSystemDefaultDevice",
-      "returnType": "NS_RETURNS_RETAINED id<MTLDevice>  _Nullable",
+      "returnType": "id<MTLDevice>  _Nullable",
       "parameters": [],
       "availability": null
     },
     {
       "name": "MTLCopyAllDevices",
-      "returnType": "NS_RETURNS_RETAINED NSArray<id<MTLDevice>> * _Nonnull",
+      "returnType": "NSArray<id<MTLDevice>> * _Nonnull",
       "parameters": [],
       "availability": null
     },
     {
       "name": "MTLCopyAllDevicesWithObserver",
-      "returnType": "NS_RETURNS_RETAINED NSArray<id<MTLDevice>> * _Nonnull",
+      "returnType": "NSArray<id<MTLDevice>> * _Nonnull",
       "parameters": [
         {
           "name": "observer",
@@ -57722,29 +57722,6 @@
         {
           "name": "observer",
           "type": "id<NSObject> _Nonnull"
-        }
-      ],
-      "availability": null
-    },
-    {
-      "name": "MTLClearColorMake",
-      "returnType": "MTLClearColor",
-      "parameters": [
-        {
-          "name": "red",
-          "type": "double"
-        },
-        {
-          "name": "green",
-          "type": "double"
-        },
-        {
-          "name": "blue",
-          "type": "double"
-        },
-        {
-          "name": "alpha",
-          "type": "double"
         }
       ],
       "availability": null
