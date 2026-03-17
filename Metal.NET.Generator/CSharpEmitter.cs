@@ -1138,15 +1138,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
         string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
-        string selectorKey;
-        if (hasZeroParamVersion.Contains(method.Name) && method.Parameters.Count > 0)
-        {
-            selectorKey = BuildMethodNameFromSelector(selectorObjC);
-        }
-        else
-        {
-            selectorKey = TypeMapper.ToPascalCase(method.Name);
-        }
+        string selectorKey = hasZeroParamVersion.Contains(method.Name) && method.Parameters.Count > 0
+            ? BuildMethodNameFromSelector(selectorObjC)
+            : TypeMapper.ToPascalCase(method.Name);
         if (selectors.TryGetValue(selectorKey, out string? existingSelector) && existingSelector != selectorObjC)
         {
             selectorKey = BuildMethodNameFromSelector(selectorObjC);
@@ -1511,12 +1505,26 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// </summary>
     static string BuildMethodNameFromSelector(string selector)
     {
-        string[] parts = selector.Split(':', StringSplitOptions.RemoveEmptyEntries);
+        ReadOnlySpan<char> remaining = selector.AsSpan();
         StringBuilder sb = new();
-        foreach (string part in parts)
+
+        while (!remaining.IsEmpty)
         {
-            sb.Append(TypeMapper.ToPascalCase(part));
+            int colon = remaining.IndexOf(':');
+            ReadOnlySpan<char> part = colon < 0 ? remaining : remaining[..colon];
+
+            if (!part.IsEmpty)
+            {
+                sb.Append(char.ToUpper(part[0]));
+                if (part.Length > 1)
+                {
+                    sb.Append(part[1..]);
+                }
+            }
+
+            remaining = colon < 0 ? [] : remaining[(colon + 1)..];
         }
+
         return sb.ToString();
     }
 
@@ -1559,29 +1567,22 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         for (int i = 0; i < method.Parameters.Count; i++)
         {
             ParamDef p = method.Parameters[i];
-            if (p.Type == "ARRAY_PARAM")
+
+            if (p.Type is "ARRAY_PARAM")
             {
                 continue;
             }
 
             if (p.Type.StartsWith("OBJ_ARRAY:") || p.Type.StartsWith("STRUCT_ARRAY:"))
             {
-                string elemType = p.Type[(p.Type.IndexOf(':') + 1)..];
-                types.Add(TypeMapper.MapType(elemType + "*") + "[]");
-
-                if (i + 1 < method.Parameters.Count &&
-                    method.Parameters[i + 1].Type is "NS::UInteger" &&
-                    method.Parameters[i + 1].Name is "count")
-                {
-                    i++;
-                }
+                types.Add(TypeMapper.MapType(ExtractArrayElementType(p.Type) + "*") + "[]");
+                i += SkipCountParam(method, i);
                 continue;
             }
 
             if (p.Type.StartsWith("PRIM_ARRAY:"))
             {
-                string elemType = p.Type[(p.Type.IndexOf(':') + 1)..];
-                types.Add(elemType + "[]");
+                types.Add(ExtractArrayElementType(p.Type) + "[]");
                 continue;
             }
 
@@ -1593,7 +1594,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             types.Add(TypeMapper.MapType(p.Type));
         }
-        return string.Join(",", types);
+        return string.Join(',', types);
+
+        static string ExtractArrayElementType(string type) => type[(type.IndexOf(':') + 1)..];
+
+        static int SkipCountParam(MethodInfo method, int currentIndex) =>
+            currentIndex + 1 < method.Parameters.Count &&
+            method.Parameters[currentIndex + 1].Type is "NS::UInteger" &&
+            method.Parameters[currentIndex + 1].Name is "count" ? 1 : 0;
     }
 
     /// <summary>
@@ -1618,27 +1626,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
 
             string firstPart = m.Selector[..m.Selector.IndexOf(':')];
-            string simplified = SimplifyMethodName(firstPart);
-            string full = BuildMethodNameFromSelector(m.Selector);
-            string paramKey = ComputeParamTypesKey(m);
-            entries.Add((m, simplified, full, paramKey));
+            entries.Add((m, SimplifyMethodName(firstPart), BuildMethodNameFromSelector(m.Selector), ComputeParamTypesKey(m)));
         }
 
-        var groups = entries.GroupBy(e => (e.Simplified, e.ParamKey));
-
-        foreach (var group in groups)
+        foreach (var group in entries.GroupBy(e => (e.Simplified, e.ParamKey)))
         {
             List<(MethodInfo Method, string Simplified, string Full, string ParamKey)> items = [.. group];
-            if (items.Count > 1 || propertyNames.Contains(items[0].Simplified))
+
+            bool hasConflict = items.Count > 1 || propertyNames.Contains(items[0].Simplified);
+            foreach (var item in items)
             {
-                foreach (var item in items)
-                {
-                    result[item.Method] = item.Full;
-                }
-            }
-            else
-            {
-                result[items[0].Method] = items[0].Simplified;
+                result[item.Method] = hasConflict ? item.Full : item.Simplified;
             }
         }
 
