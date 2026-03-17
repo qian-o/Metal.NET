@@ -149,14 +149,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.Namespace));
         foreach (var group in enumsBySubdir)
         {
-            GenerateEnumFile(group.Key, group.ToList());
+            GenerateEnumFile(group.Key, [.. group]);
         }
 
         // Group structs by namespace into consolidated files (e.g., MTLStructs.cs)
         var structsBySubdir = context.Structs.GroupBy(s => TypeMapper.GetOutputSubdir(s.Namespace));
         foreach (var group in structsBySubdir)
         {
-            GenerateStructFile(group.Key, group.ToList());
+            GenerateStructFile(group.Key, [.. group]);
         }
 
         // Generate consolidated delegate file for block type aliases
@@ -332,9 +332,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         static string GetCsStructName(StructDef s) => TypeMapper.GetPrefix(s.Namespace) + s.Name;
 
         // Filter out hand-written structs
-        List<StructDef> generatable = structs
-            .Where(s => !SkipStructs.Contains(GetCsStructName(s)))
-            .ToList();
+        List<StructDef> generatable = [.. structs
+            .Where(s => !SkipStructs.Contains(GetCsStructName(s)))];
 
         if (generatable.Count == 0)
         {
@@ -418,7 +417,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         foreach (BlockTypeAlias alias in context.BlockTypeAliases.OrderBy(a => a.CsDelegateName))
         {
             // Skip the first parameter (block pointer) – it's always nint block
-            List<BlockParam> callbackParams = alias.Parameters.Skip(1).ToList();
+            List<BlockParam> callbackParams = [.. alias.Parameters.Skip(1)];
 
             // Build the strong-typed Action<> argument types and trampoline body
             List<string> actionTypeArgs = [];
@@ -549,9 +548,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             m.Selector is "setObject:atIndexedSubscript:"
             || (m.Name == "setObject" && m.Parameters.Count == 2 && m.ReturnType == "void"));
 
-        List<MethodInfo> nonIndexerMethods = methods
-            .Where(m => m != indexerGetter && m != indexerSetter)
-            .ToList();
+        List<MethodInfo> nonIndexerMethods = [.. methods
+            .Where(m => m != indexerGetter && m != indexerSetter)];
 
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
@@ -573,7 +571,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
         string newKeyword = baseClass is not "NativeObject" ? "new " : "";
-        sb.AppendLine($"    #region INativeObject");
+        sb.AppendLine("    #region INativeObject");
         sb.AppendLine($"    public static {newKeyword}{csClassName} Null {{ get; }} = new(0, NativeObjectOwnership.Borrowed);");
         sb.AppendLine();
         sb.AppendLine($"    public static {newKeyword}{csClassName} New(nint nativePtr, NativeObjectOwnership ownership)");
@@ -856,12 +854,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
             }
 
-            if (p.Type.Contains("function") || p.Type.Contains("void("))
-            {
-                return true;
-            }
-
-            return false;
+            return p.Type.Contains("function") || p.Type.Contains("void(");
         });
     }
 
@@ -958,15 +951,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isBool = csType == "bool";
 
         string selectorName = csPropName;
-        string selectorObjC;
-        if (getter.Selector != null)
-        {
-            selectorObjC = getter.Selector;
-        }
-        else
-        {
-            selectorObjC = getter.Name;
-        }
+        string selectorObjC = getter.Selector ?? getter.Name;
         selectors.TryAdd(selectorName, selectorObjC);
 
         const string Target = "NativePtr";
@@ -978,15 +963,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         if (prop.Setter != null)
         {
             setSelName = TypeMapper.ToPascalCase(prop.Setter.Name);
-            string setSelObjC;
-            if (prop.Setter.Selector != null)
-            {
-                setSelObjC = prop.Setter.Selector;
-            }
-            else
-            {
-                setSelObjC = "set" + csPropName + ":";
-            }
+            string setSelObjC = prop.Setter.Selector ?? "set" + csPropName + ":";
             selectors.TryAdd(setSelName, setSelObjC);
         }
 
@@ -1712,7 +1689,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string callArgs = BuildCallArgs(parameters);
                 string callExpr = $"(({delegateType})msgSend)(receiver, selector{callArgs})";
 
-                EmitCallBody(sb, callExpr, returnType, isVoid, parameters);
+                EmitCallBody(sb, callExpr, isVoid, parameters);
 
                 sb.AppendLine("    }");
             }
@@ -1864,13 +1841,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Emits the method body after the null guard: fixed blocks, call expression,
     /// and return statement.
     /// </summary>
-    static void EmitCallBody(StringBuilder sb, string callExpr, string returnType, bool isVoid, ParsedParam[] parameters)
+    static void EmitCallBody(StringBuilder sb, string callExpr, bool isVoid, ParsedParam[] parameters)
     {
         var outParams = parameters.Where(p => p.Kind == ParamKind.Out).ToList();
         bool hasOutParams = outParams.Count > 0;
 
         // Each fixed block nests inside the previous, increasing indent by 4 spaces
-        string baseIndent = "        ";
+        const string baseIndent = "        ";
         string innerIndent = hasOutParams ? baseIndent + new string(' ', 4 * outParams.Count) : baseIndent;
 
         // Emit nested fixed blocks

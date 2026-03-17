@@ -252,7 +252,7 @@ partial class AstJsonParser
             }
 
             string ns = InferNamespaceFromName(astStruct.Name);
-            if (ns == "")
+            if (ns.Length == 0)
             {
                 // Structs without a known prefix (like CGSize) are skipped
                 continue;
@@ -516,7 +516,7 @@ partial class AstJsonParser
         }
     }
 
-    void ParseClassOrProtocol(AstClass ast, GeneratorContext context, bool isProtocol)
+    static void ParseClassOrProtocol(AstClass ast, GeneratorContext context, bool isProtocol)
     {
         string ns = InferNamespaceFromName(ast.Name);
         string prefix = TypeMapper.GetPrefix(ns);
@@ -768,7 +768,7 @@ partial class AstJsonParser
         }
     }
 
-    static string DeriveTargetClassName(string funcName, string prefix)
+    static string DeriveTargetClassName(string _funcName, string prefix)
     {
         // e.g., MTLCopyAllDevices → MTLDevice, MTLCreateSystemDefaultDevice → MTLDevice
         return prefix + "Device";
@@ -951,7 +951,7 @@ partial class AstJsonParser
         }
 
         // NSError ** → Error**
-        if (t.Contains("NSError") && t.Contains("*") && t.Contains("*"))
+        if (t.Contains("NSError") && t.Contains('*') && t.Contains('*'))
         {
             int stars = t.Count(c => c == '*');
             if (stars >= 2)
