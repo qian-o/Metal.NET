@@ -650,13 +650,6 @@ jobs:
           os.remove(raw_path)
           PYEOF
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: metal-api-data
-          path: Metal.NET.Generator/metal-ast.json
-          retention-days: 90
-
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
