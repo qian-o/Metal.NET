@@ -38310,7 +38310,9 @@
       ],
       "protocols": [],
       "super": "NSObject",
-      "framework": "Metal"
+      "framework": "Metal",
+      "deprecated": true,
+      "deprecationMessage": "Use MTLBinding instead"
     },
     {
       "kind": "class",
