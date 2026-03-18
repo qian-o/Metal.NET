@@ -12,19 +12,22 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Print environment
-        run: |
-          xcodebuild -version
-          echo "SDK: $(xcrun --show-sdk-path)"
-          echo "SDK version: $(xcrun --show-sdk-version)"
-
-      - name: Dump Clang AST
+      - name: Resolve SDK environment
         run: |
           SDK_PATH=$(xcrun --show-sdk-path)
           SDK_VERSION=$(xcrun --show-sdk-version)
-          DEPLOY_TARGET="macos$(echo $SDK_VERSION | cut -d. -f1).0"
-          TEMP_HEADER=$(mktemp /tmp/metal_XXXXXX.h)
+          DEPLOY_TARGET="macos$(echo "$SDK_VERSION" | cut -d. -f1).0"
+          echo "SDK_PATH=$SDK_PATH" >> "$GITHUB_ENV"
+          echo "SDK_VERSION=$SDK_VERSION" >> "$GITHUB_ENV"
+          echo "DEPLOY_TARGET=$DEPLOY_TARGET" >> "$GITHUB_ENV"
+          xcodebuild -version
+          echo "SDK: $SDK_PATH"
+          echo "SDK version: $SDK_VERSION"
+          echo "Deploy target: $DEPLOY_TARGET"
 
+      - name: Dump Clang AST
+        run: |
+          TEMP_HEADER=$(mktemp /tmp/metal_XXXXXX.h)
           cat > "$TEMP_HEADER" <<'HEADER'
           #import <Metal/Metal.h>
           #import <Foundation/Foundation.h>
@@ -51,8 +54,6 @@ jobs:
 
       - name: Extract Metal API
         run: |
-          SDK_PATH=$(xcrun --show-sdk-path)
-          SDK_VERSION=$(xcrun --show-sdk-version)
           python3 .github/scripts/extract_metal_api.py \
             /tmp/metal_raw_ast.json \
             Metal.NET.Generator/metal-ast.json \
@@ -61,7 +62,6 @@ jobs:
 
       - name: Commit changes
         run: |
-          SDK_VERSION=$(xcrun --show-sdk-version)
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add Metal.NET.Generator/metal-ast.json
