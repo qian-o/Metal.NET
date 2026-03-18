@@ -352,7 +352,10 @@ jobs:
                               continue
                           if re.match(r'^@(protocol|interface|end|class|optional|required)\b', s) or s.startswith('#'):
                               if buf:
-                                  merged.append(buf)
+                                  if 'API_DEPRECATED' in buf and re.match(r'^@(protocol|interface)\b', s):
+                                      s = buf + ' ' + s
+                                  else:
+                                      merged.append(buf)
                                   buf = ''
                               merged.append(s)
                               continue
@@ -364,7 +367,7 @@ jobs:
                           merged.append(buf.strip())
                       current_type = None
                       for mline in merged:
-                          tm = re.match(r'@protocol\s+(\w+)', mline)
+                          tm = re.search(r'@protocol\s+(\w+)', mline)
                           if tm:
                               current_type = tm.group(1)
                               if 'API_DEPRECATED' in mline:
@@ -372,7 +375,7 @@ jobs:
                                   if msg:
                                       dep[(current_type, 'type', current_type)] = msg
                               continue
-                          tm = re.match(r'@interface\s+(\w+)', mline)
+                          tm = re.search(r'@interface\s+(\w+)', mline)
                           if tm:
                               current_type = tm.group(1)
                               if 'API_DEPRECATED' in mline:
