@@ -7985,7 +7985,7 @@
         {
           "selector": "remoteStorageBuffer",
           "isClassMethod": false,
-          "returnType": "",
+          "returnType": "id<MTLBuffer>",
           "returnNullability": null,
           "parameters": []
         },
@@ -8013,7 +8013,7 @@
         },
         {
           "name": "remoteStorageBuffer",
-          "type": "",
+          "type": "id<MTLBuffer>",
           "nullability": null,
           "readonly": true
         },
@@ -8622,7 +8622,7 @@
         {
           "selector": "remoteStorageTexture",
           "isClassMethod": false,
-          "returnType": "",
+          "returnType": "id<MTLTexture>",
           "returnNullability": null,
           "parameters": []
         },
@@ -8804,7 +8804,7 @@
         },
         {
           "name": "remoteStorageTexture",
-          "type": "",
+          "type": "id<MTLTexture>",
           "nullability": null,
           "readonly": true
         },
@@ -61424,19 +61424,19 @@
     },
     {
       "name": "MTLCreateSystemDefaultDevice",
-      "returnType": "",
+      "returnType": "id<MTLDevice>  _Nullable",
       "parameters": [],
       "framework": "Metal"
     },
     {
       "name": "MTLCopyAllDevices",
-      "returnType": "",
+      "returnType": "NSArray<id<MTLDevice>> * _Nonnull",
       "parameters": [],
       "framework": "Metal"
     },
     {
       "name": "MTLCopyAllDevicesWithObserver",
-      "returnType": "",
+      "returnType": "NSArray<id<MTLDevice>> * _Nonnull",
       "parameters": [
         {
           "name": "observer",
