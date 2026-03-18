@@ -3,17 +3,23 @@
 [![NuGet Version](https://img.shields.io/nuget/v/Metal.NET)](https://nuget.org/packages/Metal.NET)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-C# bindings for Apple's **Metal** graphics API, auto-generated from the Objective-C headers via **Clang AST extraction**.
+Low-level C# bindings for Apple's **Metal**, **MetalFX** and **QuartzCore** frameworks — auto-generated from the macOS SDK headers via **Clang AST + Swift Symbol Graph** extraction.
 
-The generator parses `metal-ast.json` — an AST snapshot extracted directly from the macOS SDK using `clang -ast-dump=json` — and emits idiomatic C# wrappers that call into the Objective-C runtime via `objc_msgSend`.
+## How It Works
+
+A GitHub Actions workflow (`extract-metal-api.yml`) runs on a macOS runner to:
+
+1. Dump the Clang AST (`clang -Xclang -ast-dump=json`) and Swift Symbol Graphs for the target frameworks.
+2. A Python script (`parse_metal_ast.py`) merges both sources into a single `metal-ast.json` — a compact description of every enum, struct, protocol, class, property, method, free function and block typedef.
+3. The C# generator (`Metal.NET.Generator`) reads `metal-ast.json` and emits idiomatic C# wrappers that call the Objective-C runtime directly via `objc_msgSend`.
 
 ## Features
 
-- **Comprehensive API coverage** — Metal, Metal 4, MetalFX, QuartzCore, Foundation, CoreGraphics and GCD bindings.
-- **Clang AST-based generation** — bindings are extracted from the SDK headers, not from a hand-maintained IDL.
-- **Automatic memory management** — three ownership modes (`Borrowed`, `Owned`, `Managed`) with deterministic disposal and optional finalizer safety net.
-- **Objective-C block support** — `NativeBlock` wrappers use `UnmanagedCallersOnly` function pointers for zero-overhead callbacks.
-- **Native AOT & trimming ready** — the library is annotated with `IsAotCompatible` and `IsTrimmable`.
+- **Comprehensive coverage** — Metal, Metal 4, MetalFX, QuartzCore, Foundation, CoreGraphics and GCD (253 generated files).
+- **Clang AST + Swift Symbol Graph** — bindings are extracted from SDK headers, not a hand-maintained IDL.  Swift names provide human-readable method & parameter names where Clang only exposes selectors.
+- **Three ownership modes** — `Borrowed`, `Owned` and `Managed`, with deterministic `Dispose()` and an optional finalizer safety net.
+- **ObjC block support** — `NativeBlock<T>` uses `UnmanagedCallersOnly` function pointers for zero-overhead callbacks.
+- **Native AOT & trimming ready** — annotated with `IsAotCompatible` and `IsTrimmable`.
 
 ## Installation
 
@@ -47,24 +53,21 @@ using MTLBuffer buffer = device.NewBuffer(1024, MTLResourceOptions.StorageModeSh
 
 ## API Coverage
 
-| Framework | Namespace | Contents |
-|-----------|-----------|----------|
-| **Metal** | `Metal.NET` | Devices, command queues & buffers, encoders, pipeline states, acceleration structures, Metal 4 APIs (`MTL4*`), and more. |
-| **MetalFX** | `Metal.NET` | Temporal / spatial scalers, frame interpolators. |
-| **QuartzCore** | `Metal.NET` | `CAMetalLayer`, `CAMetalDrawable`. |
-| **Foundation** | `Metal.NET` | Hand-written `NSObject`, `NSString`, `NSArray`, `NSError`, `NSURL`, `NSData`, etc. |
-| **CoreGraphics** | `Metal.NET` | `CGColorSpace`. |
-| **GCD** | `Metal.NET` | `DispatchQueue`, `DispatchData`, `DispatchObject`. |
+| Framework | Generated files | Highlights |
+|-----------|:-:|---|
+| **Metal / Metal 4** | 233 | Devices, command queues & buffers, render/compute/blit encoders, pipeline states, acceleration structures, `MTL4*` APIs |
+| **MetalFX** | 18 | Temporal & spatial scalers, frame interpolators |
+| **QuartzCore** | 2 | `CAMetalLayer`, `CAMetalDrawable` |
+
+Hand-written Foundation (`NSObject`, `NSString`, `NSArray`, …), CoreGraphics (`CGColorSpace`) and GCD (`DispatchQueue`, `DispatchData`) wrappers are included as well.
 
 ## Memory Management
 
-Every `NativeObject` wrapper has a `NativeObjectOwnership` that controls its lifetime:
-
-| Ownership | `Dispose()` releases | Finalizer releases | Usage |
-|-----------|:--------------------:|:------------------:|-------|
-| `Borrowed` | ✗ | ✗ | Property getters, `objectAtIndex:` |
+| Ownership | `Dispose()` releases | Finalizer releases | Typical usage |
+|-----------|:--------------------:|:------------------:|---|
+| `Borrowed` | ✗ | ✗ | Property getters, indexed subscript |
 | `Owned` | ✓ | ✗ | Method return values, `out NSError` |
-| `Managed` | ✓ | ✓ | Objects created via parameterless constructor (`AllocInit`) |
+| `Managed` | ✓ | ✓ | `new` via `AllocInit` |
 
 ```csharp
 // Managed – finalizer will release if not disposed
@@ -81,40 +84,49 @@ MTLDevice device = commandQueue.Device;
 
 ```
 Metal.NET.slnx
-├── Metal.NET/                          ← Runtime library (NuGet package)
-│   ├── Common/                         ← Hand-written interop core
-│   │   ├── NativeObject.cs             ← Base class for all ObjC wrappers
-│   │   ├── NativeBlock.cs              ← ObjC block wrappers (UnmanagedCallersOnly)
-│   │   ├── ObjectiveC.cs               ← Auto-generated objc_msgSend overloads
-│   │   └── ...
-│   ├── Foundation/                     ← Hand-written NS* wrappers
-│   ├── CoreGraphics/                   ← Hand-written CG* wrappers
-│   ├── GCD/                            ← Hand-written Dispatch* wrappers
-│   ├── Metal/                          ← Auto-generated Metal & Metal 4 API
-│   │   ├── MTLEnums.cs                 ← All Metal enumerations
-│   │   ├── MTLStructs.cs               ← All Metal structs
-│   │   ├── MTLDelegates.cs             ← Block handler classes
-│   │   └── MTL*.cs / MTL4*.cs          ← Protocol & class wrappers
-│   ├── MetalFX/                        ← Auto-generated MetalFX API
-│   └── QuartzCore/                     ← Auto-generated QuartzCore API
 │
-└── Metal.NET.Generator/                ← Code generator (not shipped)
-    ├── AstJsonParser.cs                ← Parses metal-ast.json
-    ├── CSharpEmitter.cs                ← Emits C# source files
-    ├── TypeMapper.cs                   ← ObjC → C# type mapping
-    └── metal-ast.json                  ← Extracted API definitions (generated by CI)
+├─ Metal.NET/                            Runtime library (NuGet package)
+│  ├─ Common/                            Interop core (hand-written)
+│  │  ├─ NativeObject.cs                 Base class for all ObjC wrappers
+│  │  ├─ NativeBlock.cs                  ObjC block support (UnmanagedCallersOnly)
+│  │  ├─ ObjectiveC.cs                   Auto-generated objc_msgSend overloads
+│  │  ├─ Selector.cs                     Lazy selector handle
+│  │  ├─ Bool8.cs / Structs.cs           Value types
+│  │  └─ ...
+│  ├─ Foundation/                        Hand-written NS* wrappers
+│  ├─ CoreGraphics/                      Hand-written CG* wrappers
+│  ├─ GCD/                               Hand-written Dispatch* wrappers
+│  ├─ Metal/                             Auto-generated Metal & Metal 4 API
+│  ├─ MetalFX/                           Auto-generated MetalFX API
+│  └─ QuartzCore/                        Auto-generated QuartzCore API
+│
+├─ Metal.NET.Generator/                  Code generator (not shipped)
+│  ├─ AstJsonParser*.cs                  JSON → model (7 partial files)
+│  ├─ CSharpEmitter*.cs                  Model → C# source (9 partial files)
+│  ├─ TypeMapper.cs                      ObjC ↔ C# type mapping
+│  ├─ Models.cs / AstModels.cs           Data models
+│  ├─ GeneratorContext.cs                Shared state across stages
+│  └─ metal-ast.json                     Extracted API snapshot (generated by CI)
+│
+└─ .github/
+   ├─ workflows/extract-metal-api.yml    CI: extract AST → commit metal-ast.json
+   └─ scripts/parse_metal_ast.py         Clang AST + Swift Symbol Graph → JSON
 ```
 
 ## Updating Bindings
 
-1. Run the **Extract Metal API** GitHub Action (`extract-metal-api.yml`) to regenerate `metal-ast.json` from the latest Xcode SDK.
-2. Regenerate the C# bindings and verify:
+1. Run the **Extract Metal API** workflow (`extract-metal-api.yml`) to regenerate `metal-ast.json` from the latest Xcode SDK.
+2. Regenerate and verify locally:
 
 ```bash
 dotnet run --project Metal.NET.Generator
 dotnet build Metal.NET
 ```
 
+## License
+
+[MIT](LICENSE)
+
 ## Disclaimer
 
-> **This library was built with AI assistance.** It has undergone preliminary testing but has **not** been exhaustively validated in production scenarios. Please test thoroughly before production use.
+> This library was built with AI assistance. It has undergone preliminary testing but has **not** been exhaustively validated in production scenarios. Please test thoroughly before production use.
