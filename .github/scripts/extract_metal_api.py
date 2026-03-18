@@ -352,7 +352,9 @@ def extract_method(node: dict) -> dict | None:
                 "nullability": get_nullability(pt),
             })
 
+    method_name = name.split(':')[0] if ':' in name else name
     r: dict = {
+        "name": method_name,
         "selector": name,
         "isClassMethod": not node.get("instance", True),
         "returnType": ret,
@@ -678,7 +680,7 @@ def apply_swift_names(api: dict, swift_names: dict) -> int:
             for m in t.get('methods', []):
                 key = (tname, m['selector'])
                 if key in swift_names:
-                    m['swiftName'] = swift_names[key]
+                    m['name'] = swift_names[key]
                     applied += 1
     return applied
 
