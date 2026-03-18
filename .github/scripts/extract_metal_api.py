@@ -69,6 +69,8 @@ _RE_STRUCT_NAME = re.compile(r'^struct\s+(\w+)$')
 _RE_BLOCK_COMMENT = re.compile(r'/\*.*?\*/', re.DOTALL)
 _RE_LINE_COMMENT = re.compile(r'//[^\n]*')
 
+_API_MACRO_FIRST_CHARS = frozenset(p[0] for p in _API_MACRO_PREFIXES)
+
 # ---------------------------------------------------------------------------
 # Utility functions
 # ---------------------------------------------------------------------------
@@ -76,10 +78,7 @@ _RE_LINE_COMMENT = re.compile(r'//[^\n]*')
 
 def is_wanted(name: str) -> bool:
     """Check whether *name* belongs to a wanted API."""
-    return (
-        any(name.startswith(p) for p in WANTED_PREFIXES)
-        or name in WANTED_EXTRA
-    )
+    return name.startswith(WANTED_PREFIXES) or name in WANTED_EXTRA
 
 
 def _skip_balanced_parens(text: str, start: int) -> int:
@@ -99,6 +98,10 @@ def _strip_api_macros(text: str) -> str:
     out: list[str] = []
     i, n = 0, len(text)
     while i < n:
+        if text[i] not in _API_MACRO_FIRST_CHARS:
+            out.append(text[i])
+            i += 1
+            continue
         matched = False
         for prefix in _API_MACRO_PREFIXES:
             plen = len(prefix)
@@ -685,8 +688,8 @@ def _should_prefer_framework(new_item: dict, existing: dict) -> bool:
         return False
 
     # Both same category status — prefer a WANTED framework
-    new_wanted = any(new_fw == f for f in FRAMEWORKS)
-    old_wanted = any(old_fw == f for f in FRAMEWORKS)
+    new_wanted = new_fw in FRAMEWORKS
+    old_wanted = old_fw in FRAMEWORKS
     if new_wanted and not old_wanted:
         return True
 
@@ -745,21 +748,16 @@ def _get_framework(file_path: str) -> str | None:
     return m.group(1) if m else None
 
 
-def _pre_scan_ast(ast: dict) -> tuple[dict, dict, dict, dict]:
-    """Pre-scan the AST in a single pass for struct definitions, typedef
-    deprecations, and ObjC attribute kind counts.
+def _pre_scan_ast(ast: dict) -> tuple[dict, dict, dict]:
+    """Pre-scan the AST for struct definitions and typedef deprecations.
 
-    Returns (struct_by_name, struct_by_id, typedef_deps, attr_counts).
+    Returns (struct_by_name, struct_by_id, typedef_deps).
     """
     struct_by_name: dict = {}
     struct_by_id: dict = {}
     typedef_deps: dict = {}
-    attr_counts: dict = {}
 
-    inner = ast.get("inner", [])
-
-    # Struct definitions + typedef deprecations (top-level nodes)
-    for node in inner:
+    for node in ast.get("inner", []):
         kind = node.get("kind", "")
         if kind == "TypedefDecl":
             name = node.get("name", "")
@@ -769,19 +767,7 @@ def _pre_scan_ast(ast: dict) -> tuple[dict, dict, dict, dict]:
                     typedef_deps[name] = attrs
         collect_struct_defs(node, struct_by_name, struct_by_id)
 
-    # Attribute kind counts (deep traversal)
-    stack = [(n, False) for n in inner]
-    while stack:
-        node, in_objc = stack.pop()
-        k = node.get("kind", "")
-        is_objc = in_objc or k.startswith("ObjC")
-        if is_objc and "Attr" in k:
-            attr_counts[k] = attr_counts.get(k, 0) + 1
-        for key in ("inner", "attrs"):
-            for c in node.get(key, []):
-                stack.append((c, is_objc))
-
-    return struct_by_name, struct_by_id, typedef_deps, attr_counts
+    return struct_by_name, struct_by_id, typedef_deps
 
 
 # --- Per-kind node handlers ------------------------------------------------
@@ -901,14 +887,8 @@ def _handle_record(node: dict, name: str, fw: str | None,
 def process_ast(ast: dict, sdk_version: str, sdk_path: str) -> dict:
     """Main AST processing pipeline: extract -> deduplicate -> enrich."""
 
-    # Merged pre-scan: struct defs + typedef deps + attr kinds
-    struct_by_name, struct_by_id, typedef_deps, attr_counts = \
-        _pre_scan_ast(ast)
+    struct_by_name, struct_by_id, typedef_deps = _pre_scan_ast(ast)
 
-    if attr_counts:
-        print(f"ObjC attribute kinds: {dict(sorted(attr_counts.items()))}")
-    else:
-        print("WARNING: No attribute kinds found in ObjC declarations")
     print(f"Pre-scan: {len(struct_by_name)} named + "
           f"{len(struct_by_id)} by-id struct definitions")
     if typedef_deps:

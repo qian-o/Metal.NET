@@ -52,13 +52,6 @@ jobs:
           rm -f "$TEMP_HEADER"
           echo "Raw AST: $(du -h /tmp/metal_raw_ast.json | cut -f1)"
 
-      - name: Upload raw AST
-        uses: actions/upload-artifact@v4
-        with:
-          name: metal-raw-ast
-          path: /tmp/metal_raw_ast.json
-          retention-days: 1
-
       - name: Extract Metal API
         run: |
           python3 .github/scripts/extract_metal_api.py \
