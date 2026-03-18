@@ -278,13 +278,13 @@ partial class AstJsonParser
 
             // Check for struct pointer: "const StructType*" or "StructType*"
             string type = current.Type;
-            if (type.StartsWith("const ") && type.EndsWith("*"))
+            if (type.StartsWith("const ") && type.EndsWith('*'))
             {
                 string elemType = type["const ".Length..];
                 parameters[i] = new ParamDef($"STRUCT_ARRAY:{elemType}", current.Name);
                 parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
             }
-            else if (type.EndsWith("*") && TypeMapper.StructTypes.Contains(type.TrimEnd('*')))
+            else if (type.EndsWith('*') && TypeMapper.StructTypes.Contains(type.TrimEnd('*')))
             {
                 parameters[i] = new ParamDef($"STRUCT_ARRAY:{type}", current.Name);
                 parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
