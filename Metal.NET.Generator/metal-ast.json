@@ -19677,7 +19677,7 @@
           "parameters": []
         },
         {
-          "name": "present",
+          "name": "presentAtTime",
           "selector": "presentAtTime:",
           "isClassMethod": false,
           "returnType": "void",
@@ -19691,7 +19691,7 @@
           ]
         },
         {
-          "name": "present",
+          "name": "presentAfterMinimumDuration",
           "selector": "presentAfterMinimumDuration:",
           "isClassMethod": false,
           "returnType": "void",
@@ -19803,7 +19803,7 @@
           ]
         },
         {
-          "name": "present",
+          "name": "presentDrawableAtTime",
           "selector": "presentDrawable:atTime:",
           "isClassMethod": false,
           "returnType": "void",
@@ -19822,7 +19822,7 @@
           ]
         },
         {
-          "name": "present",
+          "name": "presentDrawableAfterMinimumDuration",
           "selector": "presentDrawable:afterMinimumDuration:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22392,7 +22392,7 @@
           ]
         },
         {
-          "name": "optimizeContents",
+          "name": "optimizeContentsForGPUAccess",
           "selector": "optimizeContentsForGPUAccess:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22406,7 +22406,7 @@
           ]
         },
         {
-          "name": "optimizeContents",
+          "name": "optimizeContentsForGPUAccessSliceLevel",
           "selector": "optimizeContentsForGPUAccess:slice:level:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22430,7 +22430,7 @@
           ]
         },
         {
-          "name": "optimizeContents",
+          "name": "optimizeContentsForCPUAccess",
           "selector": "optimizeContentsForCPUAccess:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22444,7 +22444,7 @@
           ]
         },
         {
-          "name": "optimizeContents",
+          "name": "optimizeContentsForCPUAccessSliceLevel",
           "selector": "optimizeContentsForCPUAccess:slice:level:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36285,7 +36285,7 @@
           ]
         },
         {
-          "name": "setValue",
+          "name": "setValueForKey",
           "selector": "setValue:forKey:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36304,7 +36304,7 @@
           ]
         },
         {
-          "name": "validateValue",
+          "name": "validateValueForKeyError",
           "selector": "validateValue:forKey:error:",
           "isClassMethod": false,
           "returnType": "BOOL",
@@ -36384,7 +36384,7 @@
           ]
         },
         {
-          "name": "setValue",
+          "name": "setValueForKeyPath",
           "selector": "setValue:forKeyPath:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36403,7 +36403,7 @@
           ]
         },
         {
-          "name": "validateValue",
+          "name": "validateValueForKeyPathError",
           "selector": "validateValue:forKeyPath:error:",
           "isClassMethod": false,
           "returnType": "BOOL",
@@ -36483,7 +36483,7 @@
           ]
         },
         {
-          "name": "setValue",
+          "name": "setValueForUndefinedKey",
           "selector": "setValue:forUndefinedKey:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36593,7 +36593,7 @@
           ]
         },
         {
-          "name": "takeValue",
+          "name": "takeValueForKey",
           "selector": "takeValue:forKey:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36612,7 +36612,7 @@
           ]
         },
         {
-          "name": "takeValue",
+          "name": "takeValueForKeyPath",
           "selector": "takeValue:forKeyPath:",
           "isClassMethod": false,
           "returnType": "void",
