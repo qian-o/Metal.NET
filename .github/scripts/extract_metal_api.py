@@ -2,7 +2,7 @@
 """Extract Metal / MetalFX API declarations from a Clang AST JSON dump.
 
 Usage:
-    python extract_metal_api.py <raw_ast.json> <output.json> <sdk_version> <sdk_path>
+    python extract_metal_api.py <raw_ast.json> <output.json> <sdk_version> <sdk_path> [symbolgraph_dir]
 
 Outputs a JSON file with the structure:
     { "sdkVersion": "...", "enums": [...], "protocols": [...],
@@ -68,6 +68,8 @@ _RE_FRAMEWORK_PATH = re.compile(r'/(\w+)\.framework/')
 _RE_STRUCT_NAME = re.compile(r'^struct\s+(\w+)$')
 _RE_BLOCK_COMMENT = re.compile(r'/\*.*?\*/', re.DOTALL)
 _RE_LINE_COMMENT = re.compile(r'//[^\n]*')
+_RE_OBJC_USR = re.compile(
+    r'c:objc\((?:pl|cs)\)(\w+)\((im|cm)\)(.+)')
 
 _API_MACRO_FIRST_CHARS = frozenset(p[0] for p in _API_MACRO_PREFIXES)
 
@@ -618,6 +620,70 @@ def apply_enum_header_deprecations(api: dict, member_dep: dict,
 
 
 # ---------------------------------------------------------------------------
+# Swift symbol graph support
+# ---------------------------------------------------------------------------
+
+
+def _swift_base_name(title: str) -> str:
+    """Extract base name from a Swift title.
+
+    E.g. ``'setStencilReferenceValues(front:back:)'`` → ``'setStencilReferenceValues'``.
+    """
+    idx = title.find('(')
+    return title[:idx] if idx >= 0 else title
+
+
+def load_swift_names(sg_dir: str) -> dict[tuple[str, str], str]:
+    """Load Swift method names from symbol-graph JSON files.
+
+    Returns ``{(type_name, selector): swift_base_name}`` only for methods
+    whose Swift base name differs from the first ObjC selector component.
+    """
+    result: dict[tuple[str, str], str] = {}
+    if not os.path.isdir(sg_dir):
+        return result
+
+    for fn in sorted(os.listdir(sg_dir)):
+        if not fn.endswith('.symbols.json'):
+            continue
+        with open(os.path.join(sg_dir, fn)) as f:
+            sg = json.load(f)
+
+        for sym in sg.get('symbols', []):
+            precise = sym.get('identifier', {}).get('precise', '')
+            title = sym.get('names', {}).get('title', '')
+            if not title:
+                continue
+            m = _RE_OBJC_USR.match(precise)
+            if not m:
+                continue
+
+            type_name = m.group(1)
+            selector = m.group(3)
+            swift_base = _swift_base_name(title)
+
+            first_part = selector.split(':')[0] if ':' in selector else selector
+            if swift_base != first_part:
+                result[(type_name, selector)] = swift_base
+
+    return result
+
+
+def apply_swift_names(api: dict, swift_names: dict) -> int:
+    """Apply Swift names to methods in protocols and classes."""
+    applied = 0
+    for collection in (api['protocols'], api['classes']):
+        for t in collection:
+            tname = t['name']
+            for m in t.get('methods', []):
+                key = (tname, m['selector'])
+                if key in swift_names:
+                    m['swiftName'] = swift_names[key]
+                    applied += 1
+    return applied
+
+
+# ---------------------------------------------------------------------------
 # Deduplication and merging
 # ---------------------------------------------------------------------------
 
@@ -884,7 +950,8 @@ def _handle_record(node: dict, name: str, fw: str | None,
 # --- Pipeline entry point --------------------------------------------------
 
 
-def process_ast(ast: dict, sdk_version: str, sdk_path: str) -> dict:
+def process_ast(ast: dict, sdk_version: str, sdk_path: str,
+                symbolgraph_dir: str | None = None) -> dict:
     """Main AST processing pipeline: extract -> deduplicate -> enrich."""
 
     struct_by_name, struct_by_id, typedef_deps = _pre_scan_ast(ast)
@@ -953,6 +1020,12 @@ def process_ast(ast: dict, sdk_version: str, sdk_path: str) -> dict:
           f"{len(enum_type_dep)} enum-level deprecation(s), "
           f"{enum_applied} applied")
 
+    # Enrich with Swift names from symbol-graph data
+    if symbolgraph_dir:
+        swift_names = load_swift_names(symbolgraph_dir)
+        sw_applied = apply_swift_names(api, swift_names)
+        print(f"Swift names: {len(swift_names)} found, {sw_applied} applied")
+
     return api
 
 
@@ -999,21 +1072,22 @@ def print_summary(api: dict) -> None:
 
 
 def main() -> None:
-    if len(sys.argv) != 5:
+    if len(sys.argv) < 5 or len(sys.argv) > 6:
         print(
             f"Usage: {sys.argv[0]} <raw_ast.json> <output.json> "
-            f"<sdk_version> <sdk_path>",
+            f"<sdk_version> <sdk_path> [symbolgraph_dir]",
             file=sys.stderr,
         )
         sys.exit(1)
 
     raw_path, out_path, sdk_version, sdk_path = sys.argv[1:5]
+    sg_dir = sys.argv[5] if len(sys.argv) > 5 else None
 
     print(f"Loading AST from {raw_path}...")
     with open(raw_path) as f:
         ast = json.load(f)
 
-    api = process_ast(ast, sdk_version, sdk_path)
+    api = process_ast(ast, sdk_version, sdk_path, sg_dir)
     print_summary(api)
 
     with open(out_path, "w", encoding="utf-8-sig") as f:

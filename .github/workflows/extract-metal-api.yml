@@ -52,13 +52,28 @@ jobs:
           rm -f "$TEMP_HEADER"
           echo "Raw AST: $(du -h /tmp/metal_raw_ast.json | cut -f1)"
 
+      - name: Extract Swift Symbol Graphs
+        run: |
+          mkdir -p /tmp/symbolgraph
+          for fw in Metal MetalFX; do
+            xcrun swift-symbolgraph-extract \
+              -module-name "$fw" \
+              -target "arm64-apple-${DEPLOY_TARGET}" \
+              -sdk "$SDK_PATH" \
+              -output-dir /tmp/symbolgraph \
+              2>/dev/null || echo "Warning: could not extract $fw symbol graph"
+          done
+          echo "Symbol graphs:"
+          ls -lh /tmp/symbolgraph/*.symbols.json 2>/dev/null || echo "  (none)"
+
       - name: Extract Metal API
         run: |
           python3 .github/scripts/extract_metal_api.py \
             /tmp/metal_raw_ast.json \
             Metal.NET.Generator/metal-ast.json \
             "$SDK_VERSION" \
-            "$SDK_PATH"
+            "$SDK_PATH" \
+            /tmp/symbolgraph
 
       - name: Commit changes
         run: |
