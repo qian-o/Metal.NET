@@ -594,6 +594,44 @@ def _dedup_by_key(items: list[dict], key: str) -> list[dict]:
     return list(seen.values())
 
 
+def _dedup_properties(props: list[dict]) -> list[dict]:
+    """Deduplicate properties by name; prefer readwrite over readonly."""
+    seen: dict = {}
+    for p in props:
+        name = p["name"]
+        if name not in seen:
+            seen[name] = p
+            continue
+        existing = seen[name]
+        # Prefer the readwrite declaration (readonly=False)
+        if existing.get("readonly") and not p.get("readonly"):
+            p.setdefault("deprecated", existing.get("deprecated", False))
+            p.setdefault("deprecationMessage", existing.get("deprecationMessage"))
+            seen[name] = p
+        else:
+            if not existing.get("deprecated") and p.get("deprecated"):
+                existing["deprecated"] = True
+                if p.get("deprecationMessage"):
+                    existing["deprecationMessage"] = p["deprecationMessage"]
+    return list(seen.values())
+
+
+def _dedup_methods(methods: list[dict]) -> list[dict]:
+    """Deduplicate methods by selector, keeping the last occurrence."""
+    seen: dict = {}
+    for m in methods:
+        sel = m["selector"]
+        if sel not in seen:
+            seen[sel] = m
+        else:
+            existing = seen[sel]
+            if not existing.get("deprecated") and m.get("deprecated"):
+                existing["deprecated"] = True
+                if m.get("deprecationMessage"):
+                    existing["deprecationMessage"] = m["deprecationMessage"]
+    return list(seen.values())
+
+
 def _should_prefer_framework(new_item: dict, existing: dict) -> bool:
     """Decide whether *new_item*'s framework should replace *existing*'s.
 
@@ -644,6 +682,9 @@ def _merge_types(items: list[dict]) -> list[dict]:
             existing["deprecated"] = True
             if item.get("deprecationMessage"):
                 existing["deprecationMessage"] = item["deprecationMessage"]
+    for t in merged.values():
+        t["methods"] = _dedup_methods(t["methods"])
+        t["properties"] = _dedup_properties(t["properties"])
     return list(merged.values())
 
 
