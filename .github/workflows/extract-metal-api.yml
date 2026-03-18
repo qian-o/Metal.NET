@@ -95,9 +95,8 @@ jobs:
                   sg = json.load(f)
               for sym in sg.get('symbols', []):
                   precise = sym.get('identifier', {}).get('precise', '')
-                  title = sym.get('names', {}).get('title', '')
-                  subhead = ' '.join(sym.get('names', {}).get('subHeading', [{}]))
-                  kind = sym.get('kind', {}).get('identifier', '')
+                      title = sym.get('names', {}).get('title', '')
+                      kind = sym.get('kind', {}).get('identifier', '')
                   out.append({'file': fn, 'precise': precise, 'title': title, 'kind': kind})
               print(f'{fn}: {len(sg.get(\"symbols\", []))} symbols', file=sys.stderr)
           with open('/tmp/diagnose/all_symbols.json', 'w') as f:
