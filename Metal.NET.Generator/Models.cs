@@ -45,6 +45,9 @@ class ClassDef
 
     /// <summary>Deprecation message if the class/protocol is deprecated, otherwise <c>null</c>.</summary>
     public string? DeprecationMessage { get; set; }
+
+    /// <summary>Full C# class name including prefix (e.g., "MTLDevice", "MTL4CommandBuffer").</summary>
+    public string FullCsName => TypeMapper.GetPrefix(Namespace) + Name;
 }
 
 /// <summary>A parsed method declaration with its return type, parameters, and ObjC metadata.</summary>

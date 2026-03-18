@@ -8,7 +8,7 @@ partial class CSharpEmitter
     /// Emits a single method into <paramref name="sb"/>, handling parameter marshalling
     /// (arrays, blocks, out-params, enums) and selecting the correct <c>MsgSend</c> variant.
     /// </summary>
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors)
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> knownDelegateNames)
     {
         string selectorObjC;
         string csMethodName = TypeMapper.ToPascalCase(method.Name);
@@ -157,7 +157,7 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (IsBlockHandlerType(param.Type))
+            if (IsBlockHandlerType(param.Type, knownDelegateNames))
             {
                 string csType = TypeMapper.MapType(param.Type);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));

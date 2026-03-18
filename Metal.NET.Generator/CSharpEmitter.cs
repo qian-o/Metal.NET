@@ -7,6 +7,9 @@
 /// </summary>
 partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
+    /// <summary>Shared UTF-8 encoding with BOM for all generated files.</summary>
+    static readonly Encoding Utf8Bom = new UTF8Encoding(true);
+
     /// <summary>Hand-written structs to skip during generation (located in Common/Structs.cs).</summary>
     static readonly HashSet<string> SkipStructs =
     [
@@ -105,6 +108,15 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         return null;
     }
 
+    /// <summary>Returns the consolidated file name for a grouped output (e.g., "MTLEnums.cs", "NSStructs.cs").</summary>
+    static string GetConsolidatedFileName(string subdir, string suffix) => subdir switch
+    {
+        "Metal" => $"MTL{suffix}.cs",
+        "Foundation" => $"NS{suffix}.cs",
+        "MetalFX" => $"MTLFX{suffix}.cs",
+        _ => $"{subdir}{suffix}.cs"
+    };
+
     /// <summary>
     /// Emits <c>[Obsolete]</c> attribute and deprecation XML doc comment into <paramref name="sb"/>.
     /// </summary>
@@ -159,18 +171,25 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         // Build known class names (both generated and hand-written)
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
-            context.KnownClassNames.Add(prefix + classDef.Name);
+            context.KnownClassNames.Add(classDef.FullCsName);
         }
         context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
+
+        // Pre-build a HashSet of known delegate names for O(1) lookup
+        HashSet<string> knownDelegateNames = [.. context.BlockTypeAliases.Select(b => b.CsDelegateName)];
+
+        // Build a dictionary for O(1) class lookup by full C# name (last wins for duplicates)
+        Dictionary<string, ClassDef> classByName = [];
+        foreach (ClassDef c in context.Classes)
+        {
+            classByName[c.FullCsName] = c;
+        }
 
         // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
-            string csClassName = prefix + classDef.Name;
-            classPropertyMap[csClassName] =
+            classPropertyMap[classDef.FullCsName] =
             [
                 .. classDef.Methods.Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget && m.IsConst)
                                    .Select(m => TypeMapper.ToPascalCase(m.Name))
@@ -181,17 +200,15 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         HashSet<string> GetInheritedProperties(string csClassName)
         {
             HashSet<string> result = [];
-            if (!classPropertyMap.ContainsKey(csClassName))
+            if (!classByName.TryGetValue(csClassName, out ClassDef? classDef))
             {
                 return result;
             }
-            ClassDef classDef = context.Classes.First(c => TypeMapper.GetPrefix(c.Namespace) + c.Name == csClassName);
             string? current = classDef.BaseClassName;
             while (current != null && context.KnownClassNames.Contains(current) && classPropertyMap.TryGetValue(current, out HashSet<string>? parentProps))
             {
                 result.UnionWith(parentProps);
-                ClassDef? parentDef = context.Classes.FirstOrDefault(c => TypeMapper.GetPrefix(c.Namespace) + c.Name == current);
-                current = parentDef?.BaseClassName;
+                current = classByName.TryGetValue(current, out ClassDef? parentDef) ? parentDef.BaseClassName : null;
             }
             return result;
         }
@@ -230,11 +247,10 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
 
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
-            string csClassName = prefix + classDef.Name;
+            string csClassName = classDef.FullCsName;
             HashSet<string> inheritedProps = GetInheritedProperties(csClassName);
             freeFuncsByClass.TryGetValue(csClassName, out List<FreeFunctionDef>? classFuncs);
-            GenerateClass(classDef, inheritedProps, classFuncs ?? []);
+            GenerateClass(classDef, inheritedProps, knownDelegateNames, classFuncs ?? []);
         }
 
         GenerateObjectiveCFile();

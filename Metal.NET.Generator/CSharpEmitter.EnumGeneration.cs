@@ -13,23 +13,7 @@ partial class CSharpEmitter
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        string fileName = subdir switch
-        {
-            "Metal" => "MTLEnums.cs",
-            "Foundation" => "NSEnums.cs",
-            "MetalFX" => "MTLFXEnums.cs",
-            _ => $"{subdir}Enums.cs"
-        };
-
-        foreach (EnumDef enumDef in enums)
-        {
-            string prefix = TypeMapper.GetPrefix(enumDef.Namespace);
-            string oldFile = Path.Combine(dir, $"{prefix}{enumDef.Name}.cs");
-            if (File.Exists(oldFile))
-            {
-                File.Delete(oldFile);
-            }
-        }
+        string fileName = GetConsolidatedFileName(subdir, "Enums");
 
         StringBuilder sb = new();
         sb.AppendLine("namespace Metal.NET;");
@@ -80,7 +64,7 @@ partial class CSharpEmitter
             sb.AppendLine("}");
         }
 
-        File.WriteAllText(Path.Combine(dir, fileName), sb.ToString(), new UTF8Encoding(true));
+        File.WriteAllText(Path.Combine(dir, fileName), sb.ToString(), Utf8Bom);
         Console.WriteLine($"  Generated: {subdir}/{fileName} ({enums.Count} enums)");
     }
 

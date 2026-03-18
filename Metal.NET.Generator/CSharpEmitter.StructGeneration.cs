@@ -24,13 +24,7 @@ partial class CSharpEmitter
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        string fileName = subdir switch
-        {
-            "Metal" => "MTLStructs.cs",
-            "Foundation" => "NSStructs.cs",
-            "MetalFX" => "MTLFXStructs.cs",
-            _ => $"{subdir}Structs.cs"
-        };
+        string fileName = GetConsolidatedFileName(subdir, "Structs");
 
         StringBuilder sb = new();
         sb.AppendLine("using System.Runtime.InteropServices;");
@@ -71,7 +65,7 @@ partial class CSharpEmitter
             sb.AppendLine("}");
         }
 
-        File.WriteAllText(Path.Combine(dir, fileName), sb.ToString(), new UTF8Encoding(true));
+        File.WriteAllText(Path.Combine(dir, fileName), sb.ToString(), Utf8Bom);
         Console.WriteLine($"  Generated: {subdir}/{fileName} ({generatable.Count} structs)");
     }
 

@@ -8,10 +8,9 @@ partial class CSharpEmitter
     /// Generates a single C# class file: constructor, properties, methods, indexer,
     /// free-function wrappers, and the companion <c>Bindings</c> selector-lookup class.
     /// </summary>
-    void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, List<FreeFunctionDef> freeFunctions)
+    void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, HashSet<string> knownDelegateNames, List<FreeFunctionDef> freeFunctions)
     {
-        string prefix = TypeMapper.GetPrefix(classDef.Namespace);
-        string csClassName = prefix + classDef.Name;
+        string csClassName = classDef.FullCsName;
 
         if (AstJsonParser.SkipClasses.Contains(csClassName))
         {
@@ -28,7 +27,7 @@ partial class CSharpEmitter
         List<MethodInfo> validMethods =
         [
             .. classDef.Methods.Where(m => !HasUnmergableArrayParam(m)
-                                            && !HasFunctionPointerParam(m)
+                                            && !HasFunctionPointerParam(m, knownDelegateNames)
                                             && !HasUnmappableParam(m))
         ];
 
@@ -158,7 +157,7 @@ partial class CSharpEmitter
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, selectors);
+            EmitMethod(sb, method, csClassName, selectors, knownDelegateNames);
             hasPrecedingMember = true;
         }
 
@@ -198,7 +197,7 @@ partial class CSharpEmitter
         }
         sb.AppendLine("}");
 
-        File.WriteAllText(Path.Combine(dir, $"{csClassName}.cs"), sb.ToString(), new UTF8Encoding(true));
+        File.WriteAllText(Path.Combine(dir, $"{csClassName}.cs"), sb.ToString(), Utf8Bom);
         Console.WriteLine($"  Generated: {subdir}/{csClassName}.cs");
     }
 
@@ -329,7 +328,7 @@ partial class CSharpEmitter
     /// pointer params. Block handler params (<c>Handler</c>/<c>Block</c> types and <c>INLINE_BLOCK:</c>
     /// markers) are <b>not</b> considered function pointers.
     /// </summary>
-    bool HasFunctionPointerParam(MethodInfo method)
+    static bool HasFunctionPointerParam(MethodInfo method, HashSet<string> knownDelegateNames)
     {
         return method.Parameters.Any(p =>
         {
@@ -347,7 +346,7 @@ partial class CSharpEmitter
             if (p.Type.Contains("Handler") || p.Type.Contains("Block"))
             {
                 string csType = TypeMapper.MapType(p.Type);
-                return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
+                return !knownDelegateNames.Contains(csType);
             }
 
             return p.Type.Contains("function") || p.Type.Contains("void(");
@@ -355,12 +354,12 @@ partial class CSharpEmitter
     }
 
     /// <summary>Returns <see langword="true"/> if the parameter type is a known block handler typedef.</summary>
-    bool IsBlockHandlerType(string type)
+    static bool IsBlockHandlerType(string type, HashSet<string> knownDelegateNames)
     {
         if (type.Contains("Handler") || type.Contains("Block"))
         {
             string csType = TypeMapper.MapType(type);
-            return context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
+            return knownDelegateNames.Contains(csType);
         }
 
         return false;

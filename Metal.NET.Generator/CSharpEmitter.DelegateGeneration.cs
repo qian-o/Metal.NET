@@ -80,7 +80,7 @@ partial class CSharpEmitter
             sb.AppendLine("}");
         }
 
-        File.WriteAllText(Path.Combine(dir, "MTLDelegates.cs"), sb.ToString(), new UTF8Encoding(true));
+        File.WriteAllText(Path.Combine(dir, "MTLDelegates.cs"), sb.ToString(), Utf8Bom);
         Console.WriteLine($"  Generated: Metal/MTLDelegates.cs ({context.BlockTypeAliases.Count} handler classes)");
     }
 

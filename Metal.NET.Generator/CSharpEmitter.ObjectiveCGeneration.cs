@@ -150,7 +150,7 @@ partial class CSharpEmitter
         sb.AppendLine("    }");
         sb.AppendLine("}");
 
-        File.WriteAllText(Path.Combine(dir, "ObjectiveC.cs"), sb.ToString(), new UTF8Encoding(true));
+        File.WriteAllText(Path.Combine(dir, "ObjectiveC.cs"), sb.ToString(), Utf8Bom);
 
         int totalOverloads = context.MsgSendSignatures.Values.Sum(s => s.Count);
         Console.WriteLine($"  Generated: Common/ObjectiveC.cs ({totalOverloads} overloads across {context.MsgSendSignatures.Count} groups)");
