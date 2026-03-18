@@ -21,21 +21,21 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
     }
 
-    public void Reset(NSRange range)
+    public void ResetWithRange(NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.ResetWithRange, range);
     }
 
-    public MTLIndirectRenderCommand IndirectRenderCommandAtIndex(nuint commandIndex)
+    public MTLIndirectRenderCommand IndirectRenderCommandAt(nuint commandIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommandAtIndex, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommandAt, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIndirectComputeCommand IndirectComputeCommandAtIndex(nuint commandIndex)
+    public MTLIndirectComputeCommand IndirectComputeCommandAt(nuint commandIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommandAtIndex, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommandAt, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -45,9 +45,9 @@ file static class MTLIndirectCommandBufferBindings
 {
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector IndirectComputeCommandAtIndex = "indirectComputeCommandAtIndex:";
+    public static readonly Selector IndirectComputeCommandAt = "indirectComputeCommandAtIndex:";
 
-    public static readonly Selector IndirectRenderCommandAtIndex = "indirectRenderCommandAtIndex:";
+    public static readonly Selector IndirectRenderCommandAt = "indirectRenderCommandAtIndex:";
 
     public static readonly Selector ResetWithRange = "resetWithRange:";
 

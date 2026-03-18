@@ -37,23 +37,23 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerCount);
     }
 
-    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize, screenSize);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSizeLayer, screenSize, layer.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRasterizationRateLayerDescriptor LayerAtIndex(nuint layerIndex)
+    public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerAtIndex, layerIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.Layer, layerIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -70,7 +70,7 @@ file static class MTLRasterizationRateMapDescriptorBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector LayerAtIndex = "layerAtIndex:";
+    public static readonly Selector Layer = "layerAtIndex:";
 
     public static readonly Selector LayerCount = "layerCount";
 

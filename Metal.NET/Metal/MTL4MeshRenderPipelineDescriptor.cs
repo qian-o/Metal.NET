@@ -102,7 +102,7 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
     public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
     }
 
     public nuint MaxVertexAmplificationCount
@@ -228,8 +228,6 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
 
     public static readonly Selector SetFragmentStaticLinkingDescriptor = "setFragmentStaticLinkingDescriptor:";
 
-    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
-
     public static readonly Selector SetMaxTotalThreadgroupsPerMeshGrid = "setMaxTotalThreadgroupsPerMeshGrid:";
 
     public static readonly Selector SetMaxTotalThreadsPerMeshThreadgroup = "setMaxTotalThreadsPerMeshThreadgroup:";
@@ -251,6 +249,8 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
     public static readonly Selector SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:";
 
     public static readonly Selector SetPayloadMemoryLength = "setPayloadMemoryLength:";
+
+    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 

@@ -27,9 +27,9 @@ public class MTLCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.EndEncoding);
     }
 
-    public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
+    public void Barrier(MTLStages afterQueueStages, MTLStages beforeStages)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.Barrier, (nuint)afterQueueStages, (nuint)beforeStages);
     }
 
     public void InsertDebugSignpost(NSString @string)
@@ -50,7 +50,7 @@ public class MTLCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) 
 
 file static class MTLCommandEncoderBindings
 {
-    public static readonly Selector BarrierAfterQueueStages = "barrierAfterQueueStages:beforeStages:";
+    public static readonly Selector Barrier = "barrierAfterQueueStages:beforeStages:";
 
     public static readonly Selector Device = "device";
 

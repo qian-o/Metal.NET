@@ -34,12 +34,6 @@ partial class AstJsonParser
         ["unichar * _Nonnull, NSUInteger"] = "MTLDeallocator",
     };
 
-    /// <summary>Override parameter names for known inline block types.</summary>
-    static readonly Dictionary<string, string[]> InlineBlockParamNames = new()
-    {
-        ["MTLDeallocator"] = ["pointer", "length"],
-    };
-
     /// <summary>Known ObjC class names that support AllocInit (have a registered ObjC class).</summary>
     static readonly HashSet<string> AllocInitClasses =
     [
@@ -126,8 +120,8 @@ partial class AstJsonParser
         "NSObject", "NSCopying", "NSMutableCopying", "NSSecureCoding", "NSFastEnumeration",
     ];
 
-    /// <summary>Classes to skip (hand-written or not relevant).</summary>
-    static readonly HashSet<string> SkipClasses =
+    /// <summary>Classes to skip (hand-written or not relevant). Shared with <see cref="CSharpEmitter"/>.</summary>
+    internal static readonly HashSet<string> SkipClasses =
     [
         "NSObject", "NSArray", "NSString", "NSError", "NSURL",
         "NSDictionary", "NSNumber", "NSValue", "NSData",
@@ -151,6 +145,14 @@ partial class AstJsonParser
 
         ParseEnums(ast, context);
         ParseStructs(ast, context);
+
+        // Auto-populate StructTypes from parsed definitions so DetectArrayParamPairs
+        // and the emitter can recognise all struct types without manual maintenance.
+        foreach (StructDef s in context.Structs)
+        {
+            TypeMapper.StructTypes.Add(TypeMapper.GetPrefix(s.Namespace) + s.Name);
+        }
+
         ParseBlockTypedefs(ast, context);
         ParseProtocols(ast, context);
         ParseClasses(ast, context);
@@ -162,22 +164,13 @@ partial class AstJsonParser
     #region Selector & Name Helpers
 
     /// <summary>
-    /// Converts an ObjC selector to a C++ method name for the internal model.
-    /// E.g., "newCommandQueueWithMaxCommandBufferCount:" → "newCommandQueueWithMaxCommandBufferCount"
-    /// E.g., "setFoo:" → "setFoo"
-    /// E.g., "foo" → "foo"
+    /// Extracts the base name from an ObjC selector (the part before the first colon).
+    /// Used for property getter/setter name derivation during parsing.
     /// </summary>
     static string SelectorToMethodName(string selector)
     {
-        // Remove trailing colons and split on colons to get the base name
-        if (!selector.Contains(':'))
-        {
-            return selector;
-        }
-
-        // For multi-part selectors like "foo:bar:baz:", use the first part as the method name
         int firstColon = selector.IndexOf(':');
-        return selector[..firstColon];
+        return firstColon < 0 ? selector : selector[..firstColon];
     }
 
     /// <summary>

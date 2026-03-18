@@ -46,9 +46,9 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         get => (MTLTensorUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.Usage);
     }
 
-    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
+    public void Replace(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.ReplaceSliceOrigin, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.Replace, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
@@ -71,7 +71,7 @@ file static class MTLTensorBindings
 
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector ReplaceSliceOrigin = "replaceSliceOrigin:sliceDimensions:withBytes:strides:";
+    public static readonly Selector Replace = "replaceSliceOrigin:sliceDimensions:withBytes:strides:";
 
     public static readonly Selector Strides = "strides";
 

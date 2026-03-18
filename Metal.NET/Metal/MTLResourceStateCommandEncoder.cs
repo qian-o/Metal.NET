@@ -26,27 +26,27 @@ public class MTLResourceStateCommandEncoder(nint nativePtr, NativeObjectOwnershi
         ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.UpdateTextureMappingModeIndirectBufferIndirectBufferOffset, texture.NativePtr, (nuint)mode, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
-    public void UpdateFence(MTLFence fence)
+    public void Update(MTLFence fence)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.UpdateFence, fence.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.Update, fence.NativePtr);
     }
 
-    public void WaitForFence(MTLFence fence)
+    public void Wait(MTLFence fence)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.WaitForFence, fence.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.Wait, fence.NativePtr);
     }
 
-    public void MoveTextureMappingsFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
+    public void MoveTextureMappings(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.MoveTextureMappingsFromTexture, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, destinationSlice, destinationLevel, destinationOrigin);
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.MoveTextureMappings, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, destinationSlice, destinationLevel, destinationOrigin);
     }
 }
 
 file static class MTLResourceStateCommandEncoderBindings
 {
-    public static readonly Selector MoveTextureMappingsFromTexture = "moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:";
+    public static readonly Selector MoveTextureMappings = "moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:";
 
-    public static readonly Selector UpdateFence = "updateFence:";
+    public static readonly Selector Update = "updateFence:";
 
     public static readonly Selector UpdateTextureMapping = "updateTextureMapping:mode:region:mipLevel:slice:";
 
@@ -54,5 +54,5 @@ file static class MTLResourceStateCommandEncoderBindings
 
     public static readonly Selector UpdateTextureMappings = "updateTextureMappings:mode:regions:mipLevels:slices:numRegions:";
 
-    public static readonly Selector WaitForFence = "waitForFence:";
+    public static readonly Selector Wait = "waitForFence:";
 }

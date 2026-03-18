@@ -41,30 +41,30 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
         get => ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLRasterizationRateMapBindings.ParameterBufferSizeAndAlign);
     }
 
-    public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
+    public void CopyParameterData(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapBindings.CopyParameterDataToBuffer, buffer.NativePtr, offset);
+        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapBindings.CopyParameterData, buffer.NativePtr, offset);
     }
 
-    public MTLSize PhysicalSizeForLayer(nuint layerIndex)
+    public MTLSize PhysicalSize(nuint layerIndex)
     {
-        return ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalSizeForLayer, layerIndex);
+        return ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalSize, layerIndex);
     }
 
-    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
+    public MTLSamplePosition PhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
     {
-        return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapScreenToPhysicalCoordinates, screenCoordinates, layerIndex);
+        return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.PhysicalCoordinates, screenCoordinates, layerIndex);
     }
 
-    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
+    public MTLSamplePosition ScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
     {
-        return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapPhysicalToScreenCoordinates, physicalCoordinates, layerIndex);
+        return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.ScreenCoordinates, physicalCoordinates, layerIndex);
     }
 }
 
 file static class MTLRasterizationRateMapBindings
 {
-    public static readonly Selector CopyParameterDataToBuffer = "copyParameterDataToBuffer:offset:";
+    public static readonly Selector CopyParameterData = "copyParameterDataToBuffer:offset:";
 
     public static readonly Selector Device = "device";
 
@@ -72,15 +72,15 @@ file static class MTLRasterizationRateMapBindings
 
     public static readonly Selector LayerCount = "layerCount";
 
-    public static readonly Selector MapPhysicalToScreenCoordinates = "mapPhysicalToScreenCoordinates:forLayer:";
-
-    public static readonly Selector MapScreenToPhysicalCoordinates = "mapScreenToPhysicalCoordinates:forLayer:";
-
     public static readonly Selector ParameterBufferSizeAndAlign = "parameterBufferSizeAndAlign";
+
+    public static readonly Selector PhysicalCoordinates = "mapScreenToPhysicalCoordinates:forLayer:";
 
     public static readonly Selector PhysicalGranularity = "physicalGranularity";
 
-    public static readonly Selector PhysicalSizeForLayer = "physicalSizeForLayer:";
+    public static readonly Selector PhysicalSize = "physicalSizeForLayer:";
+
+    public static readonly Selector ScreenCoordinates = "mapPhysicalToScreenCoordinates:forLayer:";
 
     public static readonly Selector ScreenSize = "screenSize";
 }

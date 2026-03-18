@@ -70,6 +70,8 @@ _RE_BLOCK_COMMENT = re.compile(r'/\*.*?\*/', re.DOTALL)
 _RE_LINE_COMMENT = re.compile(r'//[^\n]*')
 _RE_OBJC_USR = re.compile(
     r'c:objc\((?:pl|cs)\)(\w+)\((im|cm)\)(.+)')
+_RE_OBJC_USR_ANY = re.compile(
+    r'c:objc\((?:pl|cs)\)(\w+)\((im|cm|py)\)(.+)')
 
 _API_MACRO_FIRST_CHARS = frozenset(p[0] for p in _API_MACRO_PREFIXES)
 
@@ -640,6 +642,14 @@ def load_swift_names(sg_dir: str) -> dict[tuple[str, str], str]:
 
     Returns ``{(type_name, selector): swift_base_name}`` only for methods
     whose Swift base name differs from the first ObjC selector component.
+
+    Three sources are consulted (later sources do NOT overwrite earlier ones):
+
+    1. Symbols with ObjC USR ``c:objc(pl|cs)Type(im|cm)selector`` — direct.
+    2. ``defaultImplementationOf`` relationships where the *source* is a Swift
+       USR and the *target* is an ObjC USR — the Swift title provides the name.
+    3. ObjC USR ``(py)`` property symbols — provides Swift names for properties
+       whose getter/setter methods may appear in the ``methods`` array.
     """
     result: dict[tuple[str, str], str] = {}
     if not os.path.isdir(sg_dir):
@@ -651,6 +661,15 @@ def load_swift_names(sg_dir: str) -> dict[tuple[str, str], str]:
         with open(os.path.join(sg_dir, fn)) as f:
             sg = json.load(f)
 
+        # Build a quick lookup from precise-id → title for relationship phase.
+        sym_titles: dict[str, str] = {}
+        for sym in sg.get('symbols', []):
+            precise = sym.get('identifier', {}).get('precise', '')
+            title = sym.get('names', {}).get('title', '')
+            if precise and title:
+                sym_titles[precise] = title
+
+        # --- Phase 1: ObjC USR (im)/(cm) symbols — direct mapping -----------
         for sym in sg.get('symbols', []):
             precise = sym.get('identifier', {}).get('precise', '')
             title = sym.get('names', {}).get('title', '')
@@ -668,12 +687,89 @@ def load_swift_names(sg_dir: str) -> dict[tuple[str, str], str]:
             if swift_base != first_part:
                 result[(type_name, selector)] = swift_base
 
+        # --- Phase 2: defaultImplementationOf relationships ------------------
+        for rel in sg.get('relationships', []):
+            if rel.get('kind') != 'defaultImplementationOf':
+                continue
+            target = rel.get('target', '')
+            m = _RE_OBJC_USR.match(target)
+            if not m:
+                continue
+
+            type_name = m.group(1)
+            selector = m.group(3)
+            key = (type_name, selector)
+            if key in result:
+                continue  # Phase 1 already provided a mapping
+
+            source = rel.get('source', '')
+            title = sym_titles.get(source, '')
+            if not title:
+                continue
+            swift_base = _swift_base_name(title)
+
+            first_part = selector.split(':')[0] if ':' in selector else selector
+            if swift_base != first_part:
+                result[key] = swift_base
+
+        # --- Phase 3: ObjC USR (py) property symbols for getter methods ------
+        for sym in sg.get('symbols', []):
+            precise = sym.get('identifier', {}).get('precise', '')
+            title = sym.get('names', {}).get('title', '')
+            if not title:
+                continue
+            m_py = _RE_OBJC_USR_ANY.match(precise)
+            if not m_py or m_py.group(2) != 'py':
+                continue
+
+            type_name = m_py.group(1)
+            prop_name = m_py.group(3)   # e.g. "colorAttachments"
+            swift_base = _swift_base_name(title)
+
+            # Map getter: selector == property name
+            key = (type_name, prop_name)
+            if key not in result and swift_base != prop_name:
+                result[key] = swift_base
+
     return result
 
 
+# Pattern for converting ObjC "new*" factory names to Swift "make*" convention.
+_RE_NEW_FACTORY = re.compile(
+    r'^new(\w+?)(?:With\w+|By\w+)?$')
+
+
+def _new_to_make(name: str) -> str | None:
+    """Convert an ObjC ``new*`` factory name to Swift ``make*`` convention.
+
+    Returns the converted name, or *None* if the name doesn't match the
+    ``new*`` factory pattern.
+
+    Examples::
+
+        newCommandQueue                             → makeCommandQueue
+        newComputePipelineStateWithDescriptor        → makeComputePipelineState
+        newRenderPipelineStateBySpecializationWith…  → makeRenderPipelineStateBySpecialization
+        newTextureViewWithPixelFormat               → makeTextureView
+        newDynamicLibraryWithURL                    → makeDynamicLibrary
+    """
+    m = _RE_NEW_FACTORY.match(name)
+    if not m:
+        return None
+    core = m.group(1)
+    if not core:
+        return None
+    return 'make' + core
+
+
 def apply_swift_names(api: dict, swift_names: dict) -> int:
-    """Apply Swift names to methods in protocols and classes."""
+    """Apply Swift names to methods and properties in protocols and classes.
+
+    For methods not covered by the symbol graph whose name starts with
+    ``new``, a fallback ``new→make`` conversion is applied.
+    """
     applied = 0
+    fallback = 0
     for collection in (api['protocols'], api['classes']):
         for t in collection:
             tname = t['name']
@@ -682,7 +778,86 @@ def apply_swift_names(api: dict, swift_names: dict) -> int:
                 if key in swift_names:
                     m['name'] = swift_names[key]
                     applied += 1
-    return applied
+                # Convert any remaining new* → make* (including symbol-graph
+                # entries that returned a new* name instead of make*).
+                if m['name'].startswith('new') and len(m['name']) > 3 \
+                        and m['name'][3].isupper():
+                    converted = _new_to_make(m['name'])
+                    if converted:
+                        m['name'] = converted
+                        fallback += 1
+            for p in t.get('properties', []):
+                key = (tname, p['name'])
+                if key in swift_names:
+                    p['name'] = swift_names[key]
+                    applied += 1
+    print(f"  Swift names applied: {applied}, new→make fallback: {fallback}")
+
+    # Resolve overload collisions caused by Swift name mapping
+    collisions = _resolve_overload_collisions(api)
+    if collisions:
+        print(f"  Overload collisions resolved: {collisions}")
+
+    return applied + fallback
+
+
+def _normalize_param_type(t: str) -> str:
+    """Strip nullability annotations for signature comparison."""
+    t = re.sub(r'\s*_Nonnull\b', '', t)
+    t = re.sub(r'\s*_Nullable\b', '', t)
+    t = re.sub(r'\s*\*\s*', '*', t)
+    return t.strip()
+
+
+def _full_name_from_selector(selector: str) -> str:
+    """Build a full camelCase name from all selector components.
+
+    Examples::
+
+        presentDrawable:atTime:              → presentDrawableAtTime
+        presentDrawable:afterMinimumDuration: → presentDrawableAfterMinimumDuration
+        optimizeContentsForGPUAccess:        → optimizeContentsForGPUAccess
+        setValue:forKey:                     → setValueForKey
+    """
+    parts = [p for p in selector.split(':') if p]
+    if not parts:
+        return selector
+    result = parts[0]
+    for p in parts[1:]:
+        result += p[0].upper() + p[1:]
+    return result
+
+
+def _resolve_overload_collisions(api: dict) -> int:
+    """Detect methods that share (name, param-type-tuple) within a type and
+    rebuild their names from the full selector to avoid C# overload ambiguity.
+
+    Returns the number of methods whose name was changed.
+    """
+    from collections import defaultdict
+
+    reverted = 0
+    for collection in (api['protocols'], api['classes']):
+        for t in collection:
+            # Group methods by (name, normalised param types)
+            sig_groups: dict[tuple, list[dict]] = defaultdict(list)
+            for m in t.get('methods', []):
+                param_types = tuple(
+                    _normalize_param_type(p['type'])
+                    for p in m.get('parameters', [])
+                )
+                sig_groups[(m['name'], param_types)].append(m)
+
+            for (_name, _ptypes), methods in sig_groups.items():
+                if len(methods) < 2:
+                    continue
+                # Collision: rebuild each method name from full selector
+                for m in methods:
+                    full_name = _full_name_from_selector(m['selector'])
+                    if m['name'] != full_name:
+                        m['name'] = full_name
+                        reverted += 1
+    return reverted
 
 
 # ---------------------------------------------------------------------------

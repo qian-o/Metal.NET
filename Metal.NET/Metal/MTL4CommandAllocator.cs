@@ -21,9 +21,9 @@ public class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownershi
         get => GetProperty(ref field, MTL4CommandAllocatorBindings.Label);
     }
 
-    public ulong AllocatedSize
+    public ulong AllocatedSize()
     {
-        get => ObjectiveC.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
+        return ObjectiveC.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
     }
 
     public void Reset()

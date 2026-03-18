@@ -1,9 +1,5 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>
-/// Deserializes metal-ast.json and populates a <see cref="GeneratorContext"/>
-/// with enum, class, struct, free function, and block type alias definitions.
-/// </summary>
 partial class AstJsonParser
 {
     #region Protocol & Class Parsing
@@ -76,6 +72,19 @@ partial class AstJsonParser
 
         // Track selectors emitted from properties to avoid duplicates from explicit methods
         HashSet<string> propertySelectors = [];
+        HashSet<string> propertyNames = new(StringComparer.OrdinalIgnoreCase);
+
+        // Build a lookup from method name → ObjC selector for parameterless methods.
+        // Properties may lack an explicit getter field; in that case the real ObjC
+        // selector lives only in the methods array (e.g. name "url" → selector "URL").
+        Dictionary<string, string> methodSelectorByName = [];
+        foreach (AstMethod m in ast.Methods)
+        {
+            if (m.Parameters.Count == 0 && !string.IsNullOrEmpty(m.Selector))
+            {
+                methodSelectorByName.TryAdd(m.Name, m.Selector);
+            }
+        }
 
         // Parse properties → generate getter and optional setter methods
         foreach (AstProperty prop in ast.Properties)
@@ -92,12 +101,16 @@ partial class AstJsonParser
                 continue;
             }
 
-            string getterSelector = prop.Getter ?? prop.Name;
+            // Resolve getter selector: explicit getter → method selector → property name
+            string getterSelector = prop.Getter
+                ?? methodSelectorByName.GetValueOrDefault(prop.Name)
+                ?? prop.Name;
             string getterName = SelectorToMethodName(getterSelector);
             string returnType = MapObjCTypeForModel(propObjcType);
 
             // Getter
             propertySelectors.Add(getterSelector);
+            propertyNames.Add(getterName);
             methods.Add(new MethodInfo
             {
                 Name = getterName,
@@ -107,14 +120,23 @@ partial class AstJsonParser
                 Parameters = [],
                 UsesClassTarget = false,
                 Selector = getterSelector,
+                IsPropertyAccessor = true,
                 DeprecationMessage = prop.Deprecated ? prop.DeprecationMessage : null,
             });
 
             // Setter (if not readonly)
             if (!prop.Readonly)
             {
-                string setterSelector = prop.Setter ?? $"set{char.ToUpper(prop.Name[0])}{prop.Name[1..]}:";
-                string setName = $"set{char.ToUpper(getterName[0])}{getterName[1..]}";
+                // ObjC convention: for "is"-prefixed boolean properties, the setter
+                // drops the "is" prefix (e.g., isDepthReversed → setDepthReversed:).
+                string setterBaseName = prop.Name;
+                if (setterBaseName.Length > 2 && setterBaseName.StartsWith("is") && char.IsUpper(setterBaseName[2]))
+                {
+                    setterBaseName = char.ToLower(setterBaseName[2]) + setterBaseName[3..];
+                }
+
+                string setterSelector = prop.Setter ?? $"set{char.ToUpper(setterBaseName[0])}{setterBaseName[1..]}:";
+                string setName = $"set{char.ToUpper(setterBaseName[0])}{setterBaseName[1..]}";
                 string paramName = getterName;
 
                 // Map the parameter type
@@ -130,6 +152,7 @@ partial class AstJsonParser
                     Parameters = [new ParamDef(paramType, paramName)],
                     UsesClassTarget = false,
                     Selector = setterSelector,
+                    IsPropertyAccessor = true,
                     DeprecationMessage = prop.Deprecated ? prop.DeprecationMessage : null,
                 });
             }
@@ -150,7 +173,15 @@ partial class AstJsonParser
             }
 
             string selector = astMethod.Selector;
-            string name = SelectorToMethodName(selector);
+            string name = !string.IsNullOrEmpty(astMethod.Name)
+                ? astMethod.Name
+                : SelectorToMethodName(selector);
+
+            // Skip methods whose name clashes with a property (e.g., GPUStartTime vs gpuStartTime)
+            if (propertyNames.Contains(name))
+            {
+                continue;
+            }
 
             if (SkipMethods.Contains(name))
             {
@@ -199,6 +230,9 @@ partial class AstJsonParser
                 continue;
             }
 
+            // Post-process: detect (pointer, count) array patterns and re-tag types
+            DetectArrayParamPairs(parameters);
+
             bool usesClassTarget = astMethod.IsClassMethod;
 
             methods.Add(new MethodInfo
@@ -224,6 +258,57 @@ partial class AstJsonParser
             Deprecated = ast.Deprecated,
             DeprecationMessage = ast.Deprecated ? ast.DeprecationMessage : null,
         });
+    }
+
+    #endregion
+
+    #region Array Parameter Detection
+
+    /// <summary>
+    /// Detects <c>(pointer, count)</c> parameter pairs and re-tags the pointer parameter
+    /// as <c>STRUCT_ARRAY:ElementType</c> and the count parameter as <c>ARRAY_PARAM</c>.
+    /// Handles <c>const StructType*</c> and non-const <c>StructType*</c> patterns
+    /// followed by an <c>NS::UInteger</c> parameter named <c>count</c>.
+    /// <para>
+    /// <c>OBJ_ARRAY:</c> patterns are already detected during type mapping for
+    /// <c>id&lt;Protocol&gt; const *</c> types; this method handles struct/primitive pointer arrays.
+    /// </para>
+    /// </summary>
+    static void DetectArrayParamPairs(List<ParamDef> parameters)
+    {
+        for (int i = 0; i < parameters.Count - 1; i++)
+        {
+            ParamDef current = parameters[i];
+            ParamDef next = parameters[i + 1];
+
+            // Already tagged as an array by type mapping
+            if (current.Type.StartsWith("OBJ_ARRAY:") ||
+                current.Type.StartsWith("STRUCT_ARRAY:") ||
+                current.Type.StartsWith("PRIM_ARRAY:"))
+            {
+                continue;
+            }
+
+            // Next param must be count
+            if (next.Type is not "NS::UInteger" || next.Name is not "count")
+            {
+                continue;
+            }
+
+            // Check for struct pointer: "const StructType*" or "StructType*"
+            string type = current.Type;
+            if (type.StartsWith("const ") && type.EndsWith('*'))
+            {
+                string elemType = type["const ".Length..];
+                parameters[i] = new ParamDef($"STRUCT_ARRAY:{elemType}", current.Name);
+                parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
+            }
+            else if (type.EndsWith('*') && TypeMapper.StructTypes.Contains(type.TrimEnd('*')))
+            {
+                parameters[i] = new ParamDef($"STRUCT_ARRAY:{type}", current.Name);
+                parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
+            }
+        }
     }
 
     #endregion

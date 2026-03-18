@@ -17,13 +17,10 @@ jobs:
           SDK_PATH=$(xcrun --show-sdk-path)
           SDK_VERSION=$(xcrun --show-sdk-version)
           DEPLOY_TARGET="macos$(echo "$SDK_VERSION" | cut -d. -f1).0"
-          echo "SDK_PATH=$SDK_PATH" >> "$GITHUB_ENV"
+          echo "SDK_PATH=$SDK_PATH"       >> "$GITHUB_ENV"
           echo "SDK_VERSION=$SDK_VERSION" >> "$GITHUB_ENV"
           echo "DEPLOY_TARGET=$DEPLOY_TARGET" >> "$GITHUB_ENV"
-          xcodebuild -version
-          echo "SDK: $SDK_PATH"
-          echo "SDK version: $SDK_VERSION"
-          echo "Deploy target: $DEPLOY_TARGET"
+          echo "Xcode: $(xcodebuild -version | head -1), SDK: $SDK_VERSION, Target: $DEPLOY_TARGET"
 
       - name: Dump Clang AST
         run: |
@@ -37,7 +34,6 @@ jobs:
           #endif
           HEADER
 
-          echo "Clang AST dump (target: $DEPLOY_TARGET)..."
           xcrun clang \
             -Xclang -ast-dump=json \
             -fsyntax-only \
@@ -50,9 +46,9 @@ jobs:
             2>/dev/null \
             > /tmp/metal_raw_ast.json
           rm -f "$TEMP_HEADER"
-          echo "Raw AST: $(du -h /tmp/metal_raw_ast.json | cut -f1)"
+          echo "Raw AST size: $(du -h /tmp/metal_raw_ast.json | cut -f1)"
 
-      - name: Extract Swift Symbol Graphs
+      - name: Dump Swift Symbol Graphs
         run: |
           mkdir -p /tmp/symbolgraph
           for fw in Metal MetalFX; do
@@ -63,89 +59,20 @@ jobs:
               -output-dir /tmp/symbolgraph \
               2>/dev/null || echo "Warning: could not extract $fw symbol graph"
           done
-          echo "Symbol graphs:"
-          ls -lh /tmp/symbolgraph/*.symbols.json 2>/dev/null || echo "  (none)"
+          echo "Symbol graphs: $(ls /tmp/symbolgraph/*.symbols.json 2>/dev/null | wc -l | tr -d ' ') files"
 
       - name: Extract Metal API
         run: |
-          python3 .github/scripts/extract_metal_api.py \
+          python3 .github/scripts/parse_metal_ast.py \
             /tmp/metal_raw_ast.json \
             Metal.NET.Generator/metal-ast.json \
             "$SDK_VERSION" \
             "$SDK_PATH" \
             /tmp/symbolgraph
 
-      - name: Diagnose missing Swift names
-        run: |
-          mkdir -p /tmp/diagnose
-
-          # 1. Run the diagnostic script
-          python3 .github/scripts/diagnose_swift_names.py /tmp/symbolgraph \
-            | tee /tmp/diagnose/diagnose_output.txt
-
-          # 2. Dump all precise identifiers from symbol graphs for analysis
-          python3 -c "
-          import json, os, sys
-          sg_dir = '/tmp/symbolgraph'
-          out = []
-          for fn in sorted(os.listdir(sg_dir)):
-              if not fn.endswith('.symbols.json'):
-                  continue
-              with open(os.path.join(sg_dir, fn)) as f:
-                  sg = json.load(f)
-              for sym in sg.get('symbols', []):
-                  precise = sym.get('identifier', {}).get('precise', '')
-                      title = sym.get('names', {}).get('title', '')
-                      kind = sym.get('kind', {}).get('identifier', '')
-                  out.append({'file': fn, 'precise': precise, 'title': title, 'kind': kind})
-              print(f'{fn}: {len(sg.get(\"symbols\", []))} symbols', file=sys.stderr)
-          with open('/tmp/diagnose/all_symbols.json', 'w') as f:
-              json.dump(out, f, indent=2)
-          print(f'Total symbols dumped: {len(out)}', file=sys.stderr)
-          "
-
-          # 3. Extract MTLDevice-related symbols specifically
-          python3 -c "
-          import json
-          with open('/tmp/diagnose/all_symbols.json') as f:
-              syms = json.load(f)
-          device = [s for s in syms if 'MTLDevice' in s['precise'] or 'MTLDevice' in s['title']]
-          with open('/tmp/diagnose/mtldevice_symbols.json', 'w') as f:
-              json.dump(device, f, indent=2)
-          print(f'MTLDevice-related symbols: {len(device)}')
-
-          # Also check for new* / make* patterns
-          new_make = [s for s in syms if 'new' in s['title'].lower() or 'make' in s['title'].lower()]
-          with open('/tmp/diagnose/new_make_symbols.json', 'w') as f:
-              json.dump(new_make, f, indent=2)
-          print(f'new*/make* symbols: {len(new_make)}')
-          "
-
-          # 4. Show samples of non-ObjC-USR Metal symbols (Swift USR format?)
-          python3 -c "
-          import json, re
-          RE = re.compile(r'c:objc\((?:pl|cs)\)(\w+)\((im|cm)\)(.+)')
-          with open('/tmp/diagnose/all_symbols.json') as f:
-              syms = json.load(f)
-          non_objc = [s for s in syms if not RE.match(s['precise']) and ('MTL' in s['precise'] or 'Metal' in s['title'])]
-          with open('/tmp/diagnose/non_objc_usr_metal.json', 'w') as f:
-              json.dump(non_objc, f, indent=2)
-          print(f'Metal symbols with non-ObjC USR: {len(non_objc)}')
-          for s in non_objc[:10]:
-              print(f'  kind={s[\"kind\"]}  precise={s[\"precise\"][:80]}  title={s[\"title\"]}')
-          "
-
-      - name: Upload diagnostic artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: swift-name-diagnostics
-          path: |
-            /tmp/diagnose/
-            /tmp/symbolgraph/*.symbols.json
-
       - name: Commit changes
         run: |
-          git config user.name "github-actions[bot]"
+          git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add Metal.NET.Generator/metal-ast.json
           git diff --cached --quiet && echo "No changes" && exit 0

@@ -75,14 +75,14 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
         set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputHeight, value);
     }
 
-    public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice device)
+    public MTLFXFrameInterpolator MakeFrameInterpolator(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevice, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.MakeFrameInterpolator, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4FXFrameInterpolator NewFrameInterpolator(MTLDevice device, MTL4Compiler compiler)
+    public MTL4FXFrameInterpolator MakeFrameInterpolator(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
 
@@ -112,9 +112,9 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 
     public static readonly Selector InputWidth = "inputWidth";
 
-    public static readonly Selector MotionTextureFormat = "motionTextureFormat";
+    public static readonly Selector MakeFrameInterpolator = "newFrameInterpolatorWithDevice:";
 
-    public static readonly Selector NewFrameInterpolatorWithDevice = "newFrameInterpolatorWithDevice:";
+    public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
     public static readonly Selector NewFrameInterpolatorWithDeviceCompiler = "newFrameInterpolatorWithDevice:compiler:";
 

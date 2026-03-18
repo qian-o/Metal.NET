@@ -36,14 +36,18 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
         get => ObjectiveC.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
     }
 
-    public MTLStructType ElementStructType
+    public MTLStructType ElementStructType()
     {
-        get => GetProperty(ref field, MTLPointerTypeBindings.ElementStructType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementStructType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLArrayType ElementArrayType
+    public MTLArrayType ElementArrayType()
     {
-        get => GetProperty(ref field, MTLPointerTypeBindings.ElementArrayType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementArrayType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

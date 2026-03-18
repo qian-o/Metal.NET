@@ -52,11 +52,6 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
     }
 
-    public Bool8 IsAliasable
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
-    }
-
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
         return (MTLPurgeableState)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.SetPurgeableState, (nuint)state);
@@ -65,6 +60,11 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
     public void MakeAliasable()
     {
         ObjectiveC.MsgSend(NativePtr, MTLResourceBindings.MakeAliasable);
+    }
+
+    public bool IsAliasable()
+    {
+        return ObjectiveC.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
     }
 }
 

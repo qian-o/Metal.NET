@@ -31,9 +31,9 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         get => (MTLBufferSparseTier)ObjectiveC.MsgSendLong(NativePtr, MTLBufferBindings.SparseBufferTier);
     }
 
-    public nint Contents
+    public nint Contents()
     {
-        get => ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.Contents);
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.Contents);
     }
 
     public void DidModifyRange(NSRange range)
@@ -41,16 +41,16 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.DidModifyRange, range);
     }
 
-    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
+    public MTLTexture MakeTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTextureWithDescriptor, descriptor.NativePtr, offset, bytesPerRow);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.MakeTexture, descriptor.NativePtr, offset, bytesPerRow);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
+    public MTLTensor MakeTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTensorWithDescriptor, descriptor.NativePtr, offset, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.MakeTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -67,9 +67,9 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.RemoveAllDebugMarkers);
     }
 
-    public MTLBuffer NewRemoteBufferViewForDevice(MTLDevice device)
+    public MTLBuffer MakeRemoteBufferView(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.MakeRemoteBufferView, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -87,11 +87,11 @@ file static class MTLBufferBindings
 
     public static readonly Selector Length = "length";
 
-    public static readonly Selector NewRemoteBufferViewForDevice = "newRemoteBufferViewForDevice:";
+    public static readonly Selector MakeRemoteBufferView = "newRemoteBufferViewForDevice:";
 
-    public static readonly Selector NewTensorWithDescriptor = "newTensorWithDescriptor:offset:error:";
+    public static readonly Selector MakeTensor = "newTensorWithDescriptor:offset:error:";
 
-    public static readonly Selector NewTextureWithDescriptor = "newTextureWithDescriptor:offset:bytesPerRow:";
+    public static readonly Selector MakeTexture = "newTextureWithDescriptor:offset:bytesPerRow:";
 
     public static readonly Selector RemoteStorageBuffer = "remoteStorageBuffer";
 

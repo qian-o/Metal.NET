@@ -24,7 +24,7 @@ public class MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr, NativeOb
     public Bool8 IsBlendingEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.IsBlendingEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetIsBlendingEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetBlendingEnabled, value);
     }
 
     public MTLBlendFactor SourceRGBBlendFactor
@@ -88,11 +88,11 @@ file static class MTLRenderPipelineColorAttachmentDescriptorBindings
 
     public static readonly Selector SetAlphaBlendOperation = "setAlphaBlendOperation:";
 
+    public static readonly Selector SetBlendingEnabled = "setBlendingEnabled:";
+
     public static readonly Selector SetDestinationAlphaBlendFactor = "setDestinationAlphaBlendFactor:";
 
     public static readonly Selector SetDestinationRGBBlendFactor = "setDestinationRGBBlendFactor:";
-
-    public static readonly Selector SetIsBlendingEnabled = "setBlendingEnabled:";
 
     public static readonly Selector SetPixelFormat = "setPixelFormat:";
 

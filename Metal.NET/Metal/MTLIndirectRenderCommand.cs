@@ -106,9 +106,9 @@ public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetCullMode, (nuint)cullMode);
     }
 
-    public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
+    public void SetFrontFacing(MTLWinding frontFacingWinding)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFrontFacingWinding, (nuint)frontFacingWinding);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFrontFacing, (nuint)frontFacingWinding);
     }
 
     public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
@@ -152,7 +152,7 @@ file static class MTLIndirectRenderCommandBindings
 
     public static readonly Selector SetFragmentBuffer = "setFragmentBuffer:offset:atIndex:";
 
-    public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
+    public static readonly Selector SetFrontFacing = "setFrontFacingWinding:";
 
     public static readonly Selector SetMeshBuffer = "setMeshBuffer:offset:atIndex:";
 

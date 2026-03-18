@@ -1,9 +1,5 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>
-/// Deserializes metal-ast.json and populates a <see cref="GeneratorContext"/>
-/// with enum, class, struct, free function, and block type alias definitions.
-/// </summary>
 partial class AstJsonParser
 {
     #region Free Function Parsing
@@ -82,14 +78,8 @@ partial class AstJsonParser
         prefix + "Device";
 
     /// <summary>Maps a framework name to the native library path on macOS.</summary>
-    static string FrameworkToLibraryPath(string framework) => framework switch
-    {
-        "Metal" => "/System/Library/Frameworks/Metal.framework/Metal",
-        "MetalFX" => "/System/Library/Frameworks/MetalFX.framework/MetalFX",
-        "Foundation" => "/System/Library/Frameworks/Foundation.framework/Foundation",
-        "QuartzCore" => "/System/Library/Frameworks/QuartzCore.framework/QuartzCore",
-        _ => "/System/Library/Frameworks/Metal.framework/Metal"
-    };
+    static string FrameworkToLibraryPath(string framework)
+        => $"/System/Library/Frameworks/{framework}.framework/{framework}";
 
     #endregion
 }

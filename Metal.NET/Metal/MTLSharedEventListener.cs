@@ -20,14 +20,9 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
         get => GetProperty(ref field, MTLSharedEventListenerBindings.DispatchQueue);
     }
 
-    public nint Init(DispatchQueue dispatchQueue)
+    public static MTLSharedEventListener Shared()
     {
-        return ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventListenerBindings.InitWithDispatchQueue, dispatchQueue.NativePtr);
-    }
-
-    public static MTLSharedEventListener SharedListener()
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.Shared);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -39,7 +34,5 @@ file static class MTLSharedEventListenerBindings
 
     public static readonly Selector DispatchQueue = "dispatchQueue";
 
-    public static readonly Selector InitWithDispatchQueue = "initWithDispatchQueue:";
-
-    public static readonly Selector SharedListener = "sharedListener";
+    public static readonly Selector Shared = "sharedListener";
 }

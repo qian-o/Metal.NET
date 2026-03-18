@@ -58,19 +58,19 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
     public Bool8 IsAlphaToCoverageEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsAlphaToCoverageEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
     }
 
     public Bool8 IsAlphaToOneEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsAlphaToOneEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
     public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsRasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
     }
 
     public nuint MaxVertexAmplificationCount
@@ -117,7 +117,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
     public Bool8 IsTessellationFactorScaleEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsTessellationFactorScaleEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsTessellationFactorScaleEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorScaleEnabled, value);
     }
 
     public MTLTessellationFactorFormat TessellationFactorFormat
@@ -270,6 +270,10 @@ file static class MTLRenderPipelineDescriptorBindings
 
     public static readonly Selector SampleCount = "sampleCount";
 
+    public static readonly Selector SetAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
+
+    public static readonly Selector SetAlphaToOneEnabled = "setAlphaToOneEnabled:";
+
     public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
     public static readonly Selector SetDepthAttachmentPixelFormat = "setDepthAttachmentPixelFormat:";
@@ -282,14 +286,6 @@ file static class MTLRenderPipelineDescriptorBindings
 
     public static readonly Selector SetInputPrimitiveTopology = "setInputPrimitiveTopology:";
 
-    public static readonly Selector SetIsAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
-
-    public static readonly Selector SetIsAlphaToOneEnabled = "setAlphaToOneEnabled:";
-
-    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
-
-    public static readonly Selector SetIsTessellationFactorScaleEnabled = "setTessellationFactorScaleEnabled:";
-
     public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector SetMaxFragmentCallStackDepth = "setMaxFragmentCallStackDepth:";
@@ -299,6 +295,8 @@ file static class MTLRenderPipelineDescriptorBindings
     public static readonly Selector SetMaxVertexAmplificationCount = "setMaxVertexAmplificationCount:";
 
     public static readonly Selector SetMaxVertexCallStackDepth = "setMaxVertexCallStackDepth:";
+
+    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 
@@ -317,6 +315,8 @@ file static class MTLRenderPipelineDescriptorBindings
     public static readonly Selector SetTessellationControlPointIndexType = "setTessellationControlPointIndexType:";
 
     public static readonly Selector SetTessellationFactorFormat = "setTessellationFactorFormat:";
+
+    public static readonly Selector SetTessellationFactorScaleEnabled = "setTessellationFactorScaleEnabled:";
 
     public static readonly Selector SetTessellationFactorStepFunction = "setTessellationFactorStepFunction:";
 

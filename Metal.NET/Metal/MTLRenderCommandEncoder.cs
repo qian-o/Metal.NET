@@ -91,14 +91,17 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetViewport, viewport);
     }
 
-    public void SetViewports(MTLViewport viewports, nuint count)
+    public unsafe void SetViewports(MTLViewport[] viewports)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetViewports, viewports, count);
+        fixed (MTLViewport* pViewports = viewports)
+        {
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetViewports, (nint)pViewports, (nuint)viewports.Length);
+        }
     }
 
-    public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
+    public void SetFrontFacing(MTLWinding frontFacingWinding)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFrontFacingWinding, (nuint)frontFacingWinding);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFrontFacing, (nuint)frontFacingWinding);
     }
 
     public void SetVertexAmplificationCount(nuint count, MTLVertexAmplificationViewMapping viewMappings)
@@ -131,9 +134,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRect, rect);
     }
 
-    public void SetScissorRects(MTLScissorRect scissorRects, nuint count)
+    public unsafe void SetScissorRects(MTLScissorRect[] scissorRects)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRects, scissorRects, count);
+        fixed (MTLScissorRect* pScissorRects = scissorRects)
+        {
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRects, (nint)pScissorRects, (nuint)scissorRects.Length);
+        }
     }
 
     public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
@@ -186,9 +192,9 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentAccelerationStructure, accelerationStructure.NativePtr, bufferIndex);
     }
 
-    public void SetBlendColorRed(float red, float green, float blue, float alpha)
+    public void SetBlendColor(float red, float green, float blue, float alpha)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetBlendColorRed, red, green, blue, alpha);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetBlendColor, red, green, blue, alpha);
     }
 
     public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
@@ -201,9 +207,9 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilReferenceValue, referenceValue);
     }
 
-    public void SetStencilFrontReferenceValue(uint frontReferenceValue, uint backReferenceValue)
+    public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilFrontReferenceValue, frontReferenceValue, backReferenceValue);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilReferenceValues, frontReferenceValue, backReferenceValue);
     }
 
     public void SetVisibilityResultMode(MTLVisibilityResultMode mode, nuint offset)
@@ -318,7 +324,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void DrawMeshThreadgroups(MTLBuffer indirectBuffer, nuint indirectBufferOffset, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawMeshThreadgroupsWithIndirectBuffer, indirectBuffer.NativePtr, indirectBufferOffset, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.DrawMeshThreadgroupsWithIndirectBufferIndirectBufferOffsetThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup, indirectBuffer.NativePtr, indirectBufferOffset, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount)
@@ -557,10 +563,10 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void MemoryBarrier(MTLBarrierScope scope, MTLRenderStages after, MTLRenderStages before)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithScope, (nuint)scope, (nuint)after, (nuint)before);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrier, (nuint)scope, (nuint)after, (nuint)before);
     }
 
-    public unsafe void MemoryBarrier(MTLResource[] resources, MTLRenderStages after, MTLRenderStages before)
+    public unsafe void MemoryBarrierWithResources(MTLResource[] resources, MTLRenderStages after, MTLRenderStages before)
     {
         nint* pResources = stackalloc nint[resources.Length];
         for (int i = 0; i < resources.Length; i++)
@@ -571,9 +577,9 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithResources, (nint)pResources, (nuint)resources.Length, (nuint)after, (nuint)before);
     }
 
-    public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
+    public void SampleCounters(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, barrier);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SampleCounters, sampleBuffer.NativePtr, sampleIndex, barrier);
     }
 
     public void SetColorAttachmentMap(MTLLogicalToPhysicalColorAttachmentMap mapping)
@@ -600,7 +606,7 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector DrawMeshThreadgroups = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawMeshThreadgroupsWithIndirectBuffer = "drawMeshThreadgroupsWithIndirectBuffer:indirectBufferOffset:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
+    public static readonly Selector DrawMeshThreadgroupsWithIndirectBufferIndirectBufferOffsetThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup = "drawMeshThreadgroupsWithIndirectBuffer:indirectBufferOffset:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
     public static readonly Selector DrawMeshThreads = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
@@ -620,13 +626,13 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset = "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:";
 
+    public static readonly Selector MemoryBarrier = "memoryBarrierWithScope:afterStages:beforeStages:";
+
     public static readonly Selector MemoryBarrierWithResources = "memoryBarrierWithResources:count:afterStages:beforeStages:";
 
-    public static readonly Selector MemoryBarrierWithScope = "memoryBarrierWithScope:afterStages:beforeStages:";
+    public static readonly Selector SampleCounters = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
-    public static readonly Selector SampleCountersInBuffer = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
-
-    public static readonly Selector SetBlendColorRed = "setBlendColorRed:green:blue:alpha:";
+    public static readonly Selector SetBlendColor = "setBlendColorRed:green:blue:alpha:";
 
     public static readonly Selector SetColorAttachmentMap = "setColorAttachmentMap:";
 
@@ -666,7 +672,7 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetFragmentVisibleFunctionTable = "setFragmentVisibleFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
+    public static readonly Selector SetFrontFacing = "setFrontFacingWinding:";
 
     public static readonly Selector SetMeshBuffer = "setMeshBuffer:offset:atIndex:";
 
@@ -700,9 +706,9 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetScissorRects = "setScissorRects:count:";
 
-    public static readonly Selector SetStencilFrontReferenceValue = "setStencilFrontReferenceValue:backReferenceValue:";
-
     public static readonly Selector SetStencilReferenceValue = "setStencilReferenceValue:";
+
+    public static readonly Selector SetStencilReferenceValues = "setStencilFrontReferenceValue:backReferenceValue:";
 
     public static readonly Selector SetStencilStoreAction = "setStencilStoreAction:";
 

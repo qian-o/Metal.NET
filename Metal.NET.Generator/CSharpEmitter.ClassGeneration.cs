@@ -1,10 +1,5 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>
-/// Emits C# source files from parsed metal-ast.json definitions.
-/// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
-/// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
-/// </summary>
 partial class CSharpEmitter
 {
     #region Class Generation
@@ -13,12 +8,11 @@ partial class CSharpEmitter
     /// Generates a single C# class file: constructor, properties, methods, indexer,
     /// free-function wrappers, and the companion <c>Bindings</c> selector-lookup class.
     /// </summary>
-    void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, List<FreeFunctionDef> freeFunctions)
+    void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, HashSet<string> knownDelegateNames, List<FreeFunctionDef> freeFunctions)
     {
-        string prefix = TypeMapper.GetPrefix(classDef.Namespace);
-        string csClassName = prefix + classDef.Name;
+        string csClassName = classDef.FullCsName;
 
-        if (SkipClasses.Contains(csClassName))
+        if (AstJsonParser.SkipClasses.Contains(csClassName))
         {
             return;
         }
@@ -32,17 +26,9 @@ partial class CSharpEmitter
 
         List<MethodInfo> validMethods =
         [
-            .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.Type == "ARRAY_PARAM")
-                                            && !HasUnmergableArrayParam(m)
-                                            && !HasFunctionPointerParam(m)
+            .. classDef.Methods.Where(m => !HasUnmergableArrayParam(m)
+                                            && !HasFunctionPointerParam(m, knownDelegateNames)
                                             && !HasUnmappableParam(m))
-        ];
-
-        HashSet<string> hasZeroParamVersion =
-        [
-            .. validMethods
-                .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
-                .Select(m => m.Name)
         ];
 
         (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
@@ -57,8 +43,6 @@ partial class CSharpEmitter
 
         List<MethodInfo> nonIndexerMethods = [.. methods
             .Where(m => m != indexerGetter && m != indexerSetter)];
-
-        Dictionary<MethodInfo, string> simplifiedNames = ComputeSimplifiedMethodNames(nonIndexerMethods, properties);
 
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
@@ -173,7 +157,7 @@ partial class CSharpEmitter
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, selectors, hasZeroParamVersion, simplifiedNames);
+            EmitMethod(sb, method, csClassName, selectors, knownDelegateNames);
             hasPrecedingMember = true;
         }
 
@@ -213,7 +197,7 @@ partial class CSharpEmitter
         }
         sb.AppendLine("}");
 
-        File.WriteAllText(Path.Combine(dir, $"{csClassName}.cs"), sb.ToString(), new UTF8Encoding(true));
+        File.WriteAllText(Path.Combine(dir, $"{csClassName}.cs"), sb.ToString(), Utf8Bom);
         Console.WriteLine($"  Generated: {subdir}/{csClassName}.cs");
     }
 
@@ -259,8 +243,8 @@ partial class CSharpEmitter
 
     /// <summary>
     /// Separates methods into properties (getter/setter pairs) and remaining methods.
-    /// A method is treated as a property getter if it has no parameters, returns non-void,
-    /// is const, is not static, and is not an ownership-transfer method (new/alloc/copy/init).
+    /// Only methods flagged as <see cref="MethodInfo.IsPropertyAccessor"/> (parsed from the
+    /// JSON <c>properties</c> array) are promoted to C# properties.
     /// Getter-setter pairing uses <see cref="GetPropertyName"/> to derive the ObjC property
     /// name from each method's name, so all naming conventions (including
     /// boolean <c>isXxx</c> getters paired with <c>setXxx:</c> setters) are handled uniformly.
@@ -276,7 +260,8 @@ partial class CSharpEmitter
 #pragma warning restore IDE0028
         foreach (MethodInfo m in allMethods)
         {
-            if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]) &&
+            if (m.IsPropertyAccessor &&
+                m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]) &&
                 m.ReturnType == "void" && m.Parameters.Count == 1)
             {
                 setterMap[GetPropertyName(m)] = m;
@@ -285,6 +270,11 @@ partial class CSharpEmitter
 
         foreach (MethodInfo m in allMethods)
         {
+            if (!m.IsPropertyAccessor)
+            {
+                continue;
+            }
+
             if (m.ReturnType == "void")
             {
                 continue;
@@ -295,27 +285,12 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (m.UsesClassTarget)
-            {
-                continue;
-            }
-
             if (used.Contains(m))
             {
                 continue;
             }
 
             if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]))
-            {
-                continue;
-            }
-
-            if (TypeMapper.IsOwnershipTransferMethod(m.Name))
-            {
-                continue;
-            }
-
-            if (!m.IsConst)
             {
                 continue;
             }
@@ -353,7 +328,7 @@ partial class CSharpEmitter
     /// pointer params. Block handler params (<c>Handler</c>/<c>Block</c> types and <c>INLINE_BLOCK:</c>
     /// markers) are <b>not</b> considered function pointers.
     /// </summary>
-    bool HasFunctionPointerParam(MethodInfo method)
+    static bool HasFunctionPointerParam(MethodInfo method, HashSet<string> knownDelegateNames)
     {
         return method.Parameters.Any(p =>
         {
@@ -371,7 +346,7 @@ partial class CSharpEmitter
             if (p.Type.Contains("Handler") || p.Type.Contains("Block"))
             {
                 string csType = TypeMapper.MapType(p.Type);
-                return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
+                return !knownDelegateNames.Contains(csType);
             }
 
             return p.Type.Contains("function") || p.Type.Contains("void(");
@@ -379,12 +354,12 @@ partial class CSharpEmitter
     }
 
     /// <summary>Returns <see langword="true"/> if the parameter type is a known block handler typedef.</summary>
-    bool IsBlockHandlerType(string type)
+    static bool IsBlockHandlerType(string type, HashSet<string> knownDelegateNames)
     {
         if (type.Contains("Handler") || type.Contains("Block"))
         {
             string csType = TypeMapper.MapType(type);
-            return context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
+            return knownDelegateNames.Contains(csType);
         }
 
         return false;
@@ -437,8 +412,7 @@ partial class CSharpEmitter
                 p[i].Type.StartsWith("STRUCT_ARRAY:"))
             {
                 bool nextIsCount = i + 1 < p.Count &&
-                    p[i + 1].Type is "NS::UInteger" &&
-                    p[i + 1].Name is "count";
+                    p[i + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
                 if (!nextIsCount)
                 {
                     return true;

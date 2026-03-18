@@ -98,6 +98,9 @@ class AstClass
 
 class AstMethod
 {
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = "";
+
     [JsonPropertyName("selector")]
     public string Selector { get; set; } = "";
 

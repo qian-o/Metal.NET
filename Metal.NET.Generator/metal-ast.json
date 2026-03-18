@@ -5865,7 +5865,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateWithMeshDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateWithMeshDescriptor:options:reflection:error:",
           "isClassMethod": false,
           "returnType": "id<MTLRenderPipelineState> _Nullable",
@@ -7152,21 +7152,21 @@
           "readonly": true
         },
         {
-          "name": "lowPower",
+          "name": "isLowPower",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
           "getter": "isLowPower"
         },
         {
-          "name": "headless",
+          "name": "isHeadless",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
           "getter": "isHeadless"
         },
         {
-          "name": "removable",
+          "name": "isRemovable",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -7203,7 +7203,7 @@
           "readonly": true
         },
         {
-          "name": "depth24Stencil8PixelFormatSupported",
+          "name": "isDepth24Stencil8PixelFormatSupported",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -7222,7 +7222,7 @@
           "readonly": true
         },
         {
-          "name": "rasterOrderGroupsSupported",
+          "name": "areRasterOrderGroupsSupported",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -7259,7 +7259,7 @@
           "readonly": true
         },
         {
-          "name": "barycentricCoordsSupported",
+          "name": "areBarycentricCoordsSupported",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -7292,7 +7292,7 @@
           "readonly": true
         },
         {
-          "name": "programmableSamplePositionsSupported",
+          "name": "areProgrammableSamplePositionsSupported",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -8571,7 +8571,7 @@
           ]
         },
         {
-          "name": "newTextureViewWithPixelFormat",
+          "name": "makeTextureView",
           "selector": "newTextureViewWithPixelFormat:textureType:levels:slices:",
           "isClassMethod": false,
           "returnType": "id<MTLTexture> _Nullable",
@@ -8608,7 +8608,7 @@
           "parameters": []
         },
         {
-          "name": "newTextureView",
+          "name": "makeTextureView",
           "selector": "newTextureViewWithDescriptor:",
           "isClassMethod": false,
           "returnType": "id<MTLTexture> _Nullable",
@@ -8636,7 +8636,7 @@
           ]
         },
         {
-          "name": "newTextureViewWithPixelFormat",
+          "name": "makeTextureView",
           "selector": "newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:",
           "isClassMethod": false,
           "returnType": "id<MTLTexture> _Nullable",
@@ -8678,7 +8678,7 @@
           "parameters": []
         },
         {
-          "name": "parentTexture",
+          "name": "parent",
           "selector": "parentTexture",
           "isClassMethod": false,
           "returnType": "id<MTLTexture> _Nullable",
@@ -8912,7 +8912,7 @@
           "deprecationMessage": "Use parentTexture or buffer instead"
         },
         {
-          "name": "parentTexture",
+          "name": "parent",
           "type": "id<MTLTexture> _Nullable",
           "nullability": "nullable",
           "readonly": true
@@ -9014,14 +9014,14 @@
           "readonly": true
         },
         {
-          "name": "shareable",
+          "name": "isShareable",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
           "getter": "isShareable"
         },
         {
-          "name": "framebufferOnly",
+          "name": "isFramebufferOnly",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -9166,14 +9166,14 @@
           "readonly": true
         },
         {
-          "name": "used",
+          "name": "isUsed",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
           "getter": "isUsed"
         },
         {
-          "name": "argument",
+          "name": "isArgument",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -9358,7 +9358,7 @@
           "readonly": true
         },
         {
-          "name": "depthTexture",
+          "name": "isDepthTexture",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -11599,7 +11599,7 @@
           ]
         },
         {
-          "name": "newComputePipelineStateWithDescriptor",
+          "name": "makeComputePipelineState",
           "selector": "newComputePipelineStateWithDescriptor:compilerTaskOptions:error:",
           "isClassMethod": false,
           "returnType": "id<MTLComputePipelineState> _Nullable",
@@ -11623,7 +11623,7 @@
           ]
         },
         {
-          "name": "newComputePipelineStateWithDescriptor",
+          "name": "makeComputePipelineState",
           "selector": "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:error:",
           "isClassMethod": false,
           "returnType": "id<MTLComputePipelineState> _Nullable",
@@ -11652,7 +11652,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateWithDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateWithDescriptor:compilerTaskOptions:error:",
           "isClassMethod": false,
           "returnType": "id<MTLRenderPipelineState> _Nullable",
@@ -11676,7 +11676,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateWithDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:error:",
           "isClassMethod": false,
           "returnType": "id<MTLRenderPipelineState> _Nullable",
@@ -11705,7 +11705,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateBySpecializationWithDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateBySpecializationWithDescriptor:pipeline:error:",
           "isClassMethod": false,
           "returnType": "id<MTLRenderPipelineState> _Nullable",
@@ -11729,7 +11729,7 @@
           ]
         },
         {
-          "name": "newBinaryFunctionWithDescriptor",
+          "name": "makeBinaryFunction",
           "selector": "newBinaryFunctionWithDescriptor:compilerTaskOptions:error:",
           "isClassMethod": false,
           "returnType": "id<MTL4BinaryFunction> _Nullable",
@@ -11753,7 +11753,7 @@
           ]
         },
         {
-          "name": "newLibraryWithDescriptor",
+          "name": "makeLibrary",
           "selector": "newLibraryWithDescriptor:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11772,7 +11772,7 @@
           ]
         },
         {
-          "name": "newDynamicLibrary",
+          "name": "makeDynamicLibrary",
           "selector": "newDynamicLibrary:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11791,7 +11791,7 @@
           ]
         },
         {
-          "name": "newDynamicLibraryWithURL",
+          "name": "makeDynamicLibrary",
           "selector": "newDynamicLibraryWithURL:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11810,7 +11810,7 @@
           ]
         },
         {
-          "name": "newComputePipelineStateWithDescriptor",
+          "name": "makeComputePipelineState",
           "selector": "newComputePipelineStateWithDescriptor:compilerTaskOptions:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11834,7 +11834,7 @@
           ]
         },
         {
-          "name": "newComputePipelineStateWithDescriptor",
+          "name": "makeComputePipelineState",
           "selector": "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11863,7 +11863,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateWithDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateWithDescriptor:compilerTaskOptions:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11887,7 +11887,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateWithDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11916,7 +11916,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateBySpecializationWithDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateBySpecializationWithDescriptor:pipeline:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11940,7 +11940,7 @@
           ]
         },
         {
-          "name": "newBinaryFunctionWithDescriptor",
+          "name": "makeBinaryFunction",
           "selector": "newBinaryFunctionWithDescriptor:compilerTaskOptions:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -11964,7 +11964,7 @@
           ]
         },
         {
-          "name": "newMachineLearningPipelineStateWithDescriptor",
+          "name": "makeMachineLearningPipelineState",
           "selector": "newMachineLearningPipelineStateWithDescriptor:error:",
           "isClassMethod": false,
           "returnType": "id<MTL4MachineLearningPipelineState> _Nullable",
@@ -11983,7 +11983,7 @@
           ]
         },
         {
-          "name": "newMachineLearningPipelineStateWithDescriptor",
+          "name": "makeMachineLearningPipelineState",
           "selector": "newMachineLearningPipelineStateWithDescriptor:completionHandler:",
           "isClassMethod": false,
           "returnType": "id<MTL4CompilerTask> _Nonnull",
@@ -12213,7 +12213,7 @@
       "name": "MTL4Archive",
       "methods": [
         {
-          "name": "newComputePipelineStateWithDescriptor",
+          "name": "makeComputePipelineState",
           "selector": "newComputePipelineStateWithDescriptor:error:",
           "isClassMethod": false,
           "returnType": "id<MTLComputePipelineState> _Nullable",
@@ -12232,7 +12232,7 @@
           ]
         },
         {
-          "name": "newComputePipelineStateWithDescriptor",
+          "name": "makeComputePipelineState",
           "selector": "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:",
           "isClassMethod": false,
           "returnType": "id<MTLComputePipelineState> _Nullable",
@@ -12256,7 +12256,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateWithDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateWithDescriptor:error:",
           "isClassMethod": false,
           "returnType": "id<MTLRenderPipelineState> _Nullable",
@@ -12275,7 +12275,7 @@
           ]
         },
         {
-          "name": "newRenderPipelineStateWithDescriptor",
+          "name": "makeRenderPipelineState",
           "selector": "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:error:",
           "isClassMethod": false,
           "returnType": "id<MTLRenderPipelineState> _Nullable",
@@ -12931,7 +12931,7 @@
           "parameters": []
         },
         {
-          "name": "parameterBufferSizeAndAlign",
+          "name": "parameterDataSizeAndAlign",
           "selector": "parameterBufferSizeAndAlign",
           "isClassMethod": false,
           "returnType": "MTLSizeAndAlign",
@@ -12971,7 +12971,7 @@
           "readonly": true
         },
         {
-          "name": "parameterBufferSizeAndAlign",
+          "name": "parameterDataSizeAndAlign",
           "type": "MTLSizeAndAlign",
           "nullability": null,
           "readonly": true
@@ -15345,7 +15345,7 @@
           ]
         },
         {
-          "name": "fillBuffer",
+          "name": "fill",
           "selector": "fillBuffer:range:value:",
           "isClassMethod": false,
           "returnType": "void",
@@ -19677,7 +19677,7 @@
           "parameters": []
         },
         {
-          "name": "present",
+          "name": "presentAtTime",
           "selector": "presentAtTime:",
           "isClassMethod": false,
           "returnType": "void",
@@ -19691,7 +19691,7 @@
           ]
         },
         {
-          "name": "present",
+          "name": "presentAfterMinimumDuration",
           "selector": "presentAfterMinimumDuration:",
           "isClassMethod": false,
           "returnType": "void",
@@ -19803,7 +19803,7 @@
           ]
         },
         {
-          "name": "present",
+          "name": "presentDrawableAtTime",
           "selector": "presentDrawable:atTime:",
           "isClassMethod": false,
           "returnType": "void",
@@ -19822,7 +19822,7 @@
           ]
         },
         {
-          "name": "present",
+          "name": "presentDrawableAfterMinimumDuration",
           "selector": "presentDrawable:afterMinimumDuration:",
           "isClassMethod": false,
           "returnType": "void",
@@ -20172,7 +20172,7 @@
           "parameters": []
         },
         {
-          "name": "GPUStartTime",
+          "name": "gpuStartTime",
           "selector": "GPUStartTime",
           "isClassMethod": false,
           "returnType": "CFTimeInterval",
@@ -20180,7 +20180,7 @@
           "parameters": []
         },
         {
-          "name": "GPUEndTime",
+          "name": "gpuEndTime",
           "selector": "GPUEndTime",
           "isClassMethod": false,
           "returnType": "CFTimeInterval",
@@ -20254,13 +20254,13 @@
           "readonly": true
         },
         {
-          "name": "GPUStartTime",
+          "name": "gpuStartTime",
           "type": "CFTimeInterval",
           "nullability": null,
           "readonly": true
         },
         {
-          "name": "GPUEndTime",
+          "name": "gpuEndTime",
           "type": "CFTimeInterval",
           "nullability": null,
           "readonly": true
@@ -22392,7 +22392,7 @@
           ]
         },
         {
-          "name": "optimizeContents",
+          "name": "optimizeContentsForGPUAccess",
           "selector": "optimizeContentsForGPUAccess:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22406,7 +22406,7 @@
           ]
         },
         {
-          "name": "optimizeContents",
+          "name": "optimizeContentsForGPUAccessSliceLevel",
           "selector": "optimizeContentsForGPUAccess:slice:level:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22430,7 +22430,7 @@
           ]
         },
         {
-          "name": "optimizeContents",
+          "name": "optimizeContentsForCPUAccess",
           "selector": "optimizeContentsForCPUAccess:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22444,7 +22444,7 @@
           ]
         },
         {
-          "name": "optimizeContents",
+          "name": "optimizeContentsForCPUAccessSliceLevel",
           "selector": "optimizeContentsForCPUAccess:slice:level:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22789,7 +22789,7 @@
           "parameters": []
         },
         {
-          "name": "GPUStartTime",
+          "name": "gpuStartTime",
           "selector": "GPUStartTime",
           "isClassMethod": false,
           "returnType": "CFTimeInterval",
@@ -22797,7 +22797,7 @@
           "parameters": []
         },
         {
-          "name": "GPUEndTime",
+          "name": "gpuEndTime",
           "selector": "GPUEndTime",
           "isClassMethod": false,
           "returnType": "CFTimeInterval",
@@ -22813,13 +22813,13 @@
           "readonly": true
         },
         {
-          "name": "GPUStartTime",
+          "name": "gpuStartTime",
           "type": "CFTimeInterval",
           "nullability": null,
           "readonly": true
         },
         {
-          "name": "GPUEndTime",
+          "name": "gpuEndTime",
           "type": "CFTimeInterval",
           "nullability": null,
           "readonly": true
@@ -23679,7 +23679,7 @@
           "parameters": []
         },
         {
-          "name": "URL",
+          "name": "url",
           "selector": "URL",
           "isClassMethod": false,
           "returnType": "NSURL * _Nullable",
@@ -23711,7 +23711,7 @@
           "readonly": true
         },
         {
-          "name": "URL",
+          "name": "url",
           "type": "NSURL * _Nullable",
           "nullability": "nullable",
           "readonly": true
@@ -24985,7 +24985,7 @@
           "readonly": false
         },
         {
-          "name": "depthReversed",
+          "name": "isDepthReversed",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -26058,7 +26058,7 @@
           "readonly": false
         },
         {
-          "name": "depthReversed",
+          "name": "isDepthReversed",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -27280,7 +27280,7 @@
           "readonly": false
         },
         {
-          "name": "uiTextureComposited",
+          "name": "isUITextureComposited",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -27306,7 +27306,7 @@
           "readonly": false
         },
         {
-          "name": "depthReversed",
+          "name": "isDepthReversed",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -36285,7 +36285,7 @@
           ]
         },
         {
-          "name": "setValue",
+          "name": "setValueForKey",
           "selector": "setValue:forKey:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36304,7 +36304,7 @@
           ]
         },
         {
-          "name": "validateValue",
+          "name": "validateValueForKeyError",
           "selector": "validateValue:forKey:error:",
           "isClassMethod": false,
           "returnType": "BOOL",
@@ -36384,7 +36384,7 @@
           ]
         },
         {
-          "name": "setValue",
+          "name": "setValueForKeyPath",
           "selector": "setValue:forKeyPath:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36403,7 +36403,7 @@
           ]
         },
         {
-          "name": "validateValue",
+          "name": "validateValueForKeyPathError",
           "selector": "validateValue:forKeyPath:error:",
           "isClassMethod": false,
           "returnType": "BOOL",
@@ -36483,7 +36483,7 @@
           ]
         },
         {
-          "name": "setValue",
+          "name": "setValueForUndefinedKey",
           "selector": "setValue:forUndefinedKey:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36593,7 +36593,7 @@
           ]
         },
         {
-          "name": "takeValue",
+          "name": "takeValueForKey",
           "selector": "takeValue:forKey:",
           "isClassMethod": false,
           "returnType": "void",
@@ -36612,7 +36612,7 @@
           ]
         },
         {
-          "name": "takeValue",
+          "name": "takeValueForKeyPath",
           "selector": "takeValue:forKeyPath:",
           "isClassMethod": false,
           "returnType": "void",
@@ -37315,7 +37315,7 @@
           ]
         },
         {
-          "name": "newScriptingObjectOfClass",
+          "name": "makeScriptingObjectOfClass",
           "selector": "newScriptingObjectOfClass:forValueForKey:withContentsValue:properties:",
           "isClassMethod": false,
           "returnType": "id _Nullable",
@@ -40209,7 +40209,7 @@
           "readonly": true
         },
         {
-          "name": "active",
+          "name": "isActive",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -41739,21 +41739,21 @@
           "readonly": true
         },
         {
-          "name": "active",
+          "name": "isActive",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
           "getter": "isActive"
         },
         {
-          "name": "patchData",
+          "name": "isPatchData",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
           "getter": "isPatchData"
         },
         {
-          "name": "patchControlPointData",
+          "name": "isPatchControlPointData",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -41837,21 +41837,21 @@
           "readonly": true
         },
         {
-          "name": "active",
+          "name": "isActive",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
           "getter": "isActive"
         },
         {
-          "name": "patchData",
+          "name": "isPatchData",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
           "getter": "isPatchData"
         },
         {
-          "name": "patchControlPointData",
+          "name": "isPatchControlPointData",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
@@ -42590,7 +42590,7 @@
           "readonly": false
         },
         {
-          "name": "rasterizationEnabled",
+          "name": "isRasterizationEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -44943,21 +44943,21 @@
           "readonly": false
         },
         {
-          "name": "alphaToCoverageEnabled",
+          "name": "isAlphaToCoverageEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
           "getter": "isAlphaToCoverageEnabled"
         },
         {
-          "name": "alphaToOneEnabled",
+          "name": "isAlphaToOneEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
           "getter": "isAlphaToOneEnabled"
         },
         {
-          "name": "rasterizationEnabled",
+          "name": "isRasterizationEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -45742,7 +45742,7 @@
           "readonly": false
         },
         {
-          "name": "blendingEnabled",
+          "name": "isBlendingEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -45920,7 +45920,7 @@
           "readonly": false
         },
         {
-          "name": "depthWriteEnabled",
+          "name": "isDepthWriteEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -46710,21 +46710,21 @@
           "readonly": false
         },
         {
-          "name": "alphaToCoverageEnabled",
+          "name": "isAlphaToCoverageEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
           "getter": "isAlphaToCoverageEnabled"
         },
         {
-          "name": "alphaToOneEnabled",
+          "name": "isAlphaToOneEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
           "getter": "isAlphaToOneEnabled"
         },
         {
-          "name": "rasterizationEnabled",
+          "name": "isRasterizationEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -46773,7 +46773,7 @@
           "readonly": false
         },
         {
-          "name": "tessellationFactorScaleEnabled",
+          "name": "isTessellationFactorScaleEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -61454,7 +61454,7 @@
           "readonly": false
         },
         {
-          "name": "rasterizationEnabled",
+          "name": "isRasterizationEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -62400,7 +62400,7 @@
           "readonly": false
         },
         {
-          "name": "autoExposureEnabled",
+          "name": "isAutoExposureEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -62413,7 +62413,7 @@
           "readonly": false
         },
         {
-          "name": "inputContentPropertiesEnabled",
+          "name": "isInputContentPropertiesEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -62432,7 +62432,7 @@
           "readonly": false
         },
         {
-          "name": "reactiveMaskTextureEnabled",
+          "name": "isReactiveMaskTextureEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -63127,14 +63127,14 @@
           "readonly": false
         },
         {
-          "name": "autoExposureEnabled",
+          "name": "isAutoExposureEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
           "getter": "isAutoExposureEnabled"
         },
         {
-          "name": "reactiveMaskTextureEnabled",
+          "name": "isReactiveMaskTextureEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
@@ -63147,21 +63147,21 @@
           "readonly": false
         },
         {
-          "name": "specularHitDistanceTextureEnabled",
+          "name": "isSpecularHitDistanceTextureEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
           "getter": "isSpecularHitDistanceTextureEnabled"
         },
         {
-          "name": "denoiseStrengthMaskTextureEnabled",
+          "name": "isDenoiseStrengthMaskTextureEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
           "getter": "isDenoiseStrengthMaskTextureEnabled"
         },
         {
-          "name": "transparencyOverlayTextureEnabled",
+          "name": "isTransparencyOverlayTextureEnabled",
           "type": "BOOL",
           "nullability": null,
           "readonly": false,
