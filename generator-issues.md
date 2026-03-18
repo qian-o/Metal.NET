@@ -84,3 +84,41 @@ public unsafe void Commit(MTL4CommandBuffer[] commandBuffers)
    - **值类型（struct）**：使用 `fixed` + 指针 pin
    - **ObjC 对象**：使用 `stackalloc nint[]` + 逐个提取 `NativePtr`
 3. 合并为单个 C# 数组参数，内部自动处理 marshal
+
+---
+
+## 问题 3：生成器应使用 `name` 而非解析 `selector` 来生成方法名
+
+### 描述
+
+当前生成器通过解析 `selector` 字段来推导 C# 方法名称（拆分冒号、拼接 PascalCase），而 JSON 中已经提供了经过 Swift Symbol Graph 映射的 `name` 字段。生成器应直接使用 `name` 作为方法名称来源。
+
+### 当前行为
+
+生成器中有多处从 `selector` 推导名称的逻辑：
+
+1. **`SelectorToMethodName()`**（`AstJsonParser.cs`）：取 selector 第一个 `:` 前的部分作为方法名
+2. **`BuildMethodNameFromSelector()`**（`CSharpEmitter.MethodEmission.cs`）：将多段 selector 拼接为 PascalCase（如 `presentDrawable:atTime:` → `PresentDrawableAtTime`）
+3. **`ComputeSimplifiedMethodNames()`**（`CSharpEmitter.MethodEmission.cs`）：基于 selector 首段做冲突检测和简化
+4. **`EmitMethod()`**：优先使用 selector 派生名称，仅在无 selector 时 fallback 到 `method.Name`
+
+### 示例
+
+| selector | 当前生成（从 selector 推导） | `name` 字段值 | 应生成 |
+|---|---|---|---|
+| `newCommandQueue` | `NewCommandQueue` | `makeCommandQueue` | `MakeCommandQueue()` |
+| `blitCommandEncoder` | `BlitCommandEncoder`（属性） | `makeBlitCommandEncoder` | `MakeBlitCommandEncoder()` |
+| `renderCommandEncoderWithDescriptor:` | `RenderCommandEncoderWithDescriptor` | `makeRenderCommandEncoder` | `MakeRenderCommandEncoder()` |
+| `newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:` | `NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle` | `makeTextureView` | `MakeTextureView()` |
+| `presentDrawable:atTime:` | `PresentDrawableAtTime` | `presentDrawableAtTime` | `PresentDrawableAtTime()` |
+
+### 根本原因
+
+生成器在 `name` 字段引入之前就已经编写，当时只有 `selector` 可用。现在 `extract_metal_api.py` 已经通过 Swift Symbol Graph 和 `new→make` 转换等逻辑为每个方法生成了准确的 `name` 字段，生成器应切换到使用它。
+
+### 修复方向
+
+1. **`EmitMethod()` 中**：直接使用 `TypeMapper.ToPascalCase(method.Name)` 作为 C# 方法名，不再解析 selector
+2. **`selector` 字段**：仅用于 ObjC runtime 调用（`ObjectiveC.MsgSend` 的 selector 参数注册），不再用于命名
+3. **删除**：`BuildMethodNameFromSelector()`、`ComputeSimplifiedMethodNames()` 中基于 selector 的命名逻辑可以简化或移除
+4. **冲突检测**：如果同一类型中出现同名方法（合法重载），仍需通过参数类型区分，而非 fallback 到 selector 拼接
