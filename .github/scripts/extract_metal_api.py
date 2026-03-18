@@ -584,6 +584,34 @@ def _dedup_by_key(items: list[dict], key: str) -> list[dict]:
     return list(seen.values())
 
 
+def _should_prefer_framework(new_item: dict, existing: dict) -> bool:
+    """Decide whether *new_item*'s framework should replace *existing*'s.
+
+    Categories carry the framework of the header they were found in (e.g.
+    CoreImage, QuartzCore) rather than the framework that owns the type.
+    Prefer the framework from a non-category declaration.  When both (or
+    neither) are categories, prefer a WANTED framework (Metal/MetalFX).
+    """
+    new_kind = new_item.get("kind", "")
+    old_kind = existing.get("kind", "")
+    new_fw = new_item.get("framework") or ""
+    old_fw = existing.get("framework") or ""
+
+    # Non-category beats category
+    if old_kind == "category" and new_kind != "category":
+        return True
+    if old_kind != "category" and new_kind == "category":
+        return False
+
+    # Both same category status — prefer a WANTED framework
+    new_wanted = any(new_fw == f for f in FRAMEWORKS)
+    old_wanted = any(old_fw == f for f in FRAMEWORKS)
+    if new_wanted and not old_wanted:
+        return True
+
+    return False
+
+
 def _merge_types(items: list[dict]) -> list[dict]:
     """Merge ObjC types (classes/protocols) by name, combining members."""
     merged: dict = {}
@@ -600,6 +628,8 @@ def _merge_types(items: list[dict]) -> list[dict]:
                 existing["protocols"].append(p)
         if not existing.get("super") and item.get("super"):
             existing["super"] = item["super"]
+        if _should_prefer_framework(item, existing):
+            existing["framework"] = item.get("framework")
         if not existing.get("deprecated") and item.get("deprecated"):
             existing["deprecated"] = True
             if item.get("deprecationMessage"):
