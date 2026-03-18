@@ -67,6 +67,7 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         { ("MTLFunctionStitchingGraph", "Attributes"), "MTLFunctionStitchingAttribute" },
         { ("MTLFunctionStitchingGraph", "Nodes"), "MTLFunctionStitchingFunctionNode" },
         // MTLFunctionStitchingFunctionNode
+        { ("MTLFunctionStitchingFunctionNode", "Arguments"), "MTLFunctionStitchingNode" },
         { ("MTLFunctionStitchingFunctionNode", "ControlDependencies"), "MTLFunctionStitchingFunctionNode" },
         // MTLStitchedLibraryDescriptor
         { ("MTLStitchedLibraryDescriptor", "FunctionGraphs"), "MTLFunctionStitchingGraph" },
