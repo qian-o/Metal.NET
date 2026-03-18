@@ -378,7 +378,8 @@ jobs:
                           tm = re.search(r'@interface\s+(\w+)', mline)
                           if tm:
                               current_type = tm.group(1)
-                              if 'API_DEPRECATED' in mline:
+                              is_category = bool(re.search(r'@interface\s+\w+\s*\(', mline))
+                              if 'API_DEPRECATED' in mline and not is_category:
                                   msg = _extract_dep_message(mline)
                                   if msg:
                                       dep[(current_type, 'type', current_type)] = msg
