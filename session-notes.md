@@ -134,15 +134,80 @@ subhead = ' '.join(sym.get('names', {}).get('subHeading', [{}]))
 - ✅ `extract_metal_api.py` 已更新：生成 `name` 字段
 - ✅ 诊断脚本已就绪
 - ✅ GitHub Actions workflow 已添加诊断 + artifact 上传
-- ⏳ **等待运行 workflow，下载 `swift-name-diagnostics` artifact 进行分析**
+- ✅ **已下载并分析 `swift-name-diagnostics` artifact**
+- ✅ **增强 `load_swift_names` 函数，新增三个阶段**
+- ✅ **添加 `new→make` 命名回退逻辑**
+
+## 6. 符号图诊断分析（artifact 下载后）
+
+### 符号图数据总览
+
+| 指标 | 数量 |
+|---|---|
+| 符号图总符号 | 4837 |
+| ObjC USR `(im)` 方法 | 650 |
+| ObjC USR `(cm)` 类方法 | 17 |
+| ObjC USR `(py)` 属性 | 1203 |
+| Swift USR 符号 | 2967 |
+| `defaultImplementationOf` 关系 | 14 |
+
+### 根因确认
+
+1. **正则 `_RE_OBJC_USR` 只匹配 `(im)` 和 `(cm)`** — 遗漏了 1203 个 `(py)` 属性符号
+2. **Swift USR 方法**（699 个）— Swift overlay 扩展使用纯 Swift USR (`s:So12MTL4CompilerP5MetalE...`)
+3. 部分有 `defaultImplementationOf` 关系可链接回 ObjC selector（14 个）；大部分仅有 `memberOf`
+4. MTL4\* 新 API 的工厂方法多数只有 Swift USR，无法直接映射
+
+### 增强 `load_swift_names` — 四阶段方案
+
+| 阶段 | 来源 | 新增映射 |
+|---|---|---|
+| Phase 1 | ObjC USR `(im)`/`(cm)` 符号 — 直接映射（原有） | 326 |
+| Phase 2 | `defaultImplementationOf` 关系 — Swift USR → ObjC selector | +11 |
+| Phase 3 | ObjC USR `(py)` 属性符号 — 属性名映射 | +29 |
+| Phase 4 | `new→make` 命名回退（无符号图覆盖时） | 运行时 +23 |
+| **总计** | | **366 符号图 + 23 回退 = 389** |
+
+### 效果对比
+
+| 指标 | 增强前 | 增强后 |
+|---|---|---|
+| Swift 名称映射数 | 326 | 366 |
+| 方法仍有 With/At | 311 | 288 |
+| MTL/CAMetal 仍有 With/At | 89 | 68 |
+| 其中误报（Attachment/Attribute）| — | 50 |
+| **真正未覆盖的 MTL 方法** | — | **18** |
+
+### 剩余 18 个未覆盖方法分析
+
+已确认为正确名称（符号图明确给出）：
+- `makeComputePipelineStateWithAdditionalBinaryFunctions` — Apple 保留 `WithAdditional...` 以区分重载
+- `makeCommandBufferWithUnretainedReferences` — 区分 retained 和 unretained 版本
+- `indirectRenderCommandAt` / `indirectComputeCommandAt` — 实际就是 Swift 名
+
+不在符号图中（无 Swift overlay 或新 API）：
+- `resetWithRange:` / `memoryBarrierWithResources:...` / `setStageInRegionWithIndirectBuffer:...`
+- `setOwnerWithIdentity:` / `extentAtDimensionIndex:`
+- `initWithRank:...` / `initWithSampleCount:...`
+- `rasterizationRateMapDescriptorWithScreenSize:`
+- `presentsWithTransaction` / `setPresentsWithTransaction:`
+
+## 7. `_new_to_make` 命名规则
+
+正则：`^new(\w+?)(?:With\w+|By\w+)?$` → `make` + 核心名称
+
+示例：
+- `newCommandQueue` → `makeCommandQueue`
+- `newComputePipelineStateWithDescriptor` → `makeComputePipelineState`
+- `newRenderPipelineStateBySpecializationWithDescriptor` → `makeRenderPipelineStateBySpecialization`
+- `newDynamicLibraryWithURL` → `makeDynamicLibrary`
 
 ## 待办（下一步）
 
-1. 运行 GitHub Actions workflow `Extract Metal API`
-2. 下载 `swift-name-diagnostics` artifact
-3. 分析 `non_objc_usr_metal.json` 确认是否存在 Swift USR 格式的符号
-4. 分析 `mtldevice_symbols.json` 确认 MTLDevice 的哪些方法在符号图中
-5. 根据分析结果更新 `load_swift_names` 或 `extract_metal_api.py` 以覆盖缺失的方法名
+1. 提交 `extract_metal_api.py` 的改动，重跑 GitHub Actions
+2. 验证新的 `metal-ast.json` 中 `name` 字段质量
+3. 考虑是否需要对 `apply_swift_names` 的属性覆盖做进一步处理
+4. 解决 `generator-issues.md` 中的两个生成器问题（方法/属性区分、数组参数封装）
 
 ## 关键文件清单
 
