@@ -5052,14 +5052,16 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeLogState"
         },
         {
           "selector": "newCommandQueue",
           "isClassMethod": false,
           "returnType": "id<MTLCommandQueue> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeCommandQueue"
         },
         {
           "selector": "newCommandQueueWithMaxCommandBufferCount:",
@@ -5072,7 +5074,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeCommandQueue"
         },
         {
           "selector": "newCommandQueueWithDescriptor:",
@@ -5085,7 +5088,8 @@
               "type": "MTLCommandQueueDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeCommandQueue"
         },
         {
           "selector": "heapTextureSizeAndAlignWithDescriptor:",
@@ -5098,7 +5102,8 @@
               "type": "MTLTextureDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "heapTextureSizeAndAlign"
         },
         {
           "selector": "heapBufferSizeAndAlignWithLength:options:",
@@ -5116,7 +5121,8 @@
               "type": "MTLResourceOptions",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "heapBufferSizeAndAlign"
         },
         {
           "selector": "newHeapWithDescriptor:",
@@ -5129,7 +5135,8 @@
               "type": "MTLHeapDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeHeap"
         },
         {
           "selector": "newBufferWithLength:options:",
@@ -5147,7 +5154,8 @@
               "type": "MTLResourceOptions",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeBuffer"
         },
         {
           "selector": "newBufferWithBytes:length:options:",
@@ -5170,7 +5178,8 @@
               "type": "MTLResourceOptions",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeBuffer"
         },
         {
           "selector": "newBufferWithBytesNoCopy:length:options:deallocator:",
@@ -5198,7 +5207,8 @@
               "type": "void (^ _Nullable)(void * _Nonnull, NSUInteger)",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeBuffer"
         },
         {
           "selector": "newDepthStencilStateWithDescriptor:",
@@ -5211,7 +5221,8 @@
               "type": "MTLDepthStencilDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeDepthStencilState"
         },
         {
           "selector": "newTextureWithDescriptor:",
@@ -5224,7 +5235,8 @@
               "type": "MTLTextureDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeTexture"
         },
         {
           "selector": "newTextureWithDescriptor:iosurface:plane:",
@@ -5247,7 +5259,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeTexture"
         },
         {
           "selector": "newSharedTextureWithDescriptor:",
@@ -5260,7 +5273,8 @@
               "type": "MTLTextureDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeSharedTexture"
         },
         {
           "selector": "newSharedTextureWithHandle:",
@@ -5273,7 +5287,8 @@
               "type": "MTLSharedTextureHandle * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeSharedTexture"
         },
         {
           "selector": "newSamplerStateWithDescriptor:",
@@ -5286,14 +5301,16 @@
               "type": "MTLSamplerDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeSamplerState"
         },
         {
           "selector": "newDefaultLibrary",
           "isClassMethod": false,
           "returnType": "id<MTLLibrary> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeDefaultLibrary"
         },
         {
           "selector": "newDefaultLibraryWithBundle:error:",
@@ -5311,7 +5328,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeDefaultLibrary"
         },
         {
           "selector": "newLibraryWithFile:error:",
@@ -5331,7 +5349,8 @@
             }
           ],
           "deprecated": true,
-          "deprecationMessage": "Use -newLibraryWithURL:error: instead"
+          "deprecationMessage": "Use -newLibraryWithURL:error: instead",
+          "swiftName": "makeLibrary"
         },
         {
           "selector": "newLibraryWithURL:error:",
@@ -5349,7 +5368,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeLibrary"
         },
         {
           "selector": "newLibraryWithData:error:",
@@ -5367,7 +5387,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeLibrary"
         },
         {
           "selector": "newLibraryWithSource:options:error:",
@@ -5390,7 +5411,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeLibrary"
         },
         {
           "selector": "newLibraryWithSource:options:completionHandler:",
@@ -5413,7 +5435,8 @@
               "type": "MTLNewLibraryCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeLibrary"
         },
         {
           "selector": "newLibraryWithStitchedDescriptor:error:",
@@ -5431,7 +5454,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeLibrary"
         },
         {
           "selector": "newLibraryWithStitchedDescriptor:completionHandler:",
@@ -5449,7 +5473,8 @@
               "type": "MTLNewLibraryCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeLibrary"
         },
         {
           "selector": "newRenderPipelineStateWithDescriptor:error:",
@@ -5467,7 +5492,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "newRenderPipelineStateWithDescriptor:options:reflection:error:",
@@ -5495,7 +5521,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "newRenderPipelineStateWithDescriptor:completionHandler:",
@@ -5513,7 +5540,8 @@
               "type": "MTLNewRenderPipelineStateCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "newRenderPipelineStateWithDescriptor:options:completionHandler:",
@@ -5536,7 +5564,8 @@
               "type": "MTLNewRenderPipelineStateWithReflectionCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "newComputePipelineStateWithFunction:error:",
@@ -5554,7 +5583,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeComputePipelineState"
         },
         {
           "selector": "newComputePipelineStateWithFunction:options:reflection:error:",
@@ -5582,7 +5612,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeComputePipelineState"
         },
         {
           "selector": "newComputePipelineStateWithFunction:completionHandler:",
@@ -5600,7 +5631,8 @@
               "type": "MTLNewComputePipelineStateCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeComputePipelineState"
         },
         {
           "selector": "newComputePipelineStateWithFunction:options:completionHandler:",
@@ -5623,7 +5655,8 @@
               "type": "MTLNewComputePipelineStateWithReflectionCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeComputePipelineState"
         },
         {
           "selector": "newComputePipelineStateWithDescriptor:options:reflection:error:",
@@ -5651,7 +5684,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeComputePipelineState"
         },
         {
           "selector": "newComputePipelineStateWithDescriptor:options:completionHandler:",
@@ -5674,14 +5708,16 @@
               "type": "MTLNewComputePipelineStateWithReflectionCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeComputePipelineState"
         },
         {
           "selector": "newFence",
           "isClassMethod": false,
           "returnType": "id<MTLFence> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeFence"
         },
         {
           "selector": "supportsFeatureSet:",
@@ -5735,7 +5771,8 @@
               "type": "MTLPixelFormat",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "minimumLinearTextureAlignment"
         },
         {
           "selector": "minimumTextureBufferAlignmentForPixelFormat:",
@@ -5748,7 +5785,8 @@
               "type": "MTLPixelFormat",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "minimumTextureBufferAlignment"
         },
         {
           "selector": "newRenderPipelineStateWithTileDescriptor:options:reflection:error:",
@@ -5776,7 +5814,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "newRenderPipelineStateWithTileDescriptor:options:completionHandler:",
@@ -5799,7 +5838,8 @@
               "type": "MTLNewRenderPipelineStateWithReflectionCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "newRenderPipelineStateWithMeshDescriptor:options:reflection:error:",
@@ -5850,7 +5890,8 @@
               "type": "MTLNewRenderPipelineStateWithReflectionCompletionHandler _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "getDefaultSamplePositions:count:",
@@ -5881,7 +5922,8 @@
               "type": "NSArray<MTLArgumentDescriptor *> * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeArgumentEncoder"
         },
         {
           "selector": "supportsRasterizationRateMapWithLayerCount:",
@@ -5894,7 +5936,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "supportsRasterizationRateMap"
         },
         {
           "selector": "newRasterizationRateMapWithDescriptor:",
@@ -5907,7 +5950,8 @@
               "type": "MTLRasterizationRateMapDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeRasterizationRateMap"
         },
         {
           "selector": "newIndirectCommandBufferWithDescriptor:maxCommandCount:options:",
@@ -5930,21 +5974,24 @@
               "type": "MTLResourceOptions",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeIndirectCommandBuffer"
         },
         {
           "selector": "newEvent",
           "isClassMethod": false,
           "returnType": "id<MTLEvent> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeEvent"
         },
         {
           "selector": "newSharedEvent",
           "isClassMethod": false,
           "returnType": "id<MTLSharedEvent> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeSharedEvent"
         },
         {
           "selector": "newSharedEventWithHandle:",
@@ -5957,7 +6004,8 @@
               "type": "MTLSharedEventHandle * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeSharedEvent"
         },
         {
           "selector": "newIOHandleWithURL:error:",
@@ -5977,7 +6025,8 @@
             }
           ],
           "deprecated": true,
-          "deprecationMessage": "Use newIOFileHandleWithURL:error: instead"
+          "deprecationMessage": "Use newIOFileHandleWithURL:error: instead",
+          "swiftName": "makeIOHandle"
         },
         {
           "selector": "newIOCommandQueueWithDescriptor:error:",
@@ -5995,7 +6044,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeIOCommandQueue"
         },
         {
           "selector": "newIOHandleWithURL:compressionMethod:error:",
@@ -6020,7 +6070,8 @@
             }
           ],
           "deprecated": true,
-          "deprecationMessage": "Use newIOFileHandleWithURL:compressionMethod:error: instead"
+          "deprecationMessage": "Use newIOFileHandleWithURL:compressionMethod:error: instead",
+          "swiftName": "makeIOHandle"
         },
         {
           "selector": "newIOFileHandleWithURL:error:",
@@ -6038,7 +6089,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeIOFileHandle"
         },
         {
           "selector": "newIOFileHandleWithURL:compressionMethod:error:",
@@ -6061,7 +6113,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeIOFileHandle"
         },
         {
           "selector": "sparseTileSizeWithTextureType:pixelFormat:sampleCount:",
@@ -6084,7 +6137,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "sparseTileSize"
         },
         {
           "selector": "convertSparsePixelRegions:toTileRegions:withTileSize:alignmentMode:numRegions:",
@@ -6158,7 +6212,8 @@
               "type": "MTLSparsePageSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "sparseTileSizeInBytes"
         },
         {
           "selector": "sparseTileSizeWithTextureType:pixelFormat:sampleCount:sparsePageSize:",
@@ -6186,7 +6241,8 @@
               "type": "MTLSparsePageSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "sparseTileSize"
         },
         {
           "selector": "newCounterSampleBufferWithDescriptor:error:",
@@ -6204,7 +6260,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeCounterSampleBuffer"
         },
         {
           "selector": "sampleTimestamps:gpuTimestamp:",
@@ -6235,7 +6292,8 @@
               "type": "id<MTLBufferBinding> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeArgumentEncoder"
         },
         {
           "selector": "supportsCounterSampling:",
@@ -6279,7 +6337,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeDynamicLibrary"
         },
         {
           "selector": "newDynamicLibraryWithURL:error:",
@@ -6297,7 +6356,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeDynamicLibrary"
         },
         {
           "selector": "newBinaryArchiveWithDescriptor:error:",
@@ -6315,7 +6375,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeBinaryArchive"
         },
         {
           "selector": "accelerationStructureSizesWithDescriptor:",
@@ -6328,7 +6389,8 @@
               "type": "MTLAccelerationStructureDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "accelerationStructureSizes"
         },
         {
           "selector": "newAccelerationStructureWithSize:",
@@ -6341,7 +6403,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeAccelerationStructure"
         },
         {
           "selector": "newAccelerationStructureWithDescriptor:",
@@ -6354,7 +6417,8 @@
               "type": "MTLAccelerationStructureDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeAccelerationStructure"
         },
         {
           "selector": "heapAccelerationStructureSizeAndAlignWithSize:",
@@ -6367,7 +6431,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "heapAccelerationStructureSizeAndAlign"
         },
         {
           "selector": "heapAccelerationStructureSizeAndAlignWithDescriptor:",
@@ -6380,7 +6445,8 @@
               "type": "MTLAccelerationStructureDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "heapAccelerationStructureSizeAndAlign"
         },
         {
           "selector": "newResidencySetWithDescriptor:error:",
@@ -6398,7 +6464,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeResidencySet"
         },
         {
           "selector": "tensorSizeAndAlignWithDescriptor:",
@@ -6411,7 +6478,8 @@
               "type": "MTLTensorDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "tensorSizeAndAlign"
         },
         {
           "selector": "newTensorWithDescriptor:error:",
@@ -6429,7 +6497,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeTensor"
         },
         {
           "selector": "functionHandleWithFunction:",
@@ -6442,14 +6511,16 @@
               "type": "id<MTLFunction> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "functionHandle"
         },
         {
           "selector": "newCommandAllocator",
           "isClassMethod": false,
           "returnType": "id<MTL4CommandAllocator> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeCommandAllocator"
         },
         {
           "selector": "newCommandAllocatorWithDescriptor:error:",
@@ -6467,14 +6538,16 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeCommandAllocator"
         },
         {
           "selector": "newMTL4CommandQueue",
           "isClassMethod": false,
           "returnType": "id<MTL4CommandQueue> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeMTL4CommandQueue"
         },
         {
           "selector": "newMTL4CommandQueueWithDescriptor:error:",
@@ -6492,14 +6565,16 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeMTL4CommandQueue"
         },
         {
           "selector": "newCommandBuffer",
           "isClassMethod": false,
           "returnType": "id<MTL4CommandBuffer> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeCommandBuffer"
         },
         {
           "selector": "newArgumentTableWithDescriptor:error:",
@@ -6517,7 +6592,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeArgumentTable"
         },
         {
           "selector": "newTextureViewPoolWithDescriptor:error:",
@@ -6535,7 +6611,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeTextureViewPool"
         },
         {
           "selector": "newCompilerWithDescriptor:error:",
@@ -6553,7 +6630,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeCompiler"
         },
         {
           "selector": "newArchiveWithURL:error:",
@@ -6571,7 +6649,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeArchive"
         },
         {
           "selector": "newPipelineDataSetSerializerWithDescriptor:",
@@ -6584,7 +6663,8 @@
               "type": "MTL4PipelineDataSetSerializerDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makePipelineDataSetSerializer"
         },
         {
           "selector": "newBufferWithLength:options:placementSparsePageSize:",
@@ -6607,7 +6687,8 @@
               "type": "MTLSparsePageSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeBuffer"
         },
         {
           "selector": "newCounterHeapWithDescriptor:error:",
@@ -6625,7 +6706,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeCounterHeap"
         },
         {
           "selector": "sizeOfCounterHeapEntry:",
@@ -6638,7 +6720,8 @@
               "type": "MTL4CounterHeapType",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "size"
         },
         {
           "selector": "queryTimestampFrequency",
@@ -6658,7 +6741,8 @@
               "type": "id<MTL4BinaryFunction> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "functionHandle"
         },
         {
           "selector": "name",
@@ -7263,7 +7347,8 @@
               "type": "MTLStages",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "barrier"
         },
         {
           "selector": "insertDebugSignpost:",
@@ -7385,7 +7470,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "maxAvailableSize"
         },
         {
           "selector": "newBufferWithLength:options:",
@@ -7403,7 +7489,8 @@
               "type": "MTLResourceOptions",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeBuffer"
         },
         {
           "selector": "newTextureWithDescriptor:",
@@ -7416,7 +7503,8 @@
               "type": "MTLTextureDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeTexture"
         },
         {
           "selector": "setPurgeableState:",
@@ -7452,7 +7540,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeBuffer"
         },
         {
           "selector": "newTextureWithDescriptor:offset:",
@@ -7470,7 +7559,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeTexture"
         },
         {
           "selector": "newAccelerationStructureWithSize:",
@@ -7483,7 +7573,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeAccelerationStructure"
         },
         {
           "selector": "newAccelerationStructureWithDescriptor:",
@@ -7496,7 +7587,8 @@
               "type": "MTLAccelerationStructureDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeAccelerationStructure"
         },
         {
           "selector": "newAccelerationStructureWithSize:offset:",
@@ -7514,7 +7606,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeAccelerationStructure"
         },
         {
           "selector": "newAccelerationStructureWithDescriptor:offset:",
@@ -7532,7 +7625,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeAccelerationStructure"
         },
         {
           "selector": "label",
@@ -7912,7 +8006,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeTexture"
         },
         {
           "selector": "newTensorWithDescriptor:offset:error:",
@@ -7935,7 +8030,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeTensor"
         },
         {
           "selector": "addDebugMarker:range:",
@@ -7973,7 +8069,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeRemoteBufferView"
         },
         {
           "selector": "length",
@@ -8065,7 +8162,8 @@
               "type": "MTLTensorExtents * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "replace"
         },
         {
           "selector": "getBytes:strides:fromSliceOrigin:sliceDimensions:",
@@ -8272,7 +8370,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "replace"
         },
         {
           "selector": "getBytes:bytesPerRow:fromRegion:mipmapLevel:",
@@ -8328,7 +8427,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "replace"
         },
         {
           "selector": "newTextureViewWithPixelFormat:",
@@ -8341,7 +8441,8 @@
               "type": "MTLPixelFormat",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeTextureView"
         },
         {
           "selector": "newTextureViewWithPixelFormat:textureType:levels:slices:",
@@ -8376,7 +8477,8 @@
           "isClassMethod": false,
           "returnType": "MTLSharedTextureHandle * _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeSharedTextureHandle"
         },
         {
           "selector": "newTextureViewWithDescriptor:",
@@ -8389,7 +8491,8 @@
               "type": "MTLTextureViewDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "newTextureView"
         },
         {
           "selector": "newRemoteTextureViewForDevice:",
@@ -8402,7 +8505,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeRemoteTextureView"
         },
         {
           "selector": "newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:",
@@ -9207,7 +9311,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "addComputePipelineFunctions"
         },
         {
           "selector": "addRenderPipelineFunctionsWithDescriptor:error:",
@@ -9225,7 +9330,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "addRenderPipelineFunctions"
         },
         {
           "selector": "addTileRenderPipelineFunctionsWithDescriptor:error:",
@@ -9243,7 +9349,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "addTileRenderPipelineFunctions"
         },
         {
           "selector": "addMeshRenderPipelineFunctionsWithDescriptor:error:",
@@ -9261,7 +9368,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "addMeshRenderPipelineFunctions"
         },
         {
           "selector": "addLibraryWithDescriptor:error:",
@@ -9279,7 +9387,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "addLibrary"
         },
         {
           "selector": "serializeToURL:error:",
@@ -9297,7 +9406,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "serialize"
         },
         {
           "selector": "addFunctionWithDescriptor:library:error:",
@@ -9320,7 +9430,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "addFunction"
         },
         {
           "selector": "label",
@@ -9384,7 +9495,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeArgumentEncoder"
         },
         {
           "selector": "newArgumentEncoderWithBufferIndex:reflection:",
@@ -9404,7 +9516,8 @@
             }
           ],
           "deprecated": true,
-          "deprecationMessage": "Use MTLDevice's newArgumentEncoderWithBufferBinding: instead"
+          "deprecationMessage": "Use MTLDevice's newArgumentEncoderWithBufferBinding: instead",
+          "swiftName": "makeArgumentEncoder"
         },
         {
           "selector": "label",
@@ -9572,7 +9685,8 @@
               "type": "NSString * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeFunction"
         },
         {
           "selector": "newFunctionWithName:constantValues:error:",
@@ -9595,7 +9709,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeFunction"
         },
         {
           "selector": "newFunctionWithName:constantValues:completionHandler:",
@@ -9618,7 +9733,8 @@
               "type": "void (^ _Nonnull)(id<MTLFunction> _Nullable, NSError * _Nullable)",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeFunction"
         },
         {
           "selector": "reflectionForFunctionWithName:",
@@ -9631,7 +9747,8 @@
               "type": "NSString * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "reflection"
         },
         {
           "selector": "newFunctionWithDescriptor:completionHandler:",
@@ -9649,7 +9766,8 @@
               "type": "void (^ _Nonnull)(id<MTLFunction> _Nullable, NSError * _Nullable)",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeFunction"
         },
         {
           "selector": "newFunctionWithDescriptor:error:",
@@ -9667,7 +9785,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeFunction"
         },
         {
           "selector": "newIntersectionFunctionWithDescriptor:completionHandler:",
@@ -9685,7 +9804,8 @@
               "type": "void (^ _Nonnull)(id<MTLFunction> _Nullable, NSError * _Nullable)",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeIntersectionFunction"
         },
         {
           "selector": "newIntersectionFunctionWithDescriptor:error:",
@@ -9703,7 +9823,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeIntersectionFunction"
         },
         {
           "selector": "label",
@@ -9811,7 +9932,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "serialize"
         },
         {
           "selector": "label",
@@ -9893,7 +10015,8 @@
               "type": "MTLRenderStages",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "functionHandle"
         },
         {
           "selector": "functionHandleWithBinaryFunction:stage:",
@@ -9911,7 +10034,8 @@
               "type": "MTLRenderStages",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "functionHandle"
         },
         {
           "selector": "newRenderPipelineStateWithBinaryFunctions:error:",
@@ -9929,14 +10053,16 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "newRenderPipelineDescriptorForSpecialization",
           "isClassMethod": false,
           "returnType": "MTL4PipelineDescriptor * _Nonnull",
           "returnNullability": "nonnull",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeRenderPipelineDescriptorForSpecialization"
         },
         {
           "selector": "imageblockMemoryLengthForDimensions:",
@@ -9949,7 +10075,8 @@
               "type": "MTLSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "imageblockMemoryLength"
         },
         {
           "selector": "functionHandleWithFunction:stage:",
@@ -9967,7 +10094,8 @@
               "type": "MTLRenderStages",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "functionHandle"
         },
         {
           "selector": "newVisibleFunctionTableWithDescriptor:stage:",
@@ -9985,7 +10113,8 @@
               "type": "MTLRenderStages",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeVisibleFunctionTable"
         },
         {
           "selector": "newIntersectionFunctionTableWithDescriptor:stage:",
@@ -10003,7 +10132,8 @@
               "type": "MTLRenderStages",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeIntersectionFunctionTable"
         },
         {
           "selector": "newRenderPipelineStateWithAdditionalBinaryFunctions:error:",
@@ -10021,7 +10151,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeRenderPipelineState"
         },
         {
           "selector": "label",
@@ -10268,7 +10399,8 @@
               "type": "NSString * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "functionHandle"
         },
         {
           "selector": "functionHandleWithBinaryFunction:",
@@ -10281,7 +10413,8 @@
               "type": "id<MTL4BinaryFunction> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "functionHandle"
         },
         {
           "selector": "newComputePipelineStateWithBinaryFunctions:error:",
@@ -10299,7 +10432,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeComputePipelineState"
         },
         {
           "selector": "imageblockMemoryLengthForDimensions:",
@@ -10312,7 +10446,8 @@
               "type": "MTLSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "imageblockMemoryLength"
         },
         {
           "selector": "functionHandleWithFunction:",
@@ -10325,7 +10460,8 @@
               "type": "id<MTLFunction> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "functionHandle"
         },
         {
           "selector": "newComputePipelineStateWithAdditionalBinaryFunctions:error:",
@@ -10343,7 +10479,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeComputePipelineStateWithAdditionalBinaryFunctions"
         },
         {
           "selector": "newVisibleFunctionTableWithDescriptor:",
@@ -10356,7 +10493,8 @@
               "type": "MTLVisibleFunctionTableDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeVisibleFunctionTable"
         },
         {
           "selector": "newIntersectionFunctionTableWithDescriptor:",
@@ -10369,7 +10507,8 @@
               "type": "MTLIntersectionFunctionTableDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeIntersectionFunctionTable"
         },
         {
           "selector": "label",
@@ -10684,7 +10823,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "constantData"
         },
         {
           "selector": "setRenderPipelineState:atIndex:",
@@ -10823,7 +10963,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeArgumentEncoderForBuffer"
         },
         {
           "selector": "setVisibleFunctionTable:atIndex:",
@@ -11153,7 +11294,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeLibrary"
         },
         {
           "selector": "newDynamicLibrary:error:",
@@ -11171,7 +11313,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeDynamicLibrary"
         },
         {
           "selector": "newDynamicLibraryWithURL:error:",
@@ -11189,7 +11332,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeDynamicLibrary"
         },
         {
           "selector": "newComputePipelineStateWithDescriptor:compilerTaskOptions:error:",
@@ -11874,7 +12018,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "makeBinaryFunction"
         },
         {
           "selector": "label",
@@ -11930,7 +12075,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "serializeAsArchiveAndFlush"
         },
         {
           "selector": "serializeAsPipelinesScriptWithError:",
@@ -11943,7 +12089,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "serializeAsPipelinesScript"
         }
       ],
       "properties": [],
@@ -12051,7 +12198,8 @@
           "isClassMethod": false,
           "returnType": "id<MTLCommandBuffer> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeCommandBuffer"
         },
         {
           "selector": "commandBufferWithDescriptor:",
@@ -12064,14 +12212,16 @@
               "type": "MTLCommandBufferDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeCommandBuffer"
         },
         {
           "selector": "commandBufferWithUnretainedReferences",
           "isClassMethod": false,
           "returnType": "id<MTLCommandBuffer> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeCommandBufferWithUnretainedReferences"
         },
         {
           "selector": "insertDebugCaptureBoundary",
@@ -12364,7 +12514,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copyParameterData"
         },
         {
           "selector": "physicalSizeForLayer:",
@@ -12377,7 +12528,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "physicalSize"
         },
         {
           "selector": "mapScreenToPhysicalCoordinates:forLayer:",
@@ -12395,7 +12547,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "physicalCoordinates"
         },
         {
           "selector": "mapPhysicalToScreenCoordinates:forLayer:",
@@ -12413,7 +12566,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "screenCoordinates"
         },
         {
           "selector": "device",
@@ -12545,7 +12699,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "indirectRenderCommandAt"
         },
         {
           "selector": "indirectComputeCommandAtIndex:",
@@ -12558,7 +12713,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "indirectComputeCommandAt"
         },
         {
           "selector": "size",
@@ -12670,14 +12826,16 @@
               "type": "MTLSharedEventNotificationBlock _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "notify"
         },
         {
           "selector": "newSharedEventHandle",
           "isClassMethod": false,
           "returnType": "MTLSharedEventHandle * _Nonnull",
           "returnNullability": "nonnull",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeSharedEventHandle"
         },
         {
           "selector": "waitUntilSignaledValue:timeoutMS:",
@@ -12695,7 +12853,8 @@
               "type": "uint64_t",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "wait"
         },
         {
           "selector": "signaledValue",
@@ -12996,7 +13155,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setOpaqueTriangleIntersectionFunction"
         },
         {
           "selector": "setOpaqueTriangleIntersectionFunctionWithSignature:withRange:",
@@ -13014,7 +13174,8 @@
               "type": "NSRange",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setOpaqueTriangleIntersectionFunction"
         },
         {
           "selector": "setOpaqueCurveIntersectionFunctionWithSignature:atIndex:",
@@ -13032,7 +13193,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setOpaqueCurveIntersectionFunction"
         },
         {
           "selector": "setOpaqueCurveIntersectionFunctionWithSignature:withRange:",
@@ -13050,7 +13212,8 @@
               "type": "NSRange",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setOpaqueCurveIntersectionFunction"
         },
         {
           "selector": "setVisibleFunctionTable:atBufferIndex:",
@@ -13643,7 +13806,8 @@
               "type": "id<MTL4CommandAllocator> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "beginCommandBuffer"
         },
         {
           "selector": "beginCommandBufferWithAllocator:options:",
@@ -13661,7 +13825,8 @@
               "type": "MTL4CommandBufferOptions * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "beginCommandBuffer"
         },
         {
           "selector": "endCommandBuffer",
@@ -13699,21 +13864,24 @@
               "type": "MTL4RenderEncoderOptions",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeRenderCommandEncoder"
         },
         {
           "selector": "computeCommandEncoder",
           "isClassMethod": false,
           "returnType": "id<MTL4ComputeCommandEncoder> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeComputeCommandEncoder"
         },
         {
           "selector": "machineLearningCommandEncoder",
           "isClassMethod": false,
           "returnType": "id<MTL4MachineLearningCommandEncoder> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeMachineLearningCommandEncoder"
         },
         {
           "selector": "useResidencySet:",
@@ -13782,7 +13950,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "writeTimestamp"
         },
         {
           "selector": "resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:",
@@ -14125,7 +14294,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setTextureView"
         }
       ],
       "properties": [],
@@ -14188,14 +14358,16 @@
           "isClassMethod": false,
           "returnType": "id<MTLIOCommandBuffer> _Nonnull",
           "returnNullability": "nonnull",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeCommandBuffer"
         },
         {
           "selector": "commandBufferWithUnretainedReferences",
           "isClassMethod": false,
           "returnType": "id<MTLIOCommandBuffer> _Nonnull",
           "returnNullability": "nonnull",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeCommandBufferWithUnretainedReferences"
         },
         {
           "selector": "label",
@@ -14345,7 +14517,8 @@
               "type": "id<MTLFence> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "update"
         },
         {
           "selector": "waitForFence:",
@@ -14358,7 +14531,8 @@
               "type": "id<MTLFence> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "wait"
         },
         {
           "selector": "moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:",
@@ -14411,7 +14585,8 @@
               "type": "MTLOrigin",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "moveTextureMappings"
         }
       ],
       "properties": [],
@@ -14435,7 +14610,8 @@
               "type": "id<MTLResource> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "synchronize"
         },
         {
           "selector": "synchronizeTexture:slice:level:",
@@ -14458,7 +14634,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "synchronize"
         },
         {
           "selector": "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:",
@@ -14511,7 +14688,8 @@
               "type": "MTLOrigin",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:",
@@ -14564,7 +14742,8 @@
               "type": "MTLOrigin",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:options:",
@@ -14622,7 +14801,8 @@
               "type": "MTLBlitOption",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toBuffer:destinationOffset:destinationBytesPerRow:destinationBytesPerImage:",
@@ -14675,7 +14855,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toBuffer:destinationOffset:destinationBytesPerRow:destinationBytesPerImage:options:",
@@ -14733,7 +14914,8 @@
               "type": "MTLBlitOption",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "generateMipmapsForTexture:",
@@ -14746,7 +14928,8 @@
               "type": "id<MTLTexture> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "generateMipmaps"
         },
         {
           "selector": "fillBuffer:range:value:",
@@ -14817,7 +15000,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromTexture:toTexture:",
@@ -14835,7 +15019,8 @@
               "type": "id<MTLTexture> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromBuffer:sourceOffset:toBuffer:destinationOffset:size:",
@@ -14868,7 +15053,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "updateFence:",
@@ -15124,7 +15310,8 @@
               "type": "BOOL",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "sampleCounters"
         },
         {
           "selector": "resolveCounters:inRange:destinationBuffer:destinationOffset:",
@@ -15190,7 +15377,8 @@
               "type": "MTLTensorExtents * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "copy"
         }
       ],
       "properties": [],
@@ -15670,7 +15858,8 @@
               "type": "MTLWinding",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setFrontFacing"
         },
         {
           "selector": "setVertexAmplificationCount:viewMappings:",
@@ -16132,7 +16321,8 @@
               "type": "float",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setBlendColor"
         },
         {
           "selector": "setDepthStencilState:",
@@ -16176,7 +16366,8 @@
               "type": "uint32_t",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setStencilReferenceValues"
         },
         {
           "selector": "setVisibilityResultMode:offset:",
@@ -16804,7 +16995,8 @@
               "type": "MTLSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "drawMeshThreadgroups"
         },
         {
           "selector": "drawPrimitives:vertexStart:vertexCount:instanceCount:",
@@ -17898,7 +18090,8 @@
               "type": "MTLRenderStages",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "memoryBarrier"
         },
         {
           "selector": "memoryBarrierWithResources:count:afterStages:beforeStages:",
@@ -17949,7 +18142,8 @@
               "type": "BOOL",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "sampleCounters"
         },
         {
           "selector": "setColorAttachmentMap:",
@@ -18007,7 +18201,8 @@
           "isClassMethod": false,
           "returnType": "id<MTLRenderCommandEncoder> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeRenderCommandEncoder"
         },
         {
           "selector": "setColorStoreAction:atIndex:",
@@ -18639,7 +18834,8 @@
               "type": "MTLSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "dispatchThreadgroups"
         },
         {
           "selector": "dispatchThreads:threadsPerThreadgroup:",
@@ -18809,7 +19005,8 @@
               "type": "MTLBarrierScope",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "memoryBarrier"
         },
         {
           "selector": "memoryBarrierWithResources:count:",
@@ -18850,7 +19047,8 @@
               "type": "BOOL",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "sampleCounters"
         },
         {
           "selector": "dispatchType",
@@ -18895,7 +19093,8 @@
               "type": "CFTimeInterval",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "present"
         },
         {
           "selector": "presentAfterMinimumDuration:",
@@ -18908,7 +19107,8 @@
               "type": "CFTimeInterval",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "present"
         },
         {
           "selector": "addPresentedHandler:",
@@ -18999,7 +19199,8 @@
               "type": "id<MTLDrawable> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "present"
         },
         {
           "selector": "presentDrawable:atTime:",
@@ -19017,7 +19218,8 @@
               "type": "CFTimeInterval",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "present"
         },
         {
           "selector": "presentDrawable:afterMinimumDuration:",
@@ -19035,7 +19237,8 @@
               "type": "CFTimeInterval",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "present"
         },
         {
           "selector": "waitUntilScheduled",
@@ -19069,7 +19272,8 @@
           "isClassMethod": false,
           "returnType": "id<MTLBlitCommandEncoder> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeBlitCommandEncoder"
         },
         {
           "selector": "renderCommandEncoderWithDescriptor:",
@@ -19082,7 +19286,8 @@
               "type": "MTLRenderPassDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeRenderCommandEncoder"
         },
         {
           "selector": "computeCommandEncoderWithDescriptor:",
@@ -19095,7 +19300,8 @@
               "type": "MTLComputePassDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeComputeCommandEncoder"
         },
         {
           "selector": "blitCommandEncoderWithDescriptor:",
@@ -19108,14 +19314,16 @@
               "type": "MTLBlitPassDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeBlitCommandEncoder"
         },
         {
           "selector": "computeCommandEncoder",
           "isClassMethod": false,
           "returnType": "id<MTLComputeCommandEncoder> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeComputeCommandEncoder"
         },
         {
           "selector": "computeCommandEncoderWithDispatchType:",
@@ -19128,7 +19336,8 @@
               "type": "MTLDispatchType",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeComputeCommandEncoder"
         },
         {
           "selector": "encodeWaitForEvent:value:",
@@ -19177,14 +19386,16 @@
               "type": "MTLRenderPassDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeParallelRenderCommandEncoder"
         },
         {
           "selector": "resourceStateCommandEncoder",
           "isClassMethod": false,
           "returnType": "id<MTLResourceStateCommandEncoder> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeResourceStateCommandEncoder"
         },
         {
           "selector": "resourceStateCommandEncoderWithDescriptor:",
@@ -19197,14 +19408,16 @@
               "type": "MTLResourceStatePassDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "resourceStateCommandEncoder"
         },
         {
           "selector": "accelerationStructureCommandEncoder",
           "isClassMethod": false,
           "returnType": "id<MTLAccelerationStructureCommandEncoder> _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "makeAccelerationStructureCommandEncoder"
         },
         {
           "selector": "accelerationStructureCommandEncoderWithDescriptor:",
@@ -19217,7 +19430,8 @@
               "type": "MTLAccelerationStructurePassDescriptor * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeAccelerationStructureCommandEncoder"
         },
         {
           "selector": "pushDebugGroup:",
@@ -19488,7 +19702,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "build"
         },
         {
           "selector": "refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:",
@@ -19521,7 +19736,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "refit"
         },
         {
           "selector": "refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:options:",
@@ -19559,7 +19775,8 @@
               "type": "MTLAccelerationStructureRefitOptions",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "refit"
         },
         {
           "selector": "copyAccelerationStructure:toAccelerationStructure:",
@@ -19577,7 +19794,8 @@
               "type": "id<MTLAccelerationStructure> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "writeCompactedAccelerationStructureSize:toBuffer:offset:",
@@ -19600,7 +19818,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "writeCompactedSize"
         },
         {
           "selector": "writeCompactedAccelerationStructureSize:toBuffer:offset:sizeDataType:",
@@ -19628,7 +19847,8 @@
               "type": "MTLDataType",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "writeCompactedSize"
         },
         {
           "selector": "copyAndCompactAccelerationStructure:toAccelerationStructure:",
@@ -19646,7 +19866,8 @@
               "type": "id<MTLAccelerationStructure> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "copyAndCompact"
         },
         {
           "selector": "updateFence:",
@@ -19767,7 +19988,8 @@
               "type": "BOOL",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "sampleCounters"
         }
       ],
       "properties": [],
@@ -20239,7 +20461,8 @@
               "type": "float",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setBlendColor"
         },
         {
           "selector": "setDepthStencilState:",
@@ -20283,7 +20506,8 @@
               "type": "uint32_t",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setStencilReferenceValue"
         },
         {
           "selector": "setVisibilityResultMode:offset:",
@@ -20635,7 +20859,8 @@
               "type": "MTLGPUAddress",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "executeCommands"
         },
         {
           "selector": "setObjectThreadgroupMemoryLength:atIndex:",
@@ -20722,7 +20947,8 @@
               "type": "MTLSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "drawMeshThreadgroups"
         },
         {
           "selector": "dispatchThreadsPerTile:",
@@ -20789,7 +21015,8 @@
               "type": "MTLWinding",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setFrontFacing"
         },
         {
           "selector": "writeTimestampWithGranularity:afterStage:intoHeap:atIndex:",
@@ -20817,7 +21044,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "writeTimestamp"
         },
         {
           "selector": "tileWidth",
@@ -20911,7 +21139,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setImageblockSize"
         },
         {
           "selector": "dispatchThreads:threadsPerThreadgroup:",
@@ -20965,7 +21194,8 @@
               "type": "MTLSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "dispatchThreadgroups"
         },
         {
           "selector": "dispatchThreadsWithIndirectBuffer:",
@@ -20978,7 +21208,8 @@
               "type": "MTLGPUAddress",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "dispatchThreads"
         },
         {
           "selector": "executeCommandsInBuffer:withRange:",
@@ -21014,7 +21245,8 @@
               "type": "MTLGPUAddress",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "executeCommands"
         },
         {
           "selector": "copyFromTexture:toTexture:",
@@ -21032,7 +21264,8 @@
               "type": "id<MTLTexture> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromTexture:sourceSlice:sourceLevel:toTexture:destinationSlice:destinationLevel:sliceCount:levelCount:",
@@ -21080,7 +21313,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:",
@@ -21133,7 +21367,8 @@
               "type": "MTLOrigin",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toBuffer:destinationOffset:destinationBytesPerRow:destinationBytesPerImage:",
@@ -21277,7 +21512,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:",
@@ -21426,7 +21662,8 @@
               "type": "MTLTensorExtents * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "generateMipmapsForTexture:",
@@ -21439,7 +21676,8 @@
               "type": "id<MTLTexture> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "generateMipmaps"
         },
         {
           "selector": "fillBuffer:range:value:",
@@ -21475,7 +21713,8 @@
               "type": "id<MTLTexture> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "optimizeContents"
         },
         {
           "selector": "optimizeContentsForGPUAccess:slice:level:",
@@ -21498,7 +21737,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "optimizeContents"
         },
         {
           "selector": "optimizeContentsForCPUAccess:",
@@ -21511,7 +21751,8 @@
               "type": "id<MTLTexture> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "optimizeContents"
         },
         {
           "selector": "optimizeContentsForCPUAccess:slice:level:",
@@ -21534,7 +21775,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "optimizeContents"
         },
         {
           "selector": "resetCommandsInBuffer:withRange:",
@@ -21634,7 +21876,8 @@
               "type": "MTL4BufferRange",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "build"
         },
         {
           "selector": "refitAccelerationStructure:descriptor:destination:scratchBuffer:",
@@ -21695,7 +21938,8 @@
               "type": "MTLAccelerationStructureRefitOptions",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "refit"
         },
         {
           "selector": "copyAccelerationStructure:toAccelerationStructure:",
@@ -21713,7 +21957,8 @@
               "type": "id<MTLAccelerationStructure> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "copy"
         },
         {
           "selector": "writeCompactedAccelerationStructureSize:toBuffer:",
@@ -21731,7 +21976,8 @@
               "type": "MTL4BufferRange",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "writeCompactedSize"
         },
         {
           "selector": "copyAndCompactAccelerationStructure:toAccelerationStructure:",
@@ -21749,7 +21995,8 @@
               "type": "id<MTLAccelerationStructure> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "copyAndCompact"
         },
         {
           "selector": "writeTimestampWithGranularity:intoHeap:atIndex:",
@@ -21772,7 +22019,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "writeTimestamp"
         }
       ],
       "properties": [],
@@ -21822,7 +22070,8 @@
               "type": "id<MTLHeap> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "dispatchNetwork"
         }
       ],
       "properties": [],
@@ -21891,14 +22140,16 @@
           "isClassMethod": false,
           "returnType": "void",
           "returnNullability": null,
-          "parameters": []
+          "parameters": [],
+          "swiftName": "begin"
         },
         {
           "selector": "endScope",
           "isClassMethod": false,
           "returnType": "void",
           "returnNullability": null,
-          "parameters": []
+          "parameters": [],
+          "swiftName": "end"
         },
         {
           "selector": "label",
@@ -22468,7 +22719,8 @@
               "type": "MTLWinding",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "setFrontFacing"
         },
         {
           "selector": "setTriangleFillMode:",
@@ -22903,7 +23155,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "load"
         },
         {
           "selector": "loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:",
@@ -22956,7 +23209,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "load"
         },
         {
           "selector": "copyStatusToBuffer:offset:",
@@ -22974,7 +23228,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "copyStatus"
         },
         {
           "selector": "commit",
@@ -23167,7 +23422,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "makeScratchBuffer"
         }
       ],
       "properties": [],
@@ -23316,7 +23572,8 @@
               "type": "id<MTL4CommandBuffer> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "encode"
         }
       ],
       "properties": [],
@@ -23340,7 +23597,8 @@
               "type": "id<MTLCommandBuffer> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "encode"
         }
       ],
       "properties": [],
@@ -24011,7 +24269,8 @@
               "type": "id<MTL4CommandBuffer> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "encode"
         }
       ],
       "properties": [],
@@ -24035,7 +24294,8 @@
               "type": "id<MTLCommandBuffer> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "encode"
         }
       ],
       "properties": [],
@@ -25060,7 +25320,8 @@
               "type": "id<MTL4CommandBuffer> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "encode"
         }
       ],
       "properties": [],
@@ -25084,7 +25345,8 @@
               "type": "id<MTLCommandBuffer> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "encode"
         }
       ],
       "properties": [],
@@ -25367,7 +25629,8 @@
               "type": "id<MTL4CommandBuffer> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "encode"
         }
       ],
       "properties": [],
@@ -25391,7 +25654,8 @@
               "type": "id<MTLCommandBuffer> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "encode"
         }
       ],
       "properties": [],
@@ -37365,7 +37629,8 @@
               "type": "BOOL",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "texture2DDescriptor"
         },
         {
           "selector": "textureCubeDescriptorWithPixelFormat:size:mipmapped:",
@@ -37388,7 +37653,8 @@
               "type": "BOOL",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "textureCubeDescriptor"
         },
         {
           "selector": "textureBufferDescriptorWithPixelFormat:width:resourceOptions:usage:",
@@ -37416,7 +37682,8 @@
               "type": "MTLTextureUsage",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "textureBufferDescriptor"
         },
         {
           "selector": "textureType",
@@ -38326,7 +38593,8 @@
           "isClassMethod": false,
           "returnType": "MTLArrayType * _Nullable",
           "returnNullability": "nullable",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "element"
         },
         {
           "selector": "elementTextureReferenceType",
@@ -40801,7 +41069,8 @@
               "type": "NSInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "inputDimensions"
         },
         {
           "selector": "reset",
@@ -41320,7 +41589,8 @@
               "type": "MTLSize",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "init"
         },
         {
           "selector": "initWithSampleCount:horizontal:vertical:",
@@ -41516,7 +41786,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "layer"
         },
         {
           "selector": "setLayer:atIndex:",
@@ -47434,7 +47705,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -47970,7 +48242,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -48154,7 +48427,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -48286,7 +48560,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -48542,7 +48817,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -48843,7 +49119,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -48975,7 +49252,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -49160,7 +49438,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -49292,7 +49571,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -49477,7 +49757,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -49692,7 +49973,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -50013,7 +50295,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -53397,14 +53680,16 @@
               "type": "dispatch_queue_t _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "init"
         },
         {
           "selector": "sharedListener",
           "isClassMethod": true,
           "returnType": "MTLSharedEventListener * _Nonnull",
           "returnNullability": "nonnull",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "shared"
         },
         {
           "selector": "dispatchQueue",
@@ -53549,7 +53834,8 @@
           "isClassMethod": true,
           "returnType": "MTLCaptureManager * _Nonnull",
           "returnNullability": "nonnull",
-          "parameters": []
+          "parameters": [],
+          "swiftName": "shared"
         },
         {
           "selector": "init",
@@ -53569,7 +53855,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeCaptureScope"
         },
         {
           "selector": "newCaptureScopeWithCommandQueue:",
@@ -53582,7 +53869,8 @@
               "type": "id<MTLCommandQueue> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeCaptureScope"
         },
         {
           "selector": "newCaptureScopeWithMTL4CommandQueue:",
@@ -53595,7 +53883,8 @@
               "type": "id<MTL4CommandQueue> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeCaptureScope"
         },
         {
           "selector": "supportsDestination:",
@@ -53626,7 +53915,8 @@
               "type": "NSError * _Nullable * _Nullable",
               "nullability": "nullable"
             }
-          ]
+          ],
+          "swiftName": "startCapture"
         },
         {
           "selector": "startCaptureWithDevice:",
@@ -53641,7 +53931,8 @@
             }
           ],
           "deprecated": true,
-          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead"
+          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead",
+          "swiftName": "startCapture"
         },
         {
           "selector": "startCaptureWithCommandQueue:",
@@ -53656,7 +53947,8 @@
             }
           ],
           "deprecated": true,
-          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead"
+          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead",
+          "swiftName": "startCapture"
         },
         {
           "selector": "startCaptureWithScope:",
@@ -53671,7 +53963,8 @@
             }
           ],
           "deprecated": true,
-          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead"
+          "deprecationMessage": "Use startCaptureWithDescriptor:error: instead",
+          "swiftName": "startCapture"
         },
         {
           "selector": "stopCapture",
@@ -53832,7 +54125,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -53914,7 +54208,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -53966,7 +54261,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "init"
         },
         {
           "selector": "argumentIndex",
@@ -54028,7 +54324,8 @@
               "type": "NSArray<MTLFunctionStitchingFunctionNode *> * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "init"
         },
         {
           "selector": "name",
@@ -54147,7 +54444,8 @@
               "type": "NSArray<id<MTLFunctionStitchingAttribute>> * _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "init"
         },
         {
           "selector": "functionName",
@@ -57181,7 +57479,8 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "swiftName": "subscript"
         },
         {
           "selector": "setObject:atIndexedSubscript:",
@@ -58498,7 +58797,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeTemporalScaler"
         },
         {
           "selector": "newTemporalScalerWithDevice:compiler:",
@@ -58516,7 +58816,8 @@
               "type": "id<MTL4Compiler> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeTemporalScaler"
         },
         {
           "selector": "supportedInputContentMinScaleForDevice:",
@@ -58529,7 +58830,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "supportedInputContentMinScale"
         },
         {
           "selector": "supportedInputContentMaxScaleForDevice:",
@@ -58542,7 +58844,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "supportedInputContentMaxScale"
         },
         {
           "selector": "supportsDevice:",
@@ -58987,7 +59290,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeTemporalDenoisedScaler"
         },
         {
           "selector": "newTemporalDenoisedScalerWithDevice:compiler:",
@@ -59005,7 +59309,8 @@
               "type": "id<MTL4Compiler> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeTemporalDenoisedScaler"
         },
         {
           "selector": "supportedInputContentMinScaleForDevice:",
@@ -59018,7 +59323,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "supportedInputContentMinScale"
         },
         {
           "selector": "supportedInputContentMaxScaleForDevice:",
@@ -59031,7 +59337,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "supportedInputContentMaxScale"
         },
         {
           "selector": "supportsMetal4FX:",
@@ -59660,7 +59967,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeSpatialScaler"
         },
         {
           "selector": "newSpatialScalerWithDevice:compiler:",
@@ -59678,7 +59986,8 @@
               "type": "id<MTL4Compiler> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeSpatialScaler"
         },
         {
           "selector": "supportsMetal4FX:",
@@ -59912,7 +60221,8 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeFrameInterpolator"
         },
         {
           "selector": "newFrameInterpolatorWithDevice:compiler:",
@@ -59930,7 +60240,8 @@
               "type": "id<MTL4Compiler> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "swiftName": "makeFrameInterpolator"
         },
         {
           "selector": "supportsMetal4FX:",
