@@ -74,7 +74,7 @@ Hand-written Foundation (`NSObject`, `NSString`, `NSArray`, …), CoreGraphics (
 var desc = new MTLTextureDescriptor();
 
 // Owned – caller is responsible for disposal
-using MTLLibrary library = device.NewDefaultLibrary();
+using MTLLibrary library = device.MakeDefaultLibrary();
 
 // Borrowed – do not dispose
 MTLDevice device = commandQueue.Device;
