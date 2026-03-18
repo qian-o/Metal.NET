@@ -38,17 +38,17 @@ using Metal.NET;
 MTLDevice device = MTLDevice.CreateSystemDefaultDevice();
 
 // Create a command queue
-using MTLCommandQueue queue = device.NewCommandQueue();
+using MTLCommandQueue queue = device.MakeCommandQueue();
 
 // Load the default shader library
-using MTLLibrary library = device.NewDefaultLibrary();
+using MTLLibrary library = device.MakeDefaultLibrary();
 
 // Look up a compute function and create a pipeline state
-using MTLFunction kernel = library.NewFunction("myKernel");
-using MTLComputePipelineState pso = device.NewComputePipelineState(kernel);
+using MTLFunction kernel = library.MakeFunction("myKernel");
+using MTLComputePipelineState pso = device.MakeComputePipelineState(kernel, out NSError error);
 
 // Create a buffer
-using MTLBuffer buffer = device.NewBuffer(1024, MTLResourceOptions.StorageModeShared);
+using MTLBuffer buffer = device.MakeBuffer(1024, MTLResourceOptions.StorageModeShared);
 ```
 
 ## API Coverage
