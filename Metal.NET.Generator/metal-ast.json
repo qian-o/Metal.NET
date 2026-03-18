@@ -36488,29 +36488,6 @@
           ]
         },
         {
-          "selector": "pathForResource:ofType:inDirectory:",
-          "isClassMethod": false,
-          "returnType": "NSString * _Nullable",
-          "returnNullability": "nullable",
-          "parameters": [
-            {
-              "name": "name",
-              "type": "NSString * _Nullable",
-              "nullability": "nullable"
-            },
-            {
-              "name": "ext",
-              "type": "NSString * _Nullable",
-              "nullability": "nullable"
-            },
-            {
-              "name": "subpath",
-              "type": "NSString * _Nullable",
-              "nullability": "nullable"
-            }
-          ]
-        },
-        {
           "selector": "pathForResource:ofType:inDirectory:forLocalization:",
           "isClassMethod": false,
           "returnType": "NSString * _Nullable",
@@ -36533,24 +36510,6 @@
             },
             {
               "name": "localizationName",
-              "type": "NSString * _Nullable",
-              "nullability": "nullable"
-            }
-          ]
-        },
-        {
-          "selector": "pathsForResourcesOfType:inDirectory:",
-          "isClassMethod": false,
-          "returnType": "NSArray<NSString *> * _Nonnull",
-          "returnNullability": "nonnull",
-          "parameters": [
-            {
-              "name": "ext",
-              "type": "NSString * _Nullable",
-              "nullability": "nullable"
-            },
-            {
-              "name": "subpath",
               "type": "NSString * _Nullable",
               "nullability": "nullable"
             }
@@ -41447,7 +41406,9 @@
           "name": "sampleCount",
           "type": "MTLSize",
           "nullability": null,
-          "readonly": true
+          "readonly": false,
+          "deprecated": false,
+          "deprecationMessage": null
         },
         {
           "name": "maxSampleCount",
@@ -41478,12 +41439,6 @@
           "type": "MTLRasterizationRateSampleArray * _Nonnull",
           "nullability": "nonnull",
           "readonly": true
-        },
-        {
-          "name": "sampleCount",
-          "type": "MTLSize",
-          "nullability": null,
-          "readonly": false
         }
       ],
       "protocols": [
