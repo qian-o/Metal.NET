@@ -5,9 +5,10 @@ Compares methods in metal-ast.json (that still have ObjC-style names with
 'With'/'At') against the Swift symbol graph files to find the root cause.
 
 Usage (on macOS where symbol graph files exist):
-    python diagnose_swift_names.py [symbolgraph_dir]
+    python diagnose_swift_names.py [symbolgraph_dir] [--dump-dir DIR]
 
 Without symbolgraph_dir, it only analyzes the current metal-ast.json.
+With --dump-dir, writes diagnostic JSON files for CI artifact upload.
 """
 
 import json
@@ -29,7 +30,20 @@ def main():
     ast_path = os.path.normpath(
         os.path.join(script_dir, "..", "..", "Metal.NET.Generator", "metal-ast.json"))
 
-    sg_dir = sys.argv[1] if len(sys.argv) > 1 else None
+    # Parse arguments: [symbolgraph_dir] [--dump-dir DIR]
+    sg_dir = None
+    dump_dir = None
+    args = sys.argv[1:]
+    i = 0
+    while i < len(args):
+        if args[i] == '--dump-dir' and i + 1 < len(args):
+            dump_dir = args[i + 1]
+            i += 2
+        elif sg_dir is None:
+            sg_dir = args[i]
+            i += 1
+        else:
+            i += 1
 
     # --- 1. Find methods whose name still contains With/At ---
     with open(ast_path, encoding="utf-8-sig") as f:
@@ -109,6 +123,50 @@ def main():
             print(f"  {p}")
         if len(unmatched_precise) > 20:
             print(f"  ... and {len(unmatched_precise) - 20} more")
+
+    # --- Dump diagnostic JSON files for CI artifacts ---
+    if dump_dir:
+        os.makedirs(dump_dir, exist_ok=True)
+
+        # All symbols (precise, title, kind)
+        all_syms = []
+        for fn in sorted(os.listdir(sg_dir)):
+            if not fn.endswith('.symbols.json'):
+                continue
+            with open(os.path.join(sg_dir, fn)) as f:
+                sg = json.load(f)
+            for sym in sg.get('symbols', []):
+                all_syms.append({
+                    'file': fn,
+                    'precise': sym.get('identifier', {}).get('precise', ''),
+                    'title': sym.get('names', {}).get('title', ''),
+                    'kind': sym.get('kind', {}).get('identifier', ''),
+                })
+            print(f"{fn}: {len(sg.get('symbols', []))} symbols", file=sys.stderr)
+
+        with open(os.path.join(dump_dir, 'all_symbols.json'), 'w') as f:
+            json.dump(all_syms, f, indent=2)
+        print(f"Total symbols dumped: {len(all_syms)}", file=sys.stderr)
+
+        # MTLDevice-related symbols
+        device = [s for s in all_syms if 'MTLDevice' in s['precise'] or 'MTLDevice' in s['title']]
+        with open(os.path.join(dump_dir, 'mtldevice_symbols.json'), 'w') as f:
+            json.dump(device, f, indent=2)
+        print(f"MTLDevice-related symbols: {len(device)}")
+
+        # new*/make* patterns
+        new_make = [s for s in all_syms if 'new' in s['title'].lower() or 'make' in s['title'].lower()]
+        with open(os.path.join(dump_dir, 'new_make_symbols.json'), 'w') as f:
+            json.dump(new_make, f, indent=2)
+        print(f"new*/make* symbols: {len(new_make)}")
+
+        # Non-ObjC-USR Metal symbols
+        non_objc = [s for s in all_syms if not _RE_OBJC_USR.match(s['precise']) and ('MTL' in s['precise'] or 'Metal' in s['title'])]
+        with open(os.path.join(dump_dir, 'non_objc_usr_metal.json'), 'w') as f:
+            json.dump(non_objc, f, indent=2)
+        print(f"Metal symbols with non-ObjC USR: {len(non_objc)}")
+        for s in non_objc[:10]:
+            print(f"  kind={s['kind']}  precise={s['precise'][:80]}  title={s['title']}")
 
     # --- 3. Cross-reference missing methods against symbol graph ---
     found_in_sg = []

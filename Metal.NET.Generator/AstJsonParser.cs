@@ -126,8 +126,8 @@ partial class AstJsonParser
         "NSObject", "NSCopying", "NSMutableCopying", "NSSecureCoding", "NSFastEnumeration",
     ];
 
-    /// <summary>Classes to skip (hand-written or not relevant).</summary>
-    static readonly HashSet<string> SkipClasses =
+    /// <summary>Classes to skip (hand-written or not relevant). Shared with <see cref="CSharpEmitter"/>.</summary>
+    internal static readonly HashSet<string> SkipClasses =
     [
         "NSObject", "NSArray", "NSString", "NSError", "NSURL",
         "NSDictionary", "NSNumber", "NSValue", "NSData",
@@ -151,6 +151,14 @@ partial class AstJsonParser
 
         ParseEnums(ast, context);
         ParseStructs(ast, context);
+
+        // Auto-populate StructTypes from parsed definitions so DetectArrayParamPairs
+        // and the emitter can recognise all struct types without manual maintenance.
+        foreach (StructDef s in context.Structs)
+        {
+            TypeMapper.StructTypes.Add(TypeMapper.GetPrefix(s.Namespace) + s.Name);
+        }
+
         ParseBlockTypedefs(ast, context);
         ParseProtocols(ast, context);
         ParseClasses(ast, context);

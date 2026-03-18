@@ -18,7 +18,7 @@ partial class CSharpEmitter
         string prefix = TypeMapper.GetPrefix(classDef.Namespace);
         string csClassName = prefix + classDef.Name;
 
-        if (SkipClasses.Contains(csClassName))
+        if (AstJsonParser.SkipClasses.Contains(csClassName))
         {
             return;
         }

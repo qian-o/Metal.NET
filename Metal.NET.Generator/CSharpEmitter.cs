@@ -7,27 +7,6 @@
 /// </summary>
 partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
-    /// <summary>Hand-written classes to skip during generation.</summary>
-    static readonly HashSet<string> SkipClasses =
-    [
-        "NSString",
-        "NSError",
-        "NSArray",
-        "NSURL",
-        "NSDictionary",
-        "NSNotification",
-        "NSNotificationCenter",
-        "NSSet",
-        "NSEnumerator",
-        "NSObject",
-        "NSProcessInfo",
-        "NSBundle",
-        "NSAutoreleasePool",
-        "NSNumber",
-        "NSValue",
-        "NSDate"
-    ];
-
     /// <summary>Hand-written structs to skip during generation (located in Common/Structs.cs).</summary>
     static readonly HashSet<string> SkipStructs =
     [
@@ -212,6 +191,8 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
             .ToDictionary(g => g.Key, g => g.ToList());
 
         // Record MsgSend signatures used by hand-written Foundation classes
+        // (NSObject, NSString, NSArray, NSData, etc.) which are not auto-generated
+        // but still need matching ObjectiveC.MsgSend* overloads in ObjectiveC.cs.
         RecordMsgSend("MsgSend", "nint");
 
         RecordMsgSend("MsgSendNInt");
@@ -233,10 +214,7 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         RecordMsgSend("MsgSendUInt");
         RecordMsgSend("MsgSendLong");
         RecordMsgSend("MsgSendULong");
-
         RecordMsgSend("MsgSendNUInt");
-
-        // MsgSend with no args is always needed
         RecordMsgSend("MsgSend");
 
         foreach (ClassDef classDef in context.Classes)
