@@ -555,7 +555,7 @@ jobs:
                               seen_proto.add(p)
                       if not existing.get("super") and item.get("super"):
                           existing["super"] = item["super"]
-                      if not existing.get("deprecated") and item.get("deprecated"):
+                      if not existing.get("deprecated") and item.get("deprecated") and item.get("kind") != "category":
                           existing["deprecated"] = True
                           if item.get("deprecationMessage"):
                               existing["deprecationMessage"] = item["deprecationMessage"]
