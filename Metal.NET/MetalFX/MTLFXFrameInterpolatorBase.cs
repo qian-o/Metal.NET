@@ -168,7 +168,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
     public Bool8 IsUITextureComposited
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsUITextureComposited);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsUITextureComposited, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetUITextureComposited, value);
     }
 
     public Bool8 ShouldResetHistory
@@ -192,12 +192,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
     public Bool8 IsDepthReversed
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsDepthReversed);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsDepthReversed, value);
-    }
-
-    public void SetDepthReversed(bool depthReversed)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, depthReversed);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, value);
     }
 }
 
@@ -277,10 +272,6 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetFieldOfView = "setFieldOfView:";
 
-    public static readonly Selector SetIsDepthReversed = "setIsDepthReversed:";
-
-    public static readonly Selector SetIsUITextureComposited = "setIsUITextureComposited:";
-
     public static readonly Selector SetJitterOffsetX = "setJitterOffsetX:";
 
     public static readonly Selector SetJitterOffsetY = "setJitterOffsetY:";
@@ -300,6 +291,8 @@ file static class MTLFXFrameInterpolatorBaseBindings
     public static readonly Selector SetShouldResetHistory = "setShouldResetHistory:";
 
     public static readonly Selector SetUiTexture = "setUITexture:";
+
+    public static readonly Selector SetUITextureComposited = "setIsUITextureComposited:";
 
     public static readonly Selector ShouldResetHistory = "shouldResetHistory";
 

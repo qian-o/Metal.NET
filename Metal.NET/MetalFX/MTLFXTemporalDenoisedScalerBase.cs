@@ -188,7 +188,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, NativeObjectOwnersh
     public Bool8 IsDepthReversed
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.IsDepthReversed);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetIsDepthReversed, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthReversed, value);
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -298,11 +298,6 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, NativeObjectOwnersh
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.Fence);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetFence, value);
     }
-
-    public void SetDepthReversed(bool depthReversed)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthReversed, depthReversed);
-    }
 }
 
 file static class MTLFXTemporalDenoisedScalerBaseBindings
@@ -402,8 +397,6 @@ file static class MTLFXTemporalDenoisedScalerBaseBindings
     public static readonly Selector SetExposureTexture = "setExposureTexture:";
 
     public static readonly Selector SetFence = "setFence:";
-
-    public static readonly Selector SetIsDepthReversed = "setIsDepthReversed:";
 
     public static readonly Selector SetJitterOffsetX = "setJitterOffsetX:";
 

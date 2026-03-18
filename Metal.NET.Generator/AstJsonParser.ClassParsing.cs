@@ -116,8 +116,16 @@ partial class AstJsonParser
             // Setter (if not readonly)
             if (!prop.Readonly)
             {
-                string setterSelector = prop.Setter ?? $"set{char.ToUpper(prop.Name[0])}{prop.Name[1..]}:";
-                string setName = $"set{char.ToUpper(getterName[0])}{getterName[1..]}";
+                // ObjC convention: for "is"-prefixed boolean properties, the setter
+                // drops the "is" prefix (e.g., isDepthReversed → setDepthReversed:).
+                string setterBaseName = prop.Name;
+                if (setterBaseName.Length > 2 && setterBaseName.StartsWith("is") && char.IsUpper(setterBaseName[2]))
+                {
+                    setterBaseName = char.ToLower(setterBaseName[2]) + setterBaseName[3..];
+                }
+
+                string setterSelector = prop.Setter ?? $"set{char.ToUpper(setterBaseName[0])}{setterBaseName[1..]}:";
+                string setName = $"set{char.ToUpper(setterBaseName[0])}{setterBaseName[1..]}";
                 string paramName = getterName;
 
                 // Map the parameter type

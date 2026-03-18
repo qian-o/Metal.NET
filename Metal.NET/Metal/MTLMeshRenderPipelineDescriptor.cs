@@ -99,19 +99,19 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
     public Bool8 IsAlphaToCoverageEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsAlphaToCoverageEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
     }
 
     public Bool8 IsAlphaToOneEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsAlphaToOneEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
     public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
     }
 
     public nuint MaxVertexAmplificationCount
@@ -189,21 +189,6 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
     {
         ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.Reset);
     }
-
-    public void SetAlphaToCoverageEnabled(bool alphaToCoverageEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, alphaToCoverageEnabled);
-    }
-
-    public void SetAlphaToOneEnabled(bool alphaToOneEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, alphaToOneEnabled);
-    }
-
-    public void SetRasterizationEnabled(bool rasterizationEnabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, rasterizationEnabled);
-    }
 }
 
 file static class MTLMeshRenderPipelineDescriptorBindings
@@ -275,12 +260,6 @@ file static class MTLMeshRenderPipelineDescriptorBindings
     public static readonly Selector SetFragmentFunction = "setFragmentFunction:";
 
     public static readonly Selector SetFragmentLinkedFunctions = "setFragmentLinkedFunctions:";
-
-    public static readonly Selector SetIsAlphaToCoverageEnabled = "setIsAlphaToCoverageEnabled:";
-
-    public static readonly Selector SetIsAlphaToOneEnabled = "setIsAlphaToOneEnabled:";
-
-    public static readonly Selector SetIsRasterizationEnabled = "setIsRasterizationEnabled:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
