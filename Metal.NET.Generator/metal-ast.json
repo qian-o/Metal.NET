@@ -8646,7 +8646,9 @@
           "name": "rootResource",
           "type": "id<MTLResource> _Nullable",
           "nullability": "nullable",
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Use parentTexture or buffer instead"
         },
         {
           "name": "parentTexture",
@@ -39494,19 +39496,25 @@
           "name": "vertexArguments",
           "type": "NSArray<MTLArgument *> * _Nullable",
           "nullability": "nullable",
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Use vertexBindings instead"
         },
         {
           "name": "fragmentArguments",
           "type": "NSArray<MTLArgument *> * _Nullable",
           "nullability": "nullable",
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Use fragmentBindings instead"
         },
         {
           "name": "tileArguments",
           "type": "NSArray<MTLArgument *> * _Nullable",
           "nullability": "nullable",
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Use tileBindings instead"
         }
       ],
       "protocols": [],
@@ -39543,7 +39551,9 @@
           "name": "arguments",
           "type": "NSArray<MTLArgument *> * _Nonnull",
           "nullability": "nonnull",
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Use bindings instead"
         }
       ],
       "protocols": [],
