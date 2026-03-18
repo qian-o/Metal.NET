@@ -25,9 +25,9 @@ public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership)
         return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewDescriptorAtIndex, texture.NativePtr, descriptor.NativePtr, index);
     }
 
-    public MTLResourceID SetTextureViewFromBuffer(MTLBuffer buffer, MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow, nuint index)
+    public MTLResourceID SetTextureView(MTLBuffer buffer, MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow, nuint index)
     {
-        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewFromBuffer, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
+        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewFromBufferDescriptorOffsetBytesPerRowAtIndex, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
     }
 }
 
@@ -39,5 +39,5 @@ file static class MTLTextureViewPoolBindings
 
     public static readonly Selector SetTextureViewDescriptorAtIndex = "setTextureView:descriptor:atIndex:";
 
-    public static readonly Selector SetTextureViewFromBuffer = "setTextureViewFromBuffer:descriptor:offset:bytesPerRow:atIndex:";
+    public static readonly Selector SetTextureViewFromBufferDescriptorOffsetBytesPerRowAtIndex = "setTextureViewFromBuffer:descriptor:offset:bytesPerRow:atIndex:";
 }

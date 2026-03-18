@@ -11,13 +11,13 @@ public class MTL4FXSpatialScaler(nint nativePtr, NativeObjectOwnership ownership
     }
     #endregion
 
-    public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
+    public void Encode(MTL4CommandBuffer commandBuffer)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4FXSpatialScalerBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4FXSpatialScalerBindings.Encode, commandBuffer.NativePtr);
     }
 }
 
 file static class MTL4FXSpatialScalerBindings
 {
-    public static readonly Selector EncodeToCommandBuffer = "encodeToCommandBuffer:";
+    public static readonly Selector Encode = "encodeToCommandBuffer:";
 }

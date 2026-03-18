@@ -37,14 +37,14 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         get => GetProperty(ref field, MTLLibraryBindings.InstallName);
     }
 
-    public MTLFunction NewFunction(NSString functionName)
+    public MTLFunction MakeFunction(NSString functionName)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithName, functionName.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.MakeFunction, functionName.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLFunction NewFunction(NSString name, MTLFunctionConstantValues constantValues, out NSError error)
+    public MTLFunction MakeFunction(NSString name, MTLFunctionConstantValues constantValues, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithNameConstantValuesError, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
 
@@ -53,25 +53,25 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLFunctionReflection ReflectionForFunction(NSString functionName)
+    public MTLFunctionReflection Reflection(NSString functionName)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.ReflectionForFunctionWithName, functionName.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.Reflection, functionName.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLFunction NewFunction(MTLFunctionDescriptor descriptor, out NSError error)
+    public MTLFunction MakeFunction(MTLFunctionDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptor, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLFunction NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError error)
+    public MTLFunction MakeIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewIntersectionFunctionWithDescriptor, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.MakeIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -89,15 +89,15 @@ file static class MTLLibraryBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector NewFunctionWithDescriptor = "newFunctionWithDescriptor:error:";
+    public static readonly Selector MakeFunction = "newFunctionWithName:";
 
-    public static readonly Selector NewFunctionWithName = "newFunctionWithName:";
+    public static readonly Selector MakeIntersectionFunction = "newIntersectionFunctionWithDescriptor:error:";
+
+    public static readonly Selector NewFunctionWithDescriptorError = "newFunctionWithDescriptor:error:";
 
     public static readonly Selector NewFunctionWithNameConstantValuesError = "newFunctionWithName:constantValues:error:";
 
-    public static readonly Selector NewIntersectionFunctionWithDescriptor = "newIntersectionFunctionWithDescriptor:error:";
-
-    public static readonly Selector ReflectionForFunctionWithName = "reflectionForFunctionWithName:";
+    public static readonly Selector Reflection = "reflectionForFunctionWithName:";
 
     public static readonly Selector SetLabel = "setLabel:";
 

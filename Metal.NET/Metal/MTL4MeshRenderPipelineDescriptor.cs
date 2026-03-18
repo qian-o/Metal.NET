@@ -168,6 +168,11 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
     {
         ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.Reset);
     }
+
+    public void SetRasterizationEnabled(bool rasterizationEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, rasterizationEnabled);
+    }
 }
 
 file static class MTL4MeshRenderPipelineDescriptorBindings
@@ -228,7 +233,7 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
 
     public static readonly Selector SetFragmentStaticLinkingDescriptor = "setFragmentStaticLinkingDescriptor:";
 
-    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
+    public static readonly Selector SetIsRasterizationEnabled = "setIsRasterizationEnabled:";
 
     public static readonly Selector SetMaxTotalThreadgroupsPerMeshGrid = "setMaxTotalThreadgroupsPerMeshGrid:";
 
@@ -251,6 +256,8 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
     public static readonly Selector SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:";
 
     public static readonly Selector SetPayloadMemoryLength = "setPayloadMemoryLength:";
+
+    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 

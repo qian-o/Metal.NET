@@ -17,33 +17,33 @@ public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : M
         set => ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, value);
     }
 
-    public void NotifyListener(MTLSharedEventListener listener, ulong value, MTLSharedEventNotificationBlock block)
+    public void Notify(MTLSharedEventListener listener, ulong value, MTLSharedEventNotificationBlock block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.NotifyListener, listener.NativePtr, value, block.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.Notify, listener.NativePtr, value, block.NativePtr);
     }
 
-    public MTLSharedEventHandle NewSharedEventHandle()
+    public MTLSharedEventHandle MakeSharedEventHandle()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventBindings.MakeSharedEventHandle);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)
+    public bool Wait(ulong value, ulong milliseconds)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, MTLSharedEventBindings.WaitUntilSignaledValue, value, milliseconds);
+        return ObjectiveC.MsgSendBool(NativePtr, MTLSharedEventBindings.Wait, value, milliseconds);
     }
 }
 
 file static class MTLSharedEventBindings
 {
-    public static readonly Selector NewSharedEventHandle = "newSharedEventHandle";
+    public static readonly Selector MakeSharedEventHandle = "newSharedEventHandle";
 
-    public static readonly Selector NotifyListener = "notifyListener:atValue:block:";
+    public static readonly Selector Notify = "notifyListener:atValue:block:";
 
     public static readonly Selector SetSignaledValue = "setSignaledValue:";
 
     public static readonly Selector SignaledValue = "signaledValue";
 
-    public static readonly Selector WaitUntilSignaledValue = "waitUntilSignaledValue:timeoutMS:";
+    public static readonly Selector Wait = "waitUntilSignaledValue:timeoutMS:";
 }

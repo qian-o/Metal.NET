@@ -114,6 +114,11 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.Reset);
     }
+
+    public void SetRasterizationEnabled(bool rasterizationEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterizationEnabled, rasterizationEnabled);
+    }
 }
 
 file static class MTL4RenderPipelineDescriptorBindings
@@ -154,9 +159,11 @@ file static class MTL4RenderPipelineDescriptorBindings
 
     public static readonly Selector SetInputPrimitiveTopology = "setInputPrimitiveTopology:";
 
-    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
+    public static readonly Selector SetIsRasterizationEnabled = "setIsRasterizationEnabled:";
 
     public static readonly Selector SetMaxVertexAmplificationCount = "setMaxVertexAmplificationCount:";
+
+    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 

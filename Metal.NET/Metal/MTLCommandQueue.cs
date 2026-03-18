@@ -22,19 +22,23 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         get => GetProperty(ref field, MTLCommandQueueBindings.Device);
     }
 
-    public MTLCommandBuffer CommandBuffer
+    public MTLCommandBuffer MakeCommandBuffer()
     {
-        get => GetProperty(ref field, MTLCommandQueueBindings.CommandBuffer);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.MakeCommandBuffer);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLCommandBuffer CommandBufferWithUnretainedReferences
-    {
-        get => GetProperty(ref field, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
-    }
-
-    public MTLCommandBuffer CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
+    public MTLCommandBuffer MakeCommandBuffer(MTLCommandBufferDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLCommandBuffer MakeCommandBufferWithUnretainedReferences()
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.MakeCommandBufferWithUnretainedReferences);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -87,17 +91,17 @@ file static class MTLCommandQueueBindings
 
     public static readonly Selector AddResidencySets = "addResidencySets:count:";
 
-    public static readonly Selector CommandBuffer = "commandBuffer";
-
     public static readonly Selector CommandBufferWithDescriptor = "commandBufferWithDescriptor:";
-
-    public static readonly Selector CommandBufferWithUnretainedReferences = "commandBufferWithUnretainedReferences";
 
     public static readonly Selector Device = "device";
 
     public static readonly Selector InsertDebugCaptureBoundary = "insertDebugCaptureBoundary";
 
     public static readonly Selector Label = "label";
+
+    public static readonly Selector MakeCommandBuffer = "commandBuffer";
+
+    public static readonly Selector MakeCommandBufferWithUnretainedReferences = "commandBufferWithUnretainedReferences";
 
     public static readonly Selector RemoveResidencySet = "removeResidencySet:";
 

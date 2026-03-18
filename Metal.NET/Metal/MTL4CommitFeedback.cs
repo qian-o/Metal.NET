@@ -16,14 +16,14 @@ public class MTL4CommitFeedback(nint nativePtr, NativeObjectOwnership ownership)
         get => GetProperty(ref field, MTL4CommitFeedbackBindings.Error);
     }
 
-    public double GPUStartTime
+    public double GpuStartTime
     {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GPUStartTime);
+        get => ObjectiveC.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GpuStartTime);
     }
 
-    public double GPUEndTime
+    public double GpuEndTime
     {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GPUEndTime);
+        get => ObjectiveC.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GpuEndTime);
     }
 }
 
@@ -31,7 +31,7 @@ file static class MTL4CommitFeedbackBindings
 {
     public static readonly Selector Error = "error";
 
-    public static readonly Selector GPUEndTime = "GPUEndTime";
+    public static readonly Selector GpuEndTime = "gpuEndTime";
 
-    public static readonly Selector GPUStartTime = "GPUStartTime";
+    public static readonly Selector GpuStartTime = "gpuStartTime";
 }

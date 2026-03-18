@@ -57,9 +57,9 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetSamplerState, sampler.NativePtr, index);
     }
 
-    public nint ConstantDataAtIndex(nuint index)
+    public nint ConstantData(nuint index)
     {
-        return ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.ConstantDataAtIndex, index);
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.ConstantData, index);
     }
 
     public void SetRenderPipelineState(MTLRenderPipelineState pipeline, nuint index)
@@ -82,9 +82,9 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
         ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetAccelerationStructure, accelerationStructure.NativePtr, index);
     }
 
-    public MTLArgumentEncoder NewArgumentEncoderForBufferAtIndex(nuint index)
+    public MTLArgumentEncoder MakeArgumentEncoderForBuffer(nuint index)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoderForBufferAtIndex, index);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.MakeArgumentEncoderForBuffer, index);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -109,7 +109,7 @@ file static class MTLArgumentEncoderBindings
 {
     public static readonly Selector Alignment = "alignment";
 
-    public static readonly Selector ConstantDataAtIndex = "constantDataAtIndex:";
+    public static readonly Selector ConstantData = "constantDataAtIndex:";
 
     public static readonly Selector Device = "device";
 
@@ -117,7 +117,7 @@ file static class MTLArgumentEncoderBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector NewArgumentEncoderForBufferAtIndex = "newArgumentEncoderForBufferAtIndex:";
+    public static readonly Selector MakeArgumentEncoderForBuffer = "newArgumentEncoderForBufferAtIndex:";
 
     public static readonly Selector SetAccelerationStructure = "setAccelerationStructure:atIndex:";
 

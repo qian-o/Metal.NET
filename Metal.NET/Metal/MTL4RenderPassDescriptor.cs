@@ -104,14 +104,20 @@ public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership owne
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
-    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
+    public unsafe void SetSamplePositions(MTLSamplePosition[] positions)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSamplePositions, positions, count);
+        fixed (MTLSamplePosition* pPositions = positions)
+        {
+            ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSamplePositions, (nint)pPositions, (nuint)positions.Length);
+        }
     }
 
-    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
+    public unsafe nuint GetSamplePositions(MTLSamplePosition[] positions)
     {
-        return ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.GetSamplePositions, positions, count);
+        fixed (MTLSamplePosition* pPositions = positions)
+        {
+            return ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.GetSamplePositions, (nint)pPositions, (nuint)positions.Length);
+        }
     }
 }
 

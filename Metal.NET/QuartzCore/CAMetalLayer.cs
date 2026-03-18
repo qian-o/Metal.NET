@@ -91,9 +91,11 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
         get => GetProperty(ref field, CAMetalLayerBindings.ResidencySet);
     }
 
-    public CAMetalDrawable NextDrawable
+    public CAMetalDrawable NextDrawable()
     {
-        get => GetProperty(ref field, CAMetalLayerBindings.NextDrawable);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.NextDrawable);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

@@ -32,26 +32,26 @@ public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : 
         get => GetProperty(ref field, MTLCaptureScopeBindings.Mtl4CommandQueue);
     }
 
-    public void BeginScope()
+    public void Begin()
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.BeginScope);
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.Begin);
     }
 
-    public void EndScope()
+    public void End()
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.EndScope);
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.End);
     }
 }
 
 file static class MTLCaptureScopeBindings
 {
-    public static readonly Selector BeginScope = "beginScope";
+    public static readonly Selector Begin = "beginScope";
 
     public static readonly Selector CommandQueue = "commandQueue";
 
     public static readonly Selector Device = "device";
 
-    public static readonly Selector EndScope = "endScope";
+    public static readonly Selector End = "endScope";
 
     public static readonly Selector Label = "label";
 

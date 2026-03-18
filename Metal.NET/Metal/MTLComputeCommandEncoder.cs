@@ -96,7 +96,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetStageInRegion, region);
     }
 
-    public void SetStageInRegion(MTLBuffer indirectBuffer, nuint indirectBufferOffset)
+    public void SetStageInRegionWithIndirectBuffer(MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetStageInRegionWithIndirectBuffer, indirectBuffer.NativePtr, indirectBufferOffset);
     }
@@ -108,7 +108,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void DispatchThreadgroups(MTLBuffer indirectBuffer, nuint indirectBufferOffset, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreadgroupsWithIndirectBuffer, indirectBuffer.NativePtr, indirectBufferOffset, threadsPerThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreadgroupsWithIndirectBufferIndirectBufferOffsetThreadsPerThreadgroup, indirectBuffer.NativePtr, indirectBufferOffset, threadsPerThreadgroup);
     }
 
     public void DispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
@@ -170,10 +170,10 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void MemoryBarrier(MTLBarrierScope scope)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrierWithScope, (nuint)scope);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrier, (nuint)scope);
     }
 
-    public unsafe void MemoryBarrier(MTLResource[] resources)
+    public unsafe void MemoryBarrierWithResources(MTLResource[] resources)
     {
         nint* pResources = stackalloc nint[resources.Length];
         for (int i = 0; i < resources.Length; i++)
@@ -184,9 +184,9 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrierWithResources, (nint)pResources, (nuint)resources.Length);
     }
 
-    public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
+    public void SampleCounters(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, barrier);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SampleCounters, sampleBuffer.NativePtr, sampleIndex, barrier);
     }
 }
 
@@ -194,7 +194,7 @@ file static class MTLComputeCommandEncoderBindings
 {
     public static readonly Selector DispatchThreadgroups = "dispatchThreadgroups:threadsPerThreadgroup:";
 
-    public static readonly Selector DispatchThreadgroupsWithIndirectBuffer = "dispatchThreadgroupsWithIndirectBuffer:indirectBufferOffset:threadsPerThreadgroup:";
+    public static readonly Selector DispatchThreadgroupsWithIndirectBufferIndirectBufferOffsetThreadsPerThreadgroup = "dispatchThreadgroupsWithIndirectBuffer:indirectBufferOffset:threadsPerThreadgroup:";
 
     public static readonly Selector DispatchThreads = "dispatchThreads:threadsPerThreadgroup:";
 
@@ -204,11 +204,11 @@ file static class MTLComputeCommandEncoderBindings
 
     public static readonly Selector ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset = "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:";
 
+    public static readonly Selector MemoryBarrier = "memoryBarrierWithScope:";
+
     public static readonly Selector MemoryBarrierWithResources = "memoryBarrierWithResources:count:";
 
-    public static readonly Selector MemoryBarrierWithScope = "memoryBarrierWithScope:";
-
-    public static readonly Selector SampleCountersInBuffer = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
+    public static readonly Selector SampleCounters = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
     public static readonly Selector SetAccelerationStructure = "setAccelerationStructure:atBufferIndex:";
 

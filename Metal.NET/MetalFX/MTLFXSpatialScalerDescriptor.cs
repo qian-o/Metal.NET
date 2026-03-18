@@ -57,14 +57,14 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOwnership 
         set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorProcessingMode, (nint)value);
     }
 
-    public MTLFXSpatialScaler NewSpatialScaler(MTLDevice device)
+    public MTLFXSpatialScaler MakeSpatialScaler(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevice, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.MakeSpatialScaler, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4FXSpatialScaler NewSpatialScaler(MTLDevice device, MTL4Compiler compiler)
+    public MTL4FXSpatialScaler MakeSpatialScaler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
 
@@ -94,7 +94,7 @@ file static class MTLFXSpatialScalerDescriptorBindings
 
     public static readonly Selector InputWidth = "inputWidth";
 
-    public static readonly Selector NewSpatialScalerWithDevice = "newSpatialScalerWithDevice:";
+    public static readonly Selector MakeSpatialScaler = "newSpatialScalerWithDevice:";
 
     public static readonly Selector NewSpatialScalerWithDeviceCompiler = "newSpatialScalerWithDevice:compiler:";
 

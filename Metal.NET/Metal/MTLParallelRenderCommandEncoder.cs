@@ -11,9 +11,11 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
     }
     #endregion
 
-    public MTLRenderCommandEncoder RenderCommandEncoder
+    public MTLRenderCommandEncoder MakeRenderCommandEncoder()
     {
-        get => GetProperty(ref field, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLParallelRenderCommandEncoderBindings.MakeRenderCommandEncoder);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
@@ -49,7 +51,7 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
 
 file static class MTLParallelRenderCommandEncoderBindings
 {
-    public static readonly Selector RenderCommandEncoder = "renderCommandEncoder";
+    public static readonly Selector MakeRenderCommandEncoder = "renderCommandEncoder";
 
     public static readonly Selector SetColorStoreAction = "setColorStoreAction:atIndex:";
 

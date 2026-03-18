@@ -44,6 +44,11 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
         get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.Label);
         set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetLabel, value);
     }
+
+    public void SetDepthWriteEnabled(bool depthWriteEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthWriteEnabled, depthWriteEnabled);
+    }
 }
 
 file static class MTLDepthStencilDescriptorBindings
@@ -64,9 +69,11 @@ file static class MTLDepthStencilDescriptorBindings
 
     public static readonly Selector SetDepthCompareFunction = "setDepthCompareFunction:";
 
+    public static readonly Selector SetDepthWriteEnabled = "setDepthWriteEnabled:";
+
     public static readonly Selector SetFrontFaceStencil = "setFrontFaceStencil:";
 
-    public static readonly Selector SetIsDepthWriteEnabled = "setDepthWriteEnabled:";
+    public static readonly Selector SetIsDepthWriteEnabled = "setIsDepthWriteEnabled:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

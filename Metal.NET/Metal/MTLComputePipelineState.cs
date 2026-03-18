@@ -63,7 +63,7 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithName, name.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, name.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -75,9 +75,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public nuint ImageblockMemoryLengthForDimensions(MTLSize imageblockDimensions)
+    public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
-        return ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.ImageblockMemoryLengthForDimensions, imageblockDimensions);
+        return ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.ImageblockMemoryLength, imageblockDimensions);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
@@ -87,16 +87,16 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
+    public MTLVisibleFunctionTable MakeVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.MakeVisibleFunctionTable, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
+    public MTLIntersectionFunctionTable MakeIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTableWithDescriptor, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.MakeIntersectionFunctionTable, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -106,23 +106,23 @@ file static class MTLComputePipelineStateBindings
 {
     public static readonly Selector Device = "device";
 
+    public static readonly Selector FunctionHandle = "functionHandleWithName:";
+
     public static readonly Selector FunctionHandleWithBinaryFunction = "functionHandleWithBinaryFunction:";
 
     public static readonly Selector FunctionHandleWithFunction = "functionHandleWithFunction:";
 
-    public static readonly Selector FunctionHandleWithName = "functionHandleWithName:";
-
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector ImageblockMemoryLengthForDimensions = "imageblockMemoryLengthForDimensions:";
+    public static readonly Selector ImageblockMemoryLength = "imageblockMemoryLengthForDimensions:";
 
     public static readonly Selector Label = "label";
 
+    public static readonly Selector MakeIntersectionFunctionTable = "newIntersectionFunctionTableWithDescriptor:";
+
+    public static readonly Selector MakeVisibleFunctionTable = "newVisibleFunctionTableWithDescriptor:";
+
     public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
-
-    public static readonly Selector NewIntersectionFunctionTableWithDescriptor = "newIntersectionFunctionTableWithDescriptor:";
-
-    public static readonly Selector NewVisibleFunctionTableWithDescriptor = "newVisibleFunctionTableWithDescriptor:";
 
     public static readonly Selector Reflection = "reflection";
 

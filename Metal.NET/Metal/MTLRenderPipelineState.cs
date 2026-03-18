@@ -98,63 +98,63 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
 
     public MTLFunctionHandle FunctionHandle(NSString name, MTLRenderStages stage)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithName, name.NativePtr, (nuint)stage);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, name.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr, (nuint)stage);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunctionStage, function.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError error)
+    public MTLRenderPipelineState MakeRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithBinaryFunctions, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.MakeRenderPipelineState, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4PipelineDescriptor NewRenderPipelineDescriptorForSpecialization()
+    public MTL4PipelineDescriptor MakeRenderPipelineDescriptorForSpecialization()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptorForSpecialization);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.MakeRenderPipelineDescriptorForSpecialization);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public nuint ImageblockMemoryLengthForDimensions(MTLSize imageblockDimensions)
+    public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
-        return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.ImageblockMemoryLengthForDimensions, imageblockDimensions);
+        return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.ImageblockMemoryLength, imageblockDimensions);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithFunction, function.NativePtr, (nuint)stage);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithFunctionStage, function.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
+    public MTLVisibleFunctionTable MakeVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr, (nuint)stage);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.MakeVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
+    public MTLIntersectionFunctionTable MakeIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewIntersectionFunctionTableWithDescriptor, descriptor.NativePtr, (nuint)stage);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.MakeIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError error)
+    public MTLRenderPipelineState MakeRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithAdditionalBinaryFunctions, additionalBinaryFunctions.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithAdditionalBinaryFunctionsError, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -166,19 +166,27 @@ file static class MTLRenderPipelineStateBindings
 {
     public static readonly Selector Device = "device";
 
-    public static readonly Selector FunctionHandleWithBinaryFunction = "functionHandleWithBinaryFunction:stage:";
+    public static readonly Selector FunctionHandle = "functionHandleWithName:stage:";
 
-    public static readonly Selector FunctionHandleWithFunction = "functionHandleWithFunction:stage:";
+    public static readonly Selector FunctionHandleWithBinaryFunctionStage = "functionHandleWithBinaryFunction:stage:";
 
-    public static readonly Selector FunctionHandleWithName = "functionHandleWithName:stage:";
+    public static readonly Selector FunctionHandleWithFunctionStage = "functionHandleWithFunction:stage:";
 
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector ImageblockMemoryLengthForDimensions = "imageblockMemoryLengthForDimensions:";
+    public static readonly Selector ImageblockMemoryLength = "imageblockMemoryLengthForDimensions:";
 
     public static readonly Selector ImageblockSampleLength = "imageblockSampleLength";
 
     public static readonly Selector Label = "label";
+
+    public static readonly Selector MakeIntersectionFunctionTable = "newIntersectionFunctionTableWithDescriptor:stage:";
+
+    public static readonly Selector MakeRenderPipelineDescriptorForSpecialization = "newRenderPipelineDescriptorForSpecialization";
+
+    public static readonly Selector MakeRenderPipelineState = "newRenderPipelineStateWithBinaryFunctions:error:";
+
+    public static readonly Selector MakeVisibleFunctionTable = "newVisibleFunctionTableWithDescriptor:stage:";
 
     public static readonly Selector MaxTotalThreadgroupsPerMeshGrid = "maxTotalThreadgroupsPerMeshGrid";
 
@@ -190,15 +198,7 @@ file static class MTLRenderPipelineStateBindings
 
     public static readonly Selector MeshThreadExecutionWidth = "meshThreadExecutionWidth";
 
-    public static readonly Selector NewIntersectionFunctionTableWithDescriptor = "newIntersectionFunctionTableWithDescriptor:stage:";
-
-    public static readonly Selector NewRenderPipelineDescriptorForSpecialization = "newRenderPipelineDescriptorForSpecialization";
-
-    public static readonly Selector NewRenderPipelineStateWithAdditionalBinaryFunctions = "newRenderPipelineStateWithAdditionalBinaryFunctions:error:";
-
-    public static readonly Selector NewRenderPipelineStateWithBinaryFunctions = "newRenderPipelineStateWithBinaryFunctions:error:";
-
-    public static readonly Selector NewVisibleFunctionTableWithDescriptor = "newVisibleFunctionTableWithDescriptor:stage:";
+    public static readonly Selector NewRenderPipelineStateWithAdditionalBinaryFunctionsError = "newRenderPipelineStateWithAdditionalBinaryFunctions:error:";
 
     public static readonly Selector ObjectThreadExecutionWidth = "objectThreadExecutionWidth";
 

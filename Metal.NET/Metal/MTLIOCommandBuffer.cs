@@ -37,19 +37,19 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadBytes, pointer, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
-    public void LoadBuffer(MTLBuffer buffer, nuint offset, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
+    public void Load(MTLBuffer buffer, nuint offset, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadBuffer, buffer.NativePtr, offset, size, sourceHandle.NativePtr, sourceHandleOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.Load, buffer.NativePtr, offset, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
-    public void LoadTexture(MTLTexture texture, nuint slice, nuint level, MTLSize size, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLOrigin destinationOrigin, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
+    public void Load(MTLTexture texture, nuint slice, nuint level, MTLSize size, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLOrigin destinationOrigin, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadTexture, texture.NativePtr, slice, level, size, sourceBytesPerRow, sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, sourceHandleOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadTextureSliceLevelSizeSourceBytesPerRowSourceBytesPerImageDestinationOriginSourceHandleSourceHandleOffset, texture.NativePtr, slice, level, size, sourceBytesPerRow, sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
-    public void CopyStatusToBuffer(MTLBuffer buffer, nuint offset)
+    public void CopyStatus(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.CopyStatusToBuffer, buffer.NativePtr, offset);
+        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.CopyStatus, buffer.NativePtr, offset);
     }
 
     public void Commit()
@@ -106,7 +106,7 @@ file static class MTLIOCommandBufferBindings
 
     public static readonly Selector Commit = "commit";
 
-    public static readonly Selector CopyStatusToBuffer = "copyStatusToBuffer:offset:";
+    public static readonly Selector CopyStatus = "copyStatusToBuffer:offset:";
 
     public static readonly Selector Enqueue = "enqueue";
 
@@ -114,11 +114,11 @@ file static class MTLIOCommandBufferBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector LoadBuffer = "loadBuffer:offset:size:sourceHandle:sourceHandleOffset:";
+    public static readonly Selector Load = "loadBuffer:offset:size:sourceHandle:sourceHandleOffset:";
 
     public static readonly Selector LoadBytes = "loadBytes:size:sourceHandle:sourceHandleOffset:";
 
-    public static readonly Selector LoadTexture = "loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:";
+    public static readonly Selector LoadTextureSliceLevelSizeSourceBytesPerRowSourceBytesPerImageDestinationOriginSourceHandleSourceHandleOffset = "loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:";
 
     public static readonly Selector PopDebugGroup = "popDebugGroup";
 

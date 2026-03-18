@@ -189,6 +189,21 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
     {
         ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.Reset);
     }
+
+    public void SetAlphaToCoverageEnabled(bool alphaToCoverageEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, alphaToCoverageEnabled);
+    }
+
+    public void SetAlphaToOneEnabled(bool alphaToOneEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, alphaToOneEnabled);
+    }
+
+    public void SetRasterizationEnabled(bool rasterizationEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, rasterizationEnabled);
+    }
 }
 
 file static class MTLMeshRenderPipelineDescriptorBindings
@@ -249,6 +264,10 @@ file static class MTLMeshRenderPipelineDescriptorBindings
 
     public static readonly Selector Reset = "reset";
 
+    public static readonly Selector SetAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
+
+    public static readonly Selector SetAlphaToOneEnabled = "setAlphaToOneEnabled:";
+
     public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
     public static readonly Selector SetDepthAttachmentPixelFormat = "setDepthAttachmentPixelFormat:";
@@ -257,11 +276,11 @@ file static class MTLMeshRenderPipelineDescriptorBindings
 
     public static readonly Selector SetFragmentLinkedFunctions = "setFragmentLinkedFunctions:";
 
-    public static readonly Selector SetIsAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
+    public static readonly Selector SetIsAlphaToCoverageEnabled = "setIsAlphaToCoverageEnabled:";
 
-    public static readonly Selector SetIsAlphaToOneEnabled = "setAlphaToOneEnabled:";
+    public static readonly Selector SetIsAlphaToOneEnabled = "setIsAlphaToOneEnabled:";
 
-    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
+    public static readonly Selector SetIsRasterizationEnabled = "setIsRasterizationEnabled:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
@@ -286,6 +305,8 @@ file static class MTLMeshRenderPipelineDescriptorBindings
     public static readonly Selector SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:";
 
     public static readonly Selector SetPayloadMemoryLength = "setPayloadMemoryLength:";
+
+    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 

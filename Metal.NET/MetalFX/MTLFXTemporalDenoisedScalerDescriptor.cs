@@ -147,28 +147,28 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
         set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetIsTransparencyOverlayTextureEnabled, value);
     }
 
-    public MTLFXTemporalDenoisedScaler NewTemporalDenoisedScaler(MTLDevice device)
+    public MTLFXTemporalDenoisedScaler MakeTemporalDenoisedScaler(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.NewTemporalDenoisedScalerWithDevice, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.MakeTemporalDenoisedScaler, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTL4FXTemporalDenoisedScaler NewTemporalDenoisedScaler(MTLDevice device, MTL4Compiler compiler)
+    public MTL4FXTemporalDenoisedScaler MakeTemporalDenoisedScaler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.NewTemporalDenoisedScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static float SupportedInputContentMinScaleForDevice(MTLDevice device)
+    public static float SupportedInputContentMinScale(MTLDevice device)
     {
-        return ObjectiveC.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportedInputContentMinScaleForDevice, device.NativePtr);
+        return ObjectiveC.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportedInputContentMinScale, device.NativePtr);
     }
 
-    public static float SupportedInputContentMaxScaleForDevice(MTLDevice device)
+    public static float SupportedInputContentMaxScale(MTLDevice device)
     {
-        return ObjectiveC.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportedInputContentMaxScaleForDevice, device.NativePtr);
+        return ObjectiveC.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportedInputContentMaxScale, device.NativePtr);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)
@@ -179,6 +179,31 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
     public static bool SupportsDevice(MTLDevice device)
     {
         return ObjectiveC.MsgSendBool(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportsDevice, device.NativePtr);
+    }
+
+    public void SetAutoExposureEnabled(bool autoExposureEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetAutoExposureEnabled, autoExposureEnabled);
+    }
+
+    public void SetReactiveMaskTextureEnabled(bool reactiveMaskTextureEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetReactiveMaskTextureEnabled, reactiveMaskTextureEnabled);
+    }
+
+    public void SetSpecularHitDistanceTextureEnabled(bool specularHitDistanceTextureEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularHitDistanceTextureEnabled, specularHitDistanceTextureEnabled);
+    }
+
+    public void SetDenoiseStrengthMaskTextureEnabled(bool denoiseStrengthMaskTextureEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDenoiseStrengthMaskTextureEnabled, denoiseStrengthMaskTextureEnabled);
+    }
+
+    public void SetTransparencyOverlayTextureEnabled(bool transparencyOverlayTextureEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetTransparencyOverlayTextureEnabled, transparencyOverlayTextureEnabled);
     }
 }
 
@@ -208,9 +233,9 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector IsTransparencyOverlayTextureEnabled = "isTransparencyOverlayTextureEnabled";
 
-    public static readonly Selector MotionTextureFormat = "motionTextureFormat";
+    public static readonly Selector MakeTemporalDenoisedScaler = "newTemporalDenoisedScalerWithDevice:";
 
-    public static readonly Selector NewTemporalDenoisedScalerWithDevice = "newTemporalDenoisedScalerWithDevice:";
+    public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
     public static readonly Selector NewTemporalDenoisedScalerWithDeviceCompiler = "newTemporalDenoisedScalerWithDevice:compiler:";
 
@@ -228,7 +253,11 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector RoughnessTextureFormat = "roughnessTextureFormat";
 
+    public static readonly Selector SetAutoExposureEnabled = "setAutoExposureEnabled:";
+
     public static readonly Selector SetColorTextureFormat = "setColorTextureFormat:";
+
+    public static readonly Selector SetDenoiseStrengthMaskTextureEnabled = "setDenoiseStrengthMaskTextureEnabled:";
 
     public static readonly Selector SetDenoiseStrengthMaskTextureFormat = "setDenoiseStrengthMaskTextureFormat:";
 
@@ -240,15 +269,15 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector SetInputWidth = "setInputWidth:";
 
-    public static readonly Selector SetIsAutoExposureEnabled = "setAutoExposureEnabled:";
+    public static readonly Selector SetIsAutoExposureEnabled = "setIsAutoExposureEnabled:";
 
-    public static readonly Selector SetIsDenoiseStrengthMaskTextureEnabled = "setDenoiseStrengthMaskTextureEnabled:";
+    public static readonly Selector SetIsDenoiseStrengthMaskTextureEnabled = "setIsDenoiseStrengthMaskTextureEnabled:";
 
-    public static readonly Selector SetIsReactiveMaskTextureEnabled = "setReactiveMaskTextureEnabled:";
+    public static readonly Selector SetIsReactiveMaskTextureEnabled = "setIsReactiveMaskTextureEnabled:";
 
-    public static readonly Selector SetIsSpecularHitDistanceTextureEnabled = "setSpecularHitDistanceTextureEnabled:";
+    public static readonly Selector SetIsSpecularHitDistanceTextureEnabled = "setIsSpecularHitDistanceTextureEnabled:";
 
-    public static readonly Selector SetIsTransparencyOverlayTextureEnabled = "setTransparencyOverlayTextureEnabled:";
+    public static readonly Selector SetIsTransparencyOverlayTextureEnabled = "setIsTransparencyOverlayTextureEnabled:";
 
     public static readonly Selector SetMotionTextureFormat = "setMotionTextureFormat:";
 
@@ -260,6 +289,8 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector SetOutputWidth = "setOutputWidth:";
 
+    public static readonly Selector SetReactiveMaskTextureEnabled = "setReactiveMaskTextureEnabled:";
+
     public static readonly Selector SetReactiveMaskTextureFormat = "setReactiveMaskTextureFormat:";
 
     public static readonly Selector SetRequiresSynchronousInitialization = "setRequiresSynchronousInitialization:";
@@ -268,7 +299,11 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector SetSpecularAlbedoTextureFormat = "setSpecularAlbedoTextureFormat:";
 
+    public static readonly Selector SetSpecularHitDistanceTextureEnabled = "setSpecularHitDistanceTextureEnabled:";
+
     public static readonly Selector SetSpecularHitDistanceTextureFormat = "setSpecularHitDistanceTextureFormat:";
+
+    public static readonly Selector SetTransparencyOverlayTextureEnabled = "setTransparencyOverlayTextureEnabled:";
 
     public static readonly Selector SetTransparencyOverlayTextureFormat = "setTransparencyOverlayTextureFormat:";
 
@@ -276,9 +311,9 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector SpecularHitDistanceTextureFormat = "specularHitDistanceTextureFormat";
 
-    public static readonly Selector SupportedInputContentMaxScaleForDevice = "supportedInputContentMaxScaleForDevice:";
+    public static readonly Selector SupportedInputContentMaxScale = "supportedInputContentMaxScaleForDevice:";
 
-    public static readonly Selector SupportedInputContentMinScaleForDevice = "supportedInputContentMinScaleForDevice:";
+    public static readonly Selector SupportedInputContentMinScale = "supportedInputContentMinScaleForDevice:";
 
     public static readonly Selector SupportsDevice = "supportsDevice:";
 

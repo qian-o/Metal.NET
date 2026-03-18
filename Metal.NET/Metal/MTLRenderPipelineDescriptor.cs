@@ -224,6 +224,26 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.Reset);
     }
+
+    public void SetAlphaToCoverageEnabled(bool alphaToCoverageEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, alphaToCoverageEnabled);
+    }
+
+    public void SetAlphaToOneEnabled(bool alphaToOneEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, alphaToOneEnabled);
+    }
+
+    public void SetRasterizationEnabled(bool rasterizationEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterizationEnabled, rasterizationEnabled);
+    }
+
+    public void SetTessellationFactorScaleEnabled(bool tessellationFactorScaleEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorScaleEnabled, tessellationFactorScaleEnabled);
+    }
 }
 
 file static class MTLRenderPipelineDescriptorBindings
@@ -270,6 +290,10 @@ file static class MTLRenderPipelineDescriptorBindings
 
     public static readonly Selector SampleCount = "sampleCount";
 
+    public static readonly Selector SetAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
+
+    public static readonly Selector SetAlphaToOneEnabled = "setAlphaToOneEnabled:";
+
     public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
     public static readonly Selector SetDepthAttachmentPixelFormat = "setDepthAttachmentPixelFormat:";
@@ -282,13 +306,13 @@ file static class MTLRenderPipelineDescriptorBindings
 
     public static readonly Selector SetInputPrimitiveTopology = "setInputPrimitiveTopology:";
 
-    public static readonly Selector SetIsAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
+    public static readonly Selector SetIsAlphaToCoverageEnabled = "setIsAlphaToCoverageEnabled:";
 
-    public static readonly Selector SetIsAlphaToOneEnabled = "setAlphaToOneEnabled:";
+    public static readonly Selector SetIsAlphaToOneEnabled = "setIsAlphaToOneEnabled:";
 
-    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
+    public static readonly Selector SetIsRasterizationEnabled = "setIsRasterizationEnabled:";
 
-    public static readonly Selector SetIsTessellationFactorScaleEnabled = "setTessellationFactorScaleEnabled:";
+    public static readonly Selector SetIsTessellationFactorScaleEnabled = "setIsTessellationFactorScaleEnabled:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
@@ -299,6 +323,8 @@ file static class MTLRenderPipelineDescriptorBindings
     public static readonly Selector SetMaxVertexAmplificationCount = "setMaxVertexAmplificationCount:";
 
     public static readonly Selector SetMaxVertexCallStackDepth = "setMaxVertexCallStackDepth:";
+
+    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 
@@ -317,6 +343,8 @@ file static class MTLRenderPipelineDescriptorBindings
     public static readonly Selector SetTessellationControlPointIndexType = "setTessellationControlPointIndexType:";
 
     public static readonly Selector SetTessellationFactorFormat = "setTessellationFactorFormat:";
+
+    public static readonly Selector SetTessellationFactorScaleEnabled = "setTessellationFactorScaleEnabled:";
 
     public static readonly Selector SetTessellationFactorStepFunction = "setTessellationFactorStepFunction:";
 

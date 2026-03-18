@@ -71,6 +71,9 @@ class MethodInfo
     /// <summary>The ObjC selector string, provided directly from <c>metal-ast.json</c>.</summary>
     public string? Selector { get; set; }
 
+    /// <summary>Whether this method was parsed from the JSON <c>properties</c> array (as a getter or setter).</summary>
+    public bool IsPropertyAccessor { get; set; }
+
     /// <summary>Deprecation message if the method is deprecated, otherwise <c>null</c>.</summary>
     public string? DeprecationMessage { get; set; }
 }

@@ -68,6 +68,11 @@ public class MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr, NativeOb
         get => (MTLColorWriteMask)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.WriteMask);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetWriteMask, (nuint)value);
     }
+
+    public void SetBlendingEnabled(bool blendingEnabled)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetBlendingEnabled, blendingEnabled);
+    }
 }
 
 file static class MTLRenderPipelineColorAttachmentDescriptorBindings
@@ -88,11 +93,13 @@ file static class MTLRenderPipelineColorAttachmentDescriptorBindings
 
     public static readonly Selector SetAlphaBlendOperation = "setAlphaBlendOperation:";
 
+    public static readonly Selector SetBlendingEnabled = "setBlendingEnabled:";
+
     public static readonly Selector SetDestinationAlphaBlendFactor = "setDestinationAlphaBlendFactor:";
 
     public static readonly Selector SetDestinationRGBBlendFactor = "setDestinationRGBBlendFactor:";
 
-    public static readonly Selector SetIsBlendingEnabled = "setBlendingEnabled:";
+    public static readonly Selector SetIsBlendingEnabled = "setIsBlendingEnabled:";
 
     public static readonly Selector SetPixelFormat = "setPixelFormat:";
 

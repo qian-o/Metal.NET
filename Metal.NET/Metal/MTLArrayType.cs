@@ -31,29 +31,39 @@ public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTL
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArgumentIndexStride);
     }
 
-    public MTLStructType ElementStructType
+    public MTLStructType ElementStructType()
     {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementStructType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementStructType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLArrayType ElementArrayType
+    public MTLArrayType Element()
     {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementArrayType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.Element);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTextureReferenceType ElementTextureReferenceType
+    public MTLTextureReferenceType ElementTextureReferenceType()
     {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementTextureReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLPointerType ElementPointerType
+    public MTLPointerType ElementPointerType()
     {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementPointerType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementPointerType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTensorReferenceType ElementTensorReferenceType
+    public MTLTensorReferenceType ElementTensorReferenceType()
     {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementTensorReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 
@@ -63,7 +73,7 @@ file static class MTLArrayTypeBindings
 
     public static readonly Selector ArrayLength = "arrayLength";
 
-    public static readonly Selector ElementArrayType = "elementArrayType";
+    public static readonly Selector Element = "elementArrayType";
 
     public static readonly Selector ElementPointerType = "elementPointerType";
 

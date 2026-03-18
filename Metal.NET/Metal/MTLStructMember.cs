@@ -31,29 +31,39 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStructMemberBindings.ArgumentIndex);
     }
 
-    public MTLStructType StructType
+    public MTLStructType StructType()
     {
-        get => GetProperty(ref field, MTLStructMemberBindings.StructType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.StructType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLArrayType ArrayType
+    public MTLArrayType ArrayType()
     {
-        get => GetProperty(ref field, MTLStructMemberBindings.ArrayType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.ArrayType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTextureReferenceType TextureReferenceType
+    public MTLTextureReferenceType TextureReferenceType()
     {
-        get => GetProperty(ref field, MTLStructMemberBindings.TextureReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.TextureReferenceType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLPointerType PointerType
+    public MTLPointerType PointerType()
     {
-        get => GetProperty(ref field, MTLStructMemberBindings.PointerType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.PointerType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTensorReferenceType TensorReferenceType
+    public MTLTensorReferenceType TensorReferenceType()
     {
-        get => GetProperty(ref field, MTLStructMemberBindings.TensorReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.TensorReferenceType);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

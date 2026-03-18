@@ -32,17 +32,9 @@ partial class CSharpEmitter
 
         List<MethodInfo> validMethods =
         [
-            .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.Type == "ARRAY_PARAM")
-                                            && !HasUnmergableArrayParam(m)
+            .. classDef.Methods.Where(m => !HasUnmergableArrayParam(m)
                                             && !HasFunctionPointerParam(m)
                                             && !HasUnmappableParam(m))
-        ];
-
-        HashSet<string> hasZeroParamVersion =
-        [
-            .. validMethods
-                .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
-                .Select(m => m.Name)
         ];
 
         (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
@@ -57,8 +49,6 @@ partial class CSharpEmitter
 
         List<MethodInfo> nonIndexerMethods = [.. methods
             .Where(m => m != indexerGetter && m != indexerSetter)];
-
-        Dictionary<MethodInfo, string> simplifiedNames = ComputeSimplifiedMethodNames(nonIndexerMethods, properties);
 
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
@@ -173,7 +163,7 @@ partial class CSharpEmitter
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, selectors, hasZeroParamVersion, simplifiedNames);
+            EmitMethod(sb, method, csClassName, selectors);
             hasPrecedingMember = true;
         }
 
@@ -259,8 +249,8 @@ partial class CSharpEmitter
 
     /// <summary>
     /// Separates methods into properties (getter/setter pairs) and remaining methods.
-    /// A method is treated as a property getter if it has no parameters, returns non-void,
-    /// is const, is not static, and is not an ownership-transfer method (new/alloc/copy/init).
+    /// Only methods flagged as <see cref="MethodInfo.IsPropertyAccessor"/> (parsed from the
+    /// JSON <c>properties</c> array) are promoted to C# properties.
     /// Getter-setter pairing uses <see cref="GetPropertyName"/> to derive the ObjC property
     /// name from each method's name, so all naming conventions (including
     /// boolean <c>isXxx</c> getters paired with <c>setXxx:</c> setters) are handled uniformly.
@@ -276,7 +266,8 @@ partial class CSharpEmitter
 #pragma warning restore IDE0028
         foreach (MethodInfo m in allMethods)
         {
-            if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]) &&
+            if (m.IsPropertyAccessor &&
+                m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]) &&
                 m.ReturnType == "void" && m.Parameters.Count == 1)
             {
                 setterMap[GetPropertyName(m)] = m;
@@ -285,6 +276,11 @@ partial class CSharpEmitter
 
         foreach (MethodInfo m in allMethods)
         {
+            if (!m.IsPropertyAccessor)
+            {
+                continue;
+            }
+
             if (m.ReturnType == "void")
             {
                 continue;
@@ -295,27 +291,12 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (m.UsesClassTarget)
-            {
-                continue;
-            }
-
             if (used.Contains(m))
             {
                 continue;
             }
 
             if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]))
-            {
-                continue;
-            }
-
-            if (TypeMapper.IsOwnershipTransferMethod(m.Name))
-            {
-                continue;
-            }
-
-            if (!m.IsConst)
             {
                 continue;
             }
@@ -437,8 +418,7 @@ partial class CSharpEmitter
                 p[i].Type.StartsWith("STRUCT_ARRAY:"))
             {
                 bool nextIsCount = i + 1 < p.Count &&
-                    p[i + 1].Type is "NS::UInteger" &&
-                    p[i + 1].Name is "count";
+                    p[i + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
                 if (!nextIsCount)
                 {
                     return true;
