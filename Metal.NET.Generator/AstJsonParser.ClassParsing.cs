@@ -1,9 +1,5 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>
-/// Deserializes metal-ast.json and populates a <see cref="GeneratorContext"/>
-/// with enum, class, struct, free function, and block type alias definitions.
-/// </summary>
 partial class AstJsonParser
 {
     #region Protocol & Class Parsing

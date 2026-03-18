@@ -106,6 +106,17 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
     }
 
     /// <summary>
+    /// Emits <c>[Obsolete]</c> attribute and deprecation XML doc comment into <paramref name="sb"/>.
+    /// </summary>
+    static void EmitDeprecation(StringBuilder sb, string message)
+    {
+        sb.AppendLine("    /// <summary>");
+        sb.AppendLine($"    /// Deprecated: {message}");
+        sb.AppendLine("    /// </summary>");
+        sb.AppendLine($"    [Obsolete(\"{message}\")]");
+    }
+
+    /// <summary>
     /// Records a MsgSend overload signature for later generation of ObjectiveC.cs.
     /// </summary>
     void RecordMsgSend(string group, params string[] argTypes)

@@ -1,10 +1,5 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>
-/// Emits C# source files from parsed metal-ast.json definitions.
-/// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
-/// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
-/// </summary>
 partial class CSharpEmitter
 {
     #region Free Function Emission

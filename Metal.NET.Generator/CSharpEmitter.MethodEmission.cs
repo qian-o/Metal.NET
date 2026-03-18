@@ -1,10 +1,5 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>
-/// Emits C# source files from parsed metal-ast.json definitions.
-/// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
-/// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
-/// </summary>
 partial class CSharpEmitter
 {
     #region Method Emission
@@ -251,10 +246,7 @@ partial class CSharpEmitter
 
         if (method.DeprecationMessage != null)
         {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// Deprecated: {method.DeprecationMessage}");
-            sb.AppendLine("    /// </summary>");
-            sb.AppendLine($"    [Obsolete(\"{method.DeprecationMessage}\")]");
+            EmitDeprecation(sb, method.DeprecationMessage);
         }
 
         sb.AppendLine($"    public {staticKw}{unsafeKw}{csReturnType} {csMethodName}({paramStr})");
