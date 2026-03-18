@@ -9,7 +9,7 @@
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
         <Title>$(AssemblyName)</Title>
-        <Version>2.0.1</Version>
+        <Version>2.1.0</Version>
         <Authors>qian-o</Authors>
         <Copyright>MIT</Copyright>
         <PackageTags>metal;apple;gpu;graphics;macos</PackageTags>
