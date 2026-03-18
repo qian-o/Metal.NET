@@ -39,6 +39,12 @@ class ClassDef
 
     /// <summary>Whether this class supports <c>AllocInit</c> (has a registered ObjC class).</summary>
     public bool HasAllocInit { get; set; }
+
+    /// <summary>Whether this class/protocol is deprecated in the Apple SDK.</summary>
+    public bool Deprecated { get; set; }
+
+    /// <summary>Deprecation message if the class/protocol is deprecated, otherwise <c>null</c>.</summary>
+    public string? DeprecationMessage { get; set; }
 }
 
 /// <summary>A parsed method declaration with its return type, parameters, and ObjC metadata.</summary>

@@ -79,6 +79,14 @@ partial class CSharpEmitter
             : "NSObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
 
+        // Class-level [Obsolete] from AST
+        if (classDef.Deprecated)
+        {
+            sb.AppendLine(classDef.DeprecationMessage is { } dm
+                ? $"[Obsolete(\"{dm}\")]"
+                : "[Obsolete]");
+        }
+
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
         string newKeyword = baseClass is not "NativeObject" ? "new " : "";

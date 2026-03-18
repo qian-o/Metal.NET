@@ -221,6 +221,8 @@ partial class AstJsonParser
             BaseClassName = csBaseClassName,
             Methods = methods,
             HasAllocInit = hasAllocInit,
+            Deprecated = ast.Deprecated,
+            DeprecationMessage = ast.Deprecated ? ast.DeprecationMessage : null,
         });
     }
 

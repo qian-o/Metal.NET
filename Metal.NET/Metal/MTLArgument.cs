@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+[Obsolete("Use MTLBinding instead")]
 public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLArgument>
 {
     #region INativeObject
