@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Metal.NET.Generator;
+﻿namespace Metal.NET.Generator;
 
 /// <summary>
 /// Maps ObjC types to C# types, resolves MsgSend method variants,

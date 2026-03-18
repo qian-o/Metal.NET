@@ -1,4 +1,4 @@
-namespace Metal.NET.Generator;
+﻿namespace Metal.NET.Generator;
 
 /// <summary>
 /// Deserializes metal-ast.json and populates a <see cref="GeneratorContext"/>

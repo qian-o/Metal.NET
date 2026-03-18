@@ -1,4 +1,4 @@
-namespace Metal.NET.Generator;
+﻿namespace Metal.NET.Generator;
 
 /// <summary>
 /// Emits C# source files from parsed metal-ast.json definitions.
