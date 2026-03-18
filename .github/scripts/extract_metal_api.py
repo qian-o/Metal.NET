@@ -32,7 +32,7 @@ FRAMEWORKS = ("Metal", "MetalFX")
 
 _API_MACRO_PREFIXES = (
     "API_DEPRECATED", "API_AVAILABLE", "NS_AVAILABLE",
-    "NS_DEPRECATED", "NS_RETURNS_RETAINED",
+    "NS_DEPRECATED",
 )
 
 # ---------------------------------------------------------------------------
@@ -104,11 +104,21 @@ def _strip_api_macros(text: str) -> str:
     """Remove API_DEPRECATED / API_AVAILABLE / … macro invocations from *text*."""
     out, i = [], 0
     while i < len(text):
-        if any(text.startswith(p, i) for p in _API_MACRO_PREFIXES):
-            while i < len(text) and text[i] != '(':
-                i += 1
-            if i < len(text):
-                i = _skip_balanced_parens(text, i)
+        matched = None
+        for p in _API_MACRO_PREFIXES:
+            if text.startswith(p, i):
+                matched = p
+                break
+        if matched:
+            j = i + len(matched)
+            # Skip optional whitespace between macro name and '('
+            while j < len(text) and text[j] in ' \t':
+                j += 1
+            if j < len(text) and text[j] == '(':
+                i = _skip_balanced_parens(text, j)
+            else:
+                # No parenthesized argument list — skip just the macro name
+                i = j
         else:
             out.append(text[i])
             i += 1
