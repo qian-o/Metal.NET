@@ -1,13 +1,13 @@
 ﻿#!/usr/bin/env python3
-"""Extract Metal API definitions from a Clang AST JSON dump.
+"""Extract Metal / MetalFX API declarations from a Clang AST JSON dump.
 
 Usage:
     python extract_metal_api.py <raw_ast.json> <output.json> <sdk_version> <sdk_path>
 
-Reads a Clang -ast-dump=json file, extracts Metal/MetalFX API declarations
-(enums, protocols, classes, structs, functions, typedefs), enriches them with
-deprecation info from the SDK headers, and writes a compact JSON snapshot.
+Outputs a JSON file with the structure:
+    { "sdkVersion": "...", "enums": [...], "protocols": [...] }
 """
+
 from __future__ import annotations
 
 import json
@@ -31,103 +31,111 @@ WANTED_EXTRA = frozenset({
 FRAMEWORKS = ("Metal", "MetalFX")
 
 _API_MACRO_PREFIXES = (
-    "API_DEPRECATED", "API_AVAILABLE", "NS_AVAILABLE",
-    "NS_DEPRECATED",
+    "API_DEPRECATED", "API_AVAILABLE",
+    "NS_AVAILABLE", "NS_DEPRECATED",
+    "NS_SWIFT_UNAVAILABLE", "NS_REFINED_FOR_SWIFT",
+    "NS_SWIFT_NAME", "NS_SWIFT_ASYNC_NAME",
+    "NS_SWIFT_ASYNC", "NS_SWIFT_UI_ACTOR",
+    "NS_HEADER_AUDIT_BEGIN", "NS_HEADER_AUDIT_END",
+    "NS_ASSUME_NONNULL_BEGIN", "NS_ASSUME_NONNULL_END",
+    "CF_REFINED_FOR_SWIFT",
+    "MTL_EXTERN",
+    "__attribute__",
 )
 
 # ---------------------------------------------------------------------------
-# Pre-compiled regex patterns
+# Compiled regex patterns
 # ---------------------------------------------------------------------------
 
-_RE_NS_RETURNS_RETAINED = re.compile(r'\bNS_RETURNS_RETAINED\b\s*')
-_RE_DEP_WITH_REPLACEMENT = re.compile(r'API_DEPRECATED_WITH_REPLACEMENT\s*\(\s*"([^"]*)"')
-_RE_DEP_MESSAGE = re.compile(r'API_DEPRECATED\s*\(\s*"([^"]*)"')
-_RE_LEADING_METHOD_SIGN = re.compile(r'^[-+]\s*')
-_RE_SELECTOR_PARTS = re.compile(r'(\w+)\s*:')
+_RE_NS_RETURNS_RETAINED = re.compile(r'\bNS_RETURNS_RETAINED\b')
+_RE_DEP_WITH_REPLACEMENT = re.compile(
+    r'API_DEPRECATED_WITH_REPLACEMENT\s*\(\s*"([^"]*)"')
+_RE_DEP_MESSAGE = re.compile(
+    r'API_DEPRECATED\s*\(\s*"([^"]*)"')
+_RE_LEADING_METHOD_SIGN = re.compile(r'^[+-]\s*')
+_RE_SELECTOR_PARTS = re.compile(r'\b(\w+)\s*:')
 _RE_LEADING_WORD = re.compile(r'(\w+)')
-_RE_PROTOCOL_OR_INTERFACE = re.compile(r'^@(protocol|interface|end|class|optional|required)\b')
-_RE_HEADER_TYPE_CONTEXT = re.compile(r'@(?:protocol|interface)\s+(\w+)')
-_RE_PROPERTY_NAME = re.compile(r'\b(\w+)\s+API_DEPRECATED')
-_RE_METHOD_LINE = re.compile(r'^\s*[-+]')
-_RE_NS_ENUM_OPTIONS = re.compile(r'(?:NS_ENUM|NS_OPTIONS)\s*\([^,]+,\s*(\w+)\)')
-_RE_ENUM_MEMBER_NAME = re.compile(r'(\w+)\s')
+_RE_PROTOCOL_OR_INTERFACE = re.compile(r'^@(protocol|interface)\b')
+_RE_HEADER_TYPE_CONTEXT = re.compile(
+    r'@(?:protocol|interface)\s+(\w+)')
+_RE_PROPERTY_NAME = re.compile(r'@property\b.*?\)\s*\S+\s+\*?\s*(\w+)')
+_RE_METHOD_LINE = re.compile(r'^[+-]\s*\(')
+_RE_NS_ENUM_OPTIONS = re.compile(
+    r'\btypedef\s+(?:NS_ENUM|NS_OPTIONS)\s*\([^,]+,\s*(\w+)\s*\)')
+_RE_ENUM_MEMBER_NAME = re.compile(r'^\s*(\w+)')
 _RE_FRAMEWORK_PATH = re.compile(r'/(\w+)\.framework/')
-_RE_STRUCT_NAME = re.compile(r'^struct\s+(\w+)$')
 _RE_BLOCK_COMMENT = re.compile(r'/\*.*?\*/', re.DOTALL)
 _RE_LINE_COMMENT = re.compile(r'//[^\n]*')
 
+# ---------------------------------------------------------------------------
+# Utility functions
+# ---------------------------------------------------------------------------
+
 
 def is_wanted(name: str) -> bool:
-    if not name:
-        return False
-    return any(name.startswith(p) for p in WANTED_PREFIXES) or name in WANTED_EXTRA
-
-
-# ---------------------------------------------------------------------------
-# Text utilities
-# ---------------------------------------------------------------------------
-
-def clean_type(type_str: str | None) -> str | None:
-    """Strip API_AVAILABLE / NS_RETURNS_RETAINED macros from a type string."""
-    if not type_str:
-        return None
-    type_str = _strip_api_macros(type_str)
-    type_str = _RE_NS_RETURNS_RETAINED.sub('', type_str)
-    return type_str.strip()
-
-
-def get_nullability(type_str: str | None) -> str | None:
-    if not type_str:
-        return None
-    if "_Nullable" in type_str:
-        return "nullable"
-    if "_Nonnull" in type_str:
-        return "nonnull"
-    return None
+    """Check whether *name* belongs to a wanted API."""
+    return (
+        any(name.startswith(p) for p in WANTED_PREFIXES)
+        or name in WANTED_EXTRA
+    )
 
 
 def _skip_balanced_parens(text: str, start: int) -> int:
-    """Return the index just past the matching ')' starting from *start*."""
-    depth, i = 0, start
-    while i < len(text):
+    """Return the index just past the matching ')' for '(' at *start*."""
+    depth, i = 1, start + 1
+    while i < len(text) and depth > 0:
         if text[i] == '(':
             depth += 1
         elif text[i] == ')':
             depth -= 1
-            if depth == 0:
-                return i + 1
         i += 1
     return i
 
 
 def _strip_api_macros(text: str) -> str:
-    """Remove API_DEPRECATED / API_AVAILABLE / … macro invocations from *text*."""
-    out, i = [], 0
-    while i < len(text):
-        matched = None
-        for p in _API_MACRO_PREFIXES:
-            if text.startswith(p, i):
-                matched = p
-                break
-        if matched:
-            j = i + len(matched)
-            # Skip optional whitespace between macro name and '('
-            while j < len(text) and text[j] in ' \t':
-                j += 1
-            if j < len(text) and text[j] == '(':
-                i = _skip_balanced_parens(text, j)
-            else:
-                # No parenthesized argument list — skip just the macro name
+    """Remove API_DEPRECATED / API_AVAILABLE / ... macro invocations."""
+    out: list[str] = []
+    i, n = 0, len(text)
+    while i < n:
+        matched = False
+        for prefix in _API_MACRO_PREFIXES:
+            plen = len(prefix)
+            if text[i:i + plen] == prefix:
+                j = i + plen
+                while j < n and text[j] in ' \t':
+                    j += 1
+                if j < n and text[j] == '(':
+                    j = _skip_balanced_parens(text, j)
+                out.append(' ')
                 i = j
-        else:
+                matched = True
+                break
+        if not matched:
             out.append(text[i])
             i += 1
     return ''.join(out)
 
 
+def clean_type(type_str: str) -> str:
+    """Normalize a type string by stripping API macros and NS_RETURNS_RETAINED."""
+    t = _strip_api_macros(type_str)
+    t = _RE_NS_RETURNS_RETAINED.sub('', t)
+    return ' '.join(t.split())
+
+
+def get_nullability(type_str: str) -> str | None:
+    """Return ``'nullable'``, ``'nonnull'``, or *None*."""
+    if '_Nullable' in type_str:
+        return 'nullable'
+    if '_Nonnull' in type_str:
+        return 'nonnull'
+    return None
+
+
 # ---------------------------------------------------------------------------
 # Deprecation helpers
 # ---------------------------------------------------------------------------
+
 
 def get_attrs(node: dict) -> dict:
     """Extract deprecation info from AST node attributes."""
@@ -147,7 +155,7 @@ def get_attrs(node: dict) -> dict:
             deprecated = True
             if child.get("message"):
                 dep_message = child["message"]
-    result = {}
+    result: dict = {}
     if deprecated:
         result["deprecated"] = True
         if dep_message:
@@ -183,7 +191,8 @@ def _extract_objc_selector(decl: str) -> str | None:
     clean = _RE_LEADING_METHOD_SIGN.sub('', clean)
     if clean and clean[0] == '(':
         clean = clean[_skip_balanced_parens(clean, 0):].strip()
-    no_parens, depth = [], 0
+    no_parens: list[str] = []
+    depth = 0
     for c in clean:
         if c == '(':
             depth += 1
@@ -191,72 +200,18 @@ def _extract_objc_selector(decl: str) -> str | None:
             depth -= 1
         elif depth == 0:
             no_parens.append(c)
-    no_parens = ''.join(no_parens)
-    parts = _RE_SELECTOR_PARTS.findall(no_parens)
+    text_no_parens = ''.join(no_parens)
+    parts = _RE_SELECTOR_PARTS.findall(text_no_parens)
     if parts:
         return ':'.join(parts) + ':'
-    m = _RE_LEADING_WORD.match(no_parens.strip())
+    m = _RE_LEADING_WORD.match(text_no_parens.strip())
     return m.group(1) if m else None
 
 
 # ---------------------------------------------------------------------------
-# AST node extractors — structs
+# AST node extractors -- enums
 # ---------------------------------------------------------------------------
 
-def extract_fields(record_node: dict) -> list[dict]:
-    """Return a list of field dicts from a RecordDecl node."""
-    return [
-        {
-            "name": c.get("name", ""),
-            "type": clean_type((c.get("type") or {}).get("qualType", "")),
-        }
-        for c in record_node.get("inner", [])
-        if c.get("kind") == "FieldDecl"
-    ]
-
-
-def find_struct_fields(node: dict) -> list[dict] | None:
-    """Recursively search for a RecordDecl with fields."""
-    if node.get("kind") == "RecordDecl":
-        fields = extract_fields(node)
-        if fields:
-            return fields
-    for c in node.get("inner", []):
-        result = find_struct_fields(c)
-        if result:
-            return result
-    return None
-
-
-def collect_struct_defs(node: dict, by_name: dict, by_id: dict, depth: int = 0) -> None:
-    """Pre-scan the AST to collect struct definitions by name and by id."""
-    if node.get("kind") == "RecordDecl" and node.get("tagUsed") == "struct":
-        fields = extract_fields(node)
-        if fields:
-            if node.get("id"):
-                by_id[node["id"]] = fields
-            if node.get("name"):
-                by_name[node["name"]] = fields
-    if depth < 5:
-        for c in node.get("inner", []):
-            collect_struct_defs(c, by_name, by_id, depth + 1)
-
-
-def find_owned_tag_id(node: dict) -> str | None:
-    """Find the ``ownedTagDecl`` id in a TypedefDecl subtree."""
-    otd = node.get("ownedTagDecl")
-    if otd:
-        return otd.get("id")
-    for c in node.get("inner", []):
-        r = find_owned_tag_id(c)
-        if r:
-            return r
-    return None
-
-
-# ---------------------------------------------------------------------------
-# AST node extractors — enums
-# ---------------------------------------------------------------------------
 
 def _find_enum_constant_value(node: dict) -> str | None:
     """Dig into an EnumConstantDecl to find its value."""
@@ -270,15 +225,17 @@ def _find_enum_constant_value(node: dict) -> str | None:
 
 
 def extract_enum(node: dict) -> dict | None:
+    """Extract an enum definition from an EnumDecl AST node."""
     name = node.get("name", "")
     if not name:
         return None
-    members = []
+
+    members: list[dict] = []
     next_value = 0
     for c in node.get("inner", []):
         if c.get("kind") != "EnumConstantDecl":
             continue
-        m = {"name": c["name"]}
+        m: dict = {"name": c["name"]}
         found_value = _find_enum_constant_value(c)
         if found_value is not None:
             m["value"] = found_value
@@ -291,9 +248,11 @@ def extract_enum(node: dict) -> dict | None:
             next_value += 1
         apply_deprecation(m, get_attrs(c))
         members.append(m)
+
     if not members:
         return None
-    r = {
+
+    r: dict = {
         "kind": "enum",
         "name": name,
         "underlyingType": (node.get("fixedUnderlyingType") or {}).get("qualType"),
@@ -308,15 +267,18 @@ def extract_enum(node: dict) -> dict | None:
 
 
 # ---------------------------------------------------------------------------
-# AST node extractors — ObjC methods, properties, types
+# AST node extractors -- ObjC protocols
 # ---------------------------------------------------------------------------
 
+
 def extract_method(node: dict) -> dict | None:
+    """Extract a method declaration from an ObjCMethodDecl AST node."""
     name = node.get("name", "")
     if not name:
         return None
+
     ret = clean_type((node.get("returnType") or {}).get("qualType", "void"))
-    params = []
+    params: list[dict] = []
     for c in node.get("inner", []):
         if c.get("kind") == "ParmVarDecl":
             pt = clean_type((c.get("type") or {}).get("qualType", ""))
@@ -325,7 +287,8 @@ def extract_method(node: dict) -> dict | None:
                 "type": pt,
                 "nullability": get_nullability(pt),
             })
-    r = {
+
+    r: dict = {
         "selector": name,
         "isClassMethod": not node.get("instance", True),
         "returnType": ret,
@@ -337,37 +300,41 @@ def extract_method(node: dict) -> dict | None:
 
 
 def extract_property(node: dict) -> dict | None:
+    """Extract a property declaration from an ObjCPropertyDecl AST node."""
     name = node.get("name", "")
     if not name:
         return None
+
     pt = clean_type((node.get("type") or {}).get("qualType", ""))
-    r = {
+    r: dict = {
         "name": name,
         "type": pt,
         "nullability": get_nullability(pt),
         "readonly": node.get("readonly", False),
     }
-    if node.get("getter"):
-        r["getter"] = node["getter"].get("name", "")
-    if node.get("setter"):
-        r["setter"] = node["setter"].get("name", "")
+
+    # Include custom getter only when it differs from the property name.
+    getter_info = node.get("getter")
+    if getter_info:
+        getter_name = getter_info.get("name", "")
+        if getter_name and getter_name != name:
+            r["getter"] = getter_name
+
     apply_deprecation(r, get_attrs(node))
     return r
 
 
-def extract_type(node: dict) -> dict:
-    """Extract an ObjC class, protocol, or category from an AST node."""
+def extract_protocol(node: dict) -> dict:
+    """Extract a protocol from an ObjCProtocolDecl AST node."""
     name = node.get("name", "")
-    kind_str = node.get("kind", "")
-    r = {
-        "kind": "protocol" if "Protocol" in kind_str else "class",
+    r: dict = {
+        "kind": "protocol",
         "name": name,
         "methods": [],
         "properties": [],
         "protocols": [p.get("name", "") for p in (node.get("protocols") or [])],
     }
-    if node.get("super"):
-        r["super"] = node["super"].get("name", "")
+
     for c in node.get("inner", []):
         ck = c.get("kind", "")
         if ck == "ObjCMethodDecl":
@@ -378,6 +345,34 @@ def extract_type(node: dict) -> dict:
             p = extract_property(c)
             if p:
                 r["properties"].append(p)
+
+    apply_deprecation(r, get_attrs(node))
+    return r
+
+
+def extract_class(node: dict) -> dict:
+    """Extract a class from an ObjCInterfaceDecl AST node."""
+    name = node.get("name", "")
+    r: dict = {
+        "kind": "class",
+        "name": name,
+        "super": node.get("super", {}).get("name", ""),
+        "methods": [],
+        "properties": [],
+        "protocols": [p.get("name", "") for p in (node.get("protocols") or [])],
+    }
+
+    for c in node.get("inner", []):
+        ck = c.get("kind", "")
+        if ck == "ObjCMethodDecl":
+            m = extract_method(c)
+            if m:
+                r["methods"].append(m)
+        elif ck == "ObjCPropertyDecl":
+            p = extract_property(c)
+            if p:
+                r["properties"].append(p)
+
     apply_deprecation(r, get_attrs(node))
     return r
 
@@ -385,6 +380,7 @@ def extract_type(node: dict) -> dict:
 # ---------------------------------------------------------------------------
 # Header deprecation scanners
 # ---------------------------------------------------------------------------
+
 
 def _read_and_strip_comments(filepath: str) -> str:
     """Read an ObjC header and strip block/line comments."""
@@ -395,9 +391,10 @@ def _read_and_strip_comments(filepath: str) -> str:
 
 
 def _merge_header_lines(text: str) -> list[str]:
-    """Merge continuation lines from a preprocessed header into logical lines."""
+    """Merge continuation lines into logical lines."""
     lines = text.split('\n')
-    merged, buf = [], ''
+    merged: list[str] = []
+    buf = ''
     for raw in lines:
         s = raw.strip()
         if not s:
@@ -424,9 +421,10 @@ def _merge_header_lines(text: str) -> list[str]:
 
 
 def _iter_header_files(sdk_path: str):
-    """Yield (framework_name, file_path) for every .h file in the target frameworks."""
+    """Yield (framework_name, file_path) for every .h in the target frameworks."""
     for fw in FRAMEWORKS:
-        scan_dir = os.path.join(sdk_path, f"System/Library/Frameworks/{fw}.framework/Headers")
+        scan_dir = os.path.join(
+            sdk_path, f"System/Library/Frameworks/{fw}.framework/Headers")
         if not os.path.isdir(scan_dir):
             continue
         for fn in sorted(os.listdir(scan_dir)):
@@ -448,7 +446,9 @@ def _find_matching_brace(text: str, start: int) -> int:
 
 def _split_enum_members(body: str) -> list[str]:
     """Split enum body by commas, respecting balanced parentheses."""
-    members, current, depth = [], [], 0
+    members: list[str] = []
+    current: list[str] = []
+    depth = 0
     for ch in body:
         if ch == '(':
             depth += 1
@@ -468,12 +468,12 @@ def _split_enum_members(body: str) -> list[str]:
 
 
 def scan_all_header_deprecations(sdk_path: str) -> tuple[dict, dict, dict]:
-    """Scan Metal/MetalFX headers for all deprecation info in a single pass.
+    """Scan Metal/MetalFX headers for deprecation info.
 
-    Returns (type_dep, enum_member_dep, enum_type_dep):
-      - type_dep: keyed by (type_name, kind, name) for protocols/classes/methods/properties
-      - enum_member_dep: keyed by (enum_name, member_name)
-      - enum_type_dep: keyed by enum_name
+    Returns ``(type_dep, enum_member_dep, enum_type_dep)``:
+      - *type_dep*: ``{(type_name, kind, name): message}``
+      - *enum_member_dep*: ``{(enum_name, member_name): message}``
+      - *enum_type_dep*: ``{enum_name: message}``
     """
     type_dep: dict = {}
     enum_member_dep: dict = {}
@@ -482,9 +482,9 @@ def scan_all_header_deprecations(sdk_path: str) -> tuple[dict, dict, dict]:
     for _fw, filepath in _iter_header_files(sdk_path):
         text = _read_and_strip_comments(filepath)
 
-        # --- Protocol / class / method / property deprecations ---
+        # --- Protocol method / property deprecations ---
         merged = _merge_header_lines(text)
-        current_type = None
+        current_type: str | None = None
         for mline in merged:
             tm = _RE_HEADER_TYPE_CONTEXT.search(mline)
             if tm:
@@ -538,36 +538,37 @@ def scan_all_header_deprecations(sdk_path: str) -> tuple[dict, dict, dict]:
     return type_dep, enum_member_dep, enum_type_dep
 
 
-def apply_header_deprecations(api: dict, dep: dict) -> int:
-    """Apply header-scanned deprecation info to protocols and classes."""
+def apply_protocol_header_deprecations(protocols: list[dict],
+                                       dep: dict) -> int:
+    """Apply header-scanned deprecation info to protocols."""
     applied = 0
-    for collection in (api['protocols'], api['classes']):
-        for t in collection:
-            tname = t['name']
-            type_key = (tname, 'type', tname)
-            if type_key in dep and not t.get('deprecated'):
-                t['deprecated'] = True
-                t['deprecationMessage'] = dep[type_key]
+    for t in protocols:
+        tname = t['name']
+        type_key = (tname, 'type', tname)
+        if type_key in dep and not t.get('deprecated'):
+            t['deprecated'] = True
+            t['deprecationMessage'] = dep[type_key]
+            applied += 1
+        for p in t.get('properties', []):
+            key = (tname, 'property', p['name'])
+            if key in dep and not p.get('deprecated'):
+                p['deprecated'] = True
+                p['deprecationMessage'] = dep[key]
                 applied += 1
-            for p in t.get('properties', []):
-                key = (tname, 'property', p['name'])
-                if key in dep and not p.get('deprecated'):
-                    p['deprecated'] = True
-                    p['deprecationMessage'] = dep[key]
-                    applied += 1
-            for m in t.get('methods', []):
-                key = (tname, 'method', m['selector'])
-                if key in dep and not m.get('deprecated'):
-                    m['deprecated'] = True
-                    m['deprecationMessage'] = dep[key]
-                    applied += 1
+        for m in t.get('methods', []):
+            key = (tname, 'method', m['selector'])
+            if key in dep and not m.get('deprecated'):
+                m['deprecated'] = True
+                m['deprecationMessage'] = dep[key]
+                applied += 1
     return applied
 
 
-def apply_enum_header_deprecations(api: dict, member_dep: dict, enum_dep: dict) -> int:
+def apply_enum_header_deprecations(enums: list[dict], member_dep: dict,
+                                   enum_dep: dict) -> int:
     """Apply header-scanned deprecation info to enums and their members."""
     applied = 0
-    for e in api['enums']:
+    for e in enums:
         ename = e['name']
         if ename in enum_dep and not e.get('deprecated'):
             e['deprecated'] = True
@@ -585,6 +586,7 @@ def apply_enum_header_deprecations(api: dict, member_dep: dict, enum_dep: dict) 
 # ---------------------------------------------------------------------------
 # Deduplication and merging
 # ---------------------------------------------------------------------------
+
 
 def _dedup_by_key(items: list[dict], key: str) -> list[dict]:
     """Keep the last occurrence of each unique *key* value."""
@@ -617,7 +619,7 @@ def _dedup_properties(props: list[dict]) -> list[dict]:
 
 
 def _dedup_methods(methods: list[dict]) -> list[dict]:
-    """Deduplicate methods by selector, keeping the last occurrence."""
+    """Deduplicate methods by selector, keeping the first occurrence."""
     seen: dict = {}
     for m in methods:
         sel = m["selector"]
@@ -632,36 +634,39 @@ def _dedup_methods(methods: list[dict]) -> list[dict]:
     return list(seen.values())
 
 
-def _should_prefer_framework(new_item: dict, existing: dict) -> bool:
-    """Decide whether *new_item*'s framework should replace *existing*'s.
+def _merge_protocols(items: list[dict]) -> list[dict]:
+    """Merge protocols by name, combining members from multiple declarations."""
+    merged: dict = {}
+    for item in items:
+        name = item["name"]
+        if name not in merged:
+            merged[name] = item
+            continue
+        existing = merged[name]
+        existing["methods"].extend(item["methods"])
+        existing["properties"].extend(item["properties"])
+        for p in item.get("protocols", []):
+            if p not in existing["protocols"]:
+                existing["protocols"].append(p)
+        # Prefer a Metal/MetalFX framework over None
+        new_fw = item.get("framework")
+        old_fw = existing.get("framework")
+        if new_fw and not old_fw:
+            existing["framework"] = new_fw
+        elif new_fw and new_fw in FRAMEWORKS and old_fw not in FRAMEWORKS:
+            existing["framework"] = new_fw
+        if not existing.get("deprecated") and item.get("deprecated"):
+            existing["deprecated"] = True
+            if item.get("deprecationMessage"):
+                existing["deprecationMessage"] = item["deprecationMessage"]
+    for t in merged.values():
+        t["methods"] = _dedup_methods(t["methods"])
+        t["properties"] = _dedup_properties(t["properties"])
+    return list(merged.values())
 
-    Categories carry the framework of the header they were found in (e.g.
-    CoreImage, QuartzCore) rather than the framework that owns the type.
-    Prefer the framework from a non-category declaration.  When both (or
-    neither) are categories, prefer a WANTED framework (Metal/MetalFX).
-    """
-    new_kind = new_item.get("kind", "")
-    old_kind = existing.get("kind", "")
-    new_fw = new_item.get("framework") or ""
-    old_fw = existing.get("framework") or ""
 
-    # Non-category beats category
-    if old_kind == "category" and new_kind != "category":
-        return True
-    if old_kind != "category" and new_kind == "category":
-        return False
-
-    # Both same category status — prefer a WANTED framework
-    new_wanted = any(new_fw == f for f in FRAMEWORKS)
-    old_wanted = any(old_fw == f for f in FRAMEWORKS)
-    if new_wanted and not old_wanted:
-        return True
-
-    return False
-
-
-def _merge_types(items: list[dict]) -> list[dict]:
-    """Merge ObjC types (classes/protocols) by name, combining members."""
+def _merge_classes(items: list[dict]) -> list[dict]:
+    """Merge classes by name, combining members from multiple declarations."""
     merged: dict = {}
     for item in items:
         name = item["name"]
@@ -676,8 +681,13 @@ def _merge_types(items: list[dict]) -> list[dict]:
                 existing["protocols"].append(p)
         if not existing.get("super") and item.get("super"):
             existing["super"] = item["super"]
-        if _should_prefer_framework(item, existing):
-            existing["framework"] = item.get("framework")
+        # Prefer a Metal/MetalFX framework over None
+        new_fw = item.get("framework")
+        old_fw = existing.get("framework")
+        if new_fw and not old_fw:
+            existing["framework"] = new_fw
+        elif new_fw and new_fw in FRAMEWORKS and old_fw not in FRAMEWORKS:
+            existing["framework"] = new_fw
         if not existing.get("deprecated") and item.get("deprecated"):
             existing["deprecated"] = True
             if item.get("deprecationMessage"):
@@ -691,6 +701,7 @@ def _merge_types(items: list[dict]) -> list[dict]:
 # ---------------------------------------------------------------------------
 # AST processing pipeline
 # ---------------------------------------------------------------------------
+
 
 def _resolve_file_path(node: dict, last_file: str) -> str:
     """Track the current source file from Clang AST location info."""
@@ -706,245 +717,133 @@ def _resolve_file_path(node: dict, last_file: str) -> str:
 
 
 def _get_framework(file_path: str) -> str | None:
-    """Extract framework name from a file path like '.../Metal.framework/Headers/...'."""
+    """Extract framework name from a path, returning only wanted frameworks."""
     m = _RE_FRAMEWORK_PATH.search(file_path)
-    return m.group(1) if m else None
+    if m and m.group(1) in FRAMEWORKS:
+        return m.group(1)
+    return None
 
 
-def _pre_scan_ast(ast: dict) -> tuple[dict, dict, dict, dict]:
-    """Pre-scan the AST in a single pass for struct definitions, typedef
-    deprecations, and ObjC attribute kind counts.
+def _collect_typedef_deprecations(ast: dict) -> dict:
+    """Pre-scan top-level TypedefDecl nodes for deprecation info.
 
-    Returns (struct_by_name, struct_by_id, typedef_deps, attr_counts).
+    Enum types are sometimes wrapped in a typedef that carries the
+    API_DEPRECATED attribute instead of the EnumDecl itself.
     """
-    struct_by_name: dict = {}
-    struct_by_id: dict = {}
     typedef_deps: dict = {}
-    attr_counts: dict = {}
+    for node in ast.get("inner", []):
+        if node.get("kind") != "TypedefDecl":
+            continue
+        name = node.get("name", "")
+        if name and is_wanted(name):
+            attrs = get_attrs(node)
+            if attrs.get("deprecated"):
+                typedef_deps[name] = attrs
+    return typedef_deps
 
-    inner = ast.get("inner", [])
-
-    # Struct definitions + typedef deprecations (top-level nodes)
-    for node in inner:
-        kind = node.get("kind", "")
-        if kind == "TypedefDecl":
-            name = node.get("name", "")
-            if name and is_wanted(name):
-                attrs = get_attrs(node)
-                if attrs.get("deprecated"):
-                    typedef_deps[name] = attrs
-        collect_struct_defs(node, struct_by_name, struct_by_id)
-
-    # Attribute kind counts (deep traversal)
-    stack = [(n, False) for n in inner]
-    while stack:
-        node, in_objc = stack.pop()
-        k = node.get("kind", "")
-        is_objc = in_objc or k.startswith("ObjC")
-        if is_objc and "Attr" in k:
-            attr_counts[k] = attr_counts.get(k, 0) + 1
-        for key in ("inner", "attrs"):
-            for c in node.get(key, []):
-                stack.append((c, is_objc))
-
-    return struct_by_name, struct_by_id, typedef_deps, attr_counts
-
-
-# --- Per-kind node handlers ------------------------------------------------
-
-def _handle_category(node: dict, fw: str | None, api: dict) -> None:
-    cat_name = node.get("interface", {}).get("name", "")
-    if not is_wanted(cat_name):
-        return
-    t = extract_type(node)
-    t["name"] = cat_name
-    t["kind"] = "category"
-    t["framework"] = fw
-    if t["methods"] or t["properties"]:
-        api["classes"].append(t)
-
-
-def _handle_enum(node: dict, fw: str | None, api: dict, typedef_deps: dict) -> None:
-    e = extract_enum(node)
-    if not e:
-        return
-    e["framework"] = fw
-    if not e.get("deprecated") and e["name"] in typedef_deps:
-        apply_deprecation(e, typedef_deps[e["name"]])
-    api["enums"].append(e)
-
-
-def _handle_objc_type(node: dict, fw: str | None, api: dict, collection: str) -> None:
-    t = extract_type(node)
-    if t:
-        t["framework"] = fw
-        api[collection].append(t)
-
-
-def _handle_typedef(node: dict, name: str, fw: str | None, api: dict,
-                    struct_by_name: dict, struct_by_id: dict) -> None:
-    ut = (node.get("type") or {}).get("qualType", "")
-    td_entry = {"name": name, "underlyingType": ut, "framework": fw}
-    apply_deprecation(td_entry, get_attrs(node))
-    api["typedefs"].append(td_entry)
-
-    if not ut.startswith("struct "):
-        return
-
-    fields, method = None, None
-
-    fields = find_struct_fields(node)
-    if fields:
-        method = "embedded"
-
-    if not fields:
-        tag_id = find_owned_tag_id(node)
-        if tag_id and tag_id in struct_by_id:
-            fields = struct_by_id[tag_id]
-            method = f"ownedTag({tag_id[:8]})"
-
-    if not fields:
-        m = _RE_STRUCT_NAME.match(ut)
-        if m:
-            fields = struct_by_name.get(m.group(1))
-            if fields:
-                method = f"by-name({m.group(1)})"
-
-    if fields:
-        st_entry = {"name": name, "fields": fields, "framework": fw}
-        apply_deprecation(st_entry, get_attrs(node))
-        api["structs"].append(st_entry)
-        print(f"  Struct '{name}': {len(fields)} fields via {method}")
-    else:
-        print(f"  WARNING: typedef '{name}' -> '{ut}' could not find struct fields")
-
-
-def _handle_function(node: dict, name: str, fw: str | None, api: dict) -> None:
-    ft = (node.get("type") or {}).get("qualType", "")
-    params = [
-        {
-            "name": c.get("name", ""),
-            "type": clean_type((c.get("type") or {}).get("qualType", "")),
-        }
-        for c in node.get("inner", [])
-        if c.get("kind") == "ParmVarDecl"
-    ]
-    ret_type = ft.split("(")[0].strip() if "(" in ft else ft
-    fn_entry = {
-        "name": name,
-        "returnType": clean_type(ret_type),
-        "parameters": params,
-        "framework": fw,
-    }
-    apply_deprecation(fn_entry, get_attrs(node))
-    api["functions"].append(fn_entry)
-
-
-def _handle_record(node: dict, name: str, fw: str | None, api: dict) -> None:
-    tag = node.get("tagUsed", "<none>")
-    if tag == "union":
-        return
-    fields = extract_fields(node) or find_struct_fields(node)
-    if not fields:
-        return
-    st_entry = {"name": name, "fields": fields, "framework": fw}
-    apply_deprecation(st_entry, get_attrs(node))
-    api["structs"].append(st_entry)
-    if tag != "struct":
-        print(f"  Struct '{name}' via RecordDecl (tagUsed={tag}): {len(fields)} fields")
-
-
-# --- Pipeline entry point --------------------------------------------------
 
 def process_ast(ast: dict, sdk_version: str, sdk_path: str) -> dict:
-    """Main AST processing pipeline: extract → deduplicate → enrich."""
-    # Merged pre-scan: struct defs + typedef deps + attr kinds
-    struct_by_name, struct_by_id, typedef_deps, attr_counts = _pre_scan_ast(ast)
+    """Main AST processing pipeline: extract -> deduplicate -> enrich."""
 
-    if attr_counts:
-        print(f"ObjC attribute kinds: {dict(sorted(attr_counts.items()))}")
-    else:
-        print("WARNING: No attribute kinds found in ObjC declarations")
-    print(f"Pre-scan: {len(struct_by_name)} named + {len(struct_by_id)} by-id struct definitions")
+    typedef_deps = _collect_typedef_deprecations(ast)
     if typedef_deps:
         print(f"Pre-scan: {len(typedef_deps)} typedef deprecation(s) found")
 
-    api = {
-        "sdkVersion": sdk_version,
-        "enums": [], "protocols": [], "classes": [],
-        "typedefs": [], "functions": [], "structs": [],
-    }
+    enums: list[dict] = []
+    protocols: list[dict] = []
+    classes: list[dict] = []
 
-    # Process all top-level AST nodes with framework caching
     last_file = ""
-    cached_fw = None
+    cached_fw: str | None = None
+
     for node in ast.get("inner", []):
         new_file = _resolve_file_path(node, last_file)
         if new_file != last_file:
             last_file = new_file
             cached_fw = _get_framework(last_file)
+
         kind = node.get("kind", "")
         name = node.get("name", "")
 
-        if kind == "ObjCCategoryDecl":
-            _handle_category(node, cached_fw, api)
-            continue
         if not is_wanted(name):
             continue
 
         if kind == "EnumDecl":
-            _handle_enum(node, cached_fw, api, typedef_deps)
+            e = extract_enum(node)
+            if e:
+                e["framework"] = cached_fw
+                if not e.get("deprecated") and e["name"] in typedef_deps:
+                    apply_deprecation(e, typedef_deps[e["name"]])
+                enums.append(e)
+
         elif kind == "ObjCProtocolDecl":
-            _handle_objc_type(node, cached_fw, api, "protocols")
+            p = extract_protocol(node)
+            if p:
+                p["framework"] = cached_fw
+                protocols.append(p)
+
         elif kind == "ObjCInterfaceDecl":
-            _handle_objc_type(node, cached_fw, api, "classes")
-        elif kind == "TypedefDecl":
-            _handle_typedef(node, name, cached_fw, api, struct_by_name, struct_by_id)
-        elif kind == "FunctionDecl":
-            _handle_function(node, name, cached_fw, api)
-        elif kind == "RecordDecl":
-            _handle_record(node, name, cached_fw, api)
+            c = extract_class(node)
+            if c:
+                c["framework"] = cached_fw
+                classes.append(c)
 
     # Deduplicate
-    api["enums"] = _dedup_by_key(api["enums"], "name")
-    api["functions"] = _dedup_by_key(api["functions"], "name")
-    api["structs"] = _dedup_by_key(api["structs"], "name")
-    api["classes"] = _merge_types(api["classes"])
-    api["protocols"] = _merge_types(api["protocols"])
+    enums = _dedup_by_key(enums, "name")
+    protocols = _merge_protocols(protocols)
+    classes = _merge_classes(classes)
 
-    # Enrich with header-level deprecation annotations (single pass)
-    dep_from_headers, enum_member_dep, enum_type_dep = scan_all_header_deprecations(sdk_path)
-    applied = apply_header_deprecations(api, dep_from_headers)
-    print(f"Header scan: {len(dep_from_headers)} deprecation annotations found, {applied} applied")
+    # Enrich with header-level deprecation annotations
+    dep_from_headers, enum_member_dep, enum_type_dep = \
+        scan_all_header_deprecations(sdk_path)
 
-    enum_applied = apply_enum_header_deprecations(api, enum_member_dep, enum_type_dep)
-    print(f"Enum header scan: {len(enum_member_dep)} member + {len(enum_type_dep)} "
-          f"enum-level deprecation(s), {enum_applied} applied")
+    applied = apply_protocol_header_deprecations(protocols, dep_from_headers)
+    class_applied = apply_protocol_header_deprecations(classes, dep_from_headers)
+    print(f"Header scan: {len(dep_from_headers)} deprecation annotations, "
+          f"{applied} applied to protocols, {class_applied} applied to classes")
 
-    return api
+    enum_applied = apply_enum_header_deprecations(
+        enums, enum_member_dep, enum_type_dep)
+    print(f"Enum header scan: {len(enum_member_dep)} member + "
+          f"{len(enum_type_dep)} enum-level deprecation(s), "
+          f"{enum_applied} applied")
+
+    return {
+        "sdkVersion": sdk_version,
+        "enums": enums,
+        "protocols": protocols,
+        "classes": classes,
+    }
 
 
 # ---------------------------------------------------------------------------
 # Summary / diagnostics
 # ---------------------------------------------------------------------------
 
-def print_summary(api: dict) -> None:
-    print(f"Enums: {len(api['enums'])}, Protocols: {len(api['protocols'])}, "
-          f"Classes: {len(api['classes'])}, Functions: {len(api['functions'])}, "
-          f"Structs: {len(api['structs'])}, Typedefs: {len(api['typedefs'])}")
 
-    all_types = api['protocols'] + api['classes']
+def print_summary(api: dict) -> None:
+    """Print a brief summary of the extracted API."""
+    print(f"Enums: {len(api['enums'])}, "
+          f"Protocols: {len(api['protocols'])}, "
+          f"Classes: {len(api.get('classes', []))}")
+
+    all_types = api['protocols'] + api.get('classes', [])
     counts = {
         "enums": sum(1 for e in api['enums'] if e.get('deprecated')),
-        "enum members": sum(1 for e in api['enums']
-                           for m in e.get('members', []) if m.get('deprecated')),
-        "types": sum(1 for t in all_types if t.get('deprecated')),
-        "methods": sum(1 for t in all_types
-                       for m in t.get('methods', []) if m.get('deprecated')),
-        "properties": sum(1 for t in all_types
-                          for p in t.get('properties', []) if p.get('deprecated')),
-        "functions": sum(1 for f in api['functions'] if f.get('deprecated')),
-        "structs": sum(1 for s in api['structs'] if s.get('deprecated')),
+        "enum members": sum(
+            1 for e in api['enums']
+            for m in e.get('members', []) if m.get('deprecated')
+        ),
+        "protocols": sum(1 for t in api['protocols'] if t.get('deprecated')),
+        "classes": sum(1 for t in api.get('classes', []) if t.get('deprecated')),
+        "methods": sum(
+            1 for t in all_types
+            for m in t.get('methods', []) if m.get('deprecated')
+        ),
+        "properties": sum(
+            1 for t in all_types
+            for p in t.get('properties', []) if p.get('deprecated')
+        ),
     }
     print("Deprecated: " + ", ".join(f"{v} {k}" for k, v in counts.items()))
 
@@ -953,10 +852,14 @@ def print_summary(api: dict) -> None:
 # Entry point
 # ---------------------------------------------------------------------------
 
+
 def main() -> None:
     if len(sys.argv) != 5:
-        print(f"Usage: {sys.argv[0]} <raw_ast.json> <output.json> <sdk_version> <sdk_path>",
-              file=sys.stderr)
+        print(
+            f"Usage: {sys.argv[0]} <raw_ast.json> <output.json> "
+            f"<sdk_version> <sdk_path>",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     raw_path, out_path, sdk_version, sdk_path = sys.argv[1:5]
