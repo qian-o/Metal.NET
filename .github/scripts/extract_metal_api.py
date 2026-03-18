@@ -778,7 +778,10 @@ def apply_swift_names(api: dict, swift_names: dict) -> int:
                 if key in swift_names:
                     m['name'] = swift_names[key]
                     applied += 1
-                elif m['name'].startswith('new'):
+                # Convert any remaining new* → make* (including symbol-graph
+                # entries that returned a new* name instead of make*).
+                if m['name'].startswith('new') and len(m['name']) > 3 \
+                        and m['name'][3].isupper():
                     converted = _new_to_make(m['name'])
                     if converted:
                         m['name'] = converted
