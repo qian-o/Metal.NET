@@ -57,7 +57,7 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOwnership 
         set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorProcessingMode, (nint)value);
     }
 
-    public MTLFXSpatialScaler NewSpatialScalerWithDevice(MTLDevice device)
+    public MTLFXSpatialScaler NewSpatialScaler(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevice, device.NativePtr);
 

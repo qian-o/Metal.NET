@@ -9,8 +9,6 @@
 // input JSON and the output project regardless of build configuration.
 // -----------------------------------------------------------------------
 
-using Metal.NET.Generator;
-
 string projectDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
 string astJsonPath = Path.Combine(projectDir, "Metal.NET.Generator", "metal-ast.json");
 string outputDir = Path.Combine(projectDir, "Metal.NET");

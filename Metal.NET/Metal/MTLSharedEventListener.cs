@@ -20,7 +20,7 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
         get => GetProperty(ref field, MTLSharedEventListenerBindings.DispatchQueue);
     }
 
-    public nint InitWithDispatchQueue(DispatchQueue dispatchQueue)
+    public nint Init(DispatchQueue dispatchQueue)
     {
         return ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventListenerBindings.InitWithDispatchQueue, dispatchQueue.NativePtr);
     }

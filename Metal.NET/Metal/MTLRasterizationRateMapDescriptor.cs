@@ -37,7 +37,7 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerCount);
     }
 
-    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize)
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize, screenSize);
 

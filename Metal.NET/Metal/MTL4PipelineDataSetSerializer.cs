@@ -20,7 +20,7 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
         return result;
     }
 
-    public NSData SerializeAsPipelinesScriptWithError(out NSError error)
+    public NSData SerializeAsPipelinesScript(out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsPipelinesScriptWithError, out nint errorPtr);
 

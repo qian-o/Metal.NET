@@ -17,9 +17,9 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwners
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
     }
 
-    public MTLArgument[] Arguments
+    public MTLFunctionStitchingNode[] Arguments
     {
-        get => GetArrayProperty<MTLArgument>(MTLFunctionStitchingFunctionNodeBindings.Arguments);
+        get => GetArrayProperty<MTLFunctionStitchingNode>(MTLFunctionStitchingFunctionNodeBindings.Arguments);
         set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
     }
 

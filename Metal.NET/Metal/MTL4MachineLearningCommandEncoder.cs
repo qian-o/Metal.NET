@@ -21,7 +21,7 @@ public class MTL4MachineLearningCommandEncoder(nint nativePtr, NativeObjectOwner
         ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetArgumentTable, argumentTable.NativePtr);
     }
 
-    public void DispatchNetworkWithIntermediatesHeap(MTLHeap heap)
+    public void DispatchNetwork(MTLHeap heap)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetworkWithIntermediatesHeap, heap.NativePtr);
     }

@@ -62,7 +62,7 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
         get => (MTLHeapType)ObjectiveC.MsgSendLong(NativePtr, MTLHeapBindings.Type);
     }
 
-    public nuint MaxAvailableSizeWithAlignment(nuint alignment)
+    public nuint MaxAvailableSize(nuint alignment)
     {
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLHeapBindings.MaxAvailableSizeWithAlignment, alignment);
     }
@@ -74,7 +74,7 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTexture NewTextureWithDescriptor(MTLTextureDescriptor descriptor)
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTextureWithDescriptor, descriptor.NativePtr);
 
@@ -100,14 +100,14 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLAccelerationStructure NewAccelerationStructureWithSize(nuint size)
+    public MTLAccelerationStructure NewAccelerationStructure(nuint size)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSize, size);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLAccelerationStructure NewAccelerationStructureWithDescriptor(MTLAccelerationStructureDescriptor descriptor)
+    public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptor, descriptor.NativePtr);
 
