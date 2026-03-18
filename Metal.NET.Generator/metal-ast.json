@@ -8608,7 +8608,7 @@
           "parameters": []
         },
         {
-          "name": "newTextureView",
+          "name": "makeTextureView",
           "selector": "newTextureViewWithDescriptor:",
           "isClassMethod": false,
           "returnType": "id<MTLTexture> _Nullable",
