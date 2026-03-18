@@ -1,5 +1,3 @@
-using System.Text.RegularExpressions;
-
 namespace Metal.NET.Generator;
 
 /// <summary>
