@@ -21,7 +21,7 @@
 
 ### 修复方向
 
-修改生成器，对 `methods` 数组中的条目，即使无参数也应生成为方法。只有 JSON `properties` 数组中的条目才应生成为 C# 属性。
+修改生成器，对 `methods` 数组中的条目，即使无参数并且没有对应 `SetXXX` 的时候应生成为方法。只有 JSON `properties` 数组中的条目和 `methods` 中存在 `XXX` 和 `SetXXX` 才应生成为 C# 属性。
 
 ---
 

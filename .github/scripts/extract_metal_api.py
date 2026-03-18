@@ -789,7 +789,72 @@ def apply_swift_names(api: dict, swift_names: dict) -> int:
                     p['name'] = swift_names[key]
                     applied += 1
     print(f"  Swift names applied: {applied}, new→make fallback: {fallback}")
+
+    # Resolve overload collisions caused by Swift name mapping
+    collisions = _resolve_overload_collisions(api)
+    if collisions:
+        print(f"  Overload collisions resolved: {collisions}")
+
     return applied + fallback
+
+
+def _normalize_param_type(t: str) -> str:
+    """Strip nullability annotations for signature comparison."""
+    t = re.sub(r'\s*_Nonnull\b', '', t)
+    t = re.sub(r'\s*_Nullable\b', '', t)
+    t = re.sub(r'\s*\*\s*', '*', t)
+    return t.strip()
+
+
+def _full_name_from_selector(selector: str) -> str:
+    """Build a full camelCase name from all selector components.
+
+    Examples::
+
+        presentDrawable:atTime:              → presentDrawableAtTime
+        presentDrawable:afterMinimumDuration: → presentDrawableAfterMinimumDuration
+        optimizeContentsForGPUAccess:        → optimizeContentsForGPUAccess
+        setValue:forKey:                     → setValueForKey
+    """
+    parts = [p for p in selector.split(':') if p]
+    if not parts:
+        return selector
+    result = parts[0]
+    for p in parts[1:]:
+        result += p[0].upper() + p[1:]
+    return result
+
+
+def _resolve_overload_collisions(api: dict) -> int:
+    """Detect methods that share (name, param-type-tuple) within a type and
+    rebuild their names from the full selector to avoid C# overload ambiguity.
+
+    Returns the number of methods whose name was changed.
+    """
+    from collections import defaultdict
+
+    reverted = 0
+    for collection in (api['protocols'], api['classes']):
+        for t in collection:
+            # Group methods by (name, normalised param types)
+            sig_groups: dict[tuple, list[dict]] = defaultdict(list)
+            for m in t.get('methods', []):
+                param_types = tuple(
+                    _normalize_param_type(p['type'])
+                    for p in m.get('parameters', [])
+                )
+                sig_groups[(m['name'], param_types)].append(m)
+
+            for (_name, _ptypes), methods in sig_groups.items():
+                if len(methods) < 2:
+                    continue
+                # Collision: rebuild each method name from full selector
+                for m in methods:
+                    full_name = _full_name_from_selector(m['selector'])
+                    if m['name'] != full_name:
+                        m['name'] = full_name
+                        reverted += 1
+    return reverted
 
 
 # ---------------------------------------------------------------------------
