@@ -531,7 +531,7 @@ partial class CSharpEmitter
     /// simplified name and identical parameter types like presentDrawable:atTime: and
     /// presentDrawable:afterMinimumDuration:).
     /// </summary>
-    Dictionary<MethodInfo, string> ComputeSimplifiedMethodNames(List<MethodInfo> methods, List<PropertyDef> properties)
+    static Dictionary<MethodInfo, string> ComputeSimplifiedMethodNames(List<MethodInfo> methods, List<PropertyDef> properties)
     {
         Dictionary<MethodInfo, string> result = [];
 
@@ -540,7 +540,7 @@ partial class CSharpEmitter
         List<(MethodInfo Method, string Simplified, string Full, string ParamKey)> entries = [];
         foreach (MethodInfo m in methods)
         {
-            if (m.Selector == null || !m.Selector.Contains(':'))
+            if (m.Selector?.Contains(':') != true)
             {
                 continue;
             }
