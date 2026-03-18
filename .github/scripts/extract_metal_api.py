@@ -56,10 +56,10 @@ _RE_DEP_MESSAGE = re.compile(
 _RE_LEADING_METHOD_SIGN = re.compile(r'^[+-]\s*')
 _RE_SELECTOR_PARTS = re.compile(r'\b(\w+)\s*:')
 _RE_LEADING_WORD = re.compile(r'(\w+)')
-_RE_PROTOCOL_OR_INTERFACE = re.compile(r'^@(protocol|interface)\b')
+_RE_PROTOCOL_OR_INTERFACE = re.compile(r'^@(protocol|interface|end|class|optional|required)\b')
 _RE_HEADER_TYPE_CONTEXT = re.compile(
     r'@(?:protocol|interface)\s+(\w+)')
-_RE_PROPERTY_NAME = re.compile(r'@property\b.*?\)\s*\S+\s+\*?\s*(\w+)')
+_RE_PROPERTY_NAME = re.compile(r'\b(\w+)\s+API_DEPRECATED')
 _RE_METHOD_LINE = re.compile(r'^[+-]\s*\(')
 _RE_NS_ENUM_OPTIONS = re.compile(
     r'\btypedef\s+(?:NS_ENUM|NS_OPTIONS)\s*\([^,]+,\s*(\w+)\s*\)')
