@@ -15,17 +15,15 @@ partial class CSharpEmitter
     /// </summary>
     void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors)
     {
-        string csMethodName;
         string selectorObjC;
+        string csMethodName = TypeMapper.ToPascalCase(method.Name);
 
         if (method.Selector != null)
         {
             selectorObjC = method.Selector;
-            csMethodName = TypeMapper.ToPascalCase(method.Name);
         }
         else
         {
-            csMethodName = TypeMapper.ToPascalCase(method.Name);
             int colonCount = method.Parameters.Count;
             selectorObjC = method.Name + (colonCount > 0 ? new string(':', colonCount) : "");
         }

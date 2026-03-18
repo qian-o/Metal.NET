@@ -313,27 +313,6 @@ partial class TypeMapper(GeneratorContext context)
 
     #endregion
 
-    #region Ownership
-
-    /// <summary>
-    /// Returns <see langword="true"/> if the method name implies an ownership transfer per ObjC
-    /// naming conventions (<c>new*</c>, <c>alloc*</c>, <c>copy*</c>, <c>mutableCopy*</c>, <c>init*</c>).
-    /// Callers receive owned references from these methods.
-    /// </summary>
-    public static bool IsOwnershipTransferMethod(string name)
-    {
-        return StartsWithFollowedByUpperOrEnd(name, "new")
-            || StartsWithFollowedByUpperOrEnd(name, "alloc")
-            || StartsWithFollowedByUpperOrEnd(name, "copy")
-            || StartsWithFollowedByUpperOrEnd(name, "mutableCopy")
-            || StartsWithFollowedByUpperOrEnd(name, "init");
-
-        static bool StartsWithFollowedByUpperOrEnd(string value, string prefix) =>
-            value.StartsWith(prefix) && (value.Length == prefix.Length || char.IsUpper(value[prefix.Length]));
-    }
-
-    #endregion
-
     #region Naming Helpers
 
     /// <summary>Converts the first character of <paramref name="name"/> to uppercase (PascalCase).</summary>
