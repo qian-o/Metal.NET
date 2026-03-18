@@ -74,6 +74,18 @@ partial class AstJsonParser
         HashSet<string> propertySelectors = [];
         HashSet<string> propertyNames = new(StringComparer.OrdinalIgnoreCase);
 
+        // Build a lookup from method name → ObjC selector for parameterless methods.
+        // Properties may lack an explicit getter field; in that case the real ObjC
+        // selector lives only in the methods array (e.g. name "url" → selector "URL").
+        Dictionary<string, string> methodSelectorByName = [];
+        foreach (AstMethod m in ast.Methods)
+        {
+            if (m.Parameters.Count == 0 && !string.IsNullOrEmpty(m.Selector))
+            {
+                methodSelectorByName.TryAdd(m.Name, m.Selector);
+            }
+        }
+
         // Parse properties → generate getter and optional setter methods
         foreach (AstProperty prop in ast.Properties)
         {
@@ -89,7 +101,10 @@ partial class AstJsonParser
                 continue;
             }
 
-            string getterSelector = prop.Getter ?? prop.Name;
+            // Resolve getter selector: explicit getter → method selector → property name
+            string getterSelector = prop.Getter
+                ?? methodSelectorByName.GetValueOrDefault(prop.Name)
+                ?? prop.Name;
             string getterName = SelectorToMethodName(getterSelector);
             string returnType = MapObjCTypeForModel(propObjcType);
 

@@ -52,14 +52,14 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, MTLCommandBufferBindings.Logs);
     }
 
-    public double GpuStartTime
+    public double GPUStartTime
     {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GpuStartTime);
+        get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUStartTime);
     }
 
-    public double GpuEndTime
+    public double GPUEndTime
     {
-        get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GpuEndTime);
+        get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUEndTime);
     }
 
     public MTLCommandBufferStatus Status
@@ -261,9 +261,9 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector ErrorOptions = "errorOptions";
 
-    public static readonly Selector GpuEndTime = "gpuEndTime";
+    public static readonly Selector GPUEndTime = "GPUEndTime";
 
-    public static readonly Selector GpuStartTime = "gpuStartTime";
+    public static readonly Selector GPUStartTime = "GPUStartTime";
 
     public static readonly Selector KernelEndTime = "kernelEndTime";
 

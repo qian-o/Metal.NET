@@ -36,9 +36,9 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapBindings.LayerCount);
     }
 
-    public MTLSizeAndAlign ParameterDataSizeAndAlign
+    public MTLSizeAndAlign ParameterBufferSizeAndAlign
     {
-        get => ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLRasterizationRateMapBindings.ParameterDataSizeAndAlign);
+        get => ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLRasterizationRateMapBindings.ParameterBufferSizeAndAlign);
     }
 
     public void CopyParameterData(MTLBuffer buffer, nuint offset)
@@ -72,7 +72,7 @@ file static class MTLRasterizationRateMapBindings
 
     public static readonly Selector LayerCount = "layerCount";
 
-    public static readonly Selector ParameterDataSizeAndAlign = "parameterDataSizeAndAlign";
+    public static readonly Selector ParameterBufferSizeAndAlign = "parameterBufferSizeAndAlign";
 
     public static readonly Selector PhysicalCoordinates = "mapScreenToPhysicalCoordinates:forLayer:";
 

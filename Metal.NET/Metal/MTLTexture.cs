@@ -20,9 +20,9 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => GetProperty(ref field, MTLTextureBindings.RootResource);
     }
 
-    public MTLTexture Parent
+    public MTLTexture ParentTexture
     {
-        get => GetProperty(ref field, MTLTextureBindings.Parent);
+        get => GetProperty(ref field, MTLTextureBindings.ParentTexture);
     }
 
     public nuint ParentRelativeLevel
@@ -273,11 +273,11 @@ file static class MTLTextureBindings
 
     public static readonly Selector NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle = "newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:";
 
-    public static readonly Selector Parent = "parent";
-
     public static readonly Selector ParentRelativeLevel = "parentRelativeLevel";
 
     public static readonly Selector ParentRelativeSlice = "parentRelativeSlice";
+
+    public static readonly Selector ParentTexture = "parentTexture";
 
     public static readonly Selector PixelFormat = "pixelFormat";
 

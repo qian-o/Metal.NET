@@ -16,9 +16,9 @@ public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership o
         get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.FunctionName);
     }
 
-    public NSURL Url
+    public NSURL URL
     {
-        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.Url);
+        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.URL);
     }
 
     public nuint Line
@@ -40,5 +40,5 @@ file static class MTLFunctionLogDebugLocationBindings
 
     public static readonly Selector Line = "line";
 
-    public static readonly Selector Url = "url";
+    public static readonly Selector URL = "URL";
 }
