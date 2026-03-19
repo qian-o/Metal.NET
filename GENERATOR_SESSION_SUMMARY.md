@@ -1,97 +1,125 @@
 # Metal.NET Generator — Session Summary
 
 > 本文件是 `refactor/generator` 分支上代码生成器的工作总结，可作为后续会话的初始上下文。
+> **最后更新**：2026-03-20
 
 ## 1. 项目概览
 
 | 项 | 值 |
 |---|---|
-| 仓库 | `c:\Users\13247\source\repos\Metal.NET` |
-| 分支 | `refactor/generator`（工作树已全部提交，干净状态） |
-| 最新提交 | `fad6d96c` — Refactor Metal.NET generated bindings for improved selector naming and auditing scripts |
+| 仓库 | `c:\Users\13247\source\repos\qian-o\Metal.NET` |
+| 分支 | `refactor/generator` |
 | C# 版本 | 14（.NET 10），使用 `extension` 块 / `field` 关键字 |
 | 生成器 | `Metal.NET.Generator`，读取 `metal-ast.json` → 输出 C# 到 `Metal.NET/Generated/` |
+| 构建命令 | `dotnet run --project Metal.NET.Generator/Metal.NET.Generator.csproj -c Release` |
+| 编译命令 | `dotnet build Metal.NET/Metal.NET.csproj -c Release` |
+| 审计命令 | `python _audit_selectors.py` |
 
-### 生成产物统计
+### 生成产物统计（最新）
 
-| 目录 | 文件数 |
+| 指标 | 数值 |
 |---|---|
-| Metal | 233 |
-| MetalFX | 18 |
-| Foundation | 8 |
-| Common (ObjectiveC.cs) | 1 |
-| **合计** | **262** |
-
-- 243 个类包含 Selectors
-- 3110 个 Selector
-- 202 个 MsgSend 重载（21 组）
+| 生成类（含 Selectors） | 245 |
+| 总 Selectors | **3208** |
+| Metal/MetalFX 缺失 | **0** |
+| MsgSend 重载 | 208（21 组） |
+| Delegate 类 | 19 |
+| 编译错误/警告 | **0** |
 
 ---
 
-## 2. 本次会话完成的工作
+## 2. 历史会话工作记录
 
-### 2.1 添加 Foundation NSEnums
+### 会话 1（初始开发）
 
-AST 中不含 Foundation 枚举定义，因此手写了 `Metal.NET/Foundation/NSEnums.cs`，包含：
+完成了生成器的核心架构和基础功能。
 
-- `NSComparisonResult : long`（Ascending = -1, Same = 0, Descending = 1）
-- `NSStringCompareOptions : ulong`（[Flags]，CaseInsensitiveSearch = 1 …）
-- `NSStringEncoding : ulong`（ASCIIStringEncoding = 1, UTF8StringEncoding = 4 … 共 25+ 项）
+### 会话 2（NSEnums + Bug 修复 + 审计）
 
-同时在 `CSharpEmitter.cs` 中将这三个枚举注册到 `EnumBackingTypes`；在 `TypeMapper.cs` 和 `AstJsonParser.TypeMapping.cs` 中添加了直接映射（不再走 `NS::UInteger` 中间类型）。
+#### 2.1 添加 Foundation NSEnums
 
-### 2.2 Bug 修复：Selector 键名冲突
+手写了 `Metal.NET/Foundation/NSEnums.cs`（`NSComparisonResult`, `NSStringCompareOptions`, `NSStringEncoding`），并注册到 `CSharpEmitter.cs` 的 `EnumBackingTypes` 和 `TypeMapper.cs`。
 
-**问题**：`BuildMethodNameFromSelector` 对不同的 selector 生成相同的 C# 方法名。例如：
+#### 2.2 Bug 修复：Selector 键名冲突
 
-- `setVertexBuffer:offset:atIndex:` → `SetVertexBufferOffsetAtIndex`
-- `setVertexBufferOffset:atIndex:` → `SetVertexBufferOffsetAtIndex`
+`BuildMethodNameFromSelector` 对不同 selector 生成相同的 C# 方法名。修复：用下划线代替冒号分隔片段。
 
-**修复**：采用"下划线代替冒号"方案——每个冒号分隔的片段 PascalCase 后用 `_` 连接。
+#### 2.3 Bug 修复：Protocol / Class 覆盖
 
-- `setVertexBuffer:offset:atIndex:` → `SetVertexBuffer_Offset_AtIndex_`
-- `setVertexBufferOffset:atIndex:` → `SetVertexBufferOffset_AtIndex_`
+空壳 class 覆盖已解析的 protocol。修复：`ParseClasses` 跳过已存在于 `context.Classes` 的类名。
 
-改动在 `CSharpEmitter.MethodEmission.cs` 的 `BuildMethodNameFromSelector` 方法中，同时移除了之前的 `AddUniqueSelectorKey` 数字后缀方案。
+### 会话 3（Block/Delegate + 5个Bug修复）
 
-### 2.3 Bug 修复：Protocol / Class 覆盖
+- 实现了 `ParseInlineBlocks` 自动发现 block/callback 类型
+- 修复了多个 delegate 生成问题
+- 达成 0 errors / 0 warnings，19 个 delegate 类
 
-**问题**：`MTL4BinaryFunction`、`MTLDynamicLibrary` 在 AST 中同时存在于 `protocols`（有成员）和 `classes`（空壳）。`ParseClasses` 在 `ParseProtocols` 之后运行，空壳覆盖了已解析的 protocol。
+### 会话 4（审计脚本修复 + 缺失selector修复）
 
-**修复**：在 `AstJsonParser.ClassParsing.cs` 的 `ParseClasses` 中添加去重检查——构建 `protocolNames` 集合，跳过已存在于 `context.Classes` 中的类名。
+#### 4.1 `_audit_selectors.py` 3个Bug修复
 
-### 2.4 全面审计
+- Bug 1: `sel_value.startswith('alloc')` 误过滤 `allocatedSize`/`allocationCount` → 改为 `== 'alloc'`
+- Bug 2: 属性用 `name` 构造 selector 而非用 methods 数组的 `selector` → 改为只用 methods
+- Bug 3: 不考虑继承 → 添加父类/协议 selector 查找
+- 结果：49 个假阳性 → 2 个真正缺失
 
-运行了多个审计脚本，对生成结果与 AST 进行交叉比对：
+#### 4.2 修复 2 个缺失 Selector
 
-| 审计项 | 结果 |
+1. **`sparseTileSizeInBytesForSparsePageSize:`** — 方法名与属性名冲突，被 `propertyNames.Contains(name)` 过滤
+   - 修复：属性名冲突检查仅跳过无参方法；有参方法加 "get" 前缀
+2. **`setOwnerWithIdentity:`** — `kern_return_t`/`task_id_token_t` 在不可映射列表中
+   - 修复：添加类型映射 `kern_return_t`→`int`、`task_id_token_t`→`uint`
+
+### 会话 5（本次 — 最大化完整性 "尽量生成完整 不要跳过"）
+
+目标：最小化跳过的方法，生成尽可能完整的绑定。
+
+#### 5.1 移除 NSArray 返回值方法的无条件跳过（+15 selectors）
+
+**问题**：解析器遇到返回 `NSArray` 的方法时直接 `continue`，但发射器已有完善的 NSArray 返回值处理逻辑。
+
+**修改 3 个文件**：
+- `GeneratorContext.cs` — 新增 `NSArrayReturnTypes` 字典，parser→emitter 传递 AST 泛型元素类型
+- `AstJsonParser.ClassParsing.cs` — 方法解析：用 `ExtractNSArrayElementType()` 尝试提取元素类型，能解析则放行
+- `CSharpEmitter.cs` — `TryResolveNSArrayElementType` 从 `static` 改为实例方法，增加 context 回退查找
+
+#### 5.2 移除 `unichar *` 的不可映射标记（+2 selectors）
+
+`MapObjCTypeForModel` 已能映射 `unichar *` → `nint`，只需从 `IsUnmappableObjCType` 删除。
+解锁：`initWithCharactersNoCopy:length:deallocator:` 和 `initWithCharactersNoCopy:length:freeWhenDone:`
+
+#### 5.3 移除 `Class` 的不可映射标记（+3 selectors）
+
+`TypeMapper.MapType` 已映射 `Class` → `nint`，只需从 `IsUnmappableObjCType` 删除。
+解锁：`NSBundle.bundleForClass:`、`classNamed:`、`principalClass`
+
+#### 5.4 为 NSArray 属性注册泛型元素类型（+5 selectors，property 解析）
+
+之前仅对方法做了 NSArray 泛型提取，属性没有。在属性解析循环中添加 `ExtractNSArrayElementType` + 注册到 `context.NSArrayReturnTypes`。
+解锁：NSBundle 的 `allBundles`、`allFrameworks`、`localizations`、`preferredLocalizations`、`executableArchitectures`
+
+#### 5.5 Selector 增长记录
+
+| 阶段 | Selectors |
 |---|---|
-| 枚举→回退类型 | 0 问题 |
-| 类指针→nint 回退 | 0 问题 |
-| Metal/MetalFX 方法因 IsUnmappableObjCType 被跳过 | 0 |
-| 生成的 selector 在 AST 中不存在 | 0 / 3110 |
-| selector 字母排序 | 243 个 Bindings 类全部正确排序 |
-| AST 中存在但未生成的 selector | 106 个（见下文分类） |
+| 会话 4 完成后 | 3181 |
+| 移除 NSArray 方法跳过 + unichar * | 3196 (+15) |
+| 移除 Class 不可映射 + NSArray 属性注册 | **3208** (+12) |
 
 ---
 
-## 3. 已知未解决问题
+## 3. 当前剩余缺失（仅 4 个）
 
-### 3.1 未生成的 106 个 AST Selectors
+通过 `_audit_truly_missing.py` 精确审计（排除 SkipClasses、SkipSelectors、init、继承），**所有框架合计仅剩 4 个缺失**：
 
-通过 `_audit_missing_detail.py` 分类（78 个可分类，其余为审计脚本误报）：
+| 缺失 Selector | 类 | 阻塞类型 | 说明 |
+|---|---|---|---|
+| `localizedAttributedStringForKey:value:table:` | NSBundle | `NSAttributedString` 返回值 | Foundation 富文本类，无绑定 |
+| `setPreservationPriority:forTags:` | NSBundle | `NSSet<>` 参数 | Foundation 泛型集合，无绑定 |
+| `EDRMetadata` | CAMetalLayer | `CAEDRMetadata` 返回值 | QuartzCore EDR 元数据类，无绑定 |
+| `setEDRMetadata:` | CAMetalLayer | `CAEDRMetadata` 参数 | 同上 |
 
-| 分类 | 数量 | 说明 |
-|---|---|---|
-| `c_array_param` | 47 | 参数含 C 数组（如 `setBuffers:offsets:withRange:`），生成器尚不支持 |
-| `property_not_generated` | 9 | **审计脚本误报** — 实际已生成，getter selector 被重映射（如 `gpuStartTime` → `GPUStartTime`） |
-| `setter_not_generated` | 4 | **审计脚本误报** — 实际已生成，setter 使用 AST 显式名称（如 `setUITexture:` 而非 `setUiTexture:`） |
-| `unmappable_type` | 5 | 参数含 block / 函数指针回调，被 `HasFunctionPointerParam` 过滤 |
-| `unknown` | 9 | 特殊情况：`kern_return_t` 参数、无参 `init`（非 AllocInit 类）、`NSArray<MTLTensorExtents *>` |
-| `method_dup_of_property` | 3 | 方法与属性重复 |
-| `method_name_clashes_property` | 1 | 方法名与属性名冲突 |
-
-**实际需要关注的**：主要是 47 个 C 数组参数方法和 5 个 block 回调方法。9 个 unknown 中也有需要考虑支持的。
+**这 4 个都需要新增类绑定才能解决**，不是简单的类型映射问题。
 
 ---
 
@@ -109,12 +137,29 @@ ObjC 类型 (AST)
 
 ### 4.2 跳过/过滤规则
 
-- `IsUnmappableObjCType`：跳过 `NSDate`、`NSLocale`、`NSCharacterSet`、`NSCoder` 等 Foundation-only 类型，以及 `NSStringEncoding *`（指针）、`NSStringEncodingConversionOptions` 等
-- `HasFunctionPointerParam`：跳过含 block / 函数指针参数的方法
-- `HasUnmergableArrayParam`：跳过含无法合并的数组参数的方法
-- `HasUnmappableParam`：跳过含 `TypeMapper.MapType` 返回 `null` 的参数的方法
+- `IsUnmappableObjCType`：跳过 `IMP`、`SEL`、`FourCharCode`、`id *`（精确匹配），以及 `NSSet<`、`NSCoder`、`CAEDRMetadata`、`NSAttributedString` 等（模式匹配）
+- **已移除的过滤**（本次会话）：`Class`（→`nint`）、`unichar *`（→`nint`）、NSArray 返回值无条件跳过
+- `SkipClasses`：`NSArray`、`NSObject`、`NSDate`、`NSSet`、`NSEnumerator` 等（手写或不生成）
+- `SkipSelectors`：`description`、`hash`、`isEqual:` 等 NSObject 基础方法（39 个）
+- `SkipMethods`：`alloc`、`init`、`retain`、`release` 等（6 个）
 
-### 4.3 Init 静态工厂模式
+### 4.3 NSArray 处理（完整流程）
+
+**解析阶段**（AstJsonParser.ClassParsing.cs）：
+1. 方法返回 `NSArray*` → 调用 `ExtractNSArrayElementType(astMethod.ReturnType)` 从泛型提取元素类型
+2. 能提取 → 注册到 `context.NSArrayReturnTypes[(className, methodName)]`，方法放行
+3. 不能提取（如 `NSArray<ObjectType>`）→ 跳过
+4. 属性返回 `NSArray*` → 同样提取并注册到 context
+
+**发射阶段**（CSharpEmitter）：
+1. `TryResolveNSArrayElementType(className, memberName)` 查找优先级：
+   - 硬编码字典 `NSArrayElementTypes`
+   - 后缀规则 `NSArraySuffixRules`
+   - **context.NSArrayReturnTypes**（从 AST 泛型提取）
+2. 找到元素类型 → 生成 `ElementType[]` 返回值 + `NSArray.ToArray<T>()`
+3. 找不到 → 跳过该方法/属性
+
+### 4.4 Init 静态工厂模式
 
 ```csharp
 public static ClassName InitXxx(params)
@@ -123,11 +168,6 @@ public static ClassName InitXxx(params)
     return new(nativePtr, NativeObjectOwnership.Managed);
 }
 ```
-
-### 4.4 NSArray 处理
-
-- `NSArray` 是一个 `static class` helper，提供 `ToArray<T>()` 和 `FromArray<T>()`
-- AST 中标记为 `NSARRAY_PARAM:ElementType` 的类型 → C# 参数为 `ElementType[]` + 内部调用 `NSArray.FromArray()`
 
 ### 4.5 Selector 命名规则
 
@@ -148,6 +188,20 @@ public static ClassName InitXxx(params)
 - AST 中的枚举（Metal / MetalFX）→ 自动生成
 - Foundation 枚举（NSComparisonResult, NSStringCompareOptions, NSStringEncoding）→ 手写 `NSEnums.cs` + 注册到 `EnumBackingTypes`
 - `EnumBackingTypes` 字典：枚举 C# 名 → 底层类型字符串
+
+### 4.8 GeneratorContext — parser→emitter 共享状态
+
+| 属性 | 说明 |
+|---|---|
+| `Enums` | 所有解析的枚举定义 |
+| `Classes` | 所有解析的类/协议定义 |
+| `Structs` | 所有解析的 struct 定义 |
+| `FreeFunctions` | 所有解析的自由函数 |
+| `EnumBackingTypes` | 枚举 C# 名 → 底层类型 |
+| `KnownClassNames` | 所有已知类名（用于验证基类引用） |
+| `BlockTypeAliases` | ObjC block 类型别名 |
+| `MsgSendSignatures` | MsgSend 重载签名（发射阶段填充） |
+| `NSArrayReturnTypes` | **新增** — AST 泛型提取的 NSArray 元素类型映射 |
 
 ---
 
@@ -177,7 +231,28 @@ public static ClassName InitXxx(params)
 
 ---
 
-## 6. Windows 开发环境注意事项
+## 6. IsUnmappableObjCType 当前完整列表
+
+精确匹配：`IMP`, `SEL`, `FourCharCode`, `id *`
+
+模式匹配（`t.Contains()`）：
+```
+NSSet<, NS::Process, NS::Observer, NSProcess, NSObserver,
+ObjectType, KeyType, NS_RETURNS_INNER_POINTER,
+NSStringEncoding *, NSStringEncodingConversionOptions,
+CAEDRMetadata, NSCoder, MTLIOCompressionContext, va_list,
+NSDate, NSLocale, NSCharacterSet, NSStringTransform,
+NSRangePointer, NSURLBookmark, NSURLHandle, NSURLResourceKey,
+NSAttributedString, NSDataWritingOptions, NSDataSearchOptions,
+NSDataReadingOptions, NSDataBase64, NSDataCompressionAlgorithm,
+NSDecimal, NSLinguistic, NSEnumerator, NSErrorDomain
+```
+
+已移除（历次会话中）：`Class`（→`nint`）、`unichar *`（→`nint`）、`kern_return_t`、`task_id_token_t`
+
+---
+
+## 7. Windows 开发环境注意事项
 
 - Python 用 `py`（不是 `python`）
 - `metal-ast.json` 有 UTF-8 BOM，Python 读取时用 `utf-8-sig` 编码
@@ -186,16 +261,22 @@ public static ClassName InitXxx(params)
 
 ---
 
-## 7. 临时文件清单
+## 8. 临时文件清单
 
 以下文件为审计用临时脚本，位于仓库根目录，可安全删除：
 
 ```
 _audit_fallback_classes.py
 _audit_missing_detail.py
-_audit_selectors.py
+_audit_selectors.py          ← 主审计脚本（已修复 3 个 bug，可继续使用）
+_audit_skips.py              ← 本次新增：全面审计所有跳过原因
+_audit_truly_missing.py      ← 本次新增：精确审计（排除继承/SkipClasses）
 _audit_types.py
 _check_desc.py
+_check_idptr.py
+_check_metal_blocked.py
+_check_missing.py
+_check_nsbundle_props.py
 _check_ns.py
 _check_ns2.py
 _check_props.py
@@ -206,9 +287,33 @@ _search_enums.py
 
 ---
 
-## 8. 后续工作建议
+## 9. 后续工作建议
 
-1. **C 数组参数支持**：47 个方法因 C 数组参数未生成，需要设计 `Span<T>` 或指针参数的映射方案
-2. **Block / 函数指针回调**：5 个方法含 block 参数，需要设计 delegate 映射
-3. **Unknown 类别处理**：9 个特殊情况逐一评估
-4. **清理临时审计脚本**：删除根目录下的 `_*.py` 文件
+1. **剩余 4 个缺失的 selector**（需新增类绑定）：
+   - `NSAttributedString` — Foundation 富文本类
+   - `NSSet` — Foundation 集合类（类似 NSArray 的包装）
+   - `CAEDRMetadata` — QuartzCore EDR 元数据类（影响 `CAMetalLayer` 的 2 个方法）
+2. **考虑移除更多不必要的 IsUnmappableObjCType 条目**：
+   - `NSErrorDomain` → 已映射为 `NSString`
+   - `NSDecimal` → 已映射为 `nint`
+   - `NS_RETURNS_INNER_POINTER` → 是注解不是类型，应在 strip 阶段处理
+   - 这些不影响 Metal/MetalFX（已 0 缺失），但可以增加 Foundation 覆盖率
+3. **清理临时审计脚本**：删除根目录下的 `_*.py` 文件
+
+---
+
+## 10. 关键代码位置速查
+
+| 需求 | 文件 | 位置 |
+|---|---|---|
+| 添加新的不可映射类型 | `AstJsonParser.TypeMapping.cs` | `IsUnmappableObjCType()` |
+| 添加新的类型映射 | `AstJsonParser.TypeMapping.cs` + `TypeMapper.cs` | `MapObjCTypeForModel()` + `MapType()` |
+| NSArray 元素类型硬编码 | `CSharpEmitter.cs` | `NSArrayElementTypes` 字典 |
+| NSArray 后缀规则 | `CSharpEmitter.cs` | `NSArraySuffixRules` 数组 |
+| NSArray AST 泛型回退 | `GeneratorContext.cs` | `NSArrayReturnTypes` 属性 |
+| 跳过的类列表 | `AstJsonParser.cs` | `SkipClasses` |
+| 跳过的 selector 列表 | `AstJsonParser.cs` | `SkipSelectors` |
+| Selector→C# 键名 | `CSharpEmitter.MethodEmission.cs` | `BuildMethodNameFromSelector()` |
+| 属性解析 | `AstJsonParser.ClassParsing.cs` | `foreach (AstProperty prop in ast.Properties)` |
+| 方法解析 | `AstJsonParser.ClassParsing.cs` | `foreach (AstMethod astMethod in ast.Methods)` |
+| Init 解析 | `AstJsonParser.ClassParsing.cs` | 第二个 `foreach (AstMethod astMethod in ast.Methods)` |
