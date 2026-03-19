@@ -324,10 +324,11 @@ partial class CSharpEmitter
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
             }
-            foreach (string rv in nsArrayReleaseVars)
+            if (nsArrayReleaseVars.Count > 0)
             {
                 sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
+                foreach (string rv in nsArrayReleaseVars)
+                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
             }
         }
         else if (returnsArray || nullable)
@@ -343,10 +344,11 @@ partial class CSharpEmitter
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
             }
-            foreach (string rv in nsArrayReleaseVars)
+            if (nsArrayReleaseVars.Count > 0)
             {
                 sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
+                foreach (string rv in nsArrayReleaseVars)
+                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
             }
             sb.AppendLine();
             sb.AppendLine(returnsArray
@@ -428,7 +430,11 @@ partial class CSharpEmitter
         List<string> csParams = [];
         List<string> callArgs = [$"ObjectiveC.Alloc({csClassName}Bindings.Class)", selectorRef];
         List<string> callArgTypes = [];
+        List<string> arraySetupLines = [];
+        List<string> fixedStatements = [];
+        List<string> nsArrayReleaseVars = [];
         bool hasOutError = method.Parameters.Any(p => p.Type.Contains("Error**"));
+        bool needsUnsafeContext = false;
 
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
@@ -443,6 +449,122 @@ partial class CSharpEmitter
                 csParams.Add("out NSError error");
                 callArgs.Add("out nint errorPtr");
                 callArgTypes.Add("out nint");
+                continue;
+            }
+
+            // NSArray/NSDictionary are static helper classes, pass as raw nint
+            if (param.Type.StartsWith("NSDictionary"))
+            {
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+                csParams.Add($"nint {csParamName}");
+                callArgs.Add(csParamName);
+                callArgTypes.Add("nint");
+                continue;
+            }
+
+            // NSArray param with known element type → typed array + NSArray.FromArray
+            if (param.Type.StartsWith("NSARRAY_PARAM:"))
+            {
+                string elemModelType = param.Type["NSARRAY_PARAM:".Length..];
+                string elemCsType = TypeMapper.MapType(elemModelType);
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+
+                csParams.Add($"{elemCsType}[] {csParamName}");
+
+                string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                arraySetupLines.Add($"        nint {ptrVar} = NSArray.FromArray({csParamName});");
+                nsArrayReleaseVars.Add(ptrVar);
+
+                callArgs.Add(ptrVar);
+                callArgTypes.Add("nint");
+                continue;
+            }
+
+            // NSArray without generic info → raw nint
+            if (param.Type.StartsWith("NSArray"))
+            {
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+                csParams.Add($"nint {csParamName}");
+                callArgs.Add(csParamName);
+                callArgTypes.Add("nint");
+                continue;
+            }
+
+            if (param.Type.StartsWith("OBJ_ARRAY:"))
+            {
+                needsUnsafeContext = true;
+                string elemType = param.Type["OBJ_ARRAY:".Length..];
+                string elemCsType = TypeMapper.MapType(elemType + "*");
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+
+                csParams.Add($"{elemCsType}[] {csParamName}");
+
+                bool nextIsCount = pi + 1 < method.Parameters.Count &&
+                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
+
+                string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                arraySetupLines.Add($"        nint* {ptrVar} = stackalloc nint[{csParamName}.Length];");
+                arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
+                arraySetupLines.Add("        {");
+                arraySetupLines.Add($"            {ptrVar}[i] = {csParamName}[i].NativePtr;");
+                arraySetupLines.Add("        }");
+
+                callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
+
+                if (nextIsCount)
+                {
+                    callArgs.Add($"(nuint){csParamName}.Length");
+                    callArgTypes.Add("nuint");
+                    pi++;
+                }
+                continue;
+            }
+
+            if (param.Type.StartsWith("PRIM_ARRAY:"))
+            {
+                needsUnsafeContext = true;
+                string elemType = param.Type["PRIM_ARRAY:".Length..];
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+
+                csParams.Add($"{elemType}[] {csParamName}");
+
+                string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                arraySetupLines.Add($"        {elemType}* {ptrVar} = stackalloc {elemType}[{csParamName}.Length];");
+                arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
+                arraySetupLines.Add("        {");
+                arraySetupLines.Add($"            {ptrVar}[i] = {csParamName}[i];");
+                arraySetupLines.Add("        }");
+
+                callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
+                continue;
+            }
+
+            if (param.Type.StartsWith("STRUCT_ARRAY:"))
+            {
+                needsUnsafeContext = true;
+                string elemType = param.Type["STRUCT_ARRAY:".Length..];
+                string elemCsType = TypeMapper.MapType(elemType);
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+
+                csParams.Add($"{elemCsType}[] {csParamName}");
+
+                bool nextIsCount = pi + 1 < method.Parameters.Count &&
+                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
+
+                string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                fixedStatements.Add($"fixed ({elemCsType}* {ptrVar} = {csParamName})");
+
+                callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
+
+                if (nextIsCount)
+                {
+                    callArgs.Add($"(nuint){csParamName}.Length");
+                    callArgTypes.Add("nuint");
+                    pi++;
+                }
                 continue;
             }
 
@@ -472,6 +594,7 @@ partial class CSharpEmitter
         string paramStr = string.Join(", ", csParams);
         string argsStr = string.Join(", ", callArgs);
         string csMethodName = TypeMapper.ToPascalCase(selectorKey);
+        string unsafeKw = needsUnsafeContext ? "unsafe " : "";
 
         RecordMsgSend("MsgSendNInt", [.. callArgTypes]);
 
@@ -480,22 +603,60 @@ partial class CSharpEmitter
             EmitDeprecation(sb, method.DeprecationMessage);
         }
 
-        sb.AppendLine($"    public static {csClassName} {csMethodName}({paramStr})");
+        sb.AppendLine($"    public static {unsafeKw}{csClassName} {csMethodName}({paramStr})");
         sb.AppendLine("    {");
+
+        foreach (string line in arraySetupLines)
+        {
+            sb.AppendLine(line);
+        }
+
+        if (arraySetupLines.Count > 0)
+        {
+            sb.AppendLine();
+        }
+
+        string indent = "        ";
+        foreach (string fixedStmt in fixedStatements)
+        {
+            sb.AppendLine($"{indent}{fixedStmt}");
+            sb.AppendLine($"{indent}{{");
+            indent += "    ";
+        }
+
         if (hasOutError)
         {
-            sb.AppendLine($"        nint nativePtr = ObjectiveC.MsgSendNInt({argsStr});");
+            sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendNInt({argsStr});");
             sb.AppendLine();
-            sb.AppendLine($"        error = new(errorPtr, NativeObjectOwnership.Owned);");
+            sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
+            if (nsArrayReleaseVars.Count > 0)
+            {
+                sb.AppendLine();
+                foreach (string rv in nsArrayReleaseVars)
+                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
+            }
             sb.AppendLine();
-            sb.AppendLine($"        return new(nativePtr, NativeObjectOwnership.Managed);");
+            sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Managed);");
         }
         else
         {
-            sb.AppendLine($"        nint nativePtr = ObjectiveC.MsgSendNInt({argsStr});");
+            sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendNInt({argsStr});");
+            if (nsArrayReleaseVars.Count > 0)
+            {
+                sb.AppendLine();
+                foreach (string rv in nsArrayReleaseVars)
+                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
+            }
             sb.AppendLine();
-            sb.AppendLine($"        return new(nativePtr, NativeObjectOwnership.Managed);");
+            sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Managed);");
         }
+
+        for (int fi = fixedStatements.Count - 1; fi >= 0; fi--)
+        {
+            indent = "        " + new string(' ', fi * 4);
+            sb.AppendLine($"{indent}}}");
+        }
+
         sb.AppendLine("    }");
     }
 

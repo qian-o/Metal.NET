@@ -122,6 +122,52 @@ partial class AstJsonParser
     }
 
     /// <summary>
+    /// Extracts the element type from an ObjC <c>NSArray&lt;...&gt;</c> type string.
+    /// Returns a model type string (e.g., "MTLFunctionStitchingNode*") or <see langword="null"/>
+    /// if the element type cannot be resolved.
+    /// </summary>
+    static string? ExtractNSArrayElementType(string objcType)
+    {
+        string t = StripNullability(objcType).Trim();
+
+        // Match NSArray<ElementType *> or NSArray<id<Protocol>>
+        int start = t.IndexOf('<');
+        int end = t.LastIndexOf('>');
+        if (start < 0 || end <= start)
+        {
+            return null;
+        }
+
+        string inner = t[(start + 1)..end].Trim();
+
+        // id<Protocol> → Protocol*
+        if (inner.StartsWith("id<") && inner.EndsWith(">"))
+        {
+            string protocol = inner[3..^1];
+            if (protocol.Contains("ObjectType") || protocol.Contains("KeyType"))
+            {
+                return null;
+            }
+
+            return protocol + "*";
+        }
+
+        // ElementType * → ElementType*
+        if (inner.EndsWith(" *") || inner.EndsWith("*"))
+        {
+            string elem = inner.TrimEnd(' ', '*').Trim();
+            if (elem.Contains("ObjectType") || elem.Contains("KeyType"))
+            {
+                return null;
+            }
+
+            return elem + "*";
+        }
+
+        return null;
+    }
+
+    /// <summary>
     /// Returns <see langword="true"/> if an ObjC type from the AST cannot be mapped to C#
     /// and the containing method/property should be skipped.
     /// </summary>

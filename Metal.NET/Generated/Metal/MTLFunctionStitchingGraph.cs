@@ -11,6 +11,10 @@ public partial class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwner
     }
     #endregion
 
+    public MTLFunctionStitchingGraph() : this(ObjectiveC.AllocInit(MTLFunctionStitchingGraphBindings.Class), NativeObjectOwnership.Managed)
+    {
+    }
+
     public NSString FunctionName
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.FunctionName);
@@ -34,13 +38,30 @@ public partial class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwner
         get => GetArrayProperty<MTLFunctionStitchingAttribute>(MTLFunctionStitchingGraphBindings.Attributes);
         set => SetArrayProperty(MTLFunctionStitchingGraphBindings.SetAttributes, value);
     }
+
+    public static MTLFunctionStitchingGraph InitWithFunctionNameNodesOutputNodeAttributes(NSString functionName, MTLFunctionStitchingFunctionNode[] nodes, MTLFunctionStitchingFunctionNode outputNode, MTLFunctionStitchingAttribute[] attributes)
+    {
+        nint pNodes = NSArray.FromArray(nodes);
+        nint pAttributes = NSArray.FromArray(attributes);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLFunctionStitchingGraphBindings.Class), MTLFunctionStitchingGraphBindings.InitWithFunctionNameNodesOutputNodeAttributes, functionName.NativePtr, pNodes, outputNode.NativePtr, pAttributes);
+
+        ObjectiveC.Release(pNodes);
+        ObjectiveC.Release(pAttributes);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
 }
 
 file static class MTLFunctionStitchingGraphBindings
 {
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionStitchingGraph");
+
     public static readonly Selector Attributes = "attributes";
 
     public static readonly Selector FunctionName = "functionName";
+
+    public static readonly Selector InitWithFunctionNameNodesOutputNodeAttributes = "initWithFunctionName:nodes:outputNode:attributes:";
 
     public static readonly Selector Nodes = "nodes";
 

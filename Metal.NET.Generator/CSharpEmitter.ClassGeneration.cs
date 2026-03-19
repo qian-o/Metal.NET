@@ -35,7 +35,6 @@ partial class CSharpEmitter
         List<MethodInfo> initMethods =
         [
             .. classDef.Methods.Where(m => m.IsInit
-                                            && !HasUnmergableArrayParam(m)
                                             && !HasFunctionPointerParam(m, knownDelegateNames)
                                             && !HasUnmappableParam(m))
         ];
@@ -96,7 +95,7 @@ partial class CSharpEmitter
         bool hasPrecedingMember = true;
 
         // Constructor
-        if (hasClassField)
+        if (classDef.HasAllocInit)
         {
             sb.AppendLine();
             sb.AppendLine($"    public {csClassName}() : this(ObjectiveC.AllocInit({csClassName}Bindings.Class), NativeObjectOwnership.Managed)");
@@ -208,19 +207,14 @@ partial class CSharpEmitter
         HashSet<string> emittedInitSignatures = [];
         foreach (MethodInfo initMethod in initMethods)
         {
-            // Skip init methods with complex parameter types that can't be handled
-            if (initMethod.Parameters.Any(p =>
-                p.Type.StartsWith("STRUCT_ARRAY:") || p.Type.StartsWith("PRIM_ARRAY:")))
-            {
-                continue;
-            }
-
             // Deduplicate by method name + parameter types
             string selectorKey = BuildMethodNameFromSelector(initMethod.Selector!);
             string csMethodName = TypeMapper.ToPascalCase(selectorKey);
             string sig = csMethodName + "(" + string.Join(",", initMethod.Parameters
                 .Where(p => p.Type != "ARRAY_PARAM")
-                .Select(p => p.Type.Contains("Error**") ? "out NSError" : TypeMapper.MapType(p.Type))) + ")";
+                .Select(p => p.Type.Contains("Error**") ? "out NSError"
+                    : p.Type.StartsWith("NSARRAY_PARAM:") ? TypeMapper.MapType(p.Type["NSARRAY_PARAM:".Length..]) + "[]"
+                    : TypeMapper.MapType(p.Type))) + ")";
             if (!emittedInitSignatures.Add(sig))
             {
                 continue;
@@ -451,6 +445,7 @@ partial class CSharpEmitter
                 p.Type.StartsWith("PRIM_ARRAY:") ||
                 p.Type.StartsWith("STRUCT_ARRAY:") ||
                 p.Type.StartsWith("INLINE_BLOCK:") ||
+                p.Type.StartsWith("NSARRAY_PARAM:") ||
                 p.Type == "ARRAY_PARAM")
             {
                 continue;

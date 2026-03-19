@@ -283,11 +283,14 @@ partial class AstJsonParser
 
                 string paramType = MapObjCTypeForModel(p.Type);
 
-                // Skip init methods with NSArray/NSDictionary parameters
-                if (paramType.StartsWith("NSArray") || paramType.StartsWith("NSDictionary"))
+                // For NSArray params, try to extract generic element type for typed array support
+                if (paramType == "NSArray*")
                 {
-                    skipMethod = true;
-                    break;
+                    string? elemType = ExtractNSArrayElementType(p.Type);
+                    if (elemType != null)
+                    {
+                        paramType = $"NSARRAY_PARAM:{elemType}";
+                    }
                 }
 
                 parameters.Add(new ParamDef(paramType, p.Name));
