@@ -24,6 +24,7 @@ partial class CSharpEmitter
         if (csType == "NSArray")
         {
             nsArrayElemType = TryResolveNSArrayElementType(csClassName, csPropName);
+            if (nsArrayElemType == null) return false;
         }
 
         bool isNSArray = nsArrayElemType != null;
@@ -124,9 +125,10 @@ partial class CSharpEmitter
         {
             string msgSend = TypeMapper.GetMsgSendMethod(csType);
             RecordMsgSend(msgSend);
+            string narrowCast = TypeMapper.NeedsNarrowCast(csType) ? $"({csType})" : "";
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveC.{msgSend}({Target}, {selectorRef});");
+            sb.AppendLine($"        get => {narrowCast}ObjectiveC.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
                 RecordMsgSend("MsgSend", csType);

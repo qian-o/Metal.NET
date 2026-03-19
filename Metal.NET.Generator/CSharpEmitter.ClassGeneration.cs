@@ -21,15 +21,18 @@ partial class CSharpEmitter
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        bool hasClassField = classDef.HasAllocInit;
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
         List<MethodInfo> validMethods =
         [
             .. classDef.Methods.Where(m => !HasUnmergableArrayParam(m)
                                             && !HasFunctionPointerParam(m, knownDelegateNames)
-                                            && !HasUnmappableParam(m))
+                                            && !HasUnmappableParam(m)
+                                            && !m.ReturnType.Contains("UNKNOWN_BLOCK"))
         ];
+
+        bool hasClassField = classDef.HasAllocInit
+            || validMethods.Any(m => m.IsStatic && m.UsesClassTarget);
 
         (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
 
@@ -59,7 +62,7 @@ partial class CSharpEmitter
         string baseClass = classDef.BaseClassName != null && context.KnownClassNames.Contains(classDef.BaseClassName)
             ? classDef.BaseClassName
             : "NSObject";
-        string partialKeyword = hasFreeFunctions ? "partial " : "";
+        string partialKeyword = "partial ";
 
         // Class-level [Obsolete] from AST
         if (classDef.Deprecated)

@@ -77,8 +77,13 @@ partial class TypeMapper(GeneratorContext context)
     {
         string t = objcType.Trim();
 
-        // Remove const and class keywords
-        t = t.Replace("const ", "").Replace("class ", "").Trim();
+        // Remove const, class keywords, ObjC annotations and nullability specifiers
+        t = t.Replace("const ", "").Replace("class ", "")
+             .Replace("NS_RETURNS_INNER_POINTER ", "")
+             .Replace(" _Nonnull", "").Replace(" _Nullable", "")
+             .Replace("_Nonnull ", "").Replace("_Nullable ", "")
+             .Replace("_Nonnull", "").Replace("_Nullable", "")
+             .Trim();
 
         bool isPointer = t.EndsWith('*');
         bool isDoublePointer = t.EndsWith("**");
@@ -120,10 +125,29 @@ partial class TypeMapper(GeneratorContext context)
             "int16_t" => "short",
             "uint64_t" or "std::uint64_t" => "ulong",
             "int64_t" or "std::int64_t" => "long",
+            "long long" => "long",
+            "unsigned long long" => "ulong",
+            "unsigned int" => "uint",
+            "unsigned long" => "nuint",
+            "unsigned short" => "ushort",
+            "unsigned char" => "byte",
+            "short" => "short",
+            "long" => "nint",
+            "unichar" => "ushort",
+            "OSType" => "uint",
+            "NSStringEncoding" when isPointer => "nint",
+            "NSStringEncoding" => "nuint",
+            "NSErrorDomain" => "NSString",
+            "NSErrorUserInfoKey" => "NSString",
+            "NSURLResourceKey" => "NSString",
+            "NSDecimal" => "nint",
+            "Class" => "nint",
+            "id" => "nint",
             "float" => "float",
             "double" => "double",
             "bool" or "BOOL" => "bool",
             "char" when isPointer => "nint",
+            "char" => "sbyte",
             "IOSurfaceRef" => "nint",
             "dispatch_queue_t" => "DispatchQueue",
             "dispatch_data_t" => "DispatchData",
@@ -253,6 +277,11 @@ partial class TypeMapper(GeneratorContext context)
         "double" => "MsgSendDouble",
         _ => "MsgSendNInt"
     };
+
+    /// <summary>
+    /// Returns <see langword="true"/> if a narrowing cast is needed from the MsgSend return type to <paramref name="csType"/>.
+    /// </summary>
+    public static bool NeedsNarrowCast(string csType) => csType is "sbyte" or "byte" or "short" or "ushort";
 
     /// <summary>
     /// Returns the MsgSend call expression for reading an enum property, based on its backing type.

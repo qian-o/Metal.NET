@@ -31,7 +31,7 @@ partial class AstJsonParser
                 continue;
             }
 
-            if (cls.Framework is null or "CoreFoundation" or "CoreGraphics")
+            if (cls.Framework is null or "CoreGraphics")
             {
                 continue;
             }
@@ -49,7 +49,8 @@ partial class AstJsonParser
 
         // Determine base class
         string? csBaseClassName = null;
-        if (!isProtocol && !string.IsNullOrEmpty(ast.Super) && ast.Super != "NSObject")
+        if (!isProtocol && !string.IsNullOrEmpty(ast.Super) && ast.Super != "NSObject"
+            && !SkipClasses.Contains(ast.Super))
         {
             csBaseClassName = ast.Super;
         }

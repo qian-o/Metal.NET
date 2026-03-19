@@ -1,0 +1,37 @@
+﻿namespace Metal.NET;
+
+public partial class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorExtents>
+{
+    #region INativeObject
+    public static new MTLTensorExtents Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+
+    public static new MTLTensorExtents New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
+
+    public nuint Rank
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorExtentsBindings.Rank);
+    }
+
+    public nint InitWithRank(nuint rank, nint values)
+    {
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLTensorExtentsBindings.InitWithRankValues, rank, values);
+    }
+
+    public nint ExtentAtDimensionIndex(nuint dimensionIndex)
+    {
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLTensorExtentsBindings.ExtentAtDimensionIndex, dimensionIndex);
+    }
+}
+
+file static class MTLTensorExtentsBindings
+{
+    public static readonly Selector ExtentAtDimensionIndex = "extentAtDimensionIndex:";
+
+    public static readonly Selector InitWithRankValues = "initWithRank:values:";
+
+    public static readonly Selector Rank = "rank";
+}

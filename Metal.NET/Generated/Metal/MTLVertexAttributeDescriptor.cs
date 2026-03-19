@@ -1,0 +1,52 @@
+﻿namespace Metal.NET;
+
+public partial class MTLVertexAttributeDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexAttributeDescriptor>
+{
+    #region INativeObject
+    public static new MTLVertexAttributeDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+
+    public static new MTLVertexAttributeDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
+
+    public MTLVertexAttributeDescriptor() : this(ObjectiveC.AllocInit(MTLVertexAttributeDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    {
+    }
+
+    public MTLVertexFormat Format
+    {
+        get => (MTLVertexFormat)ObjectiveC.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorBindings.Format);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetFormat, (nuint)value);
+    }
+
+    public nuint Offset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.Offset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetOffset, value);
+    }
+
+    public nuint BufferIndex
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.BufferIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetBufferIndex, value);
+    }
+}
+
+file static class MTLVertexAttributeDescriptorBindings
+{
+    public static readonly nint Class = ObjectiveC.GetClass("MTLVertexAttributeDescriptor");
+
+    public static readonly Selector BufferIndex = "bufferIndex";
+
+    public static readonly Selector Format = "format";
+
+    public static readonly Selector Offset = "offset";
+
+    public static readonly Selector SetBufferIndex = "setBufferIndex:";
+
+    public static readonly Selector SetFormat = "setFormat:";
+
+    public static readonly Selector SetOffset = "setOffset:";
+}

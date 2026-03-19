@@ -37,6 +37,7 @@ partial class CSharpEmitter
         if (returnType == "NSArray")
         {
             returnArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName);
+            if (returnArrayElemType == null) return;
         }
         bool returnsArray = returnArrayElemType != null;
 

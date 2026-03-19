@@ -123,9 +123,8 @@ partial class AstJsonParser
     /// <summary>Classes to skip (hand-written or not relevant). Shared with <see cref="CSharpEmitter"/>.</summary>
     internal static readonly HashSet<string> SkipClasses =
     [
-        "NSObject", "NSArray", "NSString", "NSError", "NSURL",
-        "NSDictionary", "NSNumber", "NSValue", "NSData",
-        "NSBundle", "NSProcessInfo", "NSAutoreleasePool",
+        "NSObject", "NSArray",
+        "NSValue", "NSProcessInfo", "NSAutoreleasePool",
         "NSDate", "NSNotification", "NSNotificationCenter",
         "NSSet", "NSEnumerator",
     ];
