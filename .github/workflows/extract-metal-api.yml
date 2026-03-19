@@ -62,7 +62,7 @@ jobs:
           echo "Symbol graphs: $(ls /tmp/symbolgraph/*.symbols.json 2>/dev/null | wc -l | tr -d ' ') files"
 
       - name: Upload raw diagnostics
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: metal-raw-diagnostics
           path: |
