@@ -683,14 +683,14 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithFormat_Locale(NSString format, NSObject locale)
+    public static NSString InitWithFormat(NSString format, NSObject locale)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithFormat_Locale, format.NativePtr, locale.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithValidatedFormat_ValidFormatSpecifiers_Error(NSString format, NSString validFormatSpecifiers, out NSError error)
+    public static NSString InitWithValidatedFormat(NSString format, NSString validFormatSpecifiers, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithValidatedFormat_ValidFormatSpecifiers_Error, format.NativePtr, validFormatSpecifiers.NativePtr, out nint errorPtr);
 
@@ -699,7 +699,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithValidatedFormat_ValidFormatSpecifiers_Locale_Error(NSString format, NSString validFormatSpecifiers, NSObject locale, out NSError error)
+    public static NSString InitWithValidatedFormat(NSString format, NSString validFormatSpecifiers, NSObject locale, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithValidatedFormat_ValidFormatSpecifiers_Locale_Error, format.NativePtr, validFormatSpecifiers.NativePtr, locale.NativePtr, out nint errorPtr);
 
@@ -708,35 +708,35 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithData_Encoding(NSData data, NSStringEncoding encoding)
+    public static NSString InitWithData(NSData data, NSStringEncoding encoding)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithData_Encoding, data.NativePtr, (nuint)encoding);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithBytes_Length_Encoding(nint bytes, nuint len, NSStringEncoding encoding)
+    public static NSString InitWithBytes(nint bytes, nuint len, NSStringEncoding encoding)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithBytes_Length_Encoding, bytes, len, (nuint)encoding);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithBytesNoCopy_Length_Encoding_FreeWhenDone(nint bytes, nuint len, NSStringEncoding encoding, bool freeBuffer)
+    public static NSString InitWithBytesNoCopy(nint bytes, nuint len, NSStringEncoding encoding, bool freeBuffer)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithBytesNoCopy_Length_Encoding_FreeWhenDone, bytes, len, (nuint)encoding, freeBuffer);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithCString_Encoding(nint nullTerminatedCString, NSStringEncoding encoding)
+    public static NSString InitWithCString(nint nullTerminatedCString, NSStringEncoding encoding)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCString_Encoding, nullTerminatedCString, (nuint)encoding);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithContentsOfURL_Encoding_Error(NSURL url, NSStringEncoding enc, out NSError error)
+    public static NSString InitWithContentsOfURL(NSURL url, NSStringEncoding enc, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithContentsOfURL_Encoding_Error, url.NativePtr, (nuint)enc, out nint errorPtr);
 
@@ -745,7 +745,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithContentsOfFile_Encoding_Error(NSString path, NSStringEncoding enc, out NSError error)
+    public static NSString InitWithContentsOfFile(NSString path, NSStringEncoding enc, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithContentsOfFile_Encoding_Error, path.NativePtr, (nuint)enc, out nint errorPtr);
 
@@ -768,14 +768,14 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithCStringNoCopy_Length_FreeWhenDone(nint bytes, nuint length, bool freeBuffer)
+    public static NSString InitWithCStringNoCopy(nint bytes, nuint length, bool freeBuffer)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCStringNoCopy_Length_FreeWhenDone, bytes, length, freeBuffer);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithCString_Length(nint bytes, nuint length)
+    public static NSString InitWithCString(nint bytes, nuint length)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCString_Length, bytes, length);
 

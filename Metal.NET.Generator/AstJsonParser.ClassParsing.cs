@@ -325,9 +325,13 @@ partial class AstJsonParser
             // Post-process array param pairs
             DetectArrayParamPairs(parameters);
 
+            string initName = astMethod.Name != "init"
+                ? astMethod.Name
+                : SelectorToMethodName(astMethod.Selector);
+
             methods.Add(new MethodInfo
             {
-                Name = astMethod.Selector,
+                Name = initName,
                 ReturnType = "instancetype",
                 IsStatic = false,
                 IsConst = false,

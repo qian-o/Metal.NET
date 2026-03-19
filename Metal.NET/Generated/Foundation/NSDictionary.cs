@@ -180,7 +180,7 @@ public partial class NSDictionary(nint nativePtr, NativeObjectOwnership ownershi
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSDictionary InitWithContentsOfURL_Error(NSURL url, out NSError error)
+    public static NSDictionary InitWithContentsOfURL(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDictionaryBindings.Class), NSDictionaryBindings.InitWithContentsOfURL_Error, url.NativePtr, out nint errorPtr);
 

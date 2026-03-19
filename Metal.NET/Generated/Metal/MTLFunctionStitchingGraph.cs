@@ -39,7 +39,7 @@ public partial class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwner
         set => SetArrayProperty(MTLFunctionStitchingGraphBindings.SetAttributes, value);
     }
 
-    public static MTLFunctionStitchingGraph InitWithFunctionName_Nodes_OutputNode_Attributes(NSString functionName, MTLFunctionStitchingFunctionNode[] nodes, MTLFunctionStitchingFunctionNode outputNode, MTLFunctionStitchingAttribute[] attributes)
+    public static MTLFunctionStitchingGraph InitWithFunctionName(NSString functionName, MTLFunctionStitchingFunctionNode[] nodes, MTLFunctionStitchingFunctionNode outputNode, MTLFunctionStitchingAttribute[] attributes)
     {
         nint pNodes = NSArray.FromArray(nodes);
         nint pAttributes = NSArray.FromArray(attributes);

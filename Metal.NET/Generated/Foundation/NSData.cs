@@ -106,21 +106,21 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static NSData InitWithBytes_Length(nint bytes, nuint length)
+    public static NSData InitWithBytes(nint bytes, nuint length)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytes_Length, bytes, length);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSData InitWithBytesNoCopy_Length(nint bytes, nuint length)
+    public static NSData InitWithBytesNoCopy(nint bytes, nuint length)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopy_Length, bytes, length);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSData InitWithBytesNoCopy_Length_FreeWhenDone(nint bytes, nuint length, bool b)
+    public static NSData InitWithBytesNoCopy(nint bytes, nuint length, bool b)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopy_Length_FreeWhenDone, bytes, length, b);
 

@@ -630,7 +630,7 @@ partial class CSharpEmitter
 
         string paramStr = string.Join(", ", csParams);
         string argsStr = string.Join(", ", callArgs);
-        string csMethodName = TypeMapper.ToPascalCase(selectorKey);
+        string csMethodName = TypeMapper.ToPascalCase(method.Name);
         string unsafeKw = needsUnsafeContext ? "unsafe " : "";
 
         RecordMsgSend("MsgSendNInt", [.. callArgTypes]);

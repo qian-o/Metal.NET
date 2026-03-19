@@ -53,7 +53,7 @@ public partial class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeO
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static MTLRasterizationRateLayerDescriptor InitWithSampleCount_Horizontal_Vertical(MTLSize sampleCount, float horizontal, float vertical)
+    public static MTLRasterizationRateLayerDescriptor InitWithSampleCount(MTLSize sampleCount, float horizontal, float vertical)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLRasterizationRateLayerDescriptorBindings.Class), MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCount_Horizontal_Vertical, sampleCount, horizontal, vertical);
 

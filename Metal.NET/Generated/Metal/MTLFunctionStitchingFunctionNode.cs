@@ -33,7 +33,7 @@ public partial class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObje
         set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
     }
 
-    public static MTLFunctionStitchingFunctionNode InitWithName_Arguments_ControlDependencies(NSString name, MTLFunctionStitchingNode[] arguments, MTLFunctionStitchingFunctionNode[] controlDependencies)
+    public static MTLFunctionStitchingFunctionNode InitWithName(NSString name, MTLFunctionStitchingNode[] arguments, MTLFunctionStitchingFunctionNode[] controlDependencies)
     {
         nint pArguments = NSArray.FromArray(arguments);
         nint pControlDependencies = NSArray.FromArray(controlDependencies);

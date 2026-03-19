@@ -329,28 +329,28 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static NSURL InitWithScheme_Host_Path(NSString scheme, NSString host, NSString path)
+    public static NSURL InitWithScheme(NSString scheme, NSString host, NSString path)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithScheme_Host_Path, scheme.NativePtr, host.NativePtr, path.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitFileURLWithPath_IsDirectory_RelativeToURL(NSString path, bool isDir, NSURL baseURL)
+    public static NSURL InitFileURLWithPath(NSString path, bool isDir, NSURL baseURL)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath_IsDirectory_RelativeToURL, path.NativePtr, isDir, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitFileURLWithPath_RelativeToURL(NSString path, NSURL baseURL)
+    public static NSURL InitFileURLWithPath(NSString path, NSURL baseURL)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath_RelativeToURL, path.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitFileURLWithPath_IsDirectory(NSString path, bool isDir)
+    public static NSURL InitFileURLWithPath(NSString path, bool isDir)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath_IsDirectory, path.NativePtr, isDir);
 
@@ -364,7 +364,7 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitFileURLWithFileSystemRepresentation_IsDirectory_RelativeToURL(nint path, bool isDir, NSURL baseURL)
+    public static NSURL InitFileURLWithFileSystemRepresentation(nint path, bool isDir, NSURL baseURL)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithFileSystemRepresentation_IsDirectory_RelativeToURL, path, isDir, baseURL.NativePtr);
 
@@ -378,28 +378,28 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitWithString_RelativeToURL(NSString uRLString, NSURL baseURL)
+    public static NSURL InitWithString(NSString uRLString, NSURL baseURL)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithString_RelativeToURL, uRLString.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitWithString_EncodingInvalidCharacters(NSString uRLString, bool encodingInvalidCharacters)
+    public static NSURL InitWithString(NSString uRLString, bool encodingInvalidCharacters)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithString_EncodingInvalidCharacters, uRLString.NativePtr, encodingInvalidCharacters);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitWithDataRepresentation_RelativeToURL(NSData data, NSURL baseURL)
+    public static NSURL InitWithDataRepresentation(NSData data, NSURL baseURL)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithDataRepresentation_RelativeToURL, data.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitAbsoluteURLWithDataRepresentation_RelativeToURL(NSData data, NSURL baseURL)
+    public static NSURL InitAbsoluteURLWithDataRepresentation(NSData data, NSURL baseURL)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitAbsoluteURLWithDataRepresentation_RelativeToURL, data.NativePtr, baseURL.NativePtr);
 
