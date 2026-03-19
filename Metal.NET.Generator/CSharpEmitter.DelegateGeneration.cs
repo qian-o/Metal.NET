@@ -91,14 +91,17 @@ partial class CSharpEmitter
     /// </summary>
     static string ResolveStrongType(BlockParam param)
     {
+        // Normalize: strip nullability annotations so both typedef and inline blocks behave consistently
+        string objcType = AstJsonParser.StripNullability(param.ObjCType).Trim();
+
         // Value types pass through directly
-        if (!param.ObjCType.TrimEnd().EndsWith('*'))
+        if (!objcType.EndsWith('*'))
         {
             return param.CsType;
         }
 
         // void* stays as nint (e.g., MTLDeallocator's pointer param)
-        string stripped = param.ObjCType.TrimEnd().TrimEnd('*').Trim();
+        string stripped = objcType.TrimEnd('*').Trim();
         if (stripped is "void" or "")
         {
             return "nint";
@@ -116,7 +119,7 @@ partial class CSharpEmitter
         }
 
         // Use TypeMapper to resolve the strong type (ObjC object pointers)
-        return TypeMapper.MapType(param.ObjCType);
+        return TypeMapper.MapType(objcType);
     }
 
     #endregion

@@ -11,32 +11,20 @@ f = open('Metal.NET.Generator/metal-ast.json', encoding='utf-8-sig')
 data = json.load(f)
 f.close()
 
-# Build AST selector map: className -> {selectorString -> method/property info}
-ast_selectors = {}  # className -> ordered list of (selector, source)
+# Build AST selector map: className -> set of selectors
+# Use ONLY the methods array — it contains the actual ObjC selectors for both
+# regular methods AND property accessors (getter/setter).  Deriving selectors
+# from the properties array is unreliable because:
+#   - property 'name' may differ from the actual getter selector (e.g. parent vs parentTexture)
+#   - setter construction from 'name' is wrong for is* booleans (setIsX: vs setX:)
+#   - properties and methods overlap, causing double-counting
 ast_selector_sets = {}  # className -> set of selectors
 
 for cls in data.get('classes', []) + data.get('protocols', []):
     cn = cls['name']
-    selectors = []
-    sel_set = ast_selector_sets.get(cn, set())  # merge if already exists
-    
-    # Properties generate getter + setter selectors
-    for p in cls.get('properties', []):
-        pname = p['name']
-        selectors.append((pname, 'property-get'))
-        sel_set.add(pname)
-        if not p.get('readonly', False):
-            setter = f"set{pname[0].upper()}{pname[1:]}:"
-            selectors.append((setter, 'property-set'))
-            sel_set.add(setter)
-    
-    # Methods
+    sel_set = ast_selector_sets.get(cn, set())  # merge if already exists (protocol + class)
     for m in cls.get('methods', []):
-        sel = m['selector']
-        selectors.append((sel, 'method'))
-        sel_set.add(sel)
-    
-    ast_selectors[cn] = selectors
+        sel_set.add(m['selector'])
     ast_selector_sets[cn] = sel_set
 
 # Parse generated files to extract Bindings class selectors
@@ -63,7 +51,7 @@ for root, dirs, files in os.walk(gen_dir):
         for m in re.finditer(r'public static readonly Selector (\w+) = "([^"]+)";', content):
             field_name = m.group(1)
             sel_value = m.group(2)
-            if field_name == 'Class' or sel_value.startswith('alloc'):
+            if field_name == 'Class' or sel_value == 'alloc':
                 continue  # Skip Class field and alloc
             selectors.append((field_name, sel_value))
         
@@ -99,25 +87,25 @@ for cls in data.get('classes', []) + data.get('protocols', []):
     if fw not in ('Metal', 'MetalFX'):
         continue
     
+    # Collect selector values from this class AND its parent chain / adopted protocols
     gen_sel_values = set()
     if cn in gen_selectors:
         gen_sel_values = {sv for _, sv in gen_selectors[cn]}
+    # Also include selectors from the super class and adopted protocols
+    # (the generated code inherits them, so we shouldn't report them as missing)
+    for parent in [cls.get('super', '')] + cls.get('protocols', []):
+        if parent and parent in gen_selectors:
+            gen_sel_values |= {sv for _, sv in gen_selectors[parent]}
     
-    # Check properties
-    for p in cls.get('properties', []):
-        pname = p['name']
-        if pname not in gen_sel_values:
-            missing_from_gen.append((cn, pname, 'property-get'))
-        if not p.get('readonly', False):
-            setter = f"set{pname[0].upper()}{pname[1:]}:"
-            if setter not in gen_sel_values:
-                missing_from_gen.append((cn, setter, 'property-set'))
-    
-    # Check methods
+    # Check methods (the authoritative source of actual ObjC selectors)
     for m in cls.get('methods', []):
         sel = m['selector']
+        # init (no params) becomes a constructor via AllocInit — no selector field needed
+        if sel == 'init':
+            continue
         if sel not in gen_sel_values:
-            missing_from_gen.append((cn, sel, 'method'))
+            kind = 'class-method' if m.get('isClassMethod', False) else 'method'
+            missing_from_gen.append((cn, sel, kind))
 
 if missing_from_gen:
     by_class = defaultdict(list)

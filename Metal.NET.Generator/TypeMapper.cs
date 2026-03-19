@@ -119,6 +119,8 @@ partial class TypeMapper(GeneratorContext context)
             "NSInteger" => "nint",
             "uint32_t" => "uint",
             "int32_t" => "int",
+            "kern_return_t" => "int",
+            "task_id_token_t" => "uint",
             "uint8_t" => "byte",
             "int8_t" => "sbyte",
             "uint16_t" => "ushort",
@@ -258,7 +260,7 @@ partial class TypeMapper(GeneratorContext context)
         objcType.Contains('&') ||
         (objcType.Contains("* const") && !objcType.Contains("**")) ||
         objcType.Contains("NS::Process") || objcType.Contains("NS::Observer") ||
-        objcType.Contains("kern_return_t") || objcType.Contains("task_id_token_t");
+        false;
 
     #endregion
 

@@ -190,9 +190,16 @@ partial class AstJsonParser
                 : SelectorToMethodName(selector);
 
             // Skip methods whose name clashes with a property (e.g., GPUStartTime vs gpuStartTime)
-            if (propertyNames.Contains(name))
+            // But allow overloads that have parameters (different selector, e.g., sparseTileSizeInBytesForSparsePageSize:)
+            if (propertyNames.Contains(name) && astMethod.Parameters.Count == 0)
             {
                 continue;
+            }
+
+            // Disambiguate: method with params whose name clashes with a property → prefix with "Get"
+            if (propertyNames.Contains(name) && astMethod.Parameters.Count > 0)
+            {
+                name = "get" + name[0..1].ToUpperInvariant() + name[1..];
             }
 
             if (SkipMethods.Contains(name))

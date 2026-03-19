@@ -198,7 +198,7 @@ partial class AstJsonParser
     };
 
     /// <summary>Strips nullability and API availability annotations from ObjC type strings.</summary>
-    static string StripNullability(string objcType)
+    internal static string StripNullability(string objcType)
     {
         string result = NullabilityRegex().Replace(objcType, "");
         result = ApiAvailabilityRegex().Replace(result, "");

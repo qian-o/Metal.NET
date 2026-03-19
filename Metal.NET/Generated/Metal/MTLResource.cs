@@ -66,6 +66,11 @@ public partial class MTLResource(nint nativePtr, NativeObjectOwnership ownership
     {
         return ObjectiveC.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
     }
+
+    public int SetOwnerWithIdentity(uint task_id_token)
+    {
+        return ObjectiveC.MsgSendInt(NativePtr, MTLResourceBindings.SetOwnerWithIdentity, task_id_token);
+    }
 }
 
 file static class MTLResourceBindings
@@ -89,6 +94,8 @@ file static class MTLResourceBindings
     public static readonly Selector ResourceOptions = "resourceOptions";
 
     public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector SetOwnerWithIdentity = "setOwnerWithIdentity:";
 
     public static readonly Selector SetPurgeableState = "setPurgeableState:";
 

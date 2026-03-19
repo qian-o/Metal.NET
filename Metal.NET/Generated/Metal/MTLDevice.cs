@@ -684,6 +684,11 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.ConvertSparseTileRegions_ToPixelRegions_WithTileSize_NumRegions, tileRegions, pixelRegions, tileSize, numRegions);
     }
 
+    public nuint GetSparseTileSizeInBytes(MTLSparsePageSize sparsePageSize)
+    {
+        return ObjectiveC.MsgSendNUInt(NativePtr, MTLDeviceBindings.SparseTileSizeInBytesForSparsePageSize, (nint)sparsePageSize);
+    }
+
     public MTLSize SparseTileSize(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount, MTLSparsePageSize sparsePageSize)
     {
         return ObjectiveC.MsgSendMTLSize(NativePtr, MTLDeviceBindings.SparseTileSizeWithTextureType_PixelFormat_SampleCount_SparsePageSize, (nuint)textureType, (nuint)pixelFormat, sampleCount, (nint)sparsePageSize);
@@ -1233,6 +1238,8 @@ file static class MTLDeviceBindings
     public static readonly Selector SizeOfCounterHeapEntry = "sizeOfCounterHeapEntry:";
 
     public static readonly Selector SparseTileSizeInBytes = "sparseTileSizeInBytes";
+
+    public static readonly Selector SparseTileSizeInBytesForSparsePageSize = "sparseTileSizeInBytesForSparsePageSize:";
 
     public static readonly Selector SparseTileSizeWithTextureType_PixelFormat_SampleCount = "sparseTileSizeWithTextureType:pixelFormat:sampleCount:";
 

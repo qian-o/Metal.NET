@@ -100,7 +100,8 @@ partial class AstJsonParser
 
         // C primitive types — pass through as-is
         if (t is "uint32_t" or "int32_t" or "uint8_t" or "int8_t" or "uint16_t" or "int16_t"
-                or "uint64_t" or "int64_t" or "float" or "double" or "void")
+                or "uint64_t" or "int64_t" or "float" or "double" or "void"
+                or "kern_return_t" or "task_id_token_t")
         {
             return t;
         }
@@ -200,7 +201,7 @@ partial class AstJsonParser
         return t.StartsWith("NSSet<")
             || t.Contains("NS::Process") || t.Contains("NS::Observer")
             || t.Contains("NSProcess") || t.Contains("NSObserver")
-            || t.Contains("kern_return_t") || t.Contains("task_id_token_t")
+
             || t.Contains("ObjectType") || t.Contains("KeyType")
             || t.Contains("NS_RETURNS_INNER_POINTER")
             || t.Contains("NSStringEncoding *") || t == "NSStringEncodingConversionOptions"

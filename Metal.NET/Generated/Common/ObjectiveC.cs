@@ -1273,6 +1273,16 @@ internal static unsafe partial class ObjectiveC
         return ((delegate* unmanaged<nint, Selector, int>)msgSend)(receiver, selector);
     }
 
+    public static int MsgSendInt(nint receiver, Selector selector, uint a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return ((delegate* unmanaged<nint, Selector, uint, int>)msgSend)(receiver, selector, a);
+    }
+
     #endregion
 
     #region MsgSendLong
