@@ -762,6 +762,38 @@ def _new_to_make(name: str) -> str | None:
     return 'make' + core
 
 
+def _propagate_sibling_swift_names(api: dict) -> int:
+    """Propagate Swift names to sibling methods sharing the same selector prefix.
+
+    When the symbol graph renames some overloads (e.g. the 2-param variant of
+    ``renderCommandEncoderWithDescriptor:options:`` → ``makeRenderCommandEncoder``)
+    but misses others (the 1-param ``renderCommandEncoderWithDescriptor:``),
+    this pass copies the renamed base name to the unrenamed siblings.
+    """
+    from collections import defaultdict
+
+    propagated = 0
+    for collection in (api['protocols'], api['classes']):
+        for t in collection:
+            groups: dict[str, list[dict]] = defaultdict(list)
+            for m in t.get('methods', []):
+                sel = m.get('selector', '')
+                first_part = sel.split(':')[0] if ':' in sel else sel
+                groups[first_part].append((m, first_part))
+
+            for first_part, entries in groups.items():
+                if len(entries) < 2:
+                    continue
+                renamed = [(m, fp) for m, fp in entries if m['name'] != fp]
+                unrenamed = [(m, fp) for m, fp in entries if m['name'] == fp]
+                if renamed and unrenamed:
+                    new_name = renamed[0][0]['name']
+                    for m, _fp in unrenamed:
+                        m['name'] = new_name
+                        propagated += 1
+    return propagated
+
+
 def apply_swift_names(api: dict, swift_names: dict) -> int:
     """Apply Swift names to methods and properties in protocols and classes.
 
@@ -792,6 +824,11 @@ def apply_swift_names(api: dict, swift_names: dict) -> int:
                     p['name'] = swift_names[key]
                     applied += 1
     print(f"  Swift names applied: {applied}, new→make fallback: {fallback}")
+
+    # Propagate Swift names to sibling methods sharing the same selector prefix
+    propagated = _propagate_sibling_swift_names(api)
+    if propagated:
+        print(f"  Sibling Swift names propagated: {propagated}")
 
     # Resolve overload collisions caused by Swift name mapping
     collisions = _resolve_overload_collisions(api)
