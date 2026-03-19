@@ -20,7 +20,7 @@ public partial class MTLTexture(nint nativePtr, NativeObjectOwnership ownership)
         get => GetProperty(ref field, MTLTextureBindings.RootResource);
     }
 
-    public MTLTexture ParentTexture
+    public MTLTexture Parent
     {
         get => GetProperty(ref field, MTLTextureBindings.ParentTexture);
     }

@@ -33,8 +33,8 @@ partial class CSharpEmitter
         bool isStruct = TypeMapper.StructTypes.Contains(csType);
         bool isBool = csType == "bool";
 
-        string selectorName = csPropName;
         string selectorObjC = getter.Selector ?? getter.Name;
+        string selectorName = BuildMethodNameFromSelector(selectorObjC);
         selectors.TryAdd(selectorName, selectorObjC);
 
         const string Target = "NativePtr";
@@ -45,8 +45,8 @@ partial class CSharpEmitter
         string? setSelName = null;
         if (prop.Setter != null)
         {
-            setSelName = TypeMapper.ToPascalCase(prop.Setter.Name);
             string setSelObjC = prop.Setter.Selector ?? "set" + csPropName + ":";
+            setSelName = BuildMethodNameFromSelector(setSelObjC);
             selectors.TryAdd(setSelName, setSelObjC);
         }
 

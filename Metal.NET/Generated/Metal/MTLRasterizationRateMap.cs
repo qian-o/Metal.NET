@@ -36,7 +36,7 @@ public partial class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnersh
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapBindings.LayerCount);
     }
 
-    public MTLSizeAndAlign ParameterBufferSizeAndAlign
+    public MTLSizeAndAlign ParameterDataSizeAndAlign
     {
         get => ObjectiveC.MsgSendMTLSizeAndAlign(NativePtr, MTLRasterizationRateMapBindings.ParameterBufferSizeAndAlign);
     }

@@ -42,7 +42,7 @@ public partial class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObje
     public MTLPixelFormat UiTextureFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.UiTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetUiTextureFormat, (nuint)value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetUITextureFormat, (nuint)value);
     }
 
     public MTLFXFrameInterpolatableScaler Scaler
@@ -144,7 +144,7 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 
     public static readonly Selector SetScaler = "setScaler:";
 
-    public static readonly Selector SetUiTextureFormat = "setUITextureFormat:";
+    public static readonly Selector SetUITextureFormat = "setUITextureFormat:";
 
     public static readonly Selector SupportsDevice = "supportsDevice:";
 

@@ -16,7 +16,7 @@ public partial class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwn
         get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.FunctionName);
     }
 
-    public NSURL URL
+    public NSURL Url
     {
         get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.URL);
     }

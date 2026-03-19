@@ -52,12 +52,12 @@ public partial class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership owne
         get => GetProperty(ref field, MTLCommandBufferBindings.Logs);
     }
 
-    public double GPUStartTime
+    public double GpuStartTime
     {
         get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUStartTime);
     }
 
-    public double GPUEndTime
+    public double GpuEndTime
     {
         get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUEndTime);
     }

@@ -115,7 +115,9 @@ partial class AstJsonParser
             string getterSelector = prop.Getter
                 ?? methodSelectorByName.GetValueOrDefault(prop.Name)
                 ?? prop.Name;
-            string getterName = SelectorToMethodName(getterSelector);
+            // Use the AST property name for the C# name (e.g. "gpuStartTime" → "GpuStartTime"),
+            // not the selector (which may differ in casing, e.g. "GPUStartTime").
+            string getterName = prop.Name;
             string returnType = MapObjCTypeForModel(propObjcType);
 
             // Getter

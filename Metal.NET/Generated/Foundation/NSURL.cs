@@ -100,7 +100,7 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
         get => ObjectiveC.MsgSendBool(NativePtr, NSURLBindings.HasDirectoryPath);
     }
 
-    public Bool8 IsFileURL
+    public Bool8 FileURL
     {
         get => ObjectiveC.MsgSendBool(NativePtr, NSURLBindings.IsFileURL);
     }

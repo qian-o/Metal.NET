@@ -115,7 +115,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, NSStringBindings.PrecomposedStringWithCompatibilityMapping);
     }
 
-    public Bool8 IsAbsolutePath
+    public Bool8 AbsolutePath
     {
         get => ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.IsAbsolutePath);
     }

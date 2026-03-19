@@ -150,7 +150,7 @@ public partial class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwne
     public MTLTexture UiTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetUiTexture, value);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetUITexture, value);
     }
 
     public float JitterOffsetX
@@ -168,7 +168,7 @@ public partial class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwne
     public Bool8 IsUITextureComposited
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsUITextureComposited);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetUITextureComposited, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsUITextureComposited, value);
     }
 
     public Bool8 ShouldResetHistory
@@ -272,6 +272,8 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetFieldOfView = "setFieldOfView:";
 
+    public static readonly Selector SetIsUITextureComposited = "setIsUITextureComposited:";
+
     public static readonly Selector SetJitterOffsetX = "setJitterOffsetX:";
 
     public static readonly Selector SetJitterOffsetY = "setJitterOffsetY:";
@@ -290,9 +292,7 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetShouldResetHistory = "setShouldResetHistory:";
 
-    public static readonly Selector SetUiTexture = "setUITexture:";
-
-    public static readonly Selector SetUITextureComposited = "setIsUITextureComposited:";
+    public static readonly Selector SetUITexture = "setUITexture:";
 
     public static readonly Selector ShouldResetHistory = "shouldResetHistory";
 

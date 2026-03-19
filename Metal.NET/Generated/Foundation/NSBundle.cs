@@ -20,7 +20,7 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, NSBundleBindings.MainBundle);
     }
 
-    public Bool8 IsLoaded
+    public Bool8 Loaded
     {
         get => ObjectiveC.MsgSendBool(NativePtr, NSBundleBindings.IsLoaded);
     }
