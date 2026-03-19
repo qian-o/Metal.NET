@@ -301,7 +301,14 @@ partial class CSharpEmitter
         {
             string msgSend = TypeMapper.GetMsgSendMethod(returnType);
             RecordMsgSend(msgSend, argTypesArray);
-            msgSendExpr = $"ObjectiveC.{msgSend}({argsStr})";
+            if (TypeMapper.NeedsNarrowCast(returnType))
+            {
+                msgSendExpr = $"({returnType})ObjectiveC.{msgSend}({argsStr})";
+            }
+            else
+            {
+                msgSendExpr = $"ObjectiveC.{msgSend}({argsStr})";
+            }
         }
 
         if (isVoid)
@@ -404,6 +411,92 @@ partial class CSharpEmitter
         }
 
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Emits a parameterized constructor from an ObjC <c>init</c> method.
+    /// Pattern: <c>public ClassName(params) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(Bindings.Class), Bindings.InitSelector, args), NativeObjectOwnership.Managed)</c>
+    /// </summary>
+    void EmitInitStaticMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors)
+    {
+        string selectorObjC = method.Selector!;
+        string selectorKey = BuildMethodNameFromSelector(selectorObjC);
+        selectors.TryAdd(selectorKey, selectorObjC);
+
+        string selectorRef = $"{csClassName}Bindings.{selectorKey}";
+
+        List<string> csParams = [];
+        List<string> callArgs = [$"ObjectiveC.Alloc({csClassName}Bindings.Class)", selectorRef];
+        List<string> callArgTypes = [];
+        bool hasOutError = method.Parameters.Any(p => p.Type.Contains("Error**"));
+
+        for (int pi = 0; pi < method.Parameters.Count; pi++)
+        {
+            ParamDef param = method.Parameters[pi];
+            if (param.Type == "ARRAY_PARAM")
+            {
+                continue;
+            }
+
+            if (param.Type.Contains("Error**"))
+            {
+                csParams.Add("out NSError error");
+                callArgs.Add("out nint errorPtr");
+                callArgTypes.Add("out nint");
+                continue;
+            }
+
+            string csParamType = TypeMapper.MapType(param.Type);
+            string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+
+            csParams.Add($"{csParamType} {paramName}");
+
+            if (typeMapper.IsNativeObjectType(csParamType))
+            {
+                callArgs.Add($"{paramName}.NativePtr");
+                callArgTypes.Add("nint");
+            }
+            else if (typeMapper.IsEnumType(csParamType))
+            {
+                callArgs.Add($"{typeMapper.GetEnumSetCast(csParamType)}{paramName}");
+                string castType = typeMapper.GetEnumSetCast(csParamType).TrimStart('(').TrimEnd(')');
+                callArgTypes.Add(castType);
+            }
+            else
+            {
+                callArgs.Add(paramName);
+                callArgTypes.Add(csParamType == "bool" ? "Bool8" : csParamType);
+            }
+        }
+
+        string paramStr = string.Join(", ", csParams);
+        string argsStr = string.Join(", ", callArgs);
+        string csMethodName = TypeMapper.ToPascalCase(selectorKey);
+
+        RecordMsgSend("MsgSendNInt", [.. callArgTypes]);
+
+        if (method.DeprecationMessage != null)
+        {
+            EmitDeprecation(sb, method.DeprecationMessage);
+        }
+
+        sb.AppendLine($"    public static {csClassName} {csMethodName}({paramStr})");
+        sb.AppendLine("    {");
+        if (hasOutError)
+        {
+            sb.AppendLine($"        nint nativePtr = ObjectiveC.MsgSendNInt({argsStr});");
+            sb.AppendLine();
+            sb.AppendLine($"        error = new(errorPtr, NativeObjectOwnership.Owned);");
+            sb.AppendLine();
+            sb.AppendLine($"        return new(nativePtr, NativeObjectOwnership.Managed);");
+        }
+        else
+        {
+            sb.AppendLine($"        nint nativePtr = ObjectiveC.MsgSendNInt({argsStr});");
+            sb.AppendLine();
+            sb.AppendLine($"        return new(nativePtr, NativeObjectOwnership.Managed);");
+        }
+        sb.AppendLine("    }");
     }
 
     #endregion

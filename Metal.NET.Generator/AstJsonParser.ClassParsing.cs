@@ -189,6 +189,12 @@ partial class AstJsonParser
                 continue;
             }
 
+            // Skip init methods with parameters — handled separately as constructors
+            if (astMethod.Selector.StartsWith("init") && !astMethod.IsClassMethod && astMethod.Parameters.Count > 0)
+            {
+                continue;
+            }
+
             string returnType = MapObjCTypeForModel(astMethod.ReturnType);
 
             // Skip unmappable return types
@@ -247,6 +253,72 @@ partial class AstJsonParser
                 Selector = selector,
                 DeprecationMessage = astMethod.Deprecated ? astMethod.DeprecationMessage : null,
             });
+        }
+
+        // Parse init methods (parameterized constructors)
+        foreach (AstMethod astMethod in ast.Methods)
+        {
+            // Only instance methods whose selector starts with "init" and have parameters
+            if (astMethod.IsClassMethod || !astMethod.Selector.StartsWith("init") || astMethod.Parameters.Count == 0)
+            {
+                continue;
+            }
+
+            // Skip selectors already explicitly excluded (e.g., initWithCoder:)
+            if (SkipSelectors.Contains(astMethod.Selector))
+            {
+                continue;
+            }
+
+            // Parse parameters — skip if any are unmappable
+            List<ParamDef> parameters = [];
+            bool skipMethod = false;
+            foreach (AstParam p in astMethod.Parameters)
+            {
+                if (IsUnmappableObjCType(p.Type))
+                {
+                    skipMethod = true;
+                    break;
+                }
+
+                string paramType = MapObjCTypeForModel(p.Type);
+
+                // Skip init methods with NSArray/NSDictionary parameters
+                if (paramType.StartsWith("NSArray") || paramType.StartsWith("NSDictionary"))
+                {
+                    skipMethod = true;
+                    break;
+                }
+
+                parameters.Add(new ParamDef(paramType, p.Name));
+            }
+
+            if (skipMethod)
+            {
+                continue;
+            }
+
+            // Post-process array param pairs
+            DetectArrayParamPairs(parameters);
+
+            methods.Add(new MethodInfo
+            {
+                Name = astMethod.Selector,
+                ReturnType = "instancetype",
+                IsStatic = false,
+                IsConst = false,
+                Parameters = parameters,
+                UsesClassTarget = false,
+                Selector = astMethod.Selector,
+                IsInit = true,
+                DeprecationMessage = astMethod.Deprecated ? astMethod.DeprecationMessage : null,
+            });
+        }
+
+        // If class has init methods, it needs AllocInit capability (Class field)
+        if (methods.Any(m => m.IsInit))
+        {
+            hasAllocInit = true;
         }
 
         context.Classes.Add(new ClassDef

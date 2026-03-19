@@ -120,33 +120,6 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, NSBundleBindings.DevelopmentLocalization);
     }
 
-    public static nint BundleWithPath(NSString path)
-    {
-        return ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.BundleWithPath, path.NativePtr);
-    }
-
-    public nint InitWithPath(NSString path)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.InitWithPath, path.NativePtr);
-    }
-
-    public static nint BundleWithURL(NSURL url)
-    {
-        return ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.BundleWithURL, url.NativePtr);
-    }
-
-    public nint InitWithURL(NSURL url)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.InitWithURL, url.NativePtr);
-    }
-
-    public static NSBundle BundleWithIdentifier(NSString identifier)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.BundleWithIdentifier, identifier.NativePtr);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
     public bool Load()
     {
         return ObjectiveC.MsgSendBool(NativePtr, NSBundleBindings.Load);
@@ -189,13 +162,6 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static NSURL URLForResource(NSString name, NSString ext, NSString subpath, NSURL bundleURL)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.URLForResourceWithExtensionSubdirectoryInBundleWithURL, name.NativePtr, ext.NativePtr, subpath.NativePtr, bundleURL.NativePtr);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
     public NSURL URLForResource(NSString name, NSString ext)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLForResourceWithExtension, name.NativePtr, ext.NativePtr);
@@ -213,13 +179,6 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
     public NSURL URLForResource(NSString name, NSString ext, NSString subpath, NSString localizationName)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLForResourceWithExtensionSubdirectoryLocalization, name.NativePtr, ext.NativePtr, subpath.NativePtr, localizationName.NativePtr);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public static NSString PathForResource(NSString name, NSString ext, NSString bundlePath)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.PathForResourceOfTypeInDirectory, name.NativePtr, ext.NativePtr, bundlePath.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -255,6 +214,51 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
     public double PreservationPriorityForTag(NSString tag)
     {
         return ObjectiveC.MsgSendDouble(NativePtr, NSBundleBindings.PreservationPriorityForTag, tag.NativePtr);
+    }
+
+    public static nint BundleWithPath(NSString path)
+    {
+        return ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.BundleWithPath, path.NativePtr);
+    }
+
+    public static nint BundleWithURL(NSURL url)
+    {
+        return ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.BundleWithURL, url.NativePtr);
+    }
+
+    public static NSBundle BundleWithIdentifier(NSString identifier)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.BundleWithIdentifier, identifier.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static NSURL URLForResource(NSString name, NSString ext, NSString subpath, NSURL bundleURL)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.URLForResourceWithExtensionSubdirectoryInBundleWithURL, name.NativePtr, ext.NativePtr, subpath.NativePtr, bundleURL.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static NSString PathForResource(NSString name, NSString ext, NSString bundlePath)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.PathForResourceOfTypeInDirectory, name.NativePtr, ext.NativePtr, bundlePath.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static NSBundle InitWithPath(NSString path)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSBundleBindings.Class), NSBundleBindings.InitWithPath, path.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSBundle InitWithURL(NSURL url)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSBundleBindings.Class), NSBundleBindings.InitWithURL, url.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
     }
 }
 

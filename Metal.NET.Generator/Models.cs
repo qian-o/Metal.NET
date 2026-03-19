@@ -77,6 +77,9 @@ class MethodInfo
     /// <summary>Whether this method was parsed from the JSON <c>properties</c> array (as a getter or setter).</summary>
     public bool IsPropertyAccessor { get; set; }
 
+    /// <summary>Whether this is an <c>init</c> method (parameterized constructor).</summary>
+    public bool IsInit { get; set; }
+
     /// <summary>Deprecation message if the method is deprecated, otherwise <c>null</c>.</summary>
     public string? DeprecationMessage { get; set; }
 }

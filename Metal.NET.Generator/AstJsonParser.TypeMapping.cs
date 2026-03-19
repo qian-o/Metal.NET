@@ -59,6 +59,10 @@ partial class AstJsonParser
             "MTLGPUAddress" => "NS::UInteger",
             "MTLCoordinate2D" => "MTL::Coordinate2D*",
             "const char *" or "char *" => "char*",
+            "unichar" => "ushort",
+            "NSStringEncoding" => "NS::UInteger",
+            "const void *" or "void *" => "nint",
+            "const unichar *" or "unichar *" => "nint",
             _ => null
         };
         if (exactMatch is not null)
@@ -138,9 +142,9 @@ partial class AstJsonParser
             || t.Contains("kern_return_t") || t.Contains("task_id_token_t")
             || t.Contains("ObjectType") || t.Contains("KeyType")
             || t.Contains("NS_RETURNS_INNER_POINTER")
-            || t.Contains("NSStringEncoding")
+            || t.Contains("NSStringEncoding *") || t == "NSStringEncodingConversionOptions"
             || t.Contains("*const ") || (t.Contains("const") && t.Contains("* _Nonnull *"))
-            || t.Contains("unichar")
+            || t.Contains("unichar *")
             || t.Contains("CAEDRMetadata")
             || t.Contains("NSCoder")
             || t.Contains("MTLIOCompressionContext")

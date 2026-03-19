@@ -52,6 +52,18 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
         return ObjectiveC.MsgSendBool(NativePtr, NSDataBindings.WriteToURLAtomically, url.NativePtr, atomically);
     }
 
+    public void GetBytes(nint buffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, NSDataBindings.GetBytes, buffer);
+    }
+
+    public NSString Base64Encoding()
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.Base64Encoding);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public static nint Data()
     {
         return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.Data);
@@ -82,44 +94,9 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
         return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.DataWithContentsOfURL, url.NativePtr);
     }
 
-    public nint InitWithBytes(nint bytes, nuint length)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.InitWithBytesLength, bytes, length);
-    }
-
-    public nint InitWithBytesNoCopy(nint bytes, nuint length)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.InitWithBytesNoCopyLength, bytes, length);
-    }
-
-    public nint InitWithBytesNoCopy(nint bytes, nuint length, bool b)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.InitWithBytesNoCopyLengthFreeWhenDone, bytes, length, b);
-    }
-
-    public nint InitWithContentsOfFile(NSString path)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.InitWithContentsOfFile, path.NativePtr);
-    }
-
-    public nint InitWithContentsOfURL(NSURL url)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.InitWithContentsOfURL, url.NativePtr);
-    }
-
-    public nint InitWithData(NSData data)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.InitWithData, data.NativePtr);
-    }
-
     public static nint DataWithData(NSData data)
     {
         return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.DataWithData, data.NativePtr);
-    }
-
-    public void GetBytes(nint buffer)
-    {
-        ObjectiveC.MsgSend(NativePtr, NSDataBindings.GetBytes, buffer);
     }
 
     public static NSObject DataWithContentsOfMappedFile(NSString path)
@@ -129,25 +106,60 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public NSObject InitWithContentsOfMappedFile(NSString path)
+    public static NSData InitWithBytesLength(nint bytes, nuint length)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.InitWithContentsOfMappedFile, path.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesLength, bytes, length);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public NSObject InitWithBase64Encoding(NSString base64String)
+    public static NSData InitWithBytesNoCopyLength(nint bytes, nuint length)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.InitWithBase64Encoding, base64String.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopyLength, bytes, length);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public NSString Base64Encoding()
+    public static NSData InitWithBytesNoCopyLengthFreeWhenDone(nint bytes, nuint length, bool b)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.Base64Encoding);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopyLengthFreeWhenDone, bytes, length, b);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSData InitWithContentsOfFile(NSString path)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithContentsOfFile, path.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSData InitWithContentsOfURL(NSURL url)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithContentsOfURL, url.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSData InitWithData(NSData data)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithData, data.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSData InitWithContentsOfMappedFile(NSString path)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithContentsOfMappedFile, path.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSData InitWithBase64Encoding(NSString base64String)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBase64Encoding, base64String.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
     }
 }
 

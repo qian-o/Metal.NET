@@ -25,10 +25,19 @@ partial class CSharpEmitter
 
         List<MethodInfo> validMethods =
         [
-            .. classDef.Methods.Where(m => !HasUnmergableArrayParam(m)
+            .. classDef.Methods.Where(m => !m.IsInit
+                                            && !HasUnmergableArrayParam(m)
                                             && !HasFunctionPointerParam(m, knownDelegateNames)
                                             && !HasUnmappableParam(m)
                                             && !m.ReturnType.Contains("UNKNOWN_BLOCK"))
+        ];
+
+        List<MethodInfo> initMethods =
+        [
+            .. classDef.Methods.Where(m => m.IsInit
+                                            && !HasUnmergableArrayParam(m)
+                                            && !HasFunctionPointerParam(m, knownDelegateNames)
+                                            && !HasUnmappableParam(m))
         ];
 
         bool hasClassField = classDef.HasAllocInit
@@ -152,15 +161,77 @@ partial class CSharpEmitter
             hasPrecedingMember = true;
         }
 
-        // === Methods (in JSON order, no grouping) ===
-        foreach (MethodInfo method in nonIndexerMethods)
+        // === Instance methods ===
+        HashSet<string> emittedMethodSignatures = [];
+        foreach (MethodInfo method in nonIndexerMethods.Where(m => !(m.IsStatic && m.UsesClassTarget)))
         {
+            string csName = TypeMapper.ToPascalCase(method.Name);
+            string methodSig = csName + "(" + string.Join(",", method.Parameters
+                .Where(p => p.Type != "ARRAY_PARAM")
+                .Select(p => TypeMapper.MapType(p.Type))) + ")";
+            if (!emittedMethodSignatures.Add(methodSig))
+            {
+                continue;
+            }
+
             if (hasPrecedingMember)
             {
                 sb.AppendLine();
             }
 
             EmitMethod(sb, method, csClassName, selectors, knownDelegateNames);
+            hasPrecedingMember = true;
+        }
+
+        // === Static methods ===
+        foreach (MethodInfo method in nonIndexerMethods.Where(m => m.IsStatic && m.UsesClassTarget))
+        {
+            string csName = TypeMapper.ToPascalCase(method.Name);
+            string methodSig = csName + "(" + string.Join(",", method.Parameters
+                .Where(p => p.Type != "ARRAY_PARAM")
+                .Select(p => TypeMapper.MapType(p.Type))) + ")";
+            if (!emittedMethodSignatures.Add(methodSig))
+            {
+                continue;
+            }
+
+            if (hasPrecedingMember)
+            {
+                sb.AppendLine();
+            }
+
+            EmitMethod(sb, method, csClassName, selectors, knownDelegateNames);
+            hasPrecedingMember = true;
+        }
+
+        // === Init static factory methods ===
+        HashSet<string> emittedInitSignatures = [];
+        foreach (MethodInfo initMethod in initMethods)
+        {
+            // Skip init methods with complex parameter types that can't be handled
+            if (initMethod.Parameters.Any(p =>
+                p.Type.StartsWith("STRUCT_ARRAY:") || p.Type.StartsWith("PRIM_ARRAY:")))
+            {
+                continue;
+            }
+
+            // Deduplicate by method name + parameter types
+            string selectorKey = BuildMethodNameFromSelector(initMethod.Selector!);
+            string csMethodName = TypeMapper.ToPascalCase(selectorKey);
+            string sig = csMethodName + "(" + string.Join(",", initMethod.Parameters
+                .Where(p => p.Type != "ARRAY_PARAM")
+                .Select(p => p.Type.Contains("Error**") ? "out NSError" : TypeMapper.MapType(p.Type))) + ")";
+            if (!emittedInitSignatures.Add(sig))
+            {
+                continue;
+            }
+
+            if (hasPrecedingMember)
+            {
+                sb.AppendLine();
+            }
+
+            EmitInitStaticMethod(sb, initMethod, csClassName, selectors);
             hasPrecedingMember = true;
         }
 

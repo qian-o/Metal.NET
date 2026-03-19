@@ -26,13 +26,6 @@ public partial class MTLCaptureManager(nint nativePtr, NativeObjectOwnership own
         get => ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
     }
 
-    public static MTLCaptureManager Shared()
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
     public MTLCaptureScope MakeCaptureScope(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithDevice, device.NativePtr);
@@ -98,6 +91,13 @@ public partial class MTLCaptureManager(nint nativePtr, NativeObjectOwnership own
     public void StopCapture()
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StopCapture);
+    }
+
+    public static MTLCaptureManager Shared()
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

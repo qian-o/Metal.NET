@@ -109,13 +109,6 @@ public partial class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
-    public static MTLRenderPassDescriptor RenderPassDescriptor()
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
     public unsafe void SetSamplePositions(MTLSamplePosition[] positions)
     {
         fixed (MTLSamplePosition* pPositions = positions)
@@ -130,6 +123,13 @@ public partial class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnersh
         {
             return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositionsCount, (nint)pPositions, (nuint)positions.Length);
         }
+    }
+
+    public static MTLRenderPassDescriptor RenderPassDescriptor()
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

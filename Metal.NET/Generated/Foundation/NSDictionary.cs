@@ -58,21 +58,6 @@ public partial class NSDictionary(nint nativePtr, NativeObjectOwnership ownershi
         return ObjectiveC.MsgSendBool(NativePtr, NSDictionaryBindings.WriteToURLAtomically, url.NativePtr, atomically);
     }
 
-    public static nint Dictionary()
-    {
-        return ObjectiveC.MsgSendNInt(NSDictionaryBindings.Class, NSDictionaryBindings.Dictionary);
-    }
-
-    public static nint DictionaryWithObjectsAndKeys(NSObject firstObject)
-    {
-        return ObjectiveC.MsgSendNInt(NSDictionaryBindings.Class, NSDictionaryBindings.DictionaryWithObjectsAndKeys, firstObject.NativePtr);
-    }
-
-    public nint InitWithObjectsAndKeys(NSObject firstObject)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, NSDictionaryBindings.InitWithObjectsAndKeys, firstObject.NativePtr);
-    }
-
     public ulong FileSize()
     {
         return ObjectiveC.MsgSendULong(NativePtr, NSDictionaryBindings.FileSize);
@@ -152,6 +137,46 @@ public partial class NSDictionary(nint nativePtr, NativeObjectOwnership ownershi
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+
+    public static nint Dictionary()
+    {
+        return ObjectiveC.MsgSendNInt(NSDictionaryBindings.Class, NSDictionaryBindings.Dictionary);
+    }
+
+    public static nint DictionaryWithObjectsAndKeys(NSObject firstObject)
+    {
+        return ObjectiveC.MsgSendNInt(NSDictionaryBindings.Class, NSDictionaryBindings.DictionaryWithObjectsAndKeys, firstObject.NativePtr);
+    }
+
+    public static NSDictionary InitWithContentsOfFile(NSString path)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDictionaryBindings.Class), NSDictionaryBindings.InitWithContentsOfFile, path.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSDictionary InitWithContentsOfURL(NSURL url)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDictionaryBindings.Class), NSDictionaryBindings.InitWithContentsOfURL, url.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSDictionary InitWithObjectsAndKeys(NSObject firstObject)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDictionaryBindings.Class), NSDictionaryBindings.InitWithObjectsAndKeys, firstObject.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSDictionary InitWithContentsOfURLError(NSURL url, out NSError error)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDictionaryBindings.Class), NSDictionaryBindings.InitWithContentsOfURLError, url.NativePtr, out nint errorPtr);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
 }
 
 file static class NSDictionaryBindings
@@ -197,6 +222,12 @@ file static class NSDictionaryBindings
     public static readonly Selector FileSystemNumber = "fileSystemNumber";
 
     public static readonly Selector FileType = "fileType";
+
+    public static readonly Selector InitWithContentsOfFile = "initWithContentsOfFile:";
+
+    public static readonly Selector InitWithContentsOfURL = "initWithContentsOfURL:";
+
+    public static readonly Selector InitWithContentsOfURLError = "initWithContentsOfURL:error:";
 
     public static readonly Selector InitWithObjectsAndKeys = "initWithObjectsAndKeys:";
 

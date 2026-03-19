@@ -37,16 +37,16 @@ public partial class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectO
         set => ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexBufferIndex, value);
     }
 
+    public void Reset()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.Reset);
+    }
+
     public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public void Reset()
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.Reset);
     }
 }
 

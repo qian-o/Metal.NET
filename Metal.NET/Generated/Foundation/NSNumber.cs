@@ -95,111 +95,6 @@ public partial class NSNumber(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, NSNumberBindings.StringValue);
     }
 
-    public NSNumber InitWithChar(sbyte value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithChar, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithUnsignedChar(byte value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithUnsignedChar, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithShort(short value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithShort, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithUnsignedShort(ushort value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithUnsignedShort, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithInt(int value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithInt, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithUnsignedInt(uint value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithUnsignedInt, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithLong(nint value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithLong, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithUnsignedLong(nuint value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithUnsignedLong, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithLongLong(long value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithLongLong, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithUnsignedLongLong(ulong value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithUnsignedLongLong, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithFloat(float value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithFloat, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithDouble(double value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithDouble, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithBool(bool value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithBool, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithInteger(nint value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithInteger, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public NSNumber InitWithUnsignedInteger(nuint value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSNumberBindings.InitWithUnsignedInteger, value);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
     public bool IsEqualToNumber(NSNumber number)
     {
         return ObjectiveC.MsgSendBool(NativePtr, NSNumberBindings.IsEqualToNumber, number.NativePtr);
@@ -315,6 +210,111 @@ public partial class NSNumber(nint nativePtr, NativeObjectOwnership ownership) :
         nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberBindings.Class, NSNumberBindings.NumberWithUnsignedInteger, value);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static NSNumber InitWithChar(sbyte value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithChar, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithUnsignedChar(byte value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedChar, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithShort(short value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithShort, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithUnsignedShort(ushort value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedShort, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithInt(int value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithInt, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithUnsignedInt(uint value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedInt, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithLong(nint value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithLong, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithUnsignedLong(nuint value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedLong, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithLongLong(long value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithLongLong, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithUnsignedLongLong(ulong value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedLongLong, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithFloat(float value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithFloat, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithDouble(double value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithDouble, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithBool(bool value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithBool, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithInteger(nint value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithInteger, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSNumber InitWithUnsignedInteger(nuint value)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedInteger, value);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
     }
 }
 
