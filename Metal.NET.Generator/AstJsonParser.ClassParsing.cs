@@ -231,8 +231,18 @@ partial class AstJsonParser
 
                 string paramType = MapObjCTypeForModel(p.Type);
 
-                // Skip methods with NSArray/NSDictionary parameters (static class, can't be used as params)
-                if (paramType.StartsWith("NSArray") || paramType.StartsWith("NSDictionary"))
+                // For NSArray params, try to extract generic element type for typed array support
+                if (paramType == "NSArray*")
+                {
+                    string? elemType = ExtractNSArrayElementType(p.Type);
+                    if (elemType != null)
+                    {
+                        paramType = $"NSARRAY_PARAM:{elemType}";
+                    }
+                }
+
+                // Skip methods with unresolved NSArray/NSDictionary parameters
+                if (paramType is "NSArray*" or "NSDictionary*")
                 {
                     skipMethod = true;
                     break;
@@ -394,7 +404,68 @@ partial class AstJsonParser
                 parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
             }
         }
+
+        // Range-terminated arrays: if the last parameter is NSRange, tag untagged
+        // pointer parameters as PRIM_ARRAY so the emitter can marshal them correctly.
+        // E.g., setVertexBuffers:offsets:withRange: has (OBJ_ARRAY:MTLBuffer, const NSUInteger*, NSRange).
+        if (parameters.Count >= 2 && parameters[^1].Type is "NSRange")
+        {
+            for (int i = 0; i < parameters.Count - 1; i++)
+            {
+                ParamDef current = parameters[i];
+
+                // Already tagged
+                if (current.Type.StartsWith("OBJ_ARRAY:") ||
+                    current.Type.StartsWith("STRUCT_ARRAY:") ||
+                    current.Type.StartsWith("PRIM_ARRAY:"))
+                {
+                    continue;
+                }
+
+                string type = current.Type;
+
+                // const X* → PRIM_ARRAY:csType
+                if (type.StartsWith("const ") && type.EndsWith('*'))
+                {
+                    string elemModel = type["const ".Length..].TrimEnd('*').Trim();
+                    string csElem = MapPrimElemType(elemModel);
+                    parameters[i] = new ParamDef($"PRIM_ARRAY:{csElem}", current.Name);
+                }
+                // X* where X is a C primitive → PRIM_ARRAY:csType
+                else if (type.EndsWith('*'))
+                {
+                    string elemModel = type.TrimEnd('*').Trim();
+                    if (PrimElemTypes.ContainsKey(elemModel))
+                    {
+                        parameters[i] = new ParamDef($"PRIM_ARRAY:{MapPrimElemType(elemModel)}", current.Name);
+                    }
+                }
+            }
+        }
     }
+
+    /// <summary>Known model-type → C# type mappings for primitive array elements.</summary>
+    static readonly Dictionary<string, string> PrimElemTypes = new(StringComparer.Ordinal)
+    {
+        ["NSUInteger"] = "nuint",
+        ["NS::UInteger"] = "nuint",
+        ["NSInteger"] = "nint",
+        ["NS::Integer"] = "nint",
+        ["float"] = "float",
+        ["double"] = "double",
+        ["uint32_t"] = "uint",
+        ["int32_t"] = "int",
+        ["uint64_t"] = "ulong",
+        ["int64_t"] = "long",
+        ["uint16_t"] = "ushort",
+        ["int16_t"] = "short",
+        ["uint8_t"] = "byte",
+        ["int8_t"] = "sbyte",
+    };
+
+    /// <summary>Maps a model element type to a C# primitive type for PRIM_ARRAY tagging.</summary>
+    static string MapPrimElemType(string modelElemType) =>
+        PrimElemTypes.TryGetValue(modelElemType, out string? csType) ? csType : modelElemType;
 
     #endregion
 }

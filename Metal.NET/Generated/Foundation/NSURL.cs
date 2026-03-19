@@ -318,6 +318,17 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public static NSURL FileURLWithPathComponents(NSString[] components)
+    {
+        nint pComponents = NSArray.FromArray(components);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithPathComponents, pComponents);
+
+        ObjectiveC.Release(pComponents);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public static NSURL InitWithScheme_Host_Path(NSString scheme, NSString host, NSString path)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithScheme_Host_Path, scheme.NativePtr, host.NativePtr, path.NativePtr);
@@ -429,6 +440,8 @@ file static class NSURLBindings
     public static readonly Selector FileURLWithPath_IsDirectory_RelativeToURL = "fileURLWithPath:isDirectory:relativeToURL:";
 
     public static readonly Selector FileURLWithPath_RelativeToURL = "fileURLWithPath:relativeToURL:";
+
+    public static readonly Selector FileURLWithPathComponents = "fileURLWithPathComponents:";
 
     public static readonly Selector Fragment = "fragment";
 

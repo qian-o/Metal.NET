@@ -41,9 +41,49 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBufferOffset_AtIndex, offset, index);
     }
 
+    public unsafe void SetVertexBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    {
+        nint* pBuffers = stackalloc nint[buffers.Length];
+        for (int i = 0; i < buffers.Length; i++)
+        {
+            pBuffers[i] = buffers[i].NativePtr;
+        }
+
+        nuint* pOffsets = stackalloc nuint[offsets.Length];
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            pOffsets[i] = offsets[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+    }
+
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBuffer_Offset_AttributeStride_AtIndex, buffer.NativePtr, offset, stride, index);
+    }
+
+    public unsafe void SetVertexBuffers(MTLBuffer[] buffers, nuint[] offsets, nuint[] strides, NSRange range)
+    {
+        nint* pBuffers = stackalloc nint[buffers.Length];
+        for (int i = 0; i < buffers.Length; i++)
+        {
+            pBuffers[i] = buffers[i].NativePtr;
+        }
+
+        nuint* pOffsets = stackalloc nuint[offsets.Length];
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            pOffsets[i] = offsets[i];
+        }
+
+        nuint* pStrides = stackalloc nuint[strides.Length];
+        for (int i = 0; i < strides.Length; i++)
+        {
+            pStrides[i] = strides[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBuffers_Offsets_AttributeStrides_WithRange, (nint)pBuffers, (nint)pOffsets, (nint)pStrides, range);
     }
 
     public void SetVertexBufferOffset(nuint offset, nuint stride, nuint index)
@@ -61,9 +101,31 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexTexture_AtIndex, texture.NativePtr, index);
     }
 
+    public unsafe void SetVertexTextures(MTLTexture[] textures, NSRange range)
+    {
+        nint* pTextures = stackalloc nint[textures.Length];
+        for (int i = 0; i < textures.Length; i++)
+        {
+            pTextures[i] = textures[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexTextures_WithRange, (nint)pTextures, range);
+    }
+
     public void SetVertexSamplerState(MTLSamplerState sampler, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerState_AtIndex, sampler.NativePtr, index);
+    }
+
+    public unsafe void SetVertexSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerStates_WithRange, (nint)pSamplers, range);
     }
 
     public void SetVertexSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
@@ -71,14 +133,59 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
+    public unsafe void SetVertexSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
+        for (int i = 0; i < lodMinClamps.Length; i++)
+        {
+            pLodMinClamps[i] = lodMinClamps[i];
+        }
+
+        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
+        for (int i = 0; i < lodMaxClamps.Length; i++)
+        {
+            pLodMaxClamps[i] = lodMaxClamps[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
+    }
+
     public void SetVertexVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexVisibleFunctionTable_AtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
+    public unsafe void SetVertexVisibleFunctionTables(MTLVisibleFunctionTable[] functionTables, NSRange range)
+    {
+        nint* pFunctionTables = stackalloc nint[functionTables.Length];
+        for (int i = 0; i < functionTables.Length; i++)
+        {
+            pFunctionTables[i] = functionTables[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
+    }
+
     public void SetVertexIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexIntersectionFunctionTable_AtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
+    }
+
+    public unsafe void SetVertexIntersectionFunctionTables(MTLIntersectionFunctionTable[] intersectionFunctionTables, NSRange range)
+    {
+        nint* pIntersectionFunctionTables = stackalloc nint[intersectionFunctionTables.Length];
+        for (int i = 0; i < intersectionFunctionTables.Length; i++)
+        {
+            pIntersectionFunctionTables[i] = intersectionFunctionTables[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
     }
 
     public void SetVertexAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
@@ -162,9 +269,37 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentBufferOffset_AtIndex, offset, index);
     }
 
+    public unsafe void SetFragmentBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    {
+        nint* pBuffers = stackalloc nint[buffers.Length];
+        for (int i = 0; i < buffers.Length; i++)
+        {
+            pBuffers[i] = buffers[i].NativePtr;
+        }
+
+        nuint* pOffsets = stackalloc nuint[offsets.Length];
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            pOffsets[i] = offsets[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+    }
+
     public void SetFragmentTexture(MTLTexture texture, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentTexture_AtIndex, texture.NativePtr, index);
+    }
+
+    public unsafe void SetFragmentTextures(MTLTexture[] textures, NSRange range)
+    {
+        nint* pTextures = stackalloc nint[textures.Length];
+        for (int i = 0; i < textures.Length; i++)
+        {
+            pTextures[i] = textures[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetFragmentSamplerState(MTLSamplerState sampler, nuint index)
@@ -172,9 +307,43 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
+    public unsafe void SetFragmentSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerStates_WithRange, (nint)pSamplers, range);
+    }
+
     public void SetFragmentSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+    }
+
+    public unsafe void SetFragmentSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
+        for (int i = 0; i < lodMinClamps.Length; i++)
+        {
+            pLodMinClamps[i] = lodMinClamps[i];
+        }
+
+        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
+        for (int i = 0; i < lodMaxClamps.Length; i++)
+        {
+            pLodMaxClamps[i] = lodMaxClamps[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void SetFragmentVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -182,9 +351,31 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentVisibleFunctionTable_AtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
+    public unsafe void SetFragmentVisibleFunctionTables(MTLVisibleFunctionTable[] functionTables, NSRange range)
+    {
+        nint* pFunctionTables = stackalloc nint[functionTables.Length];
+        for (int i = 0; i < functionTables.Length; i++)
+        {
+            pFunctionTables[i] = functionTables[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
+    }
+
     public void SetFragmentIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentIntersectionFunctionTable_AtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
+    }
+
+    public unsafe void SetFragmentIntersectionFunctionTables(MTLIntersectionFunctionTable[] intersectionFunctionTables, NSRange range)
+    {
+        nint* pIntersectionFunctionTables = stackalloc nint[intersectionFunctionTables.Length];
+        for (int i = 0; i < intersectionFunctionTables.Length; i++)
+        {
+            pIntersectionFunctionTables[i] = intersectionFunctionTables[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
     }
 
     public void SetFragmentAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
@@ -262,9 +453,37 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectBufferOffset_AtIndex, offset, index);
     }
 
+    public unsafe void SetObjectBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    {
+        nint* pBuffers = stackalloc nint[buffers.Length];
+        for (int i = 0; i < buffers.Length; i++)
+        {
+            pBuffers[i] = buffers[i].NativePtr;
+        }
+
+        nuint* pOffsets = stackalloc nuint[offsets.Length];
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            pOffsets[i] = offsets[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+    }
+
     public void SetObjectTexture(MTLTexture texture, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectTexture_AtIndex, texture.NativePtr, index);
+    }
+
+    public unsafe void SetObjectTextures(MTLTexture[] textures, NSRange range)
+    {
+        nint* pTextures = stackalloc nint[textures.Length];
+        for (int i = 0; i < textures.Length; i++)
+        {
+            pTextures[i] = textures[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetObjectSamplerState(MTLSamplerState sampler, nuint index)
@@ -272,9 +491,43 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
+    public unsafe void SetObjectSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerStates_WithRange, (nint)pSamplers, range);
+    }
+
     public void SetObjectSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+    }
+
+    public unsafe void SetObjectSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
+        for (int i = 0; i < lodMinClamps.Length; i++)
+        {
+            pLodMinClamps[i] = lodMinClamps[i];
+        }
+
+        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
+        for (int i = 0; i < lodMaxClamps.Length; i++)
+        {
+            pLodMaxClamps[i] = lodMaxClamps[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
@@ -297,9 +550,37 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshBufferOffset_AtIndex, offset, index);
     }
 
+    public unsafe void SetMeshBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    {
+        nint* pBuffers = stackalloc nint[buffers.Length];
+        for (int i = 0; i < buffers.Length; i++)
+        {
+            pBuffers[i] = buffers[i].NativePtr;
+        }
+
+        nuint* pOffsets = stackalloc nuint[offsets.Length];
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            pOffsets[i] = offsets[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+    }
+
     public void SetMeshTexture(MTLTexture texture, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshTexture_AtIndex, texture.NativePtr, index);
+    }
+
+    public unsafe void SetMeshTextures(MTLTexture[] textures, NSRange range)
+    {
+        nint* pTextures = stackalloc nint[textures.Length];
+        for (int i = 0; i < textures.Length; i++)
+        {
+            pTextures[i] = textures[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetMeshSamplerState(MTLSamplerState sampler, nuint index)
@@ -307,9 +588,43 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
+    public unsafe void SetMeshSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerStates_WithRange, (nint)pSamplers, range);
+    }
+
     public void SetMeshSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+    }
+
+    public unsafe void SetMeshSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
+        for (int i = 0; i < lodMinClamps.Length; i++)
+        {
+            pLodMinClamps[i] = lodMinClamps[i];
+        }
+
+        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
+        for (int i = 0; i < lodMaxClamps.Length; i++)
+        {
+            pLodMaxClamps[i] = lodMaxClamps[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -431,9 +746,37 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileBufferOffset_AtIndex, offset, index);
     }
 
+    public unsafe void SetTileBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    {
+        nint* pBuffers = stackalloc nint[buffers.Length];
+        for (int i = 0; i < buffers.Length; i++)
+        {
+            pBuffers[i] = buffers[i].NativePtr;
+        }
+
+        nuint* pOffsets = stackalloc nuint[offsets.Length];
+        for (int i = 0; i < offsets.Length; i++)
+        {
+            pOffsets[i] = offsets[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+    }
+
     public void SetTileTexture(MTLTexture texture, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileTexture_AtIndex, texture.NativePtr, index);
+    }
+
+    public unsafe void SetTileTextures(MTLTexture[] textures, NSRange range)
+    {
+        nint* pTextures = stackalloc nint[textures.Length];
+        for (int i = 0; i < textures.Length; i++)
+        {
+            pTextures[i] = textures[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetTileSamplerState(MTLSamplerState sampler, nuint index)
@@ -441,9 +784,43 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
+    public unsafe void SetTileSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerStates_WithRange, (nint)pSamplers, range);
+    }
+
     public void SetTileSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+    }
+
+    public unsafe void SetTileSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    {
+        nint* pSamplers = stackalloc nint[samplers.Length];
+        for (int i = 0; i < samplers.Length; i++)
+        {
+            pSamplers[i] = samplers[i].NativePtr;
+        }
+
+        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
+        for (int i = 0; i < lodMinClamps.Length; i++)
+        {
+            pLodMinClamps[i] = lodMinClamps[i];
+        }
+
+        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
+        for (int i = 0; i < lodMaxClamps.Length; i++)
+        {
+            pLodMaxClamps[i] = lodMaxClamps[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void SetTileVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -451,9 +828,31 @@ public partial class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileVisibleFunctionTable_AtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
+    public unsafe void SetTileVisibleFunctionTables(MTLVisibleFunctionTable[] functionTables, NSRange range)
+    {
+        nint* pFunctionTables = stackalloc nint[functionTables.Length];
+        for (int i = 0; i < functionTables.Length; i++)
+        {
+            pFunctionTables[i] = functionTables[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
+    }
+
     public void SetTileIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileIntersectionFunctionTable_AtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
+    }
+
+    public unsafe void SetTileIntersectionFunctionTables(MTLIntersectionFunctionTable[] intersectionFunctionTables, NSRange range)
+    {
+        nint* pIntersectionFunctionTables = stackalloc nint[intersectionFunctionTables.Length];
+        for (int i = 0; i < intersectionFunctionTables.Length; i++)
+        {
+            pIntersectionFunctionTables[i] = intersectionFunctionTables[i].NativePtr;
+        }
+
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
     }
 
     public void SetTileAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
@@ -660,17 +1059,29 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetFragmentBufferOffset_AtIndex = "setFragmentBufferOffset:atIndex:";
 
+    public static readonly Selector SetFragmentBuffers_Offsets_WithRange = "setFragmentBuffers:offsets:withRange:";
+
     public static readonly Selector SetFragmentBytes_Length_AtIndex = "setFragmentBytes:length:atIndex:";
 
     public static readonly Selector SetFragmentIntersectionFunctionTable_AtBufferIndex = "setFragmentIntersectionFunctionTable:atBufferIndex:";
+
+    public static readonly Selector SetFragmentIntersectionFunctionTables_WithBufferRange = "setFragmentIntersectionFunctionTables:withBufferRange:";
 
     public static readonly Selector SetFragmentSamplerState_AtIndex = "setFragmentSamplerState:atIndex:";
 
     public static readonly Selector SetFragmentSamplerState_LodMinClamp_LodMaxClamp_AtIndex = "setFragmentSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
+    public static readonly Selector SetFragmentSamplerStates_LodMinClamps_LodMaxClamps_WithRange = "setFragmentSamplerStates:lodMinClamps:lodMaxClamps:withRange:";
+
+    public static readonly Selector SetFragmentSamplerStates_WithRange = "setFragmentSamplerStates:withRange:";
+
     public static readonly Selector SetFragmentTexture_AtIndex = "setFragmentTexture:atIndex:";
 
+    public static readonly Selector SetFragmentTextures_WithRange = "setFragmentTextures:withRange:";
+
     public static readonly Selector SetFragmentVisibleFunctionTable_AtBufferIndex = "setFragmentVisibleFunctionTable:atBufferIndex:";
+
+    public static readonly Selector SetFragmentVisibleFunctionTables_WithBufferRange = "setFragmentVisibleFunctionTables:withBufferRange:";
 
     public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
 
@@ -678,17 +1089,27 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetMeshBufferOffset_AtIndex = "setMeshBufferOffset:atIndex:";
 
+    public static readonly Selector SetMeshBuffers_Offsets_WithRange = "setMeshBuffers:offsets:withRange:";
+
     public static readonly Selector SetMeshBytes_Length_AtIndex = "setMeshBytes:length:atIndex:";
 
     public static readonly Selector SetMeshSamplerState_AtIndex = "setMeshSamplerState:atIndex:";
 
     public static readonly Selector SetMeshSamplerState_LodMinClamp_LodMaxClamp_AtIndex = "setMeshSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
+    public static readonly Selector SetMeshSamplerStates_LodMinClamps_LodMaxClamps_WithRange = "setMeshSamplerStates:lodMinClamps:lodMaxClamps:withRange:";
+
+    public static readonly Selector SetMeshSamplerStates_WithRange = "setMeshSamplerStates:withRange:";
+
     public static readonly Selector SetMeshTexture_AtIndex = "setMeshTexture:atIndex:";
+
+    public static readonly Selector SetMeshTextures_WithRange = "setMeshTextures:withRange:";
 
     public static readonly Selector SetObjectBuffer_Offset_AtIndex = "setObjectBuffer:offset:atIndex:";
 
     public static readonly Selector SetObjectBufferOffset_AtIndex = "setObjectBufferOffset:atIndex:";
+
+    public static readonly Selector SetObjectBuffers_Offsets_WithRange = "setObjectBuffers:offsets:withRange:";
 
     public static readonly Selector SetObjectBytes_Length_AtIndex = "setObjectBytes:length:atIndex:";
 
@@ -696,7 +1117,13 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetObjectSamplerState_LodMinClamp_LodMaxClamp_AtIndex = "setObjectSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
+    public static readonly Selector SetObjectSamplerStates_LodMinClamps_LodMaxClamps_WithRange = "setObjectSamplerStates:lodMinClamps:lodMaxClamps:withRange:";
+
+    public static readonly Selector SetObjectSamplerStates_WithRange = "setObjectSamplerStates:withRange:";
+
     public static readonly Selector SetObjectTexture_AtIndex = "setObjectTexture:atIndex:";
+
+    public static readonly Selector SetObjectTextures_WithRange = "setObjectTextures:withRange:";
 
     public static readonly Selector SetObjectThreadgroupMemoryLength_AtIndex = "setObjectThreadgroupMemoryLength:atIndex:";
 
@@ -726,17 +1153,29 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetTileBufferOffset_AtIndex = "setTileBufferOffset:atIndex:";
 
+    public static readonly Selector SetTileBuffers_Offsets_WithRange = "setTileBuffers:offsets:withRange:";
+
     public static readonly Selector SetTileBytes_Length_AtIndex = "setTileBytes:length:atIndex:";
 
     public static readonly Selector SetTileIntersectionFunctionTable_AtBufferIndex = "setTileIntersectionFunctionTable:atBufferIndex:";
+
+    public static readonly Selector SetTileIntersectionFunctionTables_WithBufferRange = "setTileIntersectionFunctionTables:withBufferRange:";
 
     public static readonly Selector SetTileSamplerState_AtIndex = "setTileSamplerState:atIndex:";
 
     public static readonly Selector SetTileSamplerState_LodMinClamp_LodMaxClamp_AtIndex = "setTileSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
+    public static readonly Selector SetTileSamplerStates_LodMinClamps_LodMaxClamps_WithRange = "setTileSamplerStates:lodMinClamps:lodMaxClamps:withRange:";
+
+    public static readonly Selector SetTileSamplerStates_WithRange = "setTileSamplerStates:withRange:";
+
     public static readonly Selector SetTileTexture_AtIndex = "setTileTexture:atIndex:";
 
+    public static readonly Selector SetTileTextures_WithRange = "setTileTextures:withRange:";
+
     public static readonly Selector SetTileVisibleFunctionTable_AtBufferIndex = "setTileVisibleFunctionTable:atBufferIndex:";
+
+    public static readonly Selector SetTileVisibleFunctionTables_WithBufferRange = "setTileVisibleFunctionTables:withBufferRange:";
 
     public static readonly Selector SetTriangleFillMode = "setTriangleFillMode:";
 
@@ -752,19 +1191,33 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetVertexBufferOffset_AttributeStride_AtIndex = "setVertexBufferOffset:attributeStride:atIndex:";
 
+    public static readonly Selector SetVertexBuffers_Offsets_AttributeStrides_WithRange = "setVertexBuffers:offsets:attributeStrides:withRange:";
+
+    public static readonly Selector SetVertexBuffers_Offsets_WithRange = "setVertexBuffers:offsets:withRange:";
+
     public static readonly Selector SetVertexBytes_Length_AtIndex = "setVertexBytes:length:atIndex:";
 
     public static readonly Selector SetVertexBytes_Length_AttributeStride_AtIndex = "setVertexBytes:length:attributeStride:atIndex:";
 
     public static readonly Selector SetVertexIntersectionFunctionTable_AtBufferIndex = "setVertexIntersectionFunctionTable:atBufferIndex:";
 
+    public static readonly Selector SetVertexIntersectionFunctionTables_WithBufferRange = "setVertexIntersectionFunctionTables:withBufferRange:";
+
     public static readonly Selector SetVertexSamplerState_AtIndex = "setVertexSamplerState:atIndex:";
 
     public static readonly Selector SetVertexSamplerState_LodMinClamp_LodMaxClamp_AtIndex = "setVertexSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
+    public static readonly Selector SetVertexSamplerStates_LodMinClamps_LodMaxClamps_WithRange = "setVertexSamplerStates:lodMinClamps:lodMaxClamps:withRange:";
+
+    public static readonly Selector SetVertexSamplerStates_WithRange = "setVertexSamplerStates:withRange:";
+
     public static readonly Selector SetVertexTexture_AtIndex = "setVertexTexture:atIndex:";
 
+    public static readonly Selector SetVertexTextures_WithRange = "setVertexTextures:withRange:";
+
     public static readonly Selector SetVertexVisibleFunctionTable_AtBufferIndex = "setVertexVisibleFunctionTable:atBufferIndex:";
+
+    public static readonly Selector SetVertexVisibleFunctionTables_WithBufferRange = "setVertexVisibleFunctionTables:withBufferRange:";
 
     public static readonly Selector SetViewport = "setViewport:";
 

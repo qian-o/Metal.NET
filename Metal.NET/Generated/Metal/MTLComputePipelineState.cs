@@ -75,6 +75,19 @@ public partial class MTLComputePipelineState(nint nativePtr, NativeObjectOwnersh
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLComputePipelineState MakeComputePipelineState(MTL4BinaryFunction[] additionalBinaryFunctions, out NSError error)
+    {
+        nint pAdditionalBinaryFunctions = NSArray.FromArray(additionalBinaryFunctions);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions_Error, pAdditionalBinaryFunctions, out nint errorPtr);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        ObjectiveC.Release(pAdditionalBinaryFunctions);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.ImageblockMemoryLengthForDimensions, imageblockDimensions);
@@ -83,6 +96,19 @@ public partial class MTLComputePipelineState(nint nativePtr, NativeObjectOwnersh
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public MTLComputePipelineState MakeComputePipelineStateWithAdditionalBinaryFunctions(MTLFunction[] functions, out NSError error)
+    {
+        nint pFunctions = NSArray.FromArray(functions);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithAdditionalBinaryFunctions_Error, pFunctions, out nint errorPtr);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        ObjectiveC.Release(pFunctions);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -119,6 +145,10 @@ file static class MTLComputePipelineStateBindings
     public static readonly Selector Label = "label";
 
     public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
+
+    public static readonly Selector NewComputePipelineStateWithAdditionalBinaryFunctions_Error = "newComputePipelineStateWithAdditionalBinaryFunctions:error:";
+
+    public static readonly Selector NewComputePipelineStateWithBinaryFunctions_Error = "newComputePipelineStateWithBinaryFunctions:error:";
 
     public static readonly Selector NewIntersectionFunctionTableWithDescriptor = "newIntersectionFunctionTableWithDescriptor:";
 

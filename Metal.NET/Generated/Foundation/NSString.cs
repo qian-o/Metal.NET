@@ -312,9 +312,27 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public void GetLineStart(nint startPtr, nint lineEndPtr, nint contentsEndPtr, NSRange range)
+    public unsafe void GetLineStart(nuint[] startPtr, nuint[] lineEndPtr, nuint[] contentsEndPtr, NSRange range)
     {
-        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetLineStart_End_ContentsEnd_ForRange, startPtr, lineEndPtr, contentsEndPtr, range);
+        nuint* pStartPtr = stackalloc nuint[startPtr.Length];
+        for (int i = 0; i < startPtr.Length; i++)
+        {
+            pStartPtr[i] = startPtr[i];
+        }
+
+        nuint* pLineEndPtr = stackalloc nuint[lineEndPtr.Length];
+        for (int i = 0; i < lineEndPtr.Length; i++)
+        {
+            pLineEndPtr[i] = lineEndPtr[i];
+        }
+
+        nuint* pContentsEndPtr = stackalloc nuint[contentsEndPtr.Length];
+        for (int i = 0; i < contentsEndPtr.Length; i++)
+        {
+            pContentsEndPtr[i] = contentsEndPtr[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetLineStart_End_ContentsEnd_ForRange, (nint)pStartPtr, (nint)pLineEndPtr, (nint)pContentsEndPtr, range);
     }
 
     public NSRange LineRangeForRange(NSRange range)
@@ -322,9 +340,27 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return ObjectiveC.MsgSendNSRange(NativePtr, NSStringBindings.LineRangeForRange, range);
     }
 
-    public void GetParagraphStart(nint startPtr, nint parEndPtr, nint contentsEndPtr, NSRange range)
+    public unsafe void GetParagraphStart(nuint[] startPtr, nuint[] parEndPtr, nuint[] contentsEndPtr, NSRange range)
     {
-        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetParagraphStart_End_ContentsEnd_ForRange, startPtr, parEndPtr, contentsEndPtr, range);
+        nuint* pStartPtr = stackalloc nuint[startPtr.Length];
+        for (int i = 0; i < startPtr.Length; i++)
+        {
+            pStartPtr[i] = startPtr[i];
+        }
+
+        nuint* pParEndPtr = stackalloc nuint[parEndPtr.Length];
+        for (int i = 0; i < parEndPtr.Length; i++)
+        {
+            pParEndPtr[i] = parEndPtr[i];
+        }
+
+        nuint* pContentsEndPtr = stackalloc nuint[contentsEndPtr.Length];
+        for (int i = 0; i < contentsEndPtr.Length; i++)
+        {
+            pContentsEndPtr[i] = contentsEndPtr[i];
+        }
+
+        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetParagraphStart_End_ContentsEnd_ForRange, (nint)pStartPtr, (nint)pParEndPtr, (nint)pContentsEndPtr, range);
     }
 
     public NSRange ParagraphRangeForRange(NSRange range)
@@ -487,6 +523,14 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public nuint CompletePathIntoString(NSString outputName, bool flag, NSString[] outputArray, NSString[] filterTypes)
+    {
+        nint pOutputArray = NSArray.FromArray(outputArray);
+        nint pFilterTypes = NSArray.FromArray(filterTypes);
+
+        return ObjectiveC.MsgSendNUInt(NativePtr, NSStringBindings.CompletePathIntoString_CaseSensitive_MatchesIntoArray_FilterTypes, outputName.NativePtr, flag, pOutputArray, pFilterTypes);
+    }
+
     public bool GetFileSystemRepresentation(nint cname, nuint max)
     {
         return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.GetFileSystemRepresentation_MaxLength, cname, max);
@@ -603,6 +647,17 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
     public static NSObject StringWithCString(nint bytes)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithCString, bytes);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static NSString PathWithComponents(NSString[] components)
+    {
+        nint pComponents = NSArray.FromArray(components);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.PathWithComponents, pComponents);
+
+        ObjectiveC.Release(pComponents);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -759,6 +814,8 @@ file static class NSStringBindings
 
     public static readonly Selector Compare_Options_Range_Locale = "compare:options:range:locale:";
 
+    public static readonly Selector CompletePathIntoString_CaseSensitive_MatchesIntoArray_FilterTypes = "completePathIntoString:caseSensitive:matchesIntoArray:filterTypes:";
+
     public static readonly Selector ContainsString = "containsString:";
 
     public static readonly Selector CString = "cString";
@@ -884,6 +941,8 @@ file static class NSStringBindings
     public static readonly Selector ParagraphRangeForRange = "paragraphRangeForRange:";
 
     public static readonly Selector PathExtension = "pathExtension";
+
+    public static readonly Selector PathWithComponents = "pathWithComponents:";
 
     public static readonly Selector PrecomposedStringWithCanonicalMapping = "precomposedStringWithCanonicalMapping";
 

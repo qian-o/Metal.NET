@@ -79,6 +79,7 @@ partial class CSharpEmitter
                     method.Parameters[pi + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                if (arraySetupLines.Count > 0) arraySetupLines.Add("");
                 arraySetupLines.Add($"        nint* {ptrVar} = stackalloc nint[{csParamName}.Length];");
                 arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
                 arraySetupLines.Add("        {");
@@ -106,6 +107,7 @@ partial class CSharpEmitter
                 csParams.Add($"{elemType}[] {csParamName}");
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                if (arraySetupLines.Count > 0) arraySetupLines.Add("");
                 arraySetupLines.Add($"        {elemType}* {ptrVar} = stackalloc {elemType}[{csParamName}.Length];");
                 arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
                 arraySetupLines.Add("        {");
@@ -150,6 +152,24 @@ partial class CSharpEmitter
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
                 callArgs.Add($"{csParamName}.NativePtr");
+                callArgTypes.Add("nint");
+                continue;
+            }
+
+            // NSArray param with known element type → typed array + NSArray.FromArray
+            if (param.Type.StartsWith("NSARRAY_PARAM:"))
+            {
+                string elemModelType = param.Type["NSARRAY_PARAM:".Length..];
+                string elemCsType = TypeMapper.MapType(elemModelType);
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+
+                csParams.Add($"{elemCsType}[] {csParamName}");
+
+                string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                arraySetupLines.Add($"        nint {ptrVar} = NSArray.FromArray({csParamName});");
+                nsArrayReleaseVars.Add(ptrVar);
+
+                callArgs.Add(ptrVar);
                 callArgTypes.Add("nint");
                 continue;
             }
@@ -518,6 +538,7 @@ partial class CSharpEmitter
                     method.Parameters[pi + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                if (arraySetupLines.Count > 0) arraySetupLines.Add("");
                 arraySetupLines.Add($"        nint* {ptrVar} = stackalloc nint[{csParamName}.Length];");
                 arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
                 arraySetupLines.Add("        {");
@@ -545,6 +566,7 @@ partial class CSharpEmitter
                 csParams.Add($"{elemType}[] {csParamName}");
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                if (arraySetupLines.Count > 0) arraySetupLines.Add("");
                 arraySetupLines.Add($"        {elemType}* {ptrVar} = stackalloc {elemType}[{csParamName}.Length];");
                 arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
                 arraySetupLines.Add("        {");

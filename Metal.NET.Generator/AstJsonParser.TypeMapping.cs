@@ -14,6 +14,13 @@ partial class AstJsonParser
     {
         string t = StripNullability(objcType).Trim();
 
+        // T *const * → OBJ_ARRAY:T (C-style array of object pointers)
+        if (t.Contains("*const") && t.EndsWith('*'))
+        {
+            string elem = t.Replace("*const", "").TrimEnd('*', ' ').Trim();
+            return $"OBJ_ARRAY:{elem}";
+        }
+
         // id<Protocol> const * → OBJ_ARRAY:Protocol (pointer to array of protocol objects)
         Match idConstPtrMatch = IdProtocolConstPointerRegex().Match(t);
         if (idConstPtrMatch.Success)
@@ -151,6 +158,12 @@ partial class AstJsonParser
                 return null;
             }
 
+            // Skipped protocols (e.g., NSCopying) → treat as NSObject
+            if (SkipProtocols.Contains(protocol))
+            {
+                return "NSObject*";
+            }
+
             return protocol + "*";
         }
 
@@ -191,7 +204,7 @@ partial class AstJsonParser
             || t.Contains("ObjectType") || t.Contains("KeyType")
             || t.Contains("NS_RETURNS_INNER_POINTER")
             || t.Contains("NSStringEncoding *") || t == "NSStringEncodingConversionOptions"
-            || t.Contains("*const ") || (t.Contains("const") && t.Contains("* _Nonnull *"))
+            || (t.Contains("*const ") && !t.EndsWith('*')) || (t.Contains("const") && t.Contains("* _Nonnull *") && !t.EndsWith('*'))
             || t.Contains("unichar *")
             || t.Contains("CAEDRMetadata")
             || t.Contains("NSCoder")

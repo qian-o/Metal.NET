@@ -148,6 +148,17 @@ public partial class NSDictionary(nint nativePtr, NativeObjectOwnership ownershi
         return ObjectiveC.MsgSendNInt(NSDictionaryBindings.Class, NSDictionaryBindings.DictionaryWithObjectsAndKeys, firstObject.NativePtr);
     }
 
+    public static NSObject SharedKeySetForKeys(NSObject[] keys)
+    {
+        nint pKeys = NSArray.FromArray(keys);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSDictionaryBindings.Class, NSDictionaryBindings.SharedKeySetForKeys, pKeys);
+
+        ObjectiveC.Release(pKeys);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public static NSDictionary InitWithContentsOfFile(NSString path)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDictionaryBindings.Class), NSDictionaryBindings.InitWithContentsOfFile, path.NativePtr);
@@ -230,6 +241,8 @@ file static class NSDictionaryBindings
     public static readonly Selector InitWithContentsOfURL_Error = "initWithContentsOfURL:error:";
 
     public static readonly Selector InitWithObjectsAndKeys = "initWithObjectsAndKeys:";
+
+    public static readonly Selector SharedKeySetForKeys = "sharedKeySetForKeys:";
 
     public static readonly Selector WriteToFile_Atomically = "writeToFile:atomically:";
 

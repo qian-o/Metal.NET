@@ -93,36 +93,6 @@ AST 中不含 Foundation 枚举定义，因此手写了 `Metal.NET/Foundation/NS
 
 **实际需要关注的**：主要是 47 个 C 数组参数方法和 5 个 block 回调方法。9 个 unknown 中也有需要考虑支持的。
 
-### 3.2 Class → Struct 重构计划
-
-已规划但尚未开始。目标：将所有 ObjC 对象绑定从 C# class 改为 struct（参考 SharpMetal 风格）。
-
-**当前架构**：
-- 所有 ObjC 对象 = C# class（堆分配、GC 跟踪）
-- 继承层次：`NativeObject → NSObject → MTLDevice` 等
-- 所有权模型：Borrowed / Owned / Managed + IDisposable + finalizer
-- 属性缓存 `GetProperty(ref field, selector)`
-- Selectors 在文件级 `{Class}Bindings` 静态类中
-- `ObjectiveC.cs` 使用 unmanaged function pointers 做 `objc_msgSend`
-
-**目标架构**：
-- 所有 ObjC 对象 = C# partial struct + `IntPtr NativePtr`
-- 无继承层次，每个 struct 独立
-- 无所有权跟踪、无 IDisposable、无 finalizer
-- 每个属性/方法直接调用 `objc_msgSend`
-- Selectors 作为 struct 内部 `private static readonly` 字段
-- 工厂方法：`static New()` → `s_class.AllocInit<T>()`
-- 隐式转换到 `IntPtr`
-- 使用 `LibraryImport` 做 P/Invoke
-
-**需要修改的生成器文件**：
-- `CSharpEmitter.ClassGeneration.cs` → struct 生成
-- `CSharpEmitter.PropertyEmission.cs` → 简化，去掉缓存
-- `CSharpEmitter.MethodEmission.cs` → 简化参数传递
-- `CSharpEmitter.ObjectiveCGeneration.cs` → 切换到 LibraryImport
-- `Models.cs` → ClassDef 可能需要更新
-- `TypeMapper.cs` → 返回类型处理变化
-
 ---
 
 ## 4. 生成器关键设计
@@ -241,5 +211,4 @@ _search_enums.py
 1. **C 数组参数支持**：47 个方法因 C 数组参数未生成，需要设计 `Span<T>` 或指针参数的映射方案
 2. **Block / 函数指针回调**：5 个方法含 block 参数，需要设计 delegate 映射
 3. **Unknown 类别处理**：9 个特殊情况逐一评估
-4. **Class → Struct 重构**：主要架构变更，涉及多个生成器文件
-5. **清理临时审计脚本**：删除根目录下的 `_*.py` 文件
+4. **清理临时审计脚本**：删除根目录下的 `_*.py` 文件

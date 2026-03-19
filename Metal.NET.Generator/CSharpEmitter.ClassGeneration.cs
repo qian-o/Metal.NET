@@ -469,11 +469,16 @@ partial class CSharpEmitter
 
     /// <summary>
     /// Returns <see langword="true"/> if the method has an array parameter whose
-    /// next parameter is <b>not</b> a matching <c>count</c> parameter.
+    /// next parameter is <b>not</b> a matching <c>count</c> parameter and the method
+    /// does not use a range-terminator or preceding count pattern.
     /// </summary>
     static bool HasUnmergableArrayParam(MethodInfo method)
     {
         List<ParamDef> p = method.Parameters;
+
+        // If the last parameter is NSRange, treat all arrays as valid (bulk-set with range).
+        bool hasRangeTerminator = p.Count > 0 && p[^1].Type is "NSRange";
+
         for (int i = 0; i < p.Count; i++)
         {
             if (p[i].Type.StartsWith("OBJ_ARRAY:") ||
@@ -482,7 +487,11 @@ partial class CSharpEmitter
             {
                 bool nextIsCount = i + 1 < p.Count &&
                     p[i + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
-                if (!nextIsCount)
+
+                // Also accept when a preceding NS::UInteger supplies the count (e.g., layerCount before layers).
+                bool prevIsCount = i > 0 && p[i - 1].Type is "NS::UInteger";
+
+                if (!nextIsCount && !hasRangeTerminator && !prevIsCount)
                 {
                     return true;
                 }

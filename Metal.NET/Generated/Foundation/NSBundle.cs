@@ -204,6 +204,17 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public NSString LocalizedStringForKey(NSString key, NSString value, NSString tableName, NSString[] localizations)
+    {
+        nint pLocalizations = NSArray.FromArray(localizations);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.LocalizedStringForKey_Value_Table_Localizations, key.NativePtr, value.NativePtr, tableName.NativePtr, pLocalizations);
+
+        ObjectiveC.Release(pLocalizations);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public NSObject ObjectForInfoDictionaryKey(NSString key)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.ObjectForInfoDictionaryKey, key.NativePtr);
@@ -305,6 +316,8 @@ file static class NSBundleBindings
     public static readonly Selector LocalizedInfoDictionary = "localizedInfoDictionary";
 
     public static readonly Selector LocalizedStringForKey_Value_Table = "localizedStringForKey:value:table:";
+
+    public static readonly Selector LocalizedStringForKey_Value_Table_Localizations = "localizedStringForKey:value:table:localizations:";
 
     public static readonly Selector MainBundle = "mainBundle";
 

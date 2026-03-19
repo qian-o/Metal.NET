@@ -558,6 +558,17 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         }
     }
 
+    public MTLArgumentEncoder MakeArgumentEncoder(MTLArgumentDescriptor[] arguments)
+    {
+        nint pArguments = NSArray.FromArray(arguments);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewArgumentEncoderWithArguments, pArguments);
+
+        ObjectiveC.Release(pArguments);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public bool SupportsRasterizationRateMap(nuint layerCount)
     {
         return ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsRasterizationRateMapWithLayerCount, layerCount);
@@ -1057,6 +1068,8 @@ file static class MTLDeviceBindings
     public static readonly Selector NewAccelerationStructureWithSize = "newAccelerationStructureWithSize:";
 
     public static readonly Selector NewArchiveWithURL_Error = "newArchiveWithURL:error:";
+
+    public static readonly Selector NewArgumentEncoderWithArguments = "newArgumentEncoderWithArguments:";
 
     public static readonly Selector NewArgumentEncoderWithBufferBinding = "newArgumentEncoderWithBufferBinding:";
 

@@ -62,6 +62,19 @@ public partial class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObj
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+
+    public static unsafe MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, nuint layerCount, MTLRasterizationRateLayerDescriptor[] layers)
+    {
+        nint* pLayers = stackalloc nint[layers.Length];
+        for (int i = 0; i < layers.Length; i++)
+        {
+            pLayers[i] = layers[i].NativePtr;
+        }
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize_LayerCount_Layers, screenSize, layerCount, (nint)pLayers);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
 }
 
 file static class MTLRasterizationRateMapDescriptorBindings
@@ -79,6 +92,8 @@ file static class MTLRasterizationRateMapDescriptorBindings
     public static readonly Selector RasterizationRateMapDescriptorWithScreenSize = "rasterizationRateMapDescriptorWithScreenSize:";
 
     public static readonly Selector RasterizationRateMapDescriptorWithScreenSize_Layer = "rasterizationRateMapDescriptorWithScreenSize:layer:";
+
+    public static readonly Selector RasterizationRateMapDescriptorWithScreenSize_LayerCount_Layers = "rasterizationRateMapDescriptorWithScreenSize:layerCount:layers:";
 
     public static readonly Selector ScreenSize = "screenSize";
 
