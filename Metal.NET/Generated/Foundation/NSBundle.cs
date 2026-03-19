@@ -20,6 +20,16 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, NSBundleBindings.MainBundle);
     }
 
+    public NSBundle[] AllBundles
+    {
+        get => GetArrayProperty<NSBundle>(NSBundleBindings.AllBundles);
+    }
+
+    public NSBundle[] AllFrameworks
+    {
+        get => GetArrayProperty<NSBundle>(NSBundleBindings.AllFrameworks);
+    }
+
     public Bool8 Loaded
     {
         get => ObjectiveC.MsgSendBool(NativePtr, NSBundleBindings.IsLoaded);
@@ -115,9 +125,29 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, NSBundleBindings.LocalizedInfoDictionary);
     }
 
+    public nint PrincipalClass
+    {
+        get => ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.PrincipalClass);
+    }
+
+    public NSString[] PreferredLocalizations
+    {
+        get => GetArrayProperty<NSString>(NSBundleBindings.PreferredLocalizations);
+    }
+
+    public NSString[] Localizations
+    {
+        get => GetArrayProperty<NSString>(NSBundleBindings.Localizations);
+    }
+
     public NSString DevelopmentLocalization
     {
         get => GetProperty(ref field, NSBundleBindings.DevelopmentLocalization);
+    }
+
+    public NSNumber[] ExecutableArchitectures
+    {
+        get => GetArrayProperty<NSNumber>(NSBundleBindings.ExecutableArchitectures);
     }
 
     public bool Load()
@@ -243,6 +273,11 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public nint ClassNamed(NSString className)
+    {
+        return ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.ClassNamed, className.NativePtr);
+    }
+
     public double PreservationPriorityForTag(NSString tag)
     {
         return ObjectiveC.MsgSendDouble(NativePtr, NSBundleBindings.PreservationPriorityForTag, tag.NativePtr);
@@ -256,6 +291,13 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
     public static nint BundleWithURL(NSURL url)
     {
         return ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.BundleWithURL, url.NativePtr);
+    }
+
+    public static NSBundle BundleForClass(nint aClass)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.BundleForClass, aClass);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static NSBundle BundleWithIdentifier(NSString identifier)
@@ -336,11 +378,17 @@ file static class NSBundleBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSBundle");
 
+    public static readonly Selector AllBundles = "allBundles";
+
+    public static readonly Selector AllFrameworks = "allFrameworks";
+
     public static readonly Selector AppStoreReceiptURL = "appStoreReceiptURL";
 
     public static readonly Selector BuiltInPlugInsPath = "builtInPlugInsPath";
 
     public static readonly Selector BuiltInPlugInsURL = "builtInPlugInsURL";
+
+    public static readonly Selector BundleForClass = "bundleForClass:";
 
     public static readonly Selector BundleIdentifier = "bundleIdentifier";
 
@@ -354,7 +402,11 @@ file static class NSBundleBindings
 
     public static readonly Selector BundleWithURL = "bundleWithURL:";
 
+    public static readonly Selector ClassNamed = "classNamed:";
+
     public static readonly Selector DevelopmentLocalization = "developmentLocalization";
+
+    public static readonly Selector ExecutableArchitectures = "executableArchitectures";
 
     public static readonly Selector ExecutablePath = "executablePath";
 
@@ -371,6 +423,8 @@ file static class NSBundleBindings
     public static readonly Selector Load = "load";
 
     public static readonly Selector LoadAndReturnError = "loadAndReturnError:";
+
+    public static readonly Selector Localizations = "localizations";
 
     public static readonly Selector LocalizedInfoDictionary = "localizedInfoDictionary";
 
@@ -394,6 +448,8 @@ file static class NSBundleBindings
 
     public static readonly Selector PathsForResourcesOfType_InDirectory_ForLocalization = "pathsForResourcesOfType:inDirectory:forLocalization:";
 
+    public static readonly Selector PreferredLocalizations = "preferredLocalizations";
+
     public static readonly Selector PreferredLocalizationsFromArray = "preferredLocalizationsFromArray:";
 
     public static readonly Selector PreferredLocalizationsFromArray_ForPreferences = "preferredLocalizationsFromArray:forPreferences:";
@@ -401,6 +457,8 @@ file static class NSBundleBindings
     public static readonly Selector PreflightAndReturnError = "preflightAndReturnError:";
 
     public static readonly Selector PreservationPriorityForTag = "preservationPriorityForTag:";
+
+    public static readonly Selector PrincipalClass = "principalClass";
 
     public static readonly Selector PrivateFrameworksPath = "privateFrameworksPath";
 

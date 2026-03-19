@@ -36,6 +36,11 @@ public partial class NSError(nint nativePtr, NativeObjectOwnership ownership) : 
         get => GetProperty(ref field, NSErrorBindings.LocalizedRecoverySuggestion);
     }
 
+    public NSString[] LocalizedRecoveryOptions
+    {
+        get => GetArrayProperty<NSString>(NSErrorBindings.LocalizedRecoveryOptions);
+    }
+
     public NSObject RecoveryAttempter
     {
         get => GetProperty(ref field, NSErrorBindings.RecoveryAttempter);
@@ -44,6 +49,11 @@ public partial class NSError(nint nativePtr, NativeObjectOwnership ownership) : 
     public NSString HelpAnchor
     {
         get => GetProperty(ref field, NSErrorBindings.HelpAnchor);
+    }
+
+    public NSError[] UnderlyingErrors
+    {
+        get => GetArrayProperty<NSError>(NSErrorBindings.UnderlyingErrors);
     }
 }
 
@@ -57,9 +67,13 @@ file static class NSErrorBindings
 
     public static readonly Selector LocalizedFailureReason = "localizedFailureReason";
 
+    public static readonly Selector LocalizedRecoveryOptions = "localizedRecoveryOptions";
+
     public static readonly Selector LocalizedRecoverySuggestion = "localizedRecoverySuggestion";
 
     public static readonly Selector RecoveryAttempter = "recoveryAttempter";
+
+    public static readonly Selector UnderlyingErrors = "underlyingErrors";
 
     public static readonly Selector UserInfo = "userInfo";
 }

@@ -115,6 +115,11 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
         get => GetProperty(ref field, NSURLBindings.FilePathURL);
     }
 
+    public NSString[] PathComponents
+    {
+        get => GetArrayProperty<NSString>(NSURLBindings.PathComponents);
+    }
+
     public NSString LastPathComponent
     {
         get => GetProperty(ref field, NSURLBindings.LastPathComponent);
@@ -486,6 +491,8 @@ file static class NSURLBindings
     public static readonly Selector Password = "password";
 
     public static readonly Selector Path = "path";
+
+    public static readonly Selector PathComponents = "pathComponents";
 
     public static readonly Selector PathExtension = "pathExtension";
 

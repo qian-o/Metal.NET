@@ -120,6 +120,18 @@ partial class AstJsonParser
             string getterName = prop.Name;
             string returnType = MapObjCTypeForModel(propObjcType);
 
+            // For NSArray properties, register element type extracted from AST generics
+            if (returnType.StartsWith("NSArray"))
+            {
+                string? elemType = ExtractNSArrayElementType(propObjcType);
+                if (elemType != null)
+                {
+                    string csElemType = TypeMapper.MapType(elemType);
+                    string csPropName = TypeMapper.ToPascalCase(getterName);
+                    context.NSArrayReturnTypes.TryAdd((ast.Name, csPropName), csElemType);
+                }
+            }
+
             // Getter
             propertySelectors.Add(getterSelector);
             propertyNames.Add(getterName);

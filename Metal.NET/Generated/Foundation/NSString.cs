@@ -115,6 +115,11 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, NSStringBindings.PrecomposedStringWithCompatibilityMapping);
     }
 
+    public NSString[] PathComponents
+    {
+        get => GetArrayProperty<NSString>(NSStringBindings.PathComponents);
+    }
+
     public Bool8 AbsolutePath
     {
         get => ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.IsAbsolutePath);
@@ -1021,6 +1026,8 @@ file static class NSStringBindings
     public static readonly Selector MaximumLengthOfBytesUsingEncoding = "maximumLengthOfBytesUsingEncoding:";
 
     public static readonly Selector ParagraphRangeForRange = "paragraphRangeForRange:";
+
+    public static readonly Selector PathComponents = "pathComponents";
 
     public static readonly Selector PathExtension = "pathExtension";
 

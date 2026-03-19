@@ -192,7 +192,7 @@ partial class AstJsonParser
         string t = StripNullability(objcType).Trim();
 
         // Exact-match unmappable types
-        if (t is "Class" or "IMP" or "SEL" or "FourCharCode" or "id *")
+        if (t is "IMP" or "SEL" or "FourCharCode" or "id *")
         {
             return true;
         }
