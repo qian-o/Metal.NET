@@ -175,6 +175,11 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         }
         context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
 
+        // Register hand-written Foundation enums (not in AST)
+        context.EnumBackingTypes.TryAdd("NSComparisonResult", "long");
+        context.EnumBackingTypes.TryAdd("NSStringCompareOptions", "ulong");
+        context.EnumBackingTypes.TryAdd("NSStringEncoding", "ulong");
+
         // Pre-build a HashSet of known delegate names for O(1) lookup
         HashSet<string> knownDelegateNames = [.. context.BlockTypeAliases.Select(b => b.CsDelegateName)];
 

@@ -60,7 +60,9 @@ partial class AstJsonParser
             "MTLCoordinate2D" => "MTL::Coordinate2D*",
             "const char *" or "char *" => "char*",
             "unichar" => "ushort",
-            "NSStringEncoding" => "NS::UInteger",
+            "NSStringEncoding" => "NSStringEncoding",
+            "NSComparisonResult" => "NSComparisonResult",
+            "NSStringCompareOptions" => "NSStringCompareOptions",
             "const void *" or "void *" => "nint",
             "const unichar *" or "unichar *" => "nint",
             _ => null
@@ -212,8 +214,6 @@ partial class AstJsonParser
             || t.Contains("NSDecimal")
             || t.Contains("NSLinguistic")
             || t.Contains("NSEnumerator")
-            || t.Contains("NSComparisonResult")
-            || t.Contains("NSStringCompareOptions")
             || t.Contains("NSErrorDomain");
     }
 

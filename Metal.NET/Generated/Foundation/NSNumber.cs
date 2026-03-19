@@ -95,6 +95,11 @@ public partial class NSNumber(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, NSNumberBindings.StringValue);
     }
 
+    public NSComparisonResult Compare(NSNumber otherNumber)
+    {
+        return (NSComparisonResult)ObjectiveC.MsgSendLong(NativePtr, NSNumberBindings.Compare, otherNumber.NativePtr);
+    }
+
     public bool IsEqualToNumber(NSNumber number)
     {
         return ObjectiveC.MsgSendBool(NativePtr, NSNumberBindings.IsEqualToNumber, number.NativePtr);
@@ -325,6 +330,8 @@ file static class NSNumberBindings
     public static readonly Selector BoolValue = "boolValue";
 
     public static readonly Selector CharValue = "charValue";
+
+    public static readonly Selector Compare = "compare:";
 
     public static readonly Selector DescriptionWithLocale = "descriptionWithLocale:";
 

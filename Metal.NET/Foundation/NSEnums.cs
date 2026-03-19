@@ -1,24 +1,4 @@
-﻿namespace Metal.NET;
-
-[Flags]
-public enum NSActivityOptions : ulong
-{
-    IdleDisplaySleepDisabled = 1099511627776,
-
-    IdleSystemSleepDisabled = 1048576,
-
-    SuddenTerminationDisabled = 16384,
-
-    AutomaticTerminationDisabled = 32768,
-
-    UserInitiated = 16777215,
-
-    UserInitiatedAllowingIdleSystemSleep = 15728639,
-
-    Background = 255,
-
-    LatencyCritical = 1095216660480
-}
+namespace Metal.NET;
 
 public enum NSComparisonResult : long
 {
@@ -29,23 +9,6 @@ public enum NSComparisonResult : long
     Descending = 1
 }
 
-/// <summary>
-/// Values used to indicate the system’s thermal state.
-/// </summary>
-public enum NSProcessInfoThermalState : long
-{
-    Nominal = 0,
-
-    Fair = 1,
-
-    Serious = 2,
-
-    Critical = 3
-}
-
-/// <summary>
-/// These values represent the options available to many of the string classes’ search and comparison methods.
-/// </summary>
 [Flags]
 public enum NSStringCompareOptions : ulong
 {
@@ -68,9 +31,6 @@ public enum NSStringCompareOptions : ulong
     RegularExpressionSearch = 1024
 }
 
-/// <summary>
-/// The following constants are provided by NSString as possible string encodings.
-/// </summary>
 public enum NSStringEncoding : ulong
 {
     ASCIIStringEncoding = 1,
