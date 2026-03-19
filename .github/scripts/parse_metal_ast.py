@@ -15,6 +15,7 @@ import json
 import os
 import re
 import sys
+from collections import defaultdict
 from itertools import chain
 
 # ---------------------------------------------------------------------------
@@ -774,8 +775,6 @@ def _propagate_sibling_swift_names(api: dict, swift_names: dict) -> int:
     *swift_names*) are considered as sources.  This avoids propagating
     collision-resolved or fallback names.
     """
-    from collections import defaultdict
-
     propagated = 0
     for collection in (api['protocols'], api['classes']):
         for t in collection:
@@ -883,8 +882,6 @@ def _resolve_overload_collisions(api: dict) -> int:
 
     Returns the number of methods whose name was changed.
     """
-    from collections import defaultdict
-
     reverted = 0
     for collection in (api['protocols'], api['classes']):
         for t in collection:

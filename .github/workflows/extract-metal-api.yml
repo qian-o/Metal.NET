@@ -61,16 +61,6 @@ jobs:
           done
           echo "Symbol graphs: $(ls /tmp/symbolgraph/*.symbols.json 2>/dev/null | wc -l | tr -d ' ') files"
 
-      - name: Upload raw diagnostics
-        uses: actions/upload-artifact@v5
-        with:
-          name: metal-raw-diagnostics
-          path: |
-            /tmp/symbolgraph/
-            /tmp/metal_raw_ast.json
-          compression-level: 9
-          retention-days: 7
-
       - name: Extract Metal API
         run: |
           python3 .github/scripts/parse_metal_ast.py \
