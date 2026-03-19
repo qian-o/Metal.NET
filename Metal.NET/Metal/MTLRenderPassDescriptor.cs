@@ -120,7 +120,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
     {
         fixed (MTLSamplePosition* pPositions = positions)
         {
-            ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSamplePositions, (nint)pPositions, (nuint)positions.Length);
+            ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSamplePositionsCount, (nint)pPositions, (nuint)positions.Length);
         }
     }
 
@@ -128,7 +128,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
     {
         fixed (MTLSamplePosition* pPositions = positions)
         {
-            return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositions, (nint)pPositions, (nuint)positions.Length);
+            return ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositionsCount, (nint)pPositions, (nuint)positions.Length);
         }
     }
 }
@@ -143,7 +143,7 @@ file static class MTLRenderPassDescriptorBindings
 
     public static readonly Selector DepthAttachment = "depthAttachment";
 
-    public static readonly Selector GetSamplePositions = "getSamplePositions:count:";
+    public static readonly Selector GetSamplePositionsCount = "getSamplePositions:count:";
 
     public static readonly Selector ImageblockSampleLength = "imageblockSampleLength";
 
@@ -173,7 +173,7 @@ file static class MTLRenderPassDescriptorBindings
 
     public static readonly Selector SetRenderTargetWidth = "setRenderTargetWidth:";
 
-    public static readonly Selector SetSamplePositions = "setSamplePositions:count:";
+    public static readonly Selector SetSamplePositionsCount = "setSamplePositions:count:";
 
     public static readonly Selector SetStencilAttachment = "setStencilAttachment:";
 

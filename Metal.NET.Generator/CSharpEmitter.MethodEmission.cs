@@ -26,11 +26,7 @@ partial class CSharpEmitter
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
         string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
-        string selectorKey = csMethodName;
-        if (selectors.TryGetValue(selectorKey, out string? existingSelector) && existingSelector != selectorObjC)
-        {
-            selectorKey = BuildMethodNameFromSelector(selectorObjC);
-        }
+        string selectorKey = BuildMethodNameFromSelector(selectorObjC);
         selectors.TryAdd(selectorKey, selectorObjC);
 
         string selectorRef = $"{csClassName}Bindings.{selectorKey}";

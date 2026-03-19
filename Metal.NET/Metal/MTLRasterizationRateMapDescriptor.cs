@@ -53,14 +53,14 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
 
     public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.Layer, layerIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerAtIndex, layerIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLayer, layer.NativePtr, layerIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLayerAtIndex, layer.NativePtr, layerIndex);
     }
 }
 
@@ -70,7 +70,7 @@ file static class MTLRasterizationRateMapDescriptorBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector Layer = "layerAtIndex:";
+    public static readonly Selector LayerAtIndex = "layerAtIndex:";
 
     public static readonly Selector LayerCount = "layerCount";
 
@@ -84,7 +84,7 @@ file static class MTLRasterizationRateMapDescriptorBindings
 
     public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetLayer = "setLayer:atIndex:";
+    public static readonly Selector SetLayerAtIndex = "setLayer:atIndex:";
 
     public static readonly Selector SetScreenSize = "setScreenSize:";
 }

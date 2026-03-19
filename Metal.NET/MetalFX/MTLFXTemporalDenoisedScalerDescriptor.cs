@@ -149,7 +149,7 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
 
     public MTLFXTemporalDenoisedScaler MakeTemporalDenoisedScaler(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.MakeTemporalDenoisedScaler, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.NewTemporalDenoisedScalerWithDevice, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -163,12 +163,12 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
 
     public static float SupportedInputContentMinScale(MTLDevice device)
     {
-        return ObjectiveC.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportedInputContentMinScale, device.NativePtr);
+        return ObjectiveC.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportedInputContentMinScaleForDevice, device.NativePtr);
     }
 
     public static float SupportedInputContentMaxScale(MTLDevice device)
     {
-        return ObjectiveC.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportedInputContentMaxScale, device.NativePtr);
+        return ObjectiveC.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorBindings.Class, MTLFXTemporalDenoisedScalerDescriptorBindings.SupportedInputContentMaxScaleForDevice, device.NativePtr);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)
@@ -208,9 +208,9 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector IsTransparencyOverlayTextureEnabled = "isTransparencyOverlayTextureEnabled";
 
-    public static readonly Selector MakeTemporalDenoisedScaler = "newTemporalDenoisedScalerWithDevice:";
-
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
+
+    public static readonly Selector NewTemporalDenoisedScalerWithDevice = "newTemporalDenoisedScalerWithDevice:";
 
     public static readonly Selector NewTemporalDenoisedScalerWithDeviceCompiler = "newTemporalDenoisedScalerWithDevice:compiler:";
 
@@ -276,9 +276,9 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 
     public static readonly Selector SpecularHitDistanceTextureFormat = "specularHitDistanceTextureFormat";
 
-    public static readonly Selector SupportedInputContentMaxScale = "supportedInputContentMaxScaleForDevice:";
+    public static readonly Selector SupportedInputContentMaxScaleForDevice = "supportedInputContentMaxScaleForDevice:";
 
-    public static readonly Selector SupportedInputContentMinScale = "supportedInputContentMinScaleForDevice:";
+    public static readonly Selector SupportedInputContentMinScaleForDevice = "supportedInputContentMinScaleForDevice:";
 
     public static readonly Selector SupportsDevice = "supportsDevice:";
 

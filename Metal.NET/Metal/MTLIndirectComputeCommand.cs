@@ -18,7 +18,7 @@ public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership own
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBuffer, buffer.NativePtr, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
@@ -28,12 +28,12 @@ public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership own
 
     public void ConcurrentDispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ConcurrentDispatchThreadgroups, threadgroupsPerGrid, threadsPerThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ConcurrentDispatchThreadgroupsThreadsPerThreadgroup, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
     public void ConcurrentDispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ConcurrentDispatchThreads, threadsPerGrid, threadsPerThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ConcurrentDispatchThreadsThreadsPerThreadgroup, threadsPerGrid, threadsPerThreadgroup);
     }
 
     public void SetBarrier()
@@ -48,7 +48,7 @@ public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership own
 
     public void SetImageblockWidth(nuint width, nuint height)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetImageblockWidth, width, height);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetImageblockWidthHeight, width, height);
     }
 
     public void Reset()
@@ -58,7 +58,7 @@ public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership own
 
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetThreadgroupMemoryLength, length, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetThreadgroupMemoryLengthAtIndex, length, index);
     }
 
     public void SetStageInRegion(MTLRegion region)
@@ -71,9 +71,9 @@ file static class MTLIndirectComputeCommandBindings
 {
     public static readonly Selector ClearBarrier = "clearBarrier";
 
-    public static readonly Selector ConcurrentDispatchThreadgroups = "concurrentDispatchThreadgroups:threadsPerThreadgroup:";
+    public static readonly Selector ConcurrentDispatchThreadgroupsThreadsPerThreadgroup = "concurrentDispatchThreadgroups:threadsPerThreadgroup:";
 
-    public static readonly Selector ConcurrentDispatchThreads = "concurrentDispatchThreads:threadsPerThreadgroup:";
+    public static readonly Selector ConcurrentDispatchThreadsThreadsPerThreadgroup = "concurrentDispatchThreads:threadsPerThreadgroup:";
 
     public static readonly Selector Reset = "reset";
 
@@ -81,13 +81,13 @@ file static class MTLIndirectComputeCommandBindings
 
     public static readonly Selector SetComputePipelineState = "setComputePipelineState:";
 
-    public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
+    public static readonly Selector SetImageblockWidthHeight = "setImageblockWidth:height:";
 
-    public static readonly Selector SetKernelBuffer = "setKernelBuffer:offset:atIndex:";
+    public static readonly Selector SetKernelBufferOffsetAtIndex = "setKernelBuffer:offset:atIndex:";
 
     public static readonly Selector SetKernelBufferOffsetAttributeStrideAtIndex = "setKernelBuffer:offset:attributeStride:atIndex:";
 
     public static readonly Selector SetStageInRegion = "setStageInRegion:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:atIndex:";
+    public static readonly Selector SetThreadgroupMemoryLengthAtIndex = "setThreadgroupMemoryLength:atIndex:";
 }

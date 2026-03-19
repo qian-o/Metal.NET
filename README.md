@@ -3,20 +3,12 @@
 [![NuGet Version](https://img.shields.io/nuget/v/Metal.NET)](https://nuget.org/packages/Metal.NET)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Low-level C# bindings for Apple's **Metal**, **MetalFX** and **QuartzCore** frameworks — auto-generated from the macOS SDK headers via **Clang AST + Swift Symbol Graph** extraction.
-
-## How It Works
-
-A GitHub Actions workflow (`extract-metal-api.yml`) runs on a macOS runner to:
-
-1. Dump the Clang AST (`clang -Xclang -ast-dump=json`) and Swift Symbol Graphs for the target frameworks.
-2. A Python script (`parse_metal_ast.py`) merges both sources into a single `metal-ast.json` — a compact description of every enum, struct, protocol, class, property, method, free function and block typedef.
-3. The C# generator (`Metal.NET.Generator`) reads `metal-ast.json` and emits idiomatic C# wrappers that call the Objective-C runtime directly via `objc_msgSend`.
+Low-level C# bindings for Apple's **Metal**, **MetalFX** and **QuartzCore** frameworks — auto-generated from the macOS SDK via **Clang AST + Swift Symbol Graph** extraction.
 
 ## Features
 
 - **Comprehensive coverage** — Metal, Metal 4, MetalFX, QuartzCore, Foundation, CoreGraphics and GCD (253 generated files).
-- **Clang AST + Swift Symbol Graph** — bindings are extracted from SDK headers, not a hand-maintained IDL.  Swift names provide human-readable method & parameter names where Clang only exposes selectors.
+- **Clang AST + Swift Symbol Graph** — bindings are extracted from SDK headers, not a hand-maintained IDL. Swift names provide human-readable method & parameter names where Clang only exposes selectors.
 - **Three ownership modes** — `Borrowed`, `Owned` and `Managed`, with deterministic `Dispose()` and an optional finalizer safety net.
 - **ObjC block support** — `NativeBlock<T>` uses `UnmanagedCallersOnly` function pointers for zero-overhead callbacks.
 - **Native AOT & trimming ready** — annotated with `IsAotCompatible` and `IsTrimmable`.
@@ -53,9 +45,9 @@ using MTLBuffer buffer = device.MakeBuffer(1024, MTLResourceOptions.StorageModeS
 
 ## API Coverage
 
-| Framework | Generated files | Highlights |
-|-----------|:-:|---|
-| **Metal / Metal 4** | 233 | Devices, command queues & buffers, render/compute/blit encoders, pipeline states, acceleration structures, `MTL4*` APIs |
+| Framework | Files | Highlights |
+|-----------|:-----:|---|
+| **Metal / Metal 4** | 233 | Devices, command queues & buffers, render / compute / blit encoders, pipeline states, acceleration structures, `MTL4*` APIs |
 | **MetalFX** | 18 | Temporal & spatial scalers, frame interpolators |
 | **QuartzCore** | 2 | `CAMetalLayer`, `CAMetalDrawable` |
 
@@ -63,10 +55,10 @@ Hand-written Foundation (`NSObject`, `NSString`, `NSArray`, …), CoreGraphics (
 
 ## Memory Management
 
-| Ownership | `Dispose()` releases | Finalizer releases | Typical usage |
-|-----------|:--------------------:|:------------------:|---|
-| `Borrowed` | ✗ | ✗ | Property getters, indexed subscript |
-| `Owned` | ✓ | ✗ | Method return values, `out NSError` |
+| Ownership | `Dispose()` | Finalizer | Typical Usage |
+|-----------|:-----------:|:---------:|---|
+| `Borrowed` | — | — | Property getters, indexed subscript |
+| `Owned` | ✓ | — | Method return values, `out NSError` |
 | `Managed` | ✓ | ✓ | `new` via `AllocInit` |
 
 ```csharp
@@ -80,6 +72,38 @@ using MTLLibrary library = device.MakeDefaultLibrary();
 MTLDevice device = commandQueue.Device;
 ```
 
+## How It Works
+
+```
+                  ┌──────────────────┐
+    macOS SDK     │  Xcode / Clang   │
+                  └────────┬─────────┘
+                           │
+              ┌────────────┴────────────┐
+              ▼                         ▼
+     Clang AST (JSON)        Swift Symbol Graphs
+              │                         │
+              └────────────┬────────────┘
+                           ▼
+              parse_metal_ast.py (Python)
+                           │
+                           ▼
+                    metal-ast.json
+                           │
+                           ▼
+              Metal.NET.Generator (C#)
+                           │
+                           ▼
+                  Generated bindings
+```
+
+A GitHub Actions workflow (`extract-metal-api.yml`) runs on a macOS runner to:
+
+1. **Dump the Clang AST** — `clang -Xclang -ast-dump=json` produces a complete JSON representation of every declaration in the Metal / MetalFX headers.
+2. **Extract Swift Symbol Graphs** — `swift-symbolgraph-extract` provides the human-readable Swift names for methods and properties.
+3. **Merge into `metal-ast.json`** — A Python script merges both sources, applies Swift name propagation, resolves overload collisions, and outputs a compact JSON describing every enum, struct, protocol, class, property, method, free function and block typedef.
+4. **Generate C# bindings** — The C# generator reads `metal-ast.json` and emits idiomatic wrappers that call the Objective-C runtime directly via `objc_msgSend`.
+
 ## Project Structure
 
 ```
@@ -91,8 +115,7 @@ Metal.NET.slnx
 │  │  ├─ NativeBlock.cs                  ObjC block support (UnmanagedCallersOnly)
 │  │  ├─ ObjectiveC.cs                   Auto-generated objc_msgSend overloads
 │  │  ├─ Selector.cs                     Lazy selector handle
-│  │  ├─ Bool8.cs / Structs.cs           Value types
-│  │  └─ ...
+│  │  └─ Bool8.cs / Structs.cs           Value types
 │  ├─ Foundation/                        Hand-written NS* wrappers
 │  ├─ CoreGraphics/                      Hand-written CG* wrappers
 │  ├─ GCD/                               Hand-written Dispatch* wrappers
@@ -115,7 +138,7 @@ Metal.NET.slnx
 
 ## Updating Bindings
 
-1. Run the **Extract Metal API** workflow (`extract-metal-api.yml`) to regenerate `metal-ast.json` from the latest Xcode SDK.
+1. Run the **Extract Metal API** workflow to regenerate `metal-ast.json` from the latest Xcode SDK.
 2. Regenerate and verify locally:
 
 ```bash

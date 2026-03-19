@@ -28,7 +28,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public MTLLibrary MakeLibrary(MTL4LibraryDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.MakeLibrary, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewLibraryWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -37,7 +37,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public MTLDynamicLibrary MakeDynamicLibrary(MTLLibrary library, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.MakeDynamicLibrary, library.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewDynamicLibraryError, library.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -55,7 +55,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public MTLComputePipelineState MakeComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.MakeComputePipelineState, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewComputePipelineStateWithDescriptorCompilerTaskOptionsError, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -73,7 +73,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public MTLRenderPipelineState MakeRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.MakeRenderPipelineState, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateWithDescriptorCompilerTaskOptionsError, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -100,7 +100,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public MTL4BinaryFunction MakeBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.MakeBinaryFunction, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewBinaryFunctionWithDescriptorCompilerTaskOptionsError, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -172,7 +172,7 @@ public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public MTL4MachineLearningPipelineState MakeMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.MakeMachineLearningPipelineState, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerBindings.NewMachineLearningPipelineStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -193,21 +193,13 @@ file static class MTL4CompilerBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector MakeBinaryFunction = "newBinaryFunctionWithDescriptor:compilerTaskOptions:error:";
-
-    public static readonly Selector MakeComputePipelineState = "newComputePipelineStateWithDescriptor:compilerTaskOptions:error:";
-
-    public static readonly Selector MakeDynamicLibrary = "newDynamicLibrary:error:";
-
-    public static readonly Selector MakeLibrary = "newLibraryWithDescriptor:error:";
-
-    public static readonly Selector MakeMachineLearningPipelineState = "newMachineLearningPipelineStateWithDescriptor:error:";
-
-    public static readonly Selector MakeRenderPipelineState = "newRenderPipelineStateWithDescriptor:compilerTaskOptions:error:";
-
     public static readonly Selector NewBinaryFunctionWithDescriptorCompilerTaskOptionsCompletionHandler = "newBinaryFunctionWithDescriptor:compilerTaskOptions:completionHandler:";
 
+    public static readonly Selector NewBinaryFunctionWithDescriptorCompilerTaskOptionsError = "newBinaryFunctionWithDescriptor:compilerTaskOptions:error:";
+
     public static readonly Selector NewComputePipelineStateWithDescriptorCompilerTaskOptionsCompletionHandler = "newComputePipelineStateWithDescriptor:compilerTaskOptions:completionHandler:";
+
+    public static readonly Selector NewComputePipelineStateWithDescriptorCompilerTaskOptionsError = "newComputePipelineStateWithDescriptor:compilerTaskOptions:error:";
 
     public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler = "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:completionHandler:";
 
@@ -215,19 +207,27 @@ file static class MTL4CompilerBindings
 
     public static readonly Selector NewDynamicLibraryCompletionHandler = "newDynamicLibrary:completionHandler:";
 
+    public static readonly Selector NewDynamicLibraryError = "newDynamicLibrary:error:";
+
     public static readonly Selector NewDynamicLibraryWithURLCompletionHandler = "newDynamicLibraryWithURL:completionHandler:";
 
     public static readonly Selector NewDynamicLibraryWithURLError = "newDynamicLibraryWithURL:error:";
 
     public static readonly Selector NewLibraryWithDescriptorCompletionHandler = "newLibraryWithDescriptor:completionHandler:";
 
+    public static readonly Selector NewLibraryWithDescriptorError = "newLibraryWithDescriptor:error:";
+
     public static readonly Selector NewMachineLearningPipelineStateWithDescriptorCompletionHandler = "newMachineLearningPipelineStateWithDescriptor:completionHandler:";
+
+    public static readonly Selector NewMachineLearningPipelineStateWithDescriptorError = "newMachineLearningPipelineStateWithDescriptor:error:";
 
     public static readonly Selector NewRenderPipelineStateBySpecializationWithDescriptorPipelineCompletionHandler = "newRenderPipelineStateBySpecializationWithDescriptor:pipeline:completionHandler:";
 
     public static readonly Selector NewRenderPipelineStateBySpecializationWithDescriptorPipelineError = "newRenderPipelineStateBySpecializationWithDescriptor:pipeline:error:";
 
     public static readonly Selector NewRenderPipelineStateWithDescriptorCompilerTaskOptionsCompletionHandler = "newRenderPipelineStateWithDescriptor:compilerTaskOptions:completionHandler:";
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptorCompilerTaskOptionsError = "newRenderPipelineStateWithDescriptor:compilerTaskOptions:error:";
 
     public static readonly Selector NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler = "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:completionHandler:";
 

@@ -7,7 +7,7 @@
 partial class AstJsonParser
 {
     /// <summary>Methods to skip during parsing (ObjC runtime methods handled by the framework).</summary>
-    static readonly HashSet<string> SkipMethods = ["alloc", "init", "retain", "release", "autorelease", "copy", "retainCount"];
+    static readonly HashSet<string> SkipMethods = ["alloc", "init", "retain", "release", "autorelease", "retainCount"];
 
     /// <summary>Selectors to skip entirely (not relevant for generated bindings).</summary>
     static readonly HashSet<string> SkipSelectors =
@@ -22,7 +22,7 @@ partial class AstJsonParser
         "observeValueForKeyPath:ofObject:change:context:",
         "encodeWithCoder:", "initWithCoder:",
         "supportsSecureCoding", "countByEnumeratingWithState:objects:count:",
-        "copyWithZone:", "mutableCopyWithZone:",
+        "copy", "copyWithZone:", "mutableCopyWithZone:",
         "array", "arrayWithObject:", "arrayWithObjects:count:",
         "objectAtIndex:",
     ];

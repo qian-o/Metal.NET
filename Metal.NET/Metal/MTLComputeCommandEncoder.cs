@@ -23,17 +23,17 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetBytes(nint bytes, nuint length, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBytes, bytes, length, index);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBytesLengthAtIndex, bytes, length, index);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBuffer, buffer.NativePtr, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetBufferOffset(nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBufferOffset, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBufferOffsetAtIndex, offset, index);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
@@ -53,27 +53,27 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint bufferIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetVisibleFunctionTable, visibleFunctionTable.NativePtr, bufferIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetVisibleFunctionTableAtBufferIndex, visibleFunctionTable.NativePtr, bufferIndex);
     }
 
     public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetIntersectionFunctionTable, intersectionFunctionTable.NativePtr, bufferIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetIntersectionFunctionTableAtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetAccelerationStructure, accelerationStructure.NativePtr, bufferIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetAccelerationStructureAtBufferIndex, accelerationStructure.NativePtr, bufferIndex);
     }
 
     public void SetTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetTexture, texture.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetTextureAtIndex, texture.NativePtr, index);
     }
 
     public void SetSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetSamplerState, sampler.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetSamplerStateAtIndex, sampler.NativePtr, index);
     }
 
     public void SetSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
@@ -83,12 +83,12 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetThreadgroupMemoryLength, length, index);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetThreadgroupMemoryLengthAtIndex, length, index);
     }
 
     public void SetImageblockWidth(nuint width, nuint height)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetImageblockWidth, width, height);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetImageblockWidthHeight, width, height);
     }
 
     public void SetStageInRegion(MTLRegion region)
@@ -98,12 +98,12 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetStageInRegionWithIndirectBuffer(MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetStageInRegionWithIndirectBuffer, indirectBuffer.NativePtr, indirectBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetStageInRegionWithIndirectBufferIndirectBufferOffset, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
     public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreadgroups, threadgroupsPerGrid, threadsPerThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreadgroupsThreadsPerThreadgroup, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
     public void DispatchThreadgroups(MTLBuffer indirectBuffer, nuint indirectBufferOffset, MTLSize threadsPerThreadgroup)
@@ -113,7 +113,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void DispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreads, threadsPerGrid, threadsPerThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.DispatchThreadsThreadsPerThreadgroup, threadsPerGrid, threadsPerThreadgroup);
     }
 
     public void UpdateFence(MTLFence fence)
@@ -128,7 +128,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void UseResource(MTLResource resource, MTLResourceUsage usage)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseResource, resource.NativePtr, (nuint)usage);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseResourceUsage, resource.NativePtr, (nuint)usage);
     }
 
     public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
@@ -139,7 +139,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
             pResources[i] = resources[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseResourcesCountUsage, (nint)pResources, (nuint)resources.Length, (nuint)usage);
     }
 
     public void UseHeap(MTLHeap heap)
@@ -155,12 +155,12 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
             pHeaps[i] = heaps[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseHeapsCount, (nint)pHeaps, (nuint)heaps.Length);
     }
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.ExecuteCommandsInBuffer, indirectCommandBuffer.NativePtr, executionRange);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.ExecuteCommandsInBufferWithRange, indirectCommandBuffer.NativePtr, executionRange);
     }
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, MTLBuffer indirectRangeBuffer, nuint indirectBufferOffset)
@@ -170,7 +170,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void MemoryBarrier(MTLBarrierScope scope)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrier, (nuint)scope);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrierWithScope, (nuint)scope);
     }
 
     public unsafe void MemoryBarrierWithResources(MTLResource[] resources)
@@ -181,76 +181,74 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
             pResources[i] = resources[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrierWithResources, (nint)pResources, (nuint)resources.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrierWithResourcesCount, (nint)pResources, (nuint)resources.Length);
     }
 
     public void SampleCounters(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SampleCounters, sampleBuffer.NativePtr, sampleIndex, barrier);
+        ObjectiveC.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SampleCountersInBufferAtSampleIndexWithBarrier, sampleBuffer.NativePtr, sampleIndex, barrier);
     }
 }
 
 file static class MTLComputeCommandEncoderBindings
 {
-    public static readonly Selector DispatchThreadgroups = "dispatchThreadgroups:threadsPerThreadgroup:";
+    public static readonly Selector DispatchThreadgroupsThreadsPerThreadgroup = "dispatchThreadgroups:threadsPerThreadgroup:";
 
     public static readonly Selector DispatchThreadgroupsWithIndirectBufferIndirectBufferOffsetThreadsPerThreadgroup = "dispatchThreadgroupsWithIndirectBuffer:indirectBufferOffset:threadsPerThreadgroup:";
 
-    public static readonly Selector DispatchThreads = "dispatchThreads:threadsPerThreadgroup:";
+    public static readonly Selector DispatchThreadsThreadsPerThreadgroup = "dispatchThreads:threadsPerThreadgroup:";
 
     public static readonly Selector DispatchType = "dispatchType";
 
-    public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
-
     public static readonly Selector ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset = "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:";
 
-    public static readonly Selector MemoryBarrier = "memoryBarrierWithScope:";
+    public static readonly Selector ExecuteCommandsInBufferWithRange = "executeCommandsInBuffer:withRange:";
 
-    public static readonly Selector MemoryBarrierWithResources = "memoryBarrierWithResources:count:";
+    public static readonly Selector MemoryBarrierWithResourcesCount = "memoryBarrierWithResources:count:";
 
-    public static readonly Selector SampleCounters = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
+    public static readonly Selector MemoryBarrierWithScope = "memoryBarrierWithScope:";
 
-    public static readonly Selector SetAccelerationStructure = "setAccelerationStructure:atBufferIndex:";
+    public static readonly Selector SampleCountersInBufferAtSampleIndexWithBarrier = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
-    public static readonly Selector SetBuffer = "setBuffer:offset:atIndex:";
+    public static readonly Selector SetAccelerationStructureAtBufferIndex = "setAccelerationStructure:atBufferIndex:";
 
-    public static readonly Selector SetBufferOffset = "setBufferOffset:atIndex:";
+    public static readonly Selector SetBufferOffsetAtIndex = "setBuffer:offset:atIndex:";
 
     public static readonly Selector SetBufferOffsetAttributeStrideAtIndex = "setBuffer:offset:attributeStride:atIndex:";
 
-    public static readonly Selector SetBytes = "setBytes:length:atIndex:";
+    public static readonly Selector SetBytesLengthAtIndex = "setBytes:length:atIndex:";
 
     public static readonly Selector SetBytesLengthAttributeStrideAtIndex = "setBytes:length:attributeStride:atIndex:";
 
     public static readonly Selector SetComputePipelineState = "setComputePipelineState:";
 
-    public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
+    public static readonly Selector SetImageblockWidthHeight = "setImageblockWidth:height:";
 
-    public static readonly Selector SetIntersectionFunctionTable = "setIntersectionFunctionTable:atBufferIndex:";
+    public static readonly Selector SetIntersectionFunctionTableAtBufferIndex = "setIntersectionFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
+    public static readonly Selector SetSamplerStateAtIndex = "setSamplerState:atIndex:";
 
     public static readonly Selector SetSamplerStateLodMinClampLodMaxClampAtIndex = "setSamplerState:lodMinClamp:lodMaxClamp:atIndex:";
 
     public static readonly Selector SetStageInRegion = "setStageInRegion:";
 
-    public static readonly Selector SetStageInRegionWithIndirectBuffer = "setStageInRegionWithIndirectBuffer:indirectBufferOffset:";
+    public static readonly Selector SetStageInRegionWithIndirectBufferIndirectBufferOffset = "setStageInRegionWithIndirectBuffer:indirectBufferOffset:";
 
-    public static readonly Selector SetTexture = "setTexture:atIndex:";
+    public static readonly Selector SetTextureAtIndex = "setTexture:atIndex:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:atIndex:";
+    public static readonly Selector SetThreadgroupMemoryLengthAtIndex = "setThreadgroupMemoryLength:atIndex:";
 
-    public static readonly Selector SetVisibleFunctionTable = "setVisibleFunctionTable:atBufferIndex:";
+    public static readonly Selector SetVisibleFunctionTableAtBufferIndex = "setVisibleFunctionTable:atBufferIndex:";
 
     public static readonly Selector UpdateFence = "updateFence:";
 
     public static readonly Selector UseHeap = "useHeap:";
 
-    public static readonly Selector UseHeaps = "useHeaps:count:";
+    public static readonly Selector UseHeapsCount = "useHeaps:count:";
 
-    public static readonly Selector UseResource = "useResource:usage:";
+    public static readonly Selector UseResourcesCountUsage = "useResources:count:usage:";
 
-    public static readonly Selector UseResources = "useResources:count:usage:";
+    public static readonly Selector UseResourceUsage = "useResource:usage:";
 
     public static readonly Selector WaitForFence = "waitForFence:";
 }

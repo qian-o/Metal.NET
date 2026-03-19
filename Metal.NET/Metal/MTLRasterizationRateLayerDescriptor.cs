@@ -45,11 +45,6 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
     {
         get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
     }
-
-    public nint InitWithSampleCount(MTLSize sampleCount, float horizontal, float vertical)
-    {
-        return ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCount, sampleCount, horizontal, vertical);
-    }
 }
 
 file static class MTLRasterizationRateLayerDescriptorBindings
@@ -59,8 +54,6 @@ file static class MTLRasterizationRateLayerDescriptorBindings
     public static readonly Selector Horizontal = "horizontal";
 
     public static readonly Selector HorizontalSampleStorage = "horizontalSampleStorage";
-
-    public static readonly Selector InitWithSampleCount = "initWithSampleCount:horizontal:vertical:";
 
     public static readonly Selector MaxSampleCount = "maxSampleCount";
 

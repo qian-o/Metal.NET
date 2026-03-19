@@ -15,6 +15,7 @@ import json
 import os
 import re
 import sys
+from collections import defaultdict
 from itertools import chain
 
 # ---------------------------------------------------------------------------
@@ -762,6 +763,50 @@ def _new_to_make(name: str) -> str | None:
     return 'make' + core
 
 
+def _propagate_sibling_swift_names(api: dict, swift_names: dict) -> int:
+    """Propagate Swift names to sibling methods sharing the same selector prefix.
+
+    When the symbol graph renames some overloads (e.g. the 2-param variant of
+    ``renderCommandEncoderWithDescriptor:options:`` → ``makeRenderCommandEncoder``)
+    but misses others (the 1-param ``renderCommandEncoderWithDescriptor:``),
+    this pass copies the symbol-graph-provided name to the unrenamed siblings.
+
+    Only methods explicitly renamed by the symbol graph (present in
+    *swift_names*) are considered as sources.  This avoids propagating
+    collision-resolved or fallback names.
+    """
+    propagated = 0
+    for collection in (api['protocols'], api['classes']):
+        for t in collection:
+            tname = t['name']
+            groups: dict[str, list[dict]] = defaultdict(list)
+            for m in t.get('methods', []):
+                sel = m.get('selector', '')
+                first_part = sel.split(':')[0] if ':' in sel else sel
+                groups[first_part].append(m)
+
+            for first_part, methods in groups.items():
+                if len(methods) < 2:
+                    continue
+                # Collect all distinct symbol-graph names within this group
+                sg_names = set()
+                for m in methods:
+                    key = (tname, m['selector'])
+                    if key in swift_names:
+                        sg_names.add(swift_names[key])
+                # Only propagate when all symbol-graph entries agree on one name
+                if len(sg_names) != 1:
+                    continue
+                sg_name = next(iter(sg_names))
+                # Apply to siblings not already covered by the symbol graph
+                for m in methods:
+                    if m['name'] == first_part \
+                            and (tname, m['selector']) not in swift_names:
+                        m['name'] = sg_name
+                        propagated += 1
+    return propagated
+
+
 def apply_swift_names(api: dict, swift_names: dict) -> int:
     """Apply Swift names to methods and properties in protocols and classes.
 
@@ -792,6 +837,11 @@ def apply_swift_names(api: dict, swift_names: dict) -> int:
                     p['name'] = swift_names[key]
                     applied += 1
     print(f"  Swift names applied: {applied}, new→make fallback: {fallback}")
+
+    # Propagate Swift names to sibling methods sharing the same selector prefix
+    propagated = _propagate_sibling_swift_names(api, swift_names)
+    if propagated:
+        print(f"  Sibling Swift names propagated: {propagated}")
 
     # Resolve overload collisions caused by Swift name mapping
     collisions = _resolve_overload_collisions(api)
@@ -834,8 +884,6 @@ def _resolve_overload_collisions(api: dict) -> int:
 
     Returns the number of methods whose name was changed.
     """
-    from collections import defaultdict
-
     reverted = 0
     for collection in (api['protocols'], api['classes']):
         for t in collection:

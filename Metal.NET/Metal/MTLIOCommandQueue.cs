@@ -24,14 +24,14 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLIOCommandBuffer MakeCommandBuffer()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.MakeCommandBuffer);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIOCommandBuffer MakeCommandBufferWithUnretainedReferences()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.MakeCommandBufferWithUnretainedReferences);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -39,13 +39,13 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
 
 file static class MTLIOCommandQueueBindings
 {
+    public static readonly Selector CommandBuffer = "commandBuffer";
+
+    public static readonly Selector CommandBufferWithUnretainedReferences = "commandBufferWithUnretainedReferences";
+
     public static readonly Selector EnqueueBarrier = "enqueueBarrier";
 
     public static readonly Selector Label = "label";
-
-    public static readonly Selector MakeCommandBuffer = "commandBuffer";
-
-    public static readonly Selector MakeCommandBufferWithUnretainedReferences = "commandBufferWithUnretainedReferences";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

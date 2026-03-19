@@ -23,7 +23,7 @@ public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void SetAddress(nuint gpuAddress, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddress, gpuAddress, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressAtIndex, gpuAddress, bindingIndex);
     }
 
     public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
@@ -33,17 +33,17 @@ public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void SetResource(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetResource, resourceID, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetResourceAtBufferIndex, resourceID, bindingIndex);
     }
 
     public void SetTexture(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetTexture, resourceID, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetTextureAtIndex, resourceID, bindingIndex);
     }
 
     public void SetSamplerState(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetSamplerState, resourceID, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetSamplerStateAtIndex, resourceID, bindingIndex);
     }
 }
 
@@ -53,13 +53,13 @@ file static class MTL4ArgumentTableBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector SetAddress = "setAddress:atIndex:";
+    public static readonly Selector SetAddressAtIndex = "setAddress:atIndex:";
 
     public static readonly Selector SetAddressAttributeStrideAtIndex = "setAddress:attributeStride:atIndex:";
 
-    public static readonly Selector SetResource = "setResource:atBufferIndex:";
+    public static readonly Selector SetResourceAtBufferIndex = "setResource:atBufferIndex:";
 
-    public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
+    public static readonly Selector SetSamplerStateAtIndex = "setSamplerState:atIndex:";
 
-    public static readonly Selector SetTexture = "setTexture:atIndex:";
+    public static readonly Selector SetTextureAtIndex = "setTexture:atIndex:";
 }

@@ -64,19 +64,19 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public nuint MaxAvailableSize(nuint alignment)
     {
-        return ObjectiveC.MsgSendNUInt(NativePtr, MTLHeapBindings.MaxAvailableSize, alignment);
+        return ObjectiveC.MsgSendNUInt(NativePtr, MTLHeapBindings.MaxAvailableSizeWithAlignment, alignment);
     }
 
     public MTLBuffer MakeBuffer(nuint length, MTLResourceOptions options)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.MakeBuffer, length, (nuint)options);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewBufferWithLengthOptions, length, (nuint)options);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture MakeTexture(MTLTextureDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.MakeTexture, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTextureWithDescriptor, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -102,7 +102,7 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLAccelerationStructure MakeAccelerationStructure(nuint size)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.MakeAccelerationStructure, size);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSize, size);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -141,21 +141,21 @@ file static class MTLHeapBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector MakeAccelerationStructure = "newAccelerationStructureWithSize:";
-
-    public static readonly Selector MakeBuffer = "newBufferWithLength:options:";
-
-    public static readonly Selector MakeTexture = "newTextureWithDescriptor:";
-
-    public static readonly Selector MaxAvailableSize = "maxAvailableSizeWithAlignment:";
+    public static readonly Selector MaxAvailableSizeWithAlignment = "maxAvailableSizeWithAlignment:";
 
     public static readonly Selector NewAccelerationStructureWithDescriptor = "newAccelerationStructureWithDescriptor:";
 
     public static readonly Selector NewAccelerationStructureWithDescriptorOffset = "newAccelerationStructureWithDescriptor:offset:";
 
+    public static readonly Selector NewAccelerationStructureWithSize = "newAccelerationStructureWithSize:";
+
     public static readonly Selector NewAccelerationStructureWithSizeOffset = "newAccelerationStructureWithSize:offset:";
 
+    public static readonly Selector NewBufferWithLengthOptions = "newBufferWithLength:options:";
+
     public static readonly Selector NewBufferWithLengthOptionsOffset = "newBufferWithLength:options:offset:";
+
+    public static readonly Selector NewTextureWithDescriptor = "newTextureWithDescriptor:";
 
     public static readonly Selector NewTextureWithDescriptorOffset = "newTextureWithDescriptor:offset:";
 

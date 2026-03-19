@@ -34,7 +34,7 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint offset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBuffer, argumentBuffer.NativePtr, offset);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBufferOffset, argumentBuffer.NativePtr, offset);
     }
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint startOffset, nuint arrayElement)
@@ -44,64 +44,64 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetBuffer, buffer.NativePtr, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetTexture, texture.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetTextureAtIndex, texture.NativePtr, index);
     }
 
     public void SetSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetSamplerState, sampler.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetSamplerStateAtIndex, sampler.NativePtr, index);
     }
 
     public nint ConstantData(nuint index)
     {
-        return ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.ConstantData, index);
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.ConstantDataAtIndex, index);
     }
 
     public void SetRenderPipelineState(MTLRenderPipelineState pipeline, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetRenderPipelineState, pipeline.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetRenderPipelineStateAtIndex, pipeline.NativePtr, index);
     }
 
     public void SetComputePipelineState(MTLComputePipelineState pipeline, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetComputePipelineState, pipeline.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetComputePipelineStateAtIndex, pipeline.NativePtr, index);
     }
 
     public void SetIndirectCommandBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIndirectCommandBuffer, indirectCommandBuffer.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIndirectCommandBufferAtIndex, indirectCommandBuffer.NativePtr, index);
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetAccelerationStructure, accelerationStructure.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetAccelerationStructureAtIndex, accelerationStructure.NativePtr, index);
     }
 
     public MTLArgumentEncoder MakeArgumentEncoderForBuffer(nuint index)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.MakeArgumentEncoderForBuffer, index);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoderForBufferAtIndex, index);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetVisibleFunctionTable, visibleFunctionTable.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetVisibleFunctionTableAtIndex, visibleFunctionTable.NativePtr, index);
     }
 
     public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIntersectionFunctionTable, intersectionFunctionTable.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIntersectionFunctionTableAtIndex, intersectionFunctionTable.NativePtr, index);
     }
 
     public void SetDepthStencilState(MTLDepthStencilState depthStencilState, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetDepthStencilState, depthStencilState.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetDepthStencilStateAtIndex, depthStencilState.NativePtr, index);
     }
 }
 
@@ -109,7 +109,7 @@ file static class MTLArgumentEncoderBindings
 {
     public static readonly Selector Alignment = "alignment";
 
-    public static readonly Selector ConstantData = "constantDataAtIndex:";
+    public static readonly Selector ConstantDataAtIndex = "constantDataAtIndex:";
 
     public static readonly Selector Device = "device";
 
@@ -117,31 +117,31 @@ file static class MTLArgumentEncoderBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector MakeArgumentEncoderForBuffer = "newArgumentEncoderForBufferAtIndex:";
+    public static readonly Selector NewArgumentEncoderForBufferAtIndex = "newArgumentEncoderForBufferAtIndex:";
 
-    public static readonly Selector SetAccelerationStructure = "setAccelerationStructure:atIndex:";
+    public static readonly Selector SetAccelerationStructureAtIndex = "setAccelerationStructure:atIndex:";
 
-    public static readonly Selector SetArgumentBuffer = "setArgumentBuffer:offset:";
+    public static readonly Selector SetArgumentBufferOffset = "setArgumentBuffer:offset:";
 
     public static readonly Selector SetArgumentBufferStartOffsetArrayElement = "setArgumentBuffer:startOffset:arrayElement:";
 
-    public static readonly Selector SetBuffer = "setBuffer:offset:atIndex:";
+    public static readonly Selector SetBufferOffsetAtIndex = "setBuffer:offset:atIndex:";
 
-    public static readonly Selector SetComputePipelineState = "setComputePipelineState:atIndex:";
+    public static readonly Selector SetComputePipelineStateAtIndex = "setComputePipelineState:atIndex:";
 
-    public static readonly Selector SetDepthStencilState = "setDepthStencilState:atIndex:";
+    public static readonly Selector SetDepthStencilStateAtIndex = "setDepthStencilState:atIndex:";
 
-    public static readonly Selector SetIndirectCommandBuffer = "setIndirectCommandBuffer:atIndex:";
+    public static readonly Selector SetIndirectCommandBufferAtIndex = "setIndirectCommandBuffer:atIndex:";
 
-    public static readonly Selector SetIntersectionFunctionTable = "setIntersectionFunctionTable:atIndex:";
+    public static readonly Selector SetIntersectionFunctionTableAtIndex = "setIntersectionFunctionTable:atIndex:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetRenderPipelineState = "setRenderPipelineState:atIndex:";
+    public static readonly Selector SetRenderPipelineStateAtIndex = "setRenderPipelineState:atIndex:";
 
-    public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
+    public static readonly Selector SetSamplerStateAtIndex = "setSamplerState:atIndex:";
 
-    public static readonly Selector SetTexture = "setTexture:atIndex:";
+    public static readonly Selector SetTextureAtIndex = "setTexture:atIndex:";
 
-    public static readonly Selector SetVisibleFunctionTable = "setVisibleFunctionTable:atIndex:";
+    public static readonly Selector SetVisibleFunctionTableAtIndex = "setVisibleFunctionTable:atIndex:";
 }

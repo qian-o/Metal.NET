@@ -13,11 +13,11 @@ public class MTLFXTemporalScaler(nint nativePtr, NativeObjectOwnership ownership
 
     public void Encode(MTLCommandBuffer commandBuffer)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBindings.Encode, commandBuffer.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 }
 
 file static class MTLFXTemporalScalerBindings
 {
-    public static readonly Selector Encode = "encodeToCommandBuffer:";
+    public static readonly Selector EncodeToCommandBuffer = "encodeToCommandBuffer:";
 }

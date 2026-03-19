@@ -89,7 +89,7 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void Present(MTLDrawable drawable)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.Present, drawable.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawable, drawable.NativePtr);
     }
 
     public void PresentDrawableAtTime(MTLDrawable drawable, double presentationTime)
@@ -119,21 +119,21 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public MTLBlitCommandEncoder MakeBlitCommandEncoder()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.MakeBlitCommandEncoder);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.BlitCommandEncoder);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLRenderCommandEncoder MakeRenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.MakeRenderCommandEncoder, renderPassDescriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.RenderCommandEncoderWithDescriptor, renderPassDescriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLComputeCommandEncoder MakeComputeCommandEncoder(MTLComputePassDescriptor computePassDescriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.MakeComputeCommandEncoder, computePassDescriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoderWithDescriptor, computePassDescriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -161,38 +161,38 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void EncodeWaitForEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWaitForEvent, @event.NativePtr, value);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWaitForEventValue, @event.NativePtr, value);
     }
 
     public void EncodeSignalEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent, @event.NativePtr, value);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEventValue, @event.NativePtr, value);
     }
 
     public MTLParallelRenderCommandEncoder MakeParallelRenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.MakeParallelRenderCommandEncoder, renderPassDescriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.ParallelRenderCommandEncoderWithDescriptor, renderPassDescriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLResourceStateCommandEncoder MakeResourceStateCommandEncoder()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.MakeResourceStateCommandEncoder);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLResourceStateCommandEncoder ResourceStateCommandEncoder(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder, resourceStatePassDescriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoderWithDescriptor, resourceStatePassDescriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLAccelerationStructureCommandEncoder MakeAccelerationStructureCommandEncoder()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.MakeAccelerationStructureCommandEncoder);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -227,17 +227,21 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
             pResidencySets[i] = residencySets[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySetsCount, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 }
 
 file static class MTLCommandBufferBindings
 {
+    public static readonly Selector AccelerationStructureCommandEncoder = "accelerationStructureCommandEncoder";
+
     public static readonly Selector AccelerationStructureCommandEncoderWithDescriptor = "accelerationStructureCommandEncoderWithDescriptor:";
 
     public static readonly Selector AddCompletedHandler = "addCompletedHandler:";
 
     public static readonly Selector AddScheduledHandler = "addScheduledHandler:";
+
+    public static readonly Selector BlitCommandEncoder = "blitCommandEncoder";
 
     public static readonly Selector BlitCommandEncoderWithDescriptor = "blitCommandEncoderWithDescriptor:";
 
@@ -247,13 +251,15 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector ComputeCommandEncoder = "computeCommandEncoder";
 
+    public static readonly Selector ComputeCommandEncoderWithDescriptor = "computeCommandEncoderWithDescriptor:";
+
     public static readonly Selector ComputeCommandEncoderWithDispatchType = "computeCommandEncoderWithDispatchType:";
 
     public static readonly Selector Device = "device";
 
-    public static readonly Selector EncodeSignalEvent = "encodeSignalEvent:value:";
+    public static readonly Selector EncodeSignalEventValue = "encodeSignalEvent:value:";
 
-    public static readonly Selector EncodeWaitForEvent = "encodeWaitForEvent:value:";
+    public static readonly Selector EncodeWaitForEventValue = "encodeWaitForEvent:value:";
 
     public static readonly Selector Enqueue = "enqueue";
 
@@ -273,21 +279,11 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector Logs = "logs";
 
-    public static readonly Selector MakeAccelerationStructureCommandEncoder = "accelerationStructureCommandEncoder";
-
-    public static readonly Selector MakeBlitCommandEncoder = "blitCommandEncoder";
-
-    public static readonly Selector MakeComputeCommandEncoder = "computeCommandEncoderWithDescriptor:";
-
-    public static readonly Selector MakeParallelRenderCommandEncoder = "parallelRenderCommandEncoderWithDescriptor:";
-
-    public static readonly Selector MakeRenderCommandEncoder = "renderCommandEncoderWithDescriptor:";
-
-    public static readonly Selector MakeResourceStateCommandEncoder = "resourceStateCommandEncoder";
+    public static readonly Selector ParallelRenderCommandEncoderWithDescriptor = "parallelRenderCommandEncoderWithDescriptor:";
 
     public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector Present = "presentDrawable:";
+    public static readonly Selector PresentDrawable = "presentDrawable:";
 
     public static readonly Selector PresentDrawableAfterMinimumDuration = "presentDrawable:afterMinimumDuration:";
 
@@ -295,7 +291,11 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector ResourceStateCommandEncoder = "resourceStateCommandEncoderWithDescriptor:";
+    public static readonly Selector RenderCommandEncoderWithDescriptor = "renderCommandEncoderWithDescriptor:";
+
+    public static readonly Selector ResourceStateCommandEncoder = "resourceStateCommandEncoder";
+
+    public static readonly Selector ResourceStateCommandEncoderWithDescriptor = "resourceStateCommandEncoderWithDescriptor:";
 
     public static readonly Selector RetainedReferences = "retainedReferences";
 
@@ -305,7 +305,7 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector UseResidencySet = "useResidencySet:";
 
-    public static readonly Selector UseResidencySets = "useResidencySets:count:";
+    public static readonly Selector UseResidencySetsCount = "useResidencySets:count:";
 
     public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 

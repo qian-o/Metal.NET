@@ -18,7 +18,7 @@ public class MTLVisibleFunctionTable(nint nativePtr, NativeObjectOwnership owner
 
     public void SetFunction(MTLFunctionHandle function, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLVisibleFunctionTableBindings.SetFunction, function.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTLVisibleFunctionTableBindings.SetFunctionAtIndex, function.NativePtr, index);
     }
 }
 
@@ -26,5 +26,5 @@ file static class MTLVisibleFunctionTableBindings
 {
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector SetFunction = "setFunction:atIndex:";
+    public static readonly Selector SetFunctionAtIndex = "setFunction:atIndex:";
 }

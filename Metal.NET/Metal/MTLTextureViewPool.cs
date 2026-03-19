@@ -17,7 +17,7 @@ public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
-        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureView, texture.NativePtr, index);
+        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewAtIndex, texture.NativePtr, index);
     }
 
     public MTLResourceID SetTextureView(MTLTexture texture, MTLTextureViewDescriptor descriptor, nuint index)
@@ -35,7 +35,7 @@ file static class MTLTextureViewPoolBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLTextureViewPool");
 
-    public static readonly Selector SetTextureView = "setTextureView:atIndex:";
+    public static readonly Selector SetTextureViewAtIndex = "setTextureView:atIndex:";
 
     public static readonly Selector SetTextureViewDescriptorAtIndex = "setTextureView:descriptor:atIndex:";
 

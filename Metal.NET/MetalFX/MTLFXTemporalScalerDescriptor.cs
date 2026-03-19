@@ -107,7 +107,7 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
 
     public MTLFXTemporalScaler MakeTemporalScaler(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerDescriptorBindings.MakeTemporalScaler, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScalerWithDevice, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -121,12 +121,12 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
 
     public static float SupportedInputContentMinScale(MTLDevice device)
     {
-        return ObjectiveC.MsgSendFloat(MTLFXTemporalScalerDescriptorBindings.Class, MTLFXTemporalScalerDescriptorBindings.SupportedInputContentMinScale, device.NativePtr);
+        return ObjectiveC.MsgSendFloat(MTLFXTemporalScalerDescriptorBindings.Class, MTLFXTemporalScalerDescriptorBindings.SupportedInputContentMinScaleForDevice, device.NativePtr);
     }
 
     public static float SupportedInputContentMaxScale(MTLDevice device)
     {
-        return ObjectiveC.MsgSendFloat(MTLFXTemporalScalerDescriptorBindings.Class, MTLFXTemporalScalerDescriptorBindings.SupportedInputContentMaxScale, device.NativePtr);
+        return ObjectiveC.MsgSendFloat(MTLFXTemporalScalerDescriptorBindings.Class, MTLFXTemporalScalerDescriptorBindings.SupportedInputContentMaxScaleForDevice, device.NativePtr);
     }
 
     public static bool SupportsDevice(MTLDevice device)
@@ -162,9 +162,9 @@ file static class MTLFXTemporalScalerDescriptorBindings
 
     public static readonly Selector IsReactiveMaskTextureEnabled = "isReactiveMaskTextureEnabled";
 
-    public static readonly Selector MakeTemporalScaler = "newTemporalScalerWithDevice:";
-
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
+
+    public static readonly Selector NewTemporalScalerWithDevice = "newTemporalScalerWithDevice:";
 
     public static readonly Selector NewTemporalScalerWithDeviceCompiler = "newTemporalScalerWithDevice:compiler:";
 
@@ -208,9 +208,9 @@ file static class MTLFXTemporalScalerDescriptorBindings
 
     public static readonly Selector SetRequiresSynchronousInitialization = "setRequiresSynchronousInitialization:";
 
-    public static readonly Selector SupportedInputContentMaxScale = "supportedInputContentMaxScaleForDevice:";
+    public static readonly Selector SupportedInputContentMaxScaleForDevice = "supportedInputContentMaxScaleForDevice:";
 
-    public static readonly Selector SupportedInputContentMinScale = "supportedInputContentMinScaleForDevice:";
+    public static readonly Selector SupportedInputContentMinScaleForDevice = "supportedInputContentMinScaleForDevice:";
 
     public static readonly Selector SupportsDevice = "supportsDevice:";
 
