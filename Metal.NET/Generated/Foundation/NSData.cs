@@ -127,6 +127,13 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
+    public static NSData InitWithBytesNoCopy(nint bytes, nuint length, MTLNewBufferWithBytesNoCopyDeallocator deallocator)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopy_Length_Deallocator, bytes, length, deallocator.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
     public static NSData InitWithContentsOfFile(NSString path)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithContentsOfFile, path.NativePtr);
@@ -196,6 +203,8 @@ file static class NSDataBindings
     public static readonly Selector InitWithBytes_Length = "initWithBytes:length:";
 
     public static readonly Selector InitWithBytesNoCopy_Length = "initWithBytesNoCopy:length:";
+
+    public static readonly Selector InitWithBytesNoCopy_Length_Deallocator = "initWithBytesNoCopy:length:deallocator:";
 
     public static readonly Selector InitWithBytesNoCopy_Length_FreeWhenDone = "initWithBytesNoCopy:length:freeWhenDone:";
 

@@ -289,6 +289,13 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLBuffer MakeBuffer(nint pointer, nuint length, MTLResourceOptions options, MTLNewBufferWithBytesNoCopyDeallocator deallocator)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewBufferWithBytesNoCopy_Length_Options_Deallocator, pointer, length, (nuint)options, deallocator.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public MTLDepthStencilState MakeDepthStencilState(MTLDepthStencilDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewDepthStencilStateWithDescriptor, descriptor.NativePtr);
@@ -1078,6 +1085,8 @@ file static class MTLDeviceBindings
     public static readonly Selector NewBinaryArchiveWithDescriptor_Error = "newBinaryArchiveWithDescriptor:error:";
 
     public static readonly Selector NewBufferWithBytes_Length_Options = "newBufferWithBytes:length:options:";
+
+    public static readonly Selector NewBufferWithBytesNoCopy_Length_Options_Deallocator = "newBufferWithBytesNoCopy:length:options:deallocator:";
 
     public static readonly Selector NewBufferWithLength_Options = "newBufferWithLength:options:";
 

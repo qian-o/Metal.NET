@@ -605,6 +605,16 @@ partial class CSharpEmitter
                 continue;
             }
 
+            if (param.Type.StartsWith("INLINE_BLOCK:"))
+            {
+                string delegateName = param.Type["INLINE_BLOCK:".Length..];
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+                csParams.Add($"{delegateName} {csParamName}");
+                callArgs.Add($"{csParamName}.NativePtr");
+                callArgTypes.Add("nint");
+                continue;
+            }
+
             string csParamType = TypeMapper.MapType(param.Type);
             string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 

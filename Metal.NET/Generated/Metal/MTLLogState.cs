@@ -10,8 +10,14 @@ public partial class MTLLogState(nint nativePtr, NativeObjectOwnership ownership
         return new(nativePtr, ownership);
     }
     #endregion
+
+    public void AddLogHandler(MTLAddLogHandlerBlock block)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLLogStateBindings.AddLogHandler, block.NativePtr);
+    }
 }
 
 file static class MTLLogStateBindings
 {
+    public static readonly Selector AddLogHandler = "addLogHandler:";
 }

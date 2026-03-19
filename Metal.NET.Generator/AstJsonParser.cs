@@ -27,12 +27,9 @@ partial class AstJsonParser
         "objectAtIndex:",
     ];
 
-    /// <summary>Known inline block signatures mapped to delegate names.</summary>
-    static readonly Dictionary<string, string> InlineBlockDelegateNames = new()
-    {
-        ["void * _Nonnull, NSUInteger"] = "MTLDeallocator",
-        ["unichar * _Nonnull, NSUInteger"] = "MTLDeallocator",
-    };
+    /// <summary>Known inline block signatures mapped to delegate names. Populated
+    /// by <see cref="ParseInlineBlocks"/> (auto-discovered entries).</summary>
+    static readonly Dictionary<string, string> InlineBlockDelegateNames = [];
 
     /// <summary>Known ObjC class names that support AllocInit (have a registered ObjC class).</summary>
     static readonly HashSet<string> AllocInitClasses =
@@ -153,6 +150,7 @@ partial class AstJsonParser
         }
 
         ParseBlockTypedefs(ast, context);
+        ParseInlineBlocks(ast, context);
         ParseProtocols(ast, context);
         ParseClasses(ast, context);
         ParseFreeFunctions(ast, context);

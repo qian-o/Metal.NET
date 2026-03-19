@@ -368,6 +368,11 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return ObjectiveC.MsgSendNSRange(NativePtr, NSStringBindings.ParagraphRangeForRange, range);
     }
 
+    public void EnumerateLinesUsingBlock(NSEnumerateLinesUsingBlockBlock block)
+    {
+        ObjectiveC.MsgSend(NativePtr, NSStringBindings.EnumerateLinesUsingBlock, block.NativePtr);
+    }
+
     public NSData DataUsingEncoding(NSStringEncoding encoding, bool lossy)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.DataUsingEncoding_AllowLossyConversion, (nuint)encoding, lossy);
@@ -729,6 +734,13 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
+    public static NSString InitWithBytesNoCopy(nint bytes, nuint len, NSStringEncoding encoding, MTLNewBufferWithBytesNoCopyDeallocator deallocator)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithBytesNoCopy_Length_Encoding_Deallocator, bytes, len, (nuint)encoding, deallocator.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
     public static NSString InitWithCString(nint nullTerminatedCString, NSStringEncoding encoding)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCString_Encoding, nullTerminatedCString, (nuint)encoding);
@@ -836,6 +848,8 @@ file static class NSStringBindings
 
     public static readonly Selector DoubleValue = "doubleValue";
 
+    public static readonly Selector EnumerateLinesUsingBlock = "enumerateLinesUsingBlock:";
+
     public static readonly Selector FastestEncoding = "fastestEncoding";
 
     public static readonly Selector FloatValue = "floatValue";
@@ -857,6 +871,8 @@ file static class NSStringBindings
     public static readonly Selector HasSuffix = "hasSuffix:";
 
     public static readonly Selector InitWithBytes_Length_Encoding = "initWithBytes:length:encoding:";
+
+    public static readonly Selector InitWithBytesNoCopy_Length_Encoding_Deallocator = "initWithBytesNoCopy:length:encoding:deallocator:";
 
     public static readonly Selector InitWithBytesNoCopy_Length_Encoding_FreeWhenDone = "initWithBytesNoCopy:length:encoding:freeWhenDone:";
 

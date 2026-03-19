@@ -36,6 +36,17 @@ public sealed unsafe class MTL4NewMachineLearningPipelineStateCompletionHandler(
     }
 }
 
+public sealed unsafe class MTLAddLogHandlerBlock(Action<NSString, NSString, long, NSString> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, long, nint, void>)&Trampoline, callback)
+{
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void Trampoline(nint block, nint nSString, nint nSString2, long param2, nint nSString3)
+    {
+        Action<NSString, NSString, long, NSString> callback = GetContext<Action<NSString, NSString, long, NSString>>(block);
+
+        callback(new NSString(nSString, NativeObjectOwnership.Borrowed), new NSString(nSString2, NativeObjectOwnership.Borrowed), param2, new NSString(nSString3, NativeObjectOwnership.Borrowed));
+    }
+}
+
 public sealed unsafe class MTLCommandBufferHandler(Action<nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
@@ -80,6 +91,17 @@ public sealed unsafe class MTLIOCommandBufferHandler(Action<nint> callback) : Na
     }
 }
 
+public sealed unsafe class MTLNewBufferWithBytesNoCopyDeallocator(Action<nint, nuint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nuint, void>)&Trampoline, callback)
+{
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void Trampoline(nint block, nint pointer, nuint value)
+    {
+        Action<nint, nuint> callback = GetContext<Action<nint, nuint>>(block);
+
+        callback(pointer, value);
+    }
+}
+
 public sealed unsafe class MTLNewComputePipelineStateCompletionHandler(Action<nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
@@ -110,6 +132,17 @@ public sealed unsafe class MTLNewDynamicLibraryCompletionHandler(Action<nint, ni
         Action<nint, nint> callback = GetContext<Action<nint, nint>>(block);
 
         callback(mTLDynamicLibrary, nSError);
+    }
+}
+
+public sealed unsafe class MTLNewFunctionWithNameCompletionHandler(Action<nint, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+{
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void Trampoline(nint block, nint mTLFunction, nint nSError)
+    {
+        Action<nint, NSError> callback = GetContext<Action<nint, NSError>>(block);
+
+        callback(mTLFunction, new NSError(nSError, NativeObjectOwnership.Borrowed));
     }
 }
 
@@ -154,5 +187,27 @@ public sealed unsafe class MTLSharedEventNotificationBlock(Action<nint, ulong> c
         Action<nint, ulong> callback = GetContext<Action<nint, ulong>>(block);
 
         callback(mTLSharedEvent, value);
+    }
+}
+
+public sealed unsafe class NSEnumerateLinesUsingBlockBlock(Action<NSString, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+{
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void Trampoline(nint block, nint nSString, nint bOOL)
+    {
+        Action<NSString, nint> callback = GetContext<Action<NSString, nint>>(block);
+
+        callback(new NSString(nSString, NativeObjectOwnership.Borrowed), bOOL);
+    }
+}
+
+public sealed unsafe class NSInitWithCharactersNoCopyDeallocator(Action<nint, nuint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nuint, void>)&Trampoline, callback)
+{
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void Trampoline(nint block, nint unichar, nuint value)
+    {
+        Action<nint, nuint> callback = GetContext<Action<nint, nuint>>(block);
+
+        callback(unichar, value);
     }
 }

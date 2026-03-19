@@ -104,7 +104,18 @@ partial class CSharpEmitter
             return "nint";
         }
 
-        // Use TypeMapper to resolve the strong type
+        // Pointers to value types stay as nint (e.g., BOOL * stop flag)
+        if (stripped is "BOOL" or "bool" or "int" or "float" or "double"
+            or "char" or "short" or "long" or "unsigned" or "unichar"
+            or "uint8_t" or "uint16_t" or "uint32_t" or "uint64_t"
+            or "int8_t" or "int16_t" or "int32_t" or "int64_t"
+            or "size_t" or "NSUInteger" or "NSInteger"
+            || stripped.StartsWith("const "))
+        {
+            return "nint";
+        }
+
+        // Use TypeMapper to resolve the strong type (ObjC object pointers)
         return TypeMapper.MapType(param.ObjCType);
     }
 
