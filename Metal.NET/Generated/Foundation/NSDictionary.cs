@@ -34,14 +34,14 @@ public partial class NSDictionary(nint nativePtr, NativeObjectOwnership ownershi
 
     public NSString DescriptionWithLocale(NSObject locale, nuint level)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSDictionaryBindings.DescriptionWithLocaleIndent, locale.NativePtr, level);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSDictionaryBindings.DescriptionWithLocale_Indent, locale.NativePtr, level);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public bool WriteToURL(NSURL url, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, NSDictionaryBindings.WriteToURLError, url.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, NSDictionaryBindings.WriteToURL_Error, url.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -50,12 +50,12 @@ public partial class NSDictionary(nint nativePtr, NativeObjectOwnership ownershi
 
     public bool WriteToFile(NSString path, bool useAuxiliaryFile)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSDictionaryBindings.WriteToFileAtomically, path.NativePtr, useAuxiliaryFile);
+        return ObjectiveC.MsgSendBool(NativePtr, NSDictionaryBindings.WriteToFile_Atomically, path.NativePtr, useAuxiliaryFile);
     }
 
     public bool WriteToURL(NSURL url, bool atomically)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSDictionaryBindings.WriteToURLAtomically, url.NativePtr, atomically);
+        return ObjectiveC.MsgSendBool(NativePtr, NSDictionaryBindings.WriteToURL_Atomically, url.NativePtr, atomically);
     }
 
     public ulong FileSize()
@@ -169,9 +169,9 @@ public partial class NSDictionary(nint nativePtr, NativeObjectOwnership ownershi
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSDictionary InitWithContentsOfURLError(NSURL url, out NSError error)
+    public static NSDictionary InitWithContentsOfURL_Error(NSURL url, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDictionaryBindings.Class), NSDictionaryBindings.InitWithContentsOfURLError, url.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDictionaryBindings.Class), NSDictionaryBindings.InitWithContentsOfURL_Error, url.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -189,7 +189,7 @@ file static class NSDictionaryBindings
 
     public static readonly Selector DescriptionWithLocale = "descriptionWithLocale:";
 
-    public static readonly Selector DescriptionWithLocaleIndent = "descriptionWithLocale:indent:";
+    public static readonly Selector DescriptionWithLocale_Indent = "descriptionWithLocale:indent:";
 
     public static readonly Selector Dictionary = "dictionary";
 
@@ -227,13 +227,13 @@ file static class NSDictionaryBindings
 
     public static readonly Selector InitWithContentsOfURL = "initWithContentsOfURL:";
 
-    public static readonly Selector InitWithContentsOfURLError = "initWithContentsOfURL:error:";
+    public static readonly Selector InitWithContentsOfURL_Error = "initWithContentsOfURL:error:";
 
     public static readonly Selector InitWithObjectsAndKeys = "initWithObjectsAndKeys:";
 
-    public static readonly Selector WriteToFileAtomically = "writeToFile:atomically:";
+    public static readonly Selector WriteToFile_Atomically = "writeToFile:atomically:";
 
-    public static readonly Selector WriteToURLAtomically = "writeToURL:atomically:";
+    public static readonly Selector WriteToURL_Atomically = "writeToURL:atomically:";
 
-    public static readonly Selector WriteToURLError = "writeToURL:error:";
+    public static readonly Selector WriteToURL_Error = "writeToURL:error:";
 }

@@ -147,7 +147,7 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
 
     public bool GetFileSystemRepresentation(nint buffer, nuint maxBufferLength)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSURLBindings.GetFileSystemRepresentationMaxLength, buffer, maxBufferLength);
+        return ObjectiveC.MsgSendBool(NativePtr, NSURLBindings.GetFileSystemRepresentation_MaxLength, buffer, maxBufferLength);
     }
 
     public bool IsFileReferenceURL()
@@ -195,7 +195,7 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
 
     public NSURL URLByAppendingPathComponent(NSString pathComponent, bool isDirectory)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSURLBindings.URLByAppendingPathComponentIsDirectory, pathComponent.NativePtr, isDirectory);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSURLBindings.URLByAppendingPathComponent_IsDirectory, pathComponent.NativePtr, isDirectory);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -225,7 +225,7 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
 
     public void LoadResourceDataNotifyingClient(NSObject client, bool shouldUseCache)
     {
-        ObjectiveC.MsgSend(NativePtr, NSURLBindings.LoadResourceDataNotifyingClientUsingCache, client.NativePtr, shouldUseCache);
+        ObjectiveC.MsgSend(NativePtr, NSURLBindings.LoadResourceDataNotifyingClient_UsingCache, client.NativePtr, shouldUseCache);
     }
 
     public NSObject PropertyForKey(NSString propertyKey)
@@ -242,26 +242,26 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
 
     public bool SetProperty(NSObject property, NSString propertyKey)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSURLBindings.SetPropertyForKey, property.NativePtr, propertyKey.NativePtr);
+        return ObjectiveC.MsgSendBool(NativePtr, NSURLBindings.SetProperty_ForKey, property.NativePtr, propertyKey.NativePtr);
     }
 
     public static NSURL FileURLWithPath(NSString path, bool isDir, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithPathIsDirectoryRelativeToURL, path.NativePtr, isDir, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithPath_IsDirectory_RelativeToURL, path.NativePtr, isDir, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static NSURL FileURLWithPath(NSString path, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithPathRelativeToURL, path.NativePtr, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithPath_RelativeToURL, path.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static NSURL FileURLWithPath(NSString path, bool isDir)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithPathIsDirectory, path.NativePtr, isDir);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithPath_IsDirectory, path.NativePtr, isDir);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -275,7 +275,7 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
 
     public static NSURL FileURLWithFileSystemRepresentation(nint path, bool isDir, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithFileSystemRepresentationIsDirectoryRelativeToURL, path, isDir, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.FileURLWithFileSystemRepresentation_IsDirectory_RelativeToURL, path, isDir, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -287,61 +287,61 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
 
     public static nint URLWithString(NSString uRLString, NSURL baseURL)
     {
-        return ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.URLWithStringRelativeToURL, uRLString.NativePtr, baseURL.NativePtr);
+        return ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.URLWithString_RelativeToURL, uRLString.NativePtr, baseURL.NativePtr);
     }
 
     public static nint URLWithString(NSString uRLString, bool encodingInvalidCharacters)
     {
-        return ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.URLWithStringEncodingInvalidCharacters, uRLString.NativePtr, encodingInvalidCharacters);
+        return ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.URLWithString_EncodingInvalidCharacters, uRLString.NativePtr, encodingInvalidCharacters);
     }
 
     public static NSURL URLWithDataRepresentation(NSData data, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.URLWithDataRepresentationRelativeToURL, data.NativePtr, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.URLWithDataRepresentation_RelativeToURL, data.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static NSURL AbsoluteURLWithDataRepresentation(NSData data, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.AbsoluteURLWithDataRepresentationRelativeToURL, data.NativePtr, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.AbsoluteURLWithDataRepresentation_RelativeToURL, data.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static NSData BookmarkDataWithContentsOfURL(NSURL bookmarkFileURL, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.BookmarkDataWithContentsOfURLError, bookmarkFileURL.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSURLBindings.Class, NSURLBindings.BookmarkDataWithContentsOfURL_Error, bookmarkFileURL.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static NSURL InitWithSchemeHostPath(NSString scheme, NSString host, NSString path)
+    public static NSURL InitWithScheme_Host_Path(NSString scheme, NSString host, NSString path)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithSchemeHostPath, scheme.NativePtr, host.NativePtr, path.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithScheme_Host_Path, scheme.NativePtr, host.NativePtr, path.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitFileURLWithPathIsDirectoryRelativeToURL(NSString path, bool isDir, NSURL baseURL)
+    public static NSURL InitFileURLWithPath_IsDirectory_RelativeToURL(NSString path, bool isDir, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPathIsDirectoryRelativeToURL, path.NativePtr, isDir, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath_IsDirectory_RelativeToURL, path.NativePtr, isDir, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitFileURLWithPathRelativeToURL(NSString path, NSURL baseURL)
+    public static NSURL InitFileURLWithPath_RelativeToURL(NSString path, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPathRelativeToURL, path.NativePtr, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath_RelativeToURL, path.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitFileURLWithPathIsDirectory(NSString path, bool isDir)
+    public static NSURL InitFileURLWithPath_IsDirectory(NSString path, bool isDir)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPathIsDirectory, path.NativePtr, isDir);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath_IsDirectory, path.NativePtr, isDir);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
@@ -353,9 +353,9 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitFileURLWithFileSystemRepresentationIsDirectoryRelativeToURL(nint path, bool isDir, NSURL baseURL)
+    public static NSURL InitFileURLWithFileSystemRepresentation_IsDirectory_RelativeToURL(nint path, bool isDir, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithFileSystemRepresentationIsDirectoryRelativeToURL, path, isDir, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithFileSystemRepresentation_IsDirectory_RelativeToURL, path, isDir, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
@@ -367,30 +367,30 @@ public partial class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NS
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitWithStringRelativeToURL(NSString uRLString, NSURL baseURL)
+    public static NSURL InitWithString_RelativeToURL(NSString uRLString, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithStringRelativeToURL, uRLString.NativePtr, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithString_RelativeToURL, uRLString.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitWithStringEncodingInvalidCharacters(NSString uRLString, bool encodingInvalidCharacters)
+    public static NSURL InitWithString_EncodingInvalidCharacters(NSString uRLString, bool encodingInvalidCharacters)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithStringEncodingInvalidCharacters, uRLString.NativePtr, encodingInvalidCharacters);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithString_EncodingInvalidCharacters, uRLString.NativePtr, encodingInvalidCharacters);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitWithDataRepresentationRelativeToURL(NSData data, NSURL baseURL)
+    public static NSURL InitWithDataRepresentation_RelativeToURL(NSData data, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithDataRepresentationRelativeToURL, data.NativePtr, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitWithDataRepresentation_RelativeToURL, data.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSURL InitAbsoluteURLWithDataRepresentationRelativeToURL(NSData data, NSURL baseURL)
+    public static NSURL InitAbsoluteURLWithDataRepresentation_RelativeToURL(NSData data, NSURL baseURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitAbsoluteURLWithDataRepresentationRelativeToURL, data.NativePtr, baseURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitAbsoluteURLWithDataRepresentation_RelativeToURL, data.NativePtr, baseURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
@@ -404,11 +404,11 @@ file static class NSURLBindings
 
     public static readonly Selector AbsoluteURL = "absoluteURL";
 
-    public static readonly Selector AbsoluteURLWithDataRepresentationRelativeToURL = "absoluteURLWithDataRepresentation:relativeToURL:";
+    public static readonly Selector AbsoluteURLWithDataRepresentation_RelativeToURL = "absoluteURLWithDataRepresentation:relativeToURL:";
 
     public static readonly Selector BaseURL = "baseURL";
 
-    public static readonly Selector BookmarkDataWithContentsOfURLError = "bookmarkDataWithContentsOfURL:error:";
+    public static readonly Selector BookmarkDataWithContentsOfURL_Error = "bookmarkDataWithContentsOfURL:error:";
 
     public static readonly Selector CheckPromisedItemIsReachableAndReturnError = "checkPromisedItemIsReachableAndReturnError:";
 
@@ -420,45 +420,45 @@ file static class NSURLBindings
 
     public static readonly Selector FileReferenceURL = "fileReferenceURL";
 
-    public static readonly Selector FileURLWithFileSystemRepresentationIsDirectoryRelativeToURL = "fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:";
+    public static readonly Selector FileURLWithFileSystemRepresentation_IsDirectory_RelativeToURL = "fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:";
 
     public static readonly Selector FileURLWithPath = "fileURLWithPath:";
 
-    public static readonly Selector FileURLWithPathIsDirectory = "fileURLWithPath:isDirectory:";
+    public static readonly Selector FileURLWithPath_IsDirectory = "fileURLWithPath:isDirectory:";
 
-    public static readonly Selector FileURLWithPathIsDirectoryRelativeToURL = "fileURLWithPath:isDirectory:relativeToURL:";
+    public static readonly Selector FileURLWithPath_IsDirectory_RelativeToURL = "fileURLWithPath:isDirectory:relativeToURL:";
 
-    public static readonly Selector FileURLWithPathRelativeToURL = "fileURLWithPath:relativeToURL:";
+    public static readonly Selector FileURLWithPath_RelativeToURL = "fileURLWithPath:relativeToURL:";
 
     public static readonly Selector Fragment = "fragment";
 
-    public static readonly Selector GetFileSystemRepresentationMaxLength = "getFileSystemRepresentation:maxLength:";
+    public static readonly Selector GetFileSystemRepresentation_MaxLength = "getFileSystemRepresentation:maxLength:";
 
     public static readonly Selector HasDirectoryPath = "hasDirectoryPath";
 
     public static readonly Selector Host = "host";
 
-    public static readonly Selector InitAbsoluteURLWithDataRepresentationRelativeToURL = "initAbsoluteURLWithDataRepresentation:relativeToURL:";
+    public static readonly Selector InitAbsoluteURLWithDataRepresentation_RelativeToURL = "initAbsoluteURLWithDataRepresentation:relativeToURL:";
 
-    public static readonly Selector InitFileURLWithFileSystemRepresentationIsDirectoryRelativeToURL = "initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:";
+    public static readonly Selector InitFileURLWithFileSystemRepresentation_IsDirectory_RelativeToURL = "initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:";
 
     public static readonly Selector InitFileURLWithPath = "initFileURLWithPath:";
 
-    public static readonly Selector InitFileURLWithPathIsDirectory = "initFileURLWithPath:isDirectory:";
+    public static readonly Selector InitFileURLWithPath_IsDirectory = "initFileURLWithPath:isDirectory:";
 
-    public static readonly Selector InitFileURLWithPathIsDirectoryRelativeToURL = "initFileURLWithPath:isDirectory:relativeToURL:";
+    public static readonly Selector InitFileURLWithPath_IsDirectory_RelativeToURL = "initFileURLWithPath:isDirectory:relativeToURL:";
 
-    public static readonly Selector InitFileURLWithPathRelativeToURL = "initFileURLWithPath:relativeToURL:";
+    public static readonly Selector InitFileURLWithPath_RelativeToURL = "initFileURLWithPath:relativeToURL:";
 
-    public static readonly Selector InitWithDataRepresentationRelativeToURL = "initWithDataRepresentation:relativeToURL:";
+    public static readonly Selector InitWithDataRepresentation_RelativeToURL = "initWithDataRepresentation:relativeToURL:";
 
-    public static readonly Selector InitWithSchemeHostPath = "initWithScheme:host:path:";
+    public static readonly Selector InitWithScheme_Host_Path = "initWithScheme:host:path:";
 
     public static readonly Selector InitWithString = "initWithString:";
 
-    public static readonly Selector InitWithStringEncodingInvalidCharacters = "initWithString:encodingInvalidCharacters:";
+    public static readonly Selector InitWithString_EncodingInvalidCharacters = "initWithString:encodingInvalidCharacters:";
 
-    public static readonly Selector InitWithStringRelativeToURL = "initWithString:relativeToURL:";
+    public static readonly Selector InitWithString_RelativeToURL = "initWithString:relativeToURL:";
 
     public static readonly Selector IsFileReferenceURL = "isFileReferenceURL";
 
@@ -466,7 +466,7 @@ file static class NSURLBindings
 
     public static readonly Selector LastPathComponent = "lastPathComponent";
 
-    public static readonly Selector LoadResourceDataNotifyingClientUsingCache = "loadResourceDataNotifyingClient:usingCache:";
+    public static readonly Selector LoadResourceDataNotifyingClient_UsingCache = "loadResourceDataNotifyingClient:usingCache:";
 
     public static readonly Selector ParameterString = "parameterString";
 
@@ -494,7 +494,7 @@ file static class NSURLBindings
 
     public static readonly Selector Scheme = "scheme";
 
-    public static readonly Selector SetPropertyForKey = "setProperty:forKey:";
+    public static readonly Selector SetProperty_ForKey = "setProperty:forKey:";
 
     public static readonly Selector SetResourceData = "setResourceData:";
 
@@ -506,7 +506,7 @@ file static class NSURLBindings
 
     public static readonly Selector URLByAppendingPathComponent = "URLByAppendingPathComponent:";
 
-    public static readonly Selector URLByAppendingPathComponentIsDirectory = "URLByAppendingPathComponent:isDirectory:";
+    public static readonly Selector URLByAppendingPathComponent_IsDirectory = "URLByAppendingPathComponent:isDirectory:";
 
     public static readonly Selector URLByAppendingPathExtension = "URLByAppendingPathExtension:";
 
@@ -518,13 +518,13 @@ file static class NSURLBindings
 
     public static readonly Selector URLByStandardizingPath = "URLByStandardizingPath";
 
-    public static readonly Selector URLWithDataRepresentationRelativeToURL = "URLWithDataRepresentation:relativeToURL:";
+    public static readonly Selector URLWithDataRepresentation_RelativeToURL = "URLWithDataRepresentation:relativeToURL:";
 
     public static readonly Selector URLWithString = "URLWithString:";
 
-    public static readonly Selector URLWithStringEncodingInvalidCharacters = "URLWithString:encodingInvalidCharacters:";
+    public static readonly Selector URLWithString_EncodingInvalidCharacters = "URLWithString:encodingInvalidCharacters:";
 
-    public static readonly Selector URLWithStringRelativeToURL = "URLWithString:relativeToURL:";
+    public static readonly Selector URLWithString_RelativeToURL = "URLWithString:relativeToURL:";
 
     public static readonly Selector User = "user";
 }

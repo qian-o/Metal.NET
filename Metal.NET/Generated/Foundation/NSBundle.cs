@@ -164,42 +164,42 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
 
     public NSURL URLForResource(NSString name, NSString ext)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLForResourceWithExtension, name.NativePtr, ext.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLForResource_WithExtension, name.NativePtr, ext.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public NSURL URLForResource(NSString name, NSString ext, NSString subpath)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLForResourceWithExtensionSubdirectory, name.NativePtr, ext.NativePtr, subpath.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLForResource_WithExtension_Subdirectory, name.NativePtr, ext.NativePtr, subpath.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public NSURL URLForResource(NSString name, NSString ext, NSString subpath, NSString localizationName)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLForResourceWithExtensionSubdirectoryLocalization, name.NativePtr, ext.NativePtr, subpath.NativePtr, localizationName.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLForResource_WithExtension_Subdirectory_Localization, name.NativePtr, ext.NativePtr, subpath.NativePtr, localizationName.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public NSString PathForResource(NSString name, NSString ext)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.PathForResourceOfType, name.NativePtr, ext.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.PathForResource_OfType, name.NativePtr, ext.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public NSString PathForResource(NSString name, NSString ext, NSString subpath, NSString localizationName)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.PathForResourceOfTypeInDirectoryForLocalization, name.NativePtr, ext.NativePtr, subpath.NativePtr, localizationName.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.PathForResource_OfType_InDirectory_ForLocalization, name.NativePtr, ext.NativePtr, subpath.NativePtr, localizationName.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public NSString LocalizedStringForKey(NSString key, NSString value, NSString tableName)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.LocalizedStringForKeyValueTable, key.NativePtr, value.NativePtr, tableName.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.LocalizedStringForKey_Value_Table, key.NativePtr, value.NativePtr, tableName.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -235,14 +235,14 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
 
     public static NSURL URLForResource(NSString name, NSString ext, NSString subpath, NSURL bundleURL)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.URLForResourceWithExtensionSubdirectoryInBundleWithURL, name.NativePtr, ext.NativePtr, subpath.NativePtr, bundleURL.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.URLForResource_WithExtension_Subdirectory_InBundleWithURL, name.NativePtr, ext.NativePtr, subpath.NativePtr, bundleURL.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static NSString PathForResource(NSString name, NSString ext, NSString bundlePath)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.PathForResourceOfTypeInDirectory, name.NativePtr, ext.NativePtr, bundlePath.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.PathForResource_OfType_InDirectory, name.NativePtr, ext.NativePtr, bundlePath.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -304,7 +304,7 @@ file static class NSBundleBindings
 
     public static readonly Selector LocalizedInfoDictionary = "localizedInfoDictionary";
 
-    public static readonly Selector LocalizedStringForKeyValueTable = "localizedStringForKey:value:table:";
+    public static readonly Selector LocalizedStringForKey_Value_Table = "localizedStringForKey:value:table:";
 
     public static readonly Selector MainBundle = "mainBundle";
 
@@ -312,11 +312,11 @@ file static class NSBundleBindings
 
     public static readonly Selector PathForAuxiliaryExecutable = "pathForAuxiliaryExecutable:";
 
-    public static readonly Selector PathForResourceOfType = "pathForResource:ofType:";
+    public static readonly Selector PathForResource_OfType = "pathForResource:ofType:";
 
-    public static readonly Selector PathForResourceOfTypeInDirectory = "pathForResource:ofType:inDirectory:";
+    public static readonly Selector PathForResource_OfType_InDirectory = "pathForResource:ofType:inDirectory:";
 
-    public static readonly Selector PathForResourceOfTypeInDirectoryForLocalization = "pathForResource:ofType:inDirectory:forLocalization:";
+    public static readonly Selector PathForResource_OfType_InDirectory_ForLocalization = "pathForResource:ofType:inDirectory:forLocalization:";
 
     public static readonly Selector PreflightAndReturnError = "preflightAndReturnError:";
 
@@ -342,11 +342,11 @@ file static class NSBundleBindings
 
     public static readonly Selector URLForAuxiliaryExecutable = "URLForAuxiliaryExecutable:";
 
-    public static readonly Selector URLForResourceWithExtension = "URLForResource:withExtension:";
+    public static readonly Selector URLForResource_WithExtension = "URLForResource:withExtension:";
 
-    public static readonly Selector URLForResourceWithExtensionSubdirectory = "URLForResource:withExtension:subdirectory:";
+    public static readonly Selector URLForResource_WithExtension_Subdirectory = "URLForResource:withExtension:subdirectory:";
 
-    public static readonly Selector URLForResourceWithExtensionSubdirectoryInBundleWithURL = "URLForResource:withExtension:subdirectory:inBundleWithURL:";
+    public static readonly Selector URLForResource_WithExtension_Subdirectory_InBundleWithURL = "URLForResource:withExtension:subdirectory:inBundleWithURL:";
 
-    public static readonly Selector URLForResourceWithExtensionSubdirectoryLocalization = "URLForResource:withExtension:subdirectory:localization:";
+    public static readonly Selector URLForResource_WithExtension_Subdirectory_Localization = "URLForResource:withExtension:subdirectory:localization:";
 }

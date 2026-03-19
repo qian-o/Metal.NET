@@ -66,7 +66,7 @@ public partial class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOw
 
     public MTL4FXSpatialScaler MakeSpatialScaler(MTLDevice device, MTL4Compiler compiler)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevice_Compiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -96,7 +96,7 @@ file static class MTLFXSpatialScalerDescriptorBindings
 
     public static readonly Selector NewSpatialScalerWithDevice = "newSpatialScalerWithDevice:";
 
-    public static readonly Selector NewSpatialScalerWithDeviceCompiler = "newSpatialScalerWithDevice:compiler:";
+    public static readonly Selector NewSpatialScalerWithDevice_Compiler = "newSpatialScalerWithDevice:compiler:";
 
     public static readonly Selector OutputHeight = "outputHeight";
 

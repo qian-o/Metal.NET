@@ -23,27 +23,27 @@ public partial class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership own
 
     public void SetAddress(nuint gpuAddress, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressAtIndex, gpuAddress, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddress_AtIndex, gpuAddress, bindingIndex);
     }
 
     public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressAttributeStrideAtIndex, gpuAddress, stride, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddress_AttributeStride_AtIndex, gpuAddress, stride, bindingIndex);
     }
 
     public void SetResource(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetResourceAtBufferIndex, resourceID, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetResource_AtBufferIndex, resourceID, bindingIndex);
     }
 
     public void SetTexture(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetTextureAtIndex, resourceID, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetTexture_AtIndex, resourceID, bindingIndex);
     }
 
     public void SetSamplerState(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetSamplerStateAtIndex, resourceID, bindingIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetSamplerState_AtIndex, resourceID, bindingIndex);
     }
 }
 
@@ -53,13 +53,13 @@ file static class MTL4ArgumentTableBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector SetAddressAtIndex = "setAddress:atIndex:";
+    public static readonly Selector SetAddress_AtIndex = "setAddress:atIndex:";
 
-    public static readonly Selector SetAddressAttributeStrideAtIndex = "setAddress:attributeStride:atIndex:";
+    public static readonly Selector SetAddress_AttributeStride_AtIndex = "setAddress:attributeStride:atIndex:";
 
-    public static readonly Selector SetResourceAtBufferIndex = "setResource:atBufferIndex:";
+    public static readonly Selector SetResource_AtBufferIndex = "setResource:atBufferIndex:";
 
-    public static readonly Selector SetSamplerStateAtIndex = "setSamplerState:atIndex:";
+    public static readonly Selector SetSamplerState_AtIndex = "setSamplerState:atIndex:";
 
-    public static readonly Selector SetTextureAtIndex = "setTexture:atIndex:";
+    public static readonly Selector SetTexture_AtIndex = "setTexture:atIndex:";
 }

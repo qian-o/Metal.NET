@@ -25,9 +25,9 @@ public partial class MTLTensorExtents(nint nativePtr, NativeObjectOwnership owne
         return ObjectiveC.MsgSendNInt(NativePtr, MTLTensorExtentsBindings.ExtentAtDimensionIndex, dimensionIndex);
     }
 
-    public static MTLTensorExtents InitWithRankValues(nuint rank, nint values)
+    public static MTLTensorExtents InitWithRank_Values(nuint rank, nint values)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLTensorExtentsBindings.Class), MTLTensorExtentsBindings.InitWithRankValues, rank, values);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLTensorExtentsBindings.Class), MTLTensorExtentsBindings.InitWithRank_Values, rank, values);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
@@ -39,7 +39,7 @@ file static class MTLTensorExtentsBindings
 
     public static readonly Selector ExtentAtDimensionIndex = "extentAtDimensionIndex:";
 
-    public static readonly Selector InitWithRankValues = "initWithRank:values:";
+    public static readonly Selector InitWithRank_Values = "initWithRank:values:";
 
     public static readonly Selector Rank = "rank";
 }

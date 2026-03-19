@@ -54,7 +54,7 @@ public partial class MTLCaptureManager(nint nativePtr, NativeObjectOwnership own
 
     public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -121,7 +121,7 @@ file static class MTLCaptureManagerBindings
 
     public static readonly Selector StartCaptureWithCommandQueue = "startCaptureWithCommandQueue:";
 
-    public static readonly Selector StartCaptureWithDescriptorError = "startCaptureWithDescriptor:error:";
+    public static readonly Selector StartCaptureWithDescriptor_Error = "startCaptureWithDescriptor:error:";
 
     public static readonly Selector StartCaptureWithDevice = "startCaptureWithDevice:";
 

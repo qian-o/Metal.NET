@@ -24,6 +24,9 @@ partial class AstJsonParser
 
     static void ParseClasses(AstRoot ast, GeneratorContext context)
     {
+        // Build a set of names already parsed from protocols to avoid overwriting
+        HashSet<string> protocolNames = new(context.Classes.Select(c => c.FullCsName));
+
         foreach (AstClass cls in ast.Classes)
         {
             if (SkipClasses.Contains(cls.Name))
@@ -32,6 +35,12 @@ partial class AstJsonParser
             }
 
             if (cls.Framework is null or "CoreGraphics")
+            {
+                continue;
+            }
+
+            // Skip empty class stubs when a protocol with the same name was already parsed
+            if (protocolNames.Contains(cls.Name))
             {
                 continue;
             }

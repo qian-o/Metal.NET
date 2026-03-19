@@ -43,14 +43,14 @@ public partial class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLTexture MakeTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTextureWithDescriptorOffsetBytesPerRow, descriptor.NativePtr, offset, bytesPerRow);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTextureWithDescriptor_Offset_BytesPerRow, descriptor.NativePtr, offset, bytesPerRow);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensor MakeTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTensorWithDescriptorOffsetError, descriptor.NativePtr, offset, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTensorWithDescriptor_Offset_Error, descriptor.NativePtr, offset, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -59,7 +59,7 @@ public partial class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void AddDebugMarker(NSString marker, NSRange range)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.AddDebugMarkerRange, marker.NativePtr, range);
+        ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.AddDebugMarker_Range, marker.NativePtr, range);
     }
 
     public void RemoveAllDebugMarkers()
@@ -77,7 +77,7 @@ public partial class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) 
 
 file static class MTLBufferBindings
 {
-    public static readonly Selector AddDebugMarkerRange = "addDebugMarker:range:";
+    public static readonly Selector AddDebugMarker_Range = "addDebugMarker:range:";
 
     public static readonly Selector Contents = "contents";
 
@@ -89,9 +89,9 @@ file static class MTLBufferBindings
 
     public static readonly Selector NewRemoteBufferViewForDevice = "newRemoteBufferViewForDevice:";
 
-    public static readonly Selector NewTensorWithDescriptorOffsetError = "newTensorWithDescriptor:offset:error:";
+    public static readonly Selector NewTensorWithDescriptor_Offset_Error = "newTensorWithDescriptor:offset:error:";
 
-    public static readonly Selector NewTextureWithDescriptorOffsetBytesPerRow = "newTextureWithDescriptor:offset:bytesPerRow:";
+    public static readonly Selector NewTextureWithDescriptor_Offset_BytesPerRow = "newTextureWithDescriptor:offset:bytesPerRow:";
 
     public static readonly Selector RemoteStorageBuffer = "remoteStorageBuffer";
 

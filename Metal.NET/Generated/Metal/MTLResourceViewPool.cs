@@ -33,7 +33,7 @@ public partial class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership o
 
     public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
     {
-        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.CopyResourceViewsFromPoolSourceRangeDestinationIndex, sourcePool.NativePtr, sourceRange, destinationIndex);
+        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.CopyResourceViewsFromPool_SourceRange_DestinationIndex, sourcePool.NativePtr, sourceRange, destinationIndex);
     }
 }
 
@@ -41,7 +41,7 @@ file static class MTLResourceViewPoolBindings
 {
     public static readonly Selector BaseResourceID = "baseResourceID";
 
-    public static readonly Selector CopyResourceViewsFromPoolSourceRangeDestinationIndex = "copyResourceViewsFromPool:sourceRange:destinationIndex:";
+    public static readonly Selector CopyResourceViewsFromPool_SourceRange_DestinationIndex = "copyResourceViewsFromPool:sourceRange:destinationIndex:";
 
     public static readonly Selector Device = "device";
 

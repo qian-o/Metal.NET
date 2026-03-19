@@ -198,17 +198,17 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public NSComparisonResult Compare(NSString @string, NSStringCompareOptions mask)
     {
-        return (NSComparisonResult)ObjectiveC.MsgSendLong(NativePtr, NSStringBindings.CompareOptions, @string.NativePtr, (nuint)mask);
+        return (NSComparisonResult)ObjectiveC.MsgSendLong(NativePtr, NSStringBindings.Compare_Options, @string.NativePtr, (nuint)mask);
     }
 
     public NSComparisonResult Compare(NSString @string, NSStringCompareOptions mask, NSRange rangeOfReceiverToCompare)
     {
-        return (NSComparisonResult)ObjectiveC.MsgSendLong(NativePtr, NSStringBindings.CompareOptionsRange, @string.NativePtr, (nuint)mask, rangeOfReceiverToCompare);
+        return (NSComparisonResult)ObjectiveC.MsgSendLong(NativePtr, NSStringBindings.Compare_Options_Range, @string.NativePtr, (nuint)mask, rangeOfReceiverToCompare);
     }
 
     public NSComparisonResult Compare(NSString @string, NSStringCompareOptions mask, NSRange rangeOfReceiverToCompare, NSObject locale)
     {
-        return (NSComparisonResult)ObjectiveC.MsgSendLong(NativePtr, NSStringBindings.CompareOptionsRangeLocale, @string.NativePtr, (nuint)mask, rangeOfReceiverToCompare, locale.NativePtr);
+        return (NSComparisonResult)ObjectiveC.MsgSendLong(NativePtr, NSStringBindings.Compare_Options_Range_Locale, @string.NativePtr, (nuint)mask, rangeOfReceiverToCompare, locale.NativePtr);
     }
 
     public NSComparisonResult CaseInsensitiveCompare(NSString @string)
@@ -248,7 +248,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public NSString CommonPrefixWithString(NSString str, NSStringCompareOptions mask)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.CommonPrefixWithStringOptions, str.NativePtr, (nuint)mask);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.CommonPrefixWithString_Options, str.NativePtr, (nuint)mask);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -280,12 +280,12 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public NSRange RangeOfString(NSString searchString, NSStringCompareOptions mask)
     {
-        return ObjectiveC.MsgSendNSRange(NativePtr, NSStringBindings.RangeOfStringOptions, searchString.NativePtr, (nuint)mask);
+        return ObjectiveC.MsgSendNSRange(NativePtr, NSStringBindings.RangeOfString_Options, searchString.NativePtr, (nuint)mask);
     }
 
     public NSRange RangeOfString(NSString searchString, NSStringCompareOptions mask, NSRange rangeOfReceiverToSearch)
     {
-        return ObjectiveC.MsgSendNSRange(NativePtr, NSStringBindings.RangeOfStringOptionsRange, searchString.NativePtr, (nuint)mask, rangeOfReceiverToSearch);
+        return ObjectiveC.MsgSendNSRange(NativePtr, NSStringBindings.RangeOfString_Options_Range, searchString.NativePtr, (nuint)mask, rangeOfReceiverToSearch);
     }
 
     public NSRange RangeOfComposedCharacterSequenceAtIndex(nuint index)
@@ -314,7 +314,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void GetLineStart(nint startPtr, nint lineEndPtr, nint contentsEndPtr, NSRange range)
     {
-        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetLineStartEndContentsEndForRange, startPtr, lineEndPtr, contentsEndPtr, range);
+        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetLineStart_End_ContentsEnd_ForRange, startPtr, lineEndPtr, contentsEndPtr, range);
     }
 
     public NSRange LineRangeForRange(NSRange range)
@@ -324,7 +324,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void GetParagraphStart(nint startPtr, nint parEndPtr, nint contentsEndPtr, NSRange range)
     {
-        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetParagraphStartEndContentsEndForRange, startPtr, parEndPtr, contentsEndPtr, range);
+        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetParagraphStart_End_ContentsEnd_ForRange, startPtr, parEndPtr, contentsEndPtr, range);
     }
 
     public NSRange ParagraphRangeForRange(NSRange range)
@@ -334,7 +334,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public NSData DataUsingEncoding(NSStringEncoding encoding, bool lossy)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.DataUsingEncodingAllowLossyConversion, (nuint)encoding, lossy);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.DataUsingEncoding_AllowLossyConversion, (nuint)encoding, lossy);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -358,7 +358,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool GetCString(nint buffer, nuint maxBufferCount, NSStringEncoding encoding)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.GetCStringMaxLengthEncoding, buffer, maxBufferCount, (nuint)encoding);
+        return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.GetCString_MaxLength_Encoding, buffer, maxBufferCount, (nuint)encoding);
     }
 
     public nuint MaximumLengthOfBytesUsingEncoding(NSStringEncoding enc)
@@ -373,35 +373,35 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public NSString StringByPaddingToLength(nuint newLength, NSString padString, nuint padIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByPaddingToLengthWithStringStartingAtIndex, newLength, padString.NativePtr, padIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByPaddingToLength_WithString_StartingAtIndex, newLength, padString.NativePtr, padIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public NSString StringByReplacingOccurrencesOfString(NSString target, NSString replacement, NSStringCompareOptions options, NSRange searchRange)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByReplacingOccurrencesOfStringWithStringOptionsRange, target.NativePtr, replacement.NativePtr, (nuint)options, searchRange);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByReplacingOccurrencesOfString_WithString_Options_Range, target.NativePtr, replacement.NativePtr, (nuint)options, searchRange);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public NSString StringByReplacingOccurrencesOfString(NSString target, NSString replacement)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByReplacingOccurrencesOfStringWithString, target.NativePtr, replacement.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByReplacingOccurrencesOfString_WithString, target.NativePtr, replacement.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public NSString StringByReplacingCharactersInRange(NSRange range, NSString replacement)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByReplacingCharactersInRangeWithString, range, replacement.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByReplacingCharactersInRange_WithString, range, replacement.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public bool WriteToURL(NSURL url, bool useAuxiliaryFile, NSStringEncoding enc, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToURLAtomicallyEncodingError, url.NativePtr, useAuxiliaryFile, (nuint)enc, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToURL_Atomically_Encoding_Error, url.NativePtr, useAuxiliaryFile, (nuint)enc, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -410,7 +410,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool WriteToFile(NSString path, bool useAuxiliaryFile, NSStringEncoding enc, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToFileAtomicallyEncodingError, path.NativePtr, useAuxiliaryFile, (nuint)enc, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToFile_Atomically_Encoding_Error, path.NativePtr, useAuxiliaryFile, (nuint)enc, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -453,17 +453,17 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void GetCString(nint bytes, nuint maxLength)
     {
-        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetCStringMaxLength, bytes, maxLength);
+        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetCString_MaxLength, bytes, maxLength);
     }
 
     public bool WriteToFile(NSString path, bool useAuxiliaryFile)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToFileAtomically, path.NativePtr, useAuxiliaryFile);
+        return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToFile_Atomically, path.NativePtr, useAuxiliaryFile);
     }
 
     public bool WriteToURL(NSURL url, bool atomically)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToURLAtomically, url.NativePtr, atomically);
+        return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToURL_Atomically, url.NativePtr, atomically);
     }
 
     public NSString VariantFittingPresentationWidth(nint width)
@@ -489,7 +489,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool GetFileSystemRepresentation(nint cname, nuint max)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.GetFileSystemRepresentationMaxLength, cname, max);
+        return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.GetFileSystemRepresentation_MaxLength, cname, max);
     }
 
     public NSString StringByAddingPercentEscapesUsingEncoding(NSStringEncoding enc)
@@ -540,7 +540,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public static nint StringWithValidatedFormat(NSString format, NSString validFormatSpecifiers, out NSError error)
     {
-        nint result = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithValidatedFormatValidFormatSpecifiersError, format.NativePtr, validFormatSpecifiers.NativePtr, out nint errorPtr);
+        nint result = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithValidatedFormat_ValidFormatSpecifiers_Error, format.NativePtr, validFormatSpecifiers.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -549,7 +549,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public static nint LocalizedStringWithValidatedFormat(NSString format, NSString validFormatSpecifiers, out NSError error)
     {
-        nint result = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.LocalizedStringWithValidatedFormatValidFormatSpecifiersError, format.NativePtr, validFormatSpecifiers.NativePtr, out nint errorPtr);
+        nint result = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.LocalizedStringWithValidatedFormat_ValidFormatSpecifiers_Error, format.NativePtr, validFormatSpecifiers.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -558,12 +558,12 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public static nint StringWithCString(nint cString, NSStringEncoding enc)
     {
-        return ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithCStringEncoding, cString, (nuint)enc);
+        return ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithCString_Encoding, cString, (nuint)enc);
     }
 
     public static nint StringWithContentsOfURL(NSURL url, NSStringEncoding enc, out NSError error)
     {
-        nint result = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithContentsOfURLEncodingError, url.NativePtr, (nuint)enc, out nint errorPtr);
+        nint result = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithContentsOfURL_Encoding_Error, url.NativePtr, (nuint)enc, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -572,7 +572,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public static nint StringWithContentsOfFile(NSString path, NSStringEncoding enc, out NSError error)
     {
-        nint result = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithContentsOfFileEncodingError, path.NativePtr, (nuint)enc, out nint errorPtr);
+        nint result = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithContentsOfFile_Encoding_Error, path.NativePtr, (nuint)enc, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -595,7 +595,7 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
 
     public static NSObject StringWithCString(nint bytes, nuint length)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithCStringLength, bytes, length);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithCString_Length, bytes, length);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -628,71 +628,71 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithFormatLocale(NSString format, NSObject locale)
+    public static NSString InitWithFormat_Locale(NSString format, NSObject locale)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithFormatLocale, format.NativePtr, locale.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithFormat_Locale, format.NativePtr, locale.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithValidatedFormatValidFormatSpecifiersError(NSString format, NSString validFormatSpecifiers, out NSError error)
+    public static NSString InitWithValidatedFormat_ValidFormatSpecifiers_Error(NSString format, NSString validFormatSpecifiers, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithValidatedFormatValidFormatSpecifiersError, format.NativePtr, validFormatSpecifiers.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithValidatedFormat_ValidFormatSpecifiers_Error, format.NativePtr, validFormatSpecifiers.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithValidatedFormatValidFormatSpecifiersLocaleError(NSString format, NSString validFormatSpecifiers, NSObject locale, out NSError error)
+    public static NSString InitWithValidatedFormat_ValidFormatSpecifiers_Locale_Error(NSString format, NSString validFormatSpecifiers, NSObject locale, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithValidatedFormatValidFormatSpecifiersLocaleError, format.NativePtr, validFormatSpecifiers.NativePtr, locale.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithValidatedFormat_ValidFormatSpecifiers_Locale_Error, format.NativePtr, validFormatSpecifiers.NativePtr, locale.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithDataEncoding(NSData data, NSStringEncoding encoding)
+    public static NSString InitWithData_Encoding(NSData data, NSStringEncoding encoding)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithDataEncoding, data.NativePtr, (nuint)encoding);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithData_Encoding, data.NativePtr, (nuint)encoding);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithBytesLengthEncoding(nint bytes, nuint len, NSStringEncoding encoding)
+    public static NSString InitWithBytes_Length_Encoding(nint bytes, nuint len, NSStringEncoding encoding)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithBytesLengthEncoding, bytes, len, (nuint)encoding);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithBytes_Length_Encoding, bytes, len, (nuint)encoding);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithBytesNoCopyLengthEncodingFreeWhenDone(nint bytes, nuint len, NSStringEncoding encoding, bool freeBuffer)
+    public static NSString InitWithBytesNoCopy_Length_Encoding_FreeWhenDone(nint bytes, nuint len, NSStringEncoding encoding, bool freeBuffer)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithBytesNoCopyLengthEncodingFreeWhenDone, bytes, len, (nuint)encoding, freeBuffer);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithBytesNoCopy_Length_Encoding_FreeWhenDone, bytes, len, (nuint)encoding, freeBuffer);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithCStringEncoding(nint nullTerminatedCString, NSStringEncoding encoding)
+    public static NSString InitWithCString_Encoding(nint nullTerminatedCString, NSStringEncoding encoding)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCStringEncoding, nullTerminatedCString, (nuint)encoding);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCString_Encoding, nullTerminatedCString, (nuint)encoding);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithContentsOfURLEncodingError(NSURL url, NSStringEncoding enc, out NSError error)
+    public static NSString InitWithContentsOfURL_Encoding_Error(NSURL url, NSStringEncoding enc, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithContentsOfURLEncodingError, url.NativePtr, (nuint)enc, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithContentsOfURL_Encoding_Error, url.NativePtr, (nuint)enc, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithContentsOfFileEncodingError(NSString path, NSStringEncoding enc, out NSError error)
+    public static NSString InitWithContentsOfFile_Encoding_Error(NSString path, NSStringEncoding enc, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithContentsOfFileEncodingError, path.NativePtr, (nuint)enc, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithContentsOfFile_Encoding_Error, path.NativePtr, (nuint)enc, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -713,16 +713,16 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithCStringNoCopyLengthFreeWhenDone(nint bytes, nuint length, bool freeBuffer)
+    public static NSString InitWithCStringNoCopy_Length_FreeWhenDone(nint bytes, nuint length, bool freeBuffer)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCStringNoCopyLengthFreeWhenDone, bytes, length, freeBuffer);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCStringNoCopy_Length_FreeWhenDone, bytes, length, freeBuffer);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSString InitWithCStringLength(nint bytes, nuint length)
+    public static NSString InitWithCString_Length(nint bytes, nuint length)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCStringLength, bytes, length);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCString_Length, bytes, length);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
@@ -749,15 +749,15 @@ file static class NSStringBindings
 
     public static readonly Selector CharacterAtIndex = "characterAtIndex:";
 
-    public static readonly Selector CommonPrefixWithStringOptions = "commonPrefixWithString:options:";
+    public static readonly Selector CommonPrefixWithString_Options = "commonPrefixWithString:options:";
 
     public static readonly Selector Compare = "compare:";
 
-    public static readonly Selector CompareOptions = "compare:options:";
+    public static readonly Selector Compare_Options = "compare:options:";
 
-    public static readonly Selector CompareOptionsRange = "compare:options:range:";
+    public static readonly Selector Compare_Options_Range = "compare:options:range:";
 
-    public static readonly Selector CompareOptionsRangeLocale = "compare:options:range:locale:";
+    public static readonly Selector Compare_Options_Range_Locale = "compare:options:range:locale:";
 
     public static readonly Selector ContainsString = "containsString:";
 
@@ -769,7 +769,7 @@ file static class NSStringBindings
 
     public static readonly Selector DataUsingEncoding = "dataUsingEncoding:";
 
-    public static readonly Selector DataUsingEncodingAllowLossyConversion = "dataUsingEncoding:allowLossyConversion:";
+    public static readonly Selector DataUsingEncoding_AllowLossyConversion = "dataUsingEncoding:allowLossyConversion:";
 
     public static readonly Selector DecomposedStringWithCanonicalMapping = "decomposedStringWithCanonicalMapping";
 
@@ -785,53 +785,53 @@ file static class NSStringBindings
 
     public static readonly Selector GetCString = "getCString:";
 
-    public static readonly Selector GetCStringMaxLength = "getCString:maxLength:";
+    public static readonly Selector GetCString_MaxLength = "getCString:maxLength:";
 
-    public static readonly Selector GetCStringMaxLengthEncoding = "getCString:maxLength:encoding:";
+    public static readonly Selector GetCString_MaxLength_Encoding = "getCString:maxLength:encoding:";
 
-    public static readonly Selector GetFileSystemRepresentationMaxLength = "getFileSystemRepresentation:maxLength:";
+    public static readonly Selector GetFileSystemRepresentation_MaxLength = "getFileSystemRepresentation:maxLength:";
 
-    public static readonly Selector GetLineStartEndContentsEndForRange = "getLineStart:end:contentsEnd:forRange:";
+    public static readonly Selector GetLineStart_End_ContentsEnd_ForRange = "getLineStart:end:contentsEnd:forRange:";
 
-    public static readonly Selector GetParagraphStartEndContentsEndForRange = "getParagraphStart:end:contentsEnd:forRange:";
+    public static readonly Selector GetParagraphStart_End_ContentsEnd_ForRange = "getParagraphStart:end:contentsEnd:forRange:";
 
     public static readonly Selector HasPrefix = "hasPrefix:";
 
     public static readonly Selector HasSuffix = "hasSuffix:";
 
-    public static readonly Selector InitWithBytesLengthEncoding = "initWithBytes:length:encoding:";
+    public static readonly Selector InitWithBytes_Length_Encoding = "initWithBytes:length:encoding:";
 
-    public static readonly Selector InitWithBytesNoCopyLengthEncodingFreeWhenDone = "initWithBytesNoCopy:length:encoding:freeWhenDone:";
+    public static readonly Selector InitWithBytesNoCopy_Length_Encoding_FreeWhenDone = "initWithBytesNoCopy:length:encoding:freeWhenDone:";
 
     public static readonly Selector InitWithContentsOfFile = "initWithContentsOfFile:";
 
-    public static readonly Selector InitWithContentsOfFileEncodingError = "initWithContentsOfFile:encoding:error:";
+    public static readonly Selector InitWithContentsOfFile_Encoding_Error = "initWithContentsOfFile:encoding:error:";
 
     public static readonly Selector InitWithContentsOfURL = "initWithContentsOfURL:";
 
-    public static readonly Selector InitWithContentsOfURLEncodingError = "initWithContentsOfURL:encoding:error:";
+    public static readonly Selector InitWithContentsOfURL_Encoding_Error = "initWithContentsOfURL:encoding:error:";
 
     public static readonly Selector InitWithCString = "initWithCString:";
 
-    public static readonly Selector InitWithCStringEncoding = "initWithCString:encoding:";
+    public static readonly Selector InitWithCString_Encoding = "initWithCString:encoding:";
 
-    public static readonly Selector InitWithCStringLength = "initWithCString:length:";
+    public static readonly Selector InitWithCString_Length = "initWithCString:length:";
 
-    public static readonly Selector InitWithCStringNoCopyLengthFreeWhenDone = "initWithCStringNoCopy:length:freeWhenDone:";
+    public static readonly Selector InitWithCStringNoCopy_Length_FreeWhenDone = "initWithCStringNoCopy:length:freeWhenDone:";
 
-    public static readonly Selector InitWithDataEncoding = "initWithData:encoding:";
+    public static readonly Selector InitWithData_Encoding = "initWithData:encoding:";
 
     public static readonly Selector InitWithFormat = "initWithFormat:";
 
-    public static readonly Selector InitWithFormatLocale = "initWithFormat:locale:";
+    public static readonly Selector InitWithFormat_Locale = "initWithFormat:locale:";
 
     public static readonly Selector InitWithString = "initWithString:";
 
     public static readonly Selector InitWithUTF8String = "initWithUTF8String:";
 
-    public static readonly Selector InitWithValidatedFormatValidFormatSpecifiersError = "initWithValidatedFormat:validFormatSpecifiers:error:";
+    public static readonly Selector InitWithValidatedFormat_ValidFormatSpecifiers_Error = "initWithValidatedFormat:validFormatSpecifiers:error:";
 
-    public static readonly Selector InitWithValidatedFormatValidFormatSpecifiersLocaleError = "initWithValidatedFormat:validFormatSpecifiers:locale:error:";
+    public static readonly Selector InitWithValidatedFormat_ValidFormatSpecifiers_Locale_Error = "initWithValidatedFormat:validFormatSpecifiers:locale:error:";
 
     public static readonly Selector IntegerValue = "integerValue";
 
@@ -869,7 +869,7 @@ file static class NSStringBindings
 
     public static readonly Selector LocalizedStringWithFormat = "localizedStringWithFormat:";
 
-    public static readonly Selector LocalizedStringWithValidatedFormatValidFormatSpecifiersError = "localizedStringWithValidatedFormat:validFormatSpecifiers:error:";
+    public static readonly Selector LocalizedStringWithValidatedFormat_ValidFormatSpecifiers_Error = "localizedStringWithValidatedFormat:validFormatSpecifiers:error:";
 
     public static readonly Selector LocalizedUppercaseString = "localizedUppercaseString";
 
@@ -899,9 +899,9 @@ file static class NSStringBindings
 
     public static readonly Selector RangeOfString = "rangeOfString:";
 
-    public static readonly Selector RangeOfStringOptions = "rangeOfString:options:";
+    public static readonly Selector RangeOfString_Options = "rangeOfString:options:";
 
-    public static readonly Selector RangeOfStringOptionsRange = "rangeOfString:options:range:";
+    public static readonly Selector RangeOfString_Options_Range = "rangeOfString:options:range:";
 
     public static readonly Selector SmallestEncoding = "smallestEncoding";
 
@@ -925,15 +925,15 @@ file static class NSStringBindings
 
     public static readonly Selector StringByExpandingTildeInPath = "stringByExpandingTildeInPath";
 
-    public static readonly Selector StringByPaddingToLengthWithStringStartingAtIndex = "stringByPaddingToLength:withString:startingAtIndex:";
+    public static readonly Selector StringByPaddingToLength_WithString_StartingAtIndex = "stringByPaddingToLength:withString:startingAtIndex:";
 
     public static readonly Selector StringByRemovingPercentEncoding = "stringByRemovingPercentEncoding";
 
-    public static readonly Selector StringByReplacingCharactersInRangeWithString = "stringByReplacingCharactersInRange:withString:";
+    public static readonly Selector StringByReplacingCharactersInRange_WithString = "stringByReplacingCharactersInRange:withString:";
 
-    public static readonly Selector StringByReplacingOccurrencesOfStringWithString = "stringByReplacingOccurrencesOfString:withString:";
+    public static readonly Selector StringByReplacingOccurrencesOfString_WithString = "stringByReplacingOccurrencesOfString:withString:";
 
-    public static readonly Selector StringByReplacingOccurrencesOfStringWithStringOptionsRange = "stringByReplacingOccurrencesOfString:withString:options:range:";
+    public static readonly Selector StringByReplacingOccurrencesOfString_WithString_Options_Range = "stringByReplacingOccurrencesOfString:withString:options:range:";
 
     public static readonly Selector StringByReplacingPercentEscapesUsingEncoding = "stringByReplacingPercentEscapesUsingEncoding:";
 
@@ -943,17 +943,17 @@ file static class NSStringBindings
 
     public static readonly Selector StringWithContentsOfFile = "stringWithContentsOfFile:";
 
-    public static readonly Selector StringWithContentsOfFileEncodingError = "stringWithContentsOfFile:encoding:error:";
+    public static readonly Selector StringWithContentsOfFile_Encoding_Error = "stringWithContentsOfFile:encoding:error:";
 
     public static readonly Selector StringWithContentsOfURL = "stringWithContentsOfURL:";
 
-    public static readonly Selector StringWithContentsOfURLEncodingError = "stringWithContentsOfURL:encoding:error:";
+    public static readonly Selector StringWithContentsOfURL_Encoding_Error = "stringWithContentsOfURL:encoding:error:";
 
     public static readonly Selector StringWithCString = "stringWithCString:";
 
-    public static readonly Selector StringWithCStringEncoding = "stringWithCString:encoding:";
+    public static readonly Selector StringWithCString_Encoding = "stringWithCString:encoding:";
 
-    public static readonly Selector StringWithCStringLength = "stringWithCString:length:";
+    public static readonly Selector StringWithCString_Length = "stringWithCString:length:";
 
     public static readonly Selector StringWithFormat = "stringWithFormat:";
 
@@ -961,7 +961,7 @@ file static class NSStringBindings
 
     public static readonly Selector StringWithUTF8String = "stringWithUTF8String:";
 
-    public static readonly Selector StringWithValidatedFormatValidFormatSpecifiersError = "stringWithValidatedFormat:validFormatSpecifiers:error:";
+    public static readonly Selector StringWithValidatedFormat_ValidFormatSpecifiers_Error = "stringWithValidatedFormat:validFormatSpecifiers:error:";
 
     public static readonly Selector SubstringFromIndex = "substringFromIndex:";
 
@@ -973,11 +973,11 @@ file static class NSStringBindings
 
     public static readonly Selector VariantFittingPresentationWidth = "variantFittingPresentationWidth:";
 
-    public static readonly Selector WriteToFileAtomically = "writeToFile:atomically:";
+    public static readonly Selector WriteToFile_Atomically = "writeToFile:atomically:";
 
-    public static readonly Selector WriteToFileAtomicallyEncodingError = "writeToFile:atomically:encoding:error:";
+    public static readonly Selector WriteToFile_Atomically_Encoding_Error = "writeToFile:atomically:encoding:error:";
 
-    public static readonly Selector WriteToURLAtomically = "writeToURL:atomically:";
+    public static readonly Selector WriteToURL_Atomically = "writeToURL:atomically:";
 
-    public static readonly Selector WriteToURLAtomicallyEncodingError = "writeToURL:atomically:encoding:error:";
+    public static readonly Selector WriteToURL_Atomically_Encoding_Error = "writeToURL:atomically:encoding:error:";
 }

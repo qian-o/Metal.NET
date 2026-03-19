@@ -114,7 +114,7 @@ public partial class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectO
 
     public MTL4FXTemporalScaler MakeTemporalScaler(MTLDevice device, MTL4Compiler compiler)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScalerWithDevice_Compiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -166,7 +166,7 @@ file static class MTLFXTemporalScalerDescriptorBindings
 
     public static readonly Selector NewTemporalScalerWithDevice = "newTemporalScalerWithDevice:";
 
-    public static readonly Selector NewTemporalScalerWithDeviceCompiler = "newTemporalScalerWithDevice:compiler:";
+    public static readonly Selector NewTemporalScalerWithDevice_Compiler = "newTemporalScalerWithDevice:compiler:";
 
     public static readonly Selector OutputHeight = "outputHeight";
 

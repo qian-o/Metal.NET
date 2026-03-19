@@ -19,7 +19,7 @@ public partial class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership
 
     public MTLComputePipelineState MakeComputePipelineState(MTL4ComputePipelineDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -28,7 +28,7 @@ public partial class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership
 
     public MTLComputePipelineState MakeComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptor_DynamicLinkingDescriptor_Error, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -37,7 +37,7 @@ public partial class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership
 
     public MTLRenderPipelineState MakeRenderPipelineState(MTL4PipelineDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -46,7 +46,7 @@ public partial class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership
 
     public MTLRenderPipelineState MakeRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptor_DynamicLinkingDescriptor_Error, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -55,7 +55,7 @@ public partial class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership
 
     public MTL4BinaryFunction MakeBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewBinaryFunctionWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewBinaryFunctionWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -67,15 +67,15 @@ file static class MTL4ArchiveBindings
 {
     public static readonly Selector Label = "label";
 
-    public static readonly Selector NewBinaryFunctionWithDescriptorError = "newBinaryFunctionWithDescriptor:error:";
+    public static readonly Selector NewBinaryFunctionWithDescriptor_Error = "newBinaryFunctionWithDescriptor:error:";
 
-    public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError = "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
+    public static readonly Selector NewComputePipelineStateWithDescriptor_DynamicLinkingDescriptor_Error = "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
 
-    public static readonly Selector NewComputePipelineStateWithDescriptorError = "newComputePipelineStateWithDescriptor:error:";
+    public static readonly Selector NewComputePipelineStateWithDescriptor_Error = "newComputePipelineStateWithDescriptor:error:";
 
-    public static readonly Selector NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError = "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
+    public static readonly Selector NewRenderPipelineStateWithDescriptor_DynamicLinkingDescriptor_Error = "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
 
-    public static readonly Selector NewRenderPipelineStateWithDescriptorError = "newRenderPipelineStateWithDescriptor:error:";
+    public static readonly Selector NewRenderPipelineStateWithDescriptor_Error = "newRenderPipelineStateWithDescriptor:error:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

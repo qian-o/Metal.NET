@@ -162,22 +162,22 @@ public partial class MTLTexture(nint nativePtr, NativeObjectOwnership ownership)
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.GetBytesBytesPerRowBytesPerImageFromRegionMipmapLevelSlice, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
+        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.GetBytes_BytesPerRow_BytesPerImage_FromRegion_MipmapLevel_Slice, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
     }
 
     public void Replace(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegionMipmapLevelSliceWithBytesBytesPerRowBytesPerImage, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
+        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegion_MipmapLevel_Slice_WithBytes_BytesPerRow_BytesPerImage, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
     }
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, MTLRegion region, nuint level)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.GetBytesBytesPerRowFromRegionMipmapLevel, pixelBytes, bytesPerRow, region, level);
+        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.GetBytes_BytesPerRow_FromRegion_MipmapLevel, pixelBytes, bytesPerRow, region, level);
     }
 
     public void Replace(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegionMipmapLevelWithBytesBytesPerRow, region, level, pixelBytes, bytesPerRow);
+        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegion_MipmapLevel_WithBytes_BytesPerRow, region, level, pixelBytes, bytesPerRow);
     }
 
     public MTLTexture MakeTextureView(MTLPixelFormat pixelFormat)
@@ -189,7 +189,7 @@ public partial class MTLTexture(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLTexture MakeTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormatTextureTypeLevelsSlices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormat_TextureType_Levels_Slices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -217,7 +217,7 @@ public partial class MTLTexture(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLTexture MakeTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormat_TextureType_Levels_Slices_Swizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -241,9 +241,9 @@ file static class MTLTextureBindings
 
     public static readonly Selector FirstMipmapInTail = "firstMipmapInTail";
 
-    public static readonly Selector GetBytesBytesPerRowBytesPerImageFromRegionMipmapLevelSlice = "getBytes:bytesPerRow:bytesPerImage:fromRegion:mipmapLevel:slice:";
+    public static readonly Selector GetBytes_BytesPerRow_BytesPerImage_FromRegion_MipmapLevel_Slice = "getBytes:bytesPerRow:bytesPerImage:fromRegion:mipmapLevel:slice:";
 
-    public static readonly Selector GetBytesBytesPerRowFromRegionMipmapLevel = "getBytes:bytesPerRow:fromRegion:mipmapLevel:";
+    public static readonly Selector GetBytes_BytesPerRow_FromRegion_MipmapLevel = "getBytes:bytesPerRow:fromRegion:mipmapLevel:";
 
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
@@ -269,9 +269,9 @@ file static class MTLTextureBindings
 
     public static readonly Selector NewTextureViewWithPixelFormat = "newTextureViewWithPixelFormat:";
 
-    public static readonly Selector NewTextureViewWithPixelFormatTextureTypeLevelsSlices = "newTextureViewWithPixelFormat:textureType:levels:slices:";
+    public static readonly Selector NewTextureViewWithPixelFormat_TextureType_Levels_Slices = "newTextureViewWithPixelFormat:textureType:levels:slices:";
 
-    public static readonly Selector NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle = "newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:";
+    public static readonly Selector NewTextureViewWithPixelFormat_TextureType_Levels_Slices_Swizzle = "newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:";
 
     public static readonly Selector ParentRelativeLevel = "parentRelativeLevel";
 
@@ -283,9 +283,9 @@ file static class MTLTextureBindings
 
     public static readonly Selector RemoteStorageTexture = "remoteStorageTexture";
 
-    public static readonly Selector ReplaceRegionMipmapLevelSliceWithBytesBytesPerRowBytesPerImage = "replaceRegion:mipmapLevel:slice:withBytes:bytesPerRow:bytesPerImage:";
+    public static readonly Selector ReplaceRegion_MipmapLevel_Slice_WithBytes_BytesPerRow_BytesPerImage = "replaceRegion:mipmapLevel:slice:withBytes:bytesPerRow:bytesPerImage:";
 
-    public static readonly Selector ReplaceRegionMipmapLevelWithBytesBytesPerRow = "replaceRegion:mipmapLevel:withBytes:bytesPerRow:";
+    public static readonly Selector ReplaceRegion_MipmapLevel_WithBytes_BytesPerRow = "replaceRegion:mipmapLevel:withBytes:bytesPerRow:";
 
     public static readonly Selector RootResource = "rootResource";
 

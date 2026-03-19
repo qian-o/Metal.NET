@@ -119,21 +119,21 @@ public partial class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptorWithPixelFormatWidthHeightMipmapped, (nuint)pixelFormat, width, height, mipmapped);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptorWithPixelFormat_Width_Height_Mipmapped, (nuint)pixelFormat, width, height, mipmapped);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptorWithPixelFormatSizeMipmapped, (nuint)pixelFormat, size, mipmapped);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptorWithPixelFormat_Size_Mipmapped, (nuint)pixelFormat, size, mipmapped);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureBufferDescriptorWithPixelFormatWidthResourceOptionsUsage, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureBufferDescriptorWithPixelFormat_Width_ResourceOptions_Usage, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -205,11 +205,11 @@ file static class MTLTextureDescriptorBindings
 
     public static readonly Selector Swizzle = "swizzle";
 
-    public static readonly Selector Texture2DDescriptorWithPixelFormatWidthHeightMipmapped = "texture2DDescriptorWithPixelFormat:width:height:mipmapped:";
+    public static readonly Selector Texture2DDescriptorWithPixelFormat_Width_Height_Mipmapped = "texture2DDescriptorWithPixelFormat:width:height:mipmapped:";
 
-    public static readonly Selector TextureBufferDescriptorWithPixelFormatWidthResourceOptionsUsage = "textureBufferDescriptorWithPixelFormat:width:resourceOptions:usage:";
+    public static readonly Selector TextureBufferDescriptorWithPixelFormat_Width_ResourceOptions_Usage = "textureBufferDescriptorWithPixelFormat:width:resourceOptions:usage:";
 
-    public static readonly Selector TextureCubeDescriptorWithPixelFormatSizeMipmapped = "textureCubeDescriptorWithPixelFormat:size:mipmapped:";
+    public static readonly Selector TextureCubeDescriptorWithPixelFormat_Size_Mipmapped = "textureCubeDescriptorWithPixelFormat:size:mipmapped:";
 
     public static readonly Selector TextureType = "textureType";
 

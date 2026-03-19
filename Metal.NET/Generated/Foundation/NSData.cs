@@ -22,12 +22,12 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
 
     public void GetBytes(nint buffer, nuint length)
     {
-        ObjectiveC.MsgSend(NativePtr, NSDataBindings.GetBytesLength, buffer, length);
+        ObjectiveC.MsgSend(NativePtr, NSDataBindings.GetBytes_Length, buffer, length);
     }
 
     public void GetBytes(nint buffer, NSRange range)
     {
-        ObjectiveC.MsgSend(NativePtr, NSDataBindings.GetBytesRange, buffer, range);
+        ObjectiveC.MsgSend(NativePtr, NSDataBindings.GetBytes_Range, buffer, range);
     }
 
     public bool IsEqualToData(NSData other)
@@ -44,12 +44,12 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
 
     public bool WriteToFile(NSString path, bool useAuxiliaryFile)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSDataBindings.WriteToFileAtomically, path.NativePtr, useAuxiliaryFile);
+        return ObjectiveC.MsgSendBool(NativePtr, NSDataBindings.WriteToFile_Atomically, path.NativePtr, useAuxiliaryFile);
     }
 
     public bool WriteToURL(NSURL url, bool atomically)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, NSDataBindings.WriteToURLAtomically, url.NativePtr, atomically);
+        return ObjectiveC.MsgSendBool(NativePtr, NSDataBindings.WriteToURL_Atomically, url.NativePtr, atomically);
     }
 
     public void GetBytes(nint buffer)
@@ -71,17 +71,17 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
 
     public static nint DataWithBytes(nint bytes, nuint length)
     {
-        return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.DataWithBytesLength, bytes, length);
+        return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.DataWithBytes_Length, bytes, length);
     }
 
     public static nint DataWithBytesNoCopy(nint bytes, nuint length)
     {
-        return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.DataWithBytesNoCopyLength, bytes, length);
+        return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.DataWithBytesNoCopy_Length, bytes, length);
     }
 
     public static nint DataWithBytesNoCopy(nint bytes, nuint length, bool b)
     {
-        return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.DataWithBytesNoCopyLengthFreeWhenDone, bytes, length, b);
+        return ObjectiveC.MsgSendNInt(NSDataBindings.Class, NSDataBindings.DataWithBytesNoCopy_Length_FreeWhenDone, bytes, length, b);
     }
 
     public static nint DataWithContentsOfFile(NSString path)
@@ -106,23 +106,23 @@ public partial class NSData(nint nativePtr, NativeObjectOwnership ownership) : N
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public static NSData InitWithBytesLength(nint bytes, nuint length)
+    public static NSData InitWithBytes_Length(nint bytes, nuint length)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesLength, bytes, length);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytes_Length, bytes, length);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSData InitWithBytesNoCopyLength(nint bytes, nuint length)
+    public static NSData InitWithBytesNoCopy_Length(nint bytes, nuint length)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopyLength, bytes, length);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopy_Length, bytes, length);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
-    public static NSData InitWithBytesNoCopyLengthFreeWhenDone(nint bytes, nuint length, bool b)
+    public static NSData InitWithBytesNoCopy_Length_FreeWhenDone(nint bytes, nuint length, bool b)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopyLengthFreeWhenDone, bytes, length, b);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSDataBindings.Class), NSDataBindings.InitWithBytesNoCopy_Length_FreeWhenDone, bytes, length, b);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
@@ -171,11 +171,11 @@ file static class NSDataBindings
 
     public static readonly Selector Data = "data";
 
-    public static readonly Selector DataWithBytesLength = "dataWithBytes:length:";
+    public static readonly Selector DataWithBytes_Length = "dataWithBytes:length:";
 
-    public static readonly Selector DataWithBytesNoCopyLength = "dataWithBytesNoCopy:length:";
+    public static readonly Selector DataWithBytesNoCopy_Length = "dataWithBytesNoCopy:length:";
 
-    public static readonly Selector DataWithBytesNoCopyLengthFreeWhenDone = "dataWithBytesNoCopy:length:freeWhenDone:";
+    public static readonly Selector DataWithBytesNoCopy_Length_FreeWhenDone = "dataWithBytesNoCopy:length:freeWhenDone:";
 
     public static readonly Selector DataWithContentsOfFile = "dataWithContentsOfFile:";
 
@@ -187,17 +187,17 @@ file static class NSDataBindings
 
     public static readonly Selector GetBytes = "getBytes:";
 
-    public static readonly Selector GetBytesLength = "getBytes:length:";
+    public static readonly Selector GetBytes_Length = "getBytes:length:";
 
-    public static readonly Selector GetBytesRange = "getBytes:range:";
+    public static readonly Selector GetBytes_Range = "getBytes:range:";
 
     public static readonly Selector InitWithBase64Encoding = "initWithBase64Encoding:";
 
-    public static readonly Selector InitWithBytesLength = "initWithBytes:length:";
+    public static readonly Selector InitWithBytes_Length = "initWithBytes:length:";
 
-    public static readonly Selector InitWithBytesNoCopyLength = "initWithBytesNoCopy:length:";
+    public static readonly Selector InitWithBytesNoCopy_Length = "initWithBytesNoCopy:length:";
 
-    public static readonly Selector InitWithBytesNoCopyLengthFreeWhenDone = "initWithBytesNoCopy:length:freeWhenDone:";
+    public static readonly Selector InitWithBytesNoCopy_Length_FreeWhenDone = "initWithBytesNoCopy:length:freeWhenDone:";
 
     public static readonly Selector InitWithContentsOfFile = "initWithContentsOfFile:";
 
@@ -213,7 +213,7 @@ file static class NSDataBindings
 
     public static readonly Selector SubdataWithRange = "subdataWithRange:";
 
-    public static readonly Selector WriteToFileAtomically = "writeToFile:atomically:";
+    public static readonly Selector WriteToFile_Atomically = "writeToFile:atomically:";
 
-    public static readonly Selector WriteToURLAtomically = "writeToURL:atomically:";
+    public static readonly Selector WriteToURL_Atomically = "writeToURL:atomically:";
 }

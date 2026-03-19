@@ -390,15 +390,29 @@ partial class CSharpEmitter
     /// E.g., "presentDrawable:atTime:" → "PresentDrawableAtTime"
     /// E.g., "newBufferWithLength:options:" → "NewBufferWithLengthOptions"
     /// </summary>
+    /// <summary>
+    /// Builds a unique C# identifier from an ObjC selector by PascalCasing each
+    /// colon-separated segment and joining them with underscores.
+    /// E.g. <c>setVertexBuffer:offset:atIndex:</c> → <c>SetVertexBuffer_Offset_AtIndex_</c>,
+    /// <c>setVertexBufferOffset:atIndex:</c> → <c>SetVertexBufferOffset_AtIndex_</c>.
+    /// The trailing underscore (from the terminal colon) ensures uniqueness between
+    /// selectors that share a prefix but differ in colon count.
+    /// </summary>
     static string BuildMethodNameFromSelector(string selector)
     {
         ReadOnlySpan<char> remaining = selector.AsSpan();
         StringBuilder sb = new();
+        bool first = true;
 
         while (!remaining.IsEmpty)
         {
             int colon = remaining.IndexOf(':');
             ReadOnlySpan<char> part = colon < 0 ? remaining : remaining[..colon];
+
+            if (!first)
+            {
+                sb.Append('_');
+            }
 
             if (!part.IsEmpty)
             {
@@ -409,6 +423,7 @@ partial class CSharpEmitter
                 }
             }
 
+            first = false;
             remaining = colon < 0 ? [] : remaining[(colon + 1)..];
         }
 

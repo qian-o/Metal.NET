@@ -20,7 +20,7 @@ public partial class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjec
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionAtIndex, (nuint)storeAction, colorAttachmentIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreAction_AtIndex, (nuint)storeAction, colorAttachmentIndex);
     }
 
     public void SetDepthStoreAction(MTLStoreAction storeAction)
@@ -35,7 +35,7 @@ public partial class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjec
 
     public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionOptionsAtIndex, (nuint)storeActionOptions, colorAttachmentIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionOptions_AtIndex, (nuint)storeActionOptions, colorAttachmentIndex);
     }
 
     public void SetDepthStoreActionOptions(MTLStoreActionOptions storeActionOptions)
@@ -53,9 +53,9 @@ file static class MTLParallelRenderCommandEncoderBindings
 {
     public static readonly Selector RenderCommandEncoder = "renderCommandEncoder";
 
-    public static readonly Selector SetColorStoreActionAtIndex = "setColorStoreAction:atIndex:";
+    public static readonly Selector SetColorStoreAction_AtIndex = "setColorStoreAction:atIndex:";
 
-    public static readonly Selector SetColorStoreActionOptionsAtIndex = "setColorStoreActionOptions:atIndex:";
+    public static readonly Selector SetColorStoreActionOptions_AtIndex = "setColorStoreActionOptions:atIndex:";
 
     public static readonly Selector SetDepthStoreAction = "setDepthStoreAction:";
 
