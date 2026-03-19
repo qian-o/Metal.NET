@@ -788,18 +788,20 @@ def _propagate_sibling_swift_names(api: dict, swift_names: dict) -> int:
             for first_part, methods in groups.items():
                 if len(methods) < 2:
                     continue
-                # Find a method whose name was set by the symbol graph
-                sg_name = None
+                # Collect all distinct symbol-graph names within this group
+                sg_names = set()
                 for m in methods:
                     key = (tname, m['selector'])
                     if key in swift_names:
-                        sg_name = swift_names[key]
-                        break
-                if sg_name is None:
+                        sg_names.add(swift_names[key])
+                # Only propagate when all symbol-graph entries agree on one name
+                if len(sg_names) != 1:
                     continue
-                # Apply to siblings whose name still equals the selector prefix
+                sg_name = next(iter(sg_names))
+                # Apply to siblings not already covered by the symbol graph
                 for m in methods:
-                    if m['name'] == first_part:
+                    if m['name'] == first_part \
+                            and (tname, m['selector']) not in swift_names:
                         m['name'] = sg_name
                         propagated += 1
     return propagated
