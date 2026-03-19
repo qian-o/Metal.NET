@@ -28,14 +28,14 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
 
     public MTLIndirectRenderCommand IndirectRenderCommandAt(nuint commandIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommandAt, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommandAtIndex, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIndirectComputeCommand IndirectComputeCommandAt(nuint commandIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommandAt, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommandAtIndex, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -45,9 +45,9 @@ file static class MTLIndirectCommandBufferBindings
 {
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector IndirectComputeCommandAt = "indirectComputeCommandAtIndex:";
+    public static readonly Selector IndirectComputeCommandAtIndex = "indirectComputeCommandAtIndex:";
 
-    public static readonly Selector IndirectRenderCommandAt = "indirectRenderCommandAtIndex:";
+    public static readonly Selector IndirectRenderCommandAtIndex = "indirectRenderCommandAtIndex:";
 
     public static readonly Selector ResetWithRange = "resetWithRange:";
 

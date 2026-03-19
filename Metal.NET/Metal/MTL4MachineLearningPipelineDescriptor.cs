@@ -23,12 +23,12 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, NativeObjectO
 
     public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetInputDimensions, dimensions.NativePtr, bufferIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetInputDimensionsAtBufferIndex, dimensions.NativePtr, bufferIndex);
     }
 
     public MTLTensorExtents InputDimensions(nint bufferIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensions, bufferIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -43,13 +43,13 @@ file static class MTL4MachineLearningPipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTL4MachineLearningPipelineDescriptor");
 
-    public static readonly Selector InputDimensions = "inputDimensionsAtBufferIndex:";
+    public static readonly Selector InputDimensionsAtBufferIndex = "inputDimensionsAtBufferIndex:";
 
     public static readonly Selector MachineLearningFunctionDescriptor = "machineLearningFunctionDescriptor";
 
     public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetInputDimensions = "setInputDimensions:atBufferIndex:";
+    public static readonly Selector SetInputDimensionsAtBufferIndex = "setInputDimensions:atBufferIndex:";
 
     public static readonly Selector SetMachineLearningFunctionDescriptor = "setMachineLearningFunctionDescriptor:";
 }

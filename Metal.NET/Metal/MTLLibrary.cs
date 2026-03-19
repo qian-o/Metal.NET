@@ -39,7 +39,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 
     public MTLFunction MakeFunction(NSString functionName)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.MakeFunction, functionName.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithName, functionName.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -55,7 +55,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 
     public MTLFunctionReflection Reflection(NSString functionName)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.Reflection, functionName.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.ReflectionForFunctionWithName, functionName.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -71,7 +71,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 
     public MTLFunction MakeIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.MakeIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewIntersectionFunctionWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -89,15 +89,15 @@ file static class MTLLibraryBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector MakeFunction = "newFunctionWithName:";
-
-    public static readonly Selector MakeIntersectionFunction = "newIntersectionFunctionWithDescriptor:error:";
-
     public static readonly Selector NewFunctionWithDescriptorError = "newFunctionWithDescriptor:error:";
+
+    public static readonly Selector NewFunctionWithName = "newFunctionWithName:";
 
     public static readonly Selector NewFunctionWithNameConstantValuesError = "newFunctionWithName:constantValues:error:";
 
-    public static readonly Selector Reflection = "reflectionForFunctionWithName:";
+    public static readonly Selector NewIntersectionFunctionWithDescriptorError = "newIntersectionFunctionWithDescriptor:error:";
+
+    public static readonly Selector ReflectionForFunctionWithName = "reflectionForFunctionWithName:";
 
     public static readonly Selector SetLabel = "setLabel:";
 

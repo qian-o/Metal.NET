@@ -23,13 +23,13 @@ public class MTL4MachineLearningCommandEncoder(nint nativePtr, NativeObjectOwner
 
     public void DispatchNetwork(MTLHeap heap)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetwork, heap.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetworkWithIntermediatesHeap, heap.NativePtr);
     }
 }
 
 file static class MTL4MachineLearningCommandEncoderBindings
 {
-    public static readonly Selector DispatchNetwork = "dispatchNetworkWithIntermediatesHeap:";
+    public static readonly Selector DispatchNetworkWithIntermediatesHeap = "dispatchNetworkWithIntermediatesHeap:";
 
     public static readonly Selector SetArgumentTable = "setArgumentTable:";
 

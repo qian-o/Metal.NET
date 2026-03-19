@@ -24,27 +24,27 @@ public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership)
 
     public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages, MTL4VisibilityOptions visibilityOptions)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages, (nuint)visibilityOptions);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterQueueStagesBeforeStagesVisibilityOptions, (nuint)afterQueueStages, (nuint)beforeStages, (nuint)visibilityOptions);
     }
 
     public void BarrierAfterStages(MTLStages afterStages, MTLStages beforeQueueStages, MTL4VisibilityOptions visibilityOptions)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterStages, (nuint)afterStages, (nuint)beforeQueueStages, (nuint)visibilityOptions);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterStagesBeforeQueueStagesVisibilityOptions, (nuint)afterStages, (nuint)beforeQueueStages, (nuint)visibilityOptions);
     }
 
     public void BarrierAfterEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterEncoderStages, (nuint)afterEncoderStages, (nuint)beforeEncoderStages, (nuint)visibilityOptions);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions, (nuint)afterEncoderStages, (nuint)beforeEncoderStages, (nuint)visibilityOptions);
     }
 
     public void UpdateFence(MTLFence fence, MTLStages afterEncoderStages)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.UpdateFence, fence.NativePtr, (nuint)afterEncoderStages);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.UpdateFenceAfterEncoderStages, fence.NativePtr, (nuint)afterEncoderStages);
     }
 
     public void WaitForFence(MTLFence fence, MTLStages beforeEncoderStages)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.WaitForFence, fence.NativePtr, (nuint)beforeEncoderStages);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.WaitForFenceBeforeEncoderStages, fence.NativePtr, (nuint)beforeEncoderStages);
     }
 
     public void InsertDebugSignpost(NSString @string)
@@ -70,11 +70,11 @@ public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership)
 
 file static class MTL4CommandEncoderBindings
 {
-    public static readonly Selector BarrierAfterEncoderStages = "barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:";
+    public static readonly Selector BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions = "barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:";
 
-    public static readonly Selector BarrierAfterQueueStages = "barrierAfterQueueStages:beforeStages:visibilityOptions:";
+    public static readonly Selector BarrierAfterQueueStagesBeforeStagesVisibilityOptions = "barrierAfterQueueStages:beforeStages:visibilityOptions:";
 
-    public static readonly Selector BarrierAfterStages = "barrierAfterStages:beforeQueueStages:visibilityOptions:";
+    public static readonly Selector BarrierAfterStagesBeforeQueueStagesVisibilityOptions = "barrierAfterStages:beforeQueueStages:visibilityOptions:";
 
     public static readonly Selector CommandBuffer = "commandBuffer";
 
@@ -90,7 +90,7 @@ file static class MTL4CommandEncoderBindings
 
     public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector UpdateFence = "updateFence:afterEncoderStages:";
+    public static readonly Selector UpdateFenceAfterEncoderStages = "updateFence:afterEncoderStages:";
 
-    public static readonly Selector WaitForFence = "waitForFence:beforeEncoderStages:";
+    public static readonly Selector WaitForFenceBeforeEncoderStages = "waitForFence:beforeEncoderStages:";
 }

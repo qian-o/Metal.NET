@@ -13,14 +13,14 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
 
     public MTLRenderCommandEncoder MakeRenderCommandEncoder()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLParallelRenderCommandEncoderBindings.MakeRenderCommandEncoder);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionAtIndex, (nuint)storeAction, colorAttachmentIndex);
     }
 
     public void SetDepthStoreAction(MTLStoreAction storeAction)
@@ -35,7 +35,7 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
 
     public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionOptions, (nuint)storeActionOptions, colorAttachmentIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionOptionsAtIndex, (nuint)storeActionOptions, colorAttachmentIndex);
     }
 
     public void SetDepthStoreActionOptions(MTLStoreActionOptions storeActionOptions)
@@ -51,11 +51,11 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
 
 file static class MTLParallelRenderCommandEncoderBindings
 {
-    public static readonly Selector MakeRenderCommandEncoder = "renderCommandEncoder";
+    public static readonly Selector RenderCommandEncoder = "renderCommandEncoder";
 
-    public static readonly Selector SetColorStoreAction = "setColorStoreAction:atIndex:";
+    public static readonly Selector SetColorStoreActionAtIndex = "setColorStoreAction:atIndex:";
 
-    public static readonly Selector SetColorStoreActionOptions = "setColorStoreActionOptions:atIndex:";
+    public static readonly Selector SetColorStoreActionOptionsAtIndex = "setColorStoreActionOptions:atIndex:";
 
     public static readonly Selector SetDepthStoreAction = "setDepthStoreAction:";
 

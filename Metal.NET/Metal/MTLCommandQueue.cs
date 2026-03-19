@@ -24,7 +24,7 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public MTLCommandBuffer MakeCommandBuffer()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.MakeCommandBuffer);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBuffer);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -38,7 +38,7 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public MTLCommandBuffer MakeCommandBufferWithUnretainedReferences()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.MakeCommandBufferWithUnretainedReferences);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -65,7 +65,7 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
             pResidencySets[i] = residencySets[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySetsCount, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
@@ -81,7 +81,7 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
             pResidencySets[i] = residencySets[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySetsCount, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 }
 
@@ -89,9 +89,13 @@ file static class MTLCommandQueueBindings
 {
     public static readonly Selector AddResidencySet = "addResidencySet:";
 
-    public static readonly Selector AddResidencySets = "addResidencySets:count:";
+    public static readonly Selector AddResidencySetsCount = "addResidencySets:count:";
+
+    public static readonly Selector CommandBuffer = "commandBuffer";
 
     public static readonly Selector CommandBufferWithDescriptor = "commandBufferWithDescriptor:";
+
+    public static readonly Selector CommandBufferWithUnretainedReferences = "commandBufferWithUnretainedReferences";
 
     public static readonly Selector Device = "device";
 
@@ -99,13 +103,9 @@ file static class MTLCommandQueueBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector MakeCommandBuffer = "commandBuffer";
-
-    public static readonly Selector MakeCommandBufferWithUnretainedReferences = "commandBufferWithUnretainedReferences";
-
     public static readonly Selector RemoveResidencySet = "removeResidencySet:";
 
-    public static readonly Selector RemoveResidencySets = "removeResidencySets:count:";
+    public static readonly Selector RemoveResidencySetsCount = "removeResidencySets:count:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

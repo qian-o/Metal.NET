@@ -19,7 +19,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public MTLComputePipelineState MakeComputePipelineState(MTL4ComputePipelineDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.MakeComputePipelineState, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -37,7 +37,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public MTLRenderPipelineState MakeRenderPipelineState(MTL4PipelineDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.MakeRenderPipelineState, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -55,7 +55,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public MTL4BinaryFunction MakeBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.MakeBinaryFunction, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4ArchiveBindings.NewBinaryFunctionWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -67,15 +67,15 @@ file static class MTL4ArchiveBindings
 {
     public static readonly Selector Label = "label";
 
-    public static readonly Selector MakeBinaryFunction = "newBinaryFunctionWithDescriptor:error:";
-
-    public static readonly Selector MakeComputePipelineState = "newComputePipelineStateWithDescriptor:error:";
-
-    public static readonly Selector MakeRenderPipelineState = "newRenderPipelineStateWithDescriptor:error:";
+    public static readonly Selector NewBinaryFunctionWithDescriptorError = "newBinaryFunctionWithDescriptor:error:";
 
     public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError = "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
 
+    public static readonly Selector NewComputePipelineStateWithDescriptorError = "newComputePipelineStateWithDescriptor:error:";
+
     public static readonly Selector NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError = "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptorError = "newRenderPipelineStateWithDescriptor:error:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

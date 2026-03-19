@@ -13,7 +13,7 @@ public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, NativeObject
 
     public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.SetPhysicalIndex, physicalIndex, logicalIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.SetPhysicalIndexForLogicalIndex, physicalIndex, logicalIndex);
     }
 
     public nuint GetPhysicalIndexForLogicalIndex(nuint logicalIndex)
@@ -33,5 +33,5 @@ file static class MTLLogicalToPhysicalColorAttachmentMapBindings
 
     public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetPhysicalIndex = "setPhysicalIndex:forLogicalIndex:";
+    public static readonly Selector SetPhysicalIndexForLogicalIndex = "setPhysicalIndex:forLogicalIndex:";
 }

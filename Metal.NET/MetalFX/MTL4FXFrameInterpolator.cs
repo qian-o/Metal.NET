@@ -13,11 +13,11 @@ public class MTL4FXFrameInterpolator(nint nativePtr, NativeObjectOwnership owner
 
     public void Encode(MTL4CommandBuffer commandBuffer)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4FXFrameInterpolatorBindings.Encode, commandBuffer.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4FXFrameInterpolatorBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 }
 
 file static class MTL4FXFrameInterpolatorBindings
 {
-    public static readonly Selector Encode = "encodeToCommandBuffer:";
+    public static readonly Selector EncodeToCommandBuffer = "encodeToCommandBuffer:";
 }

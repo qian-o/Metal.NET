@@ -43,28 +43,28 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
 
     public void CopyParameterData(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapBindings.CopyParameterData, buffer.NativePtr, offset);
+        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapBindings.CopyParameterDataToBufferOffset, buffer.NativePtr, offset);
     }
 
     public MTLSize PhysicalSize(nuint layerIndex)
     {
-        return ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalSize, layerIndex);
+        return ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalSizeForLayer, layerIndex);
     }
 
     public MTLSamplePosition PhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
     {
-        return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.PhysicalCoordinates, screenCoordinates, layerIndex);
+        return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapScreenToPhysicalCoordinatesForLayer, screenCoordinates, layerIndex);
     }
 
     public MTLSamplePosition ScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
     {
-        return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.ScreenCoordinates, physicalCoordinates, layerIndex);
+        return ObjectiveC.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapPhysicalToScreenCoordinatesForLayer, physicalCoordinates, layerIndex);
     }
 }
 
 file static class MTLRasterizationRateMapBindings
 {
-    public static readonly Selector CopyParameterData = "copyParameterDataToBuffer:offset:";
+    public static readonly Selector CopyParameterDataToBufferOffset = "copyParameterDataToBuffer:offset:";
 
     public static readonly Selector Device = "device";
 
@@ -72,15 +72,15 @@ file static class MTLRasterizationRateMapBindings
 
     public static readonly Selector LayerCount = "layerCount";
 
-    public static readonly Selector ParameterBufferSizeAndAlign = "parameterBufferSizeAndAlign";
+    public static readonly Selector MapPhysicalToScreenCoordinatesForLayer = "mapPhysicalToScreenCoordinates:forLayer:";
 
-    public static readonly Selector PhysicalCoordinates = "mapScreenToPhysicalCoordinates:forLayer:";
+    public static readonly Selector MapScreenToPhysicalCoordinatesForLayer = "mapScreenToPhysicalCoordinates:forLayer:";
+
+    public static readonly Selector ParameterBufferSizeAndAlign = "parameterBufferSizeAndAlign";
 
     public static readonly Selector PhysicalGranularity = "physicalGranularity";
 
-    public static readonly Selector PhysicalSize = "physicalSizeForLayer:";
-
-    public static readonly Selector ScreenCoordinates = "mapPhysicalToScreenCoordinates:forLayer:";
+    public static readonly Selector PhysicalSizeForLayer = "physicalSizeForLayer:";
 
     public static readonly Selector ScreenSize = "screenSize";
 }

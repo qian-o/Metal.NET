@@ -28,14 +28,14 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     public static MTLCaptureManager Shared()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.Shared);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCaptureScope MakeCaptureScope(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.MakeCaptureScope, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithDevice, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -61,7 +61,7 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -109,19 +109,19 @@ file static class MTLCaptureManagerBindings
 
     public static readonly Selector IsCapturing = "isCapturing";
 
-    public static readonly Selector MakeCaptureScope = "newCaptureScopeWithDevice:";
-
     public static readonly Selector NewCaptureScopeWithCommandQueue = "newCaptureScopeWithCommandQueue:";
+
+    public static readonly Selector NewCaptureScopeWithDevice = "newCaptureScopeWithDevice:";
 
     public static readonly Selector NewCaptureScopeWithMTL4CommandQueue = "newCaptureScopeWithMTL4CommandQueue:";
 
     public static readonly Selector SetDefaultCaptureScope = "setDefaultCaptureScope:";
 
-    public static readonly Selector Shared = "sharedCaptureManager";
-
-    public static readonly Selector StartCapture = "startCaptureWithDescriptor:error:";
+    public static readonly Selector SharedCaptureManager = "sharedCaptureManager";
 
     public static readonly Selector StartCaptureWithCommandQueue = "startCaptureWithCommandQueue:";
+
+    public static readonly Selector StartCaptureWithDescriptorError = "startCaptureWithDescriptor:error:";
 
     public static readonly Selector StartCaptureWithDevice = "startCaptureWithDevice:";
 

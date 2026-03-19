@@ -40,13 +40,13 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
     {
         fixed (MTLViewport* pViewports = viewports)
         {
-            ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetViewports, (nint)pViewports, (nuint)viewports.Length);
+            ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetViewportsCount, (nint)pViewports, (nuint)viewports.Length);
         }
     }
 
     public void SetVertexAmplificationCount(nuint count, MTLVertexAmplificationViewMapping viewMappings)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetVertexAmplificationCount, count, viewMappings);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetVertexAmplificationCountViewMappings, count, viewMappings);
     }
 
     public void SetCullMode(MTLCullMode cullMode)
@@ -61,12 +61,12 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetDepthBias(float depthBias, float slopeScale, float clamp)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthBias, depthBias, slopeScale, clamp);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthBiasSlopeScaleClamp, depthBias, slopeScale, clamp);
     }
 
     public void SetDepthTestMinBound(float minBound, float maxBound)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthTestMinBound, minBound, maxBound);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthTestMinBoundMaxBound, minBound, maxBound);
     }
 
     public void SetScissorRect(MTLScissorRect rect)
@@ -78,7 +78,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
     {
         fixed (MTLScissorRect* pScissorRects = scissorRects)
         {
-            ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRects, (nint)pScissorRects, (nuint)scissorRects.Length);
+            ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRectsCount, (nint)pScissorRects, (nuint)scissorRects.Length);
         }
     }
 
@@ -89,7 +89,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetBlendColor(float red, float green, float blue, float alpha)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetBlendColor, red, green, blue, alpha);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetBlendColorRedGreenBlueAlpha, red, green, blue, alpha);
     }
 
     public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
@@ -109,12 +109,12 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetVisibilityResultMode(MTLVisibilityResultMode mode, nuint offset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetVisibilityResultMode, (nuint)mode, offset);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetVisibilityResultModeOffset, (nuint)mode, offset);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetColorStoreActionAtIndex, (nuint)storeAction, colorAttachmentIndex);
     }
 
     public void SetDepthStoreAction(MTLStoreAction storeAction)
@@ -129,7 +129,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitives, (nuint)primitiveType, vertexStart, vertexCount);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesVertexStartVertexCount, (nuint)primitiveType, vertexStart, vertexCount);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount)
@@ -144,7 +144,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitives, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLength, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount)
@@ -167,29 +167,29 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferLengthIndirectBuffer, (nuint)primitiveType, (nuint)indexType, indexBuffer, indexBufferLength, indirectBuffer);
     }
 
-    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
+    public void ExecuteCommands(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBuffer, indirectCommandBuffer.NativePtr, executionRange);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBufferWithRange, indirectCommandBuffer.NativePtr, executionRange);
     }
 
     public void ExecuteCommands(MTLIndirectCommandBuffer indirectCommandBuffer, nuint indirectRangeBuffer)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommands, indirectCommandBuffer.NativePtr, indirectRangeBuffer);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBufferIndirectBuffer, indirectCommandBuffer.NativePtr, indirectRangeBuffer);
     }
 
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetObjectThreadgroupMemoryLength, length, index);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetObjectThreadgroupMemoryLengthAtIndex, length, index);
     }
 
     public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreadgroups, threadgroupsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreadgroupsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup, threadgroupsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
     public void DrawMeshThreads(MTLSize threadsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreads, threadsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreadsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup, threadsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
     public void DrawMeshThreadgroups(nuint indirectBuffer, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -204,22 +204,22 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetThreadgroupMemoryLength(nuint length, nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetThreadgroupMemoryLength, length, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetThreadgroupMemoryLengthOffsetAtIndex, length, offset, index);
     }
 
     public void SetArgumentTable(MTL4ArgumentTable argumentTable, MTLRenderStages stages)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetArgumentTable, argumentTable.NativePtr, (nuint)stages);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetArgumentTableAtStages, argumentTable.NativePtr, (nuint)stages);
     }
 
     public void SetFrontFacing(MTLWinding frontFacingWinding)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetFrontFacing, (nuint)frontFacingWinding);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetFrontFacingWinding, (nuint)frontFacingWinding);
     }
 
     public void WriteTimestamp(MTL4TimestampGranularity granularity, MTLRenderStages stage, MTL4CounterHeap counterHeap, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.WriteTimestamp, (nint)granularity, (nuint)stage, counterHeap.NativePtr, index);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.WriteTimestampWithGranularityAfterStageIntoHeapAtIndex, (nint)granularity, (nuint)stage, counterHeap.NativePtr, index);
     }
 }
 
@@ -227,7 +227,7 @@ file static class MTL4RenderCommandEncoderBindings
 {
     public static readonly Selector DispatchThreadsPerTile = "dispatchThreadsPerTile:";
 
-    public static readonly Selector DrawIndexedPrimitives = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:";
+    public static readonly Selector DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLength = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:";
 
     public static readonly Selector DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferLengthInstanceCount = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:";
 
@@ -235,35 +235,35 @@ file static class MTL4RenderCommandEncoderBindings
 
     public static readonly Selector DrawIndexedPrimitivesIndexTypeIndexBufferIndexBufferLengthIndirectBuffer = "drawIndexedPrimitives:indexType:indexBuffer:indexBufferLength:indirectBuffer:";
 
-    public static readonly Selector DrawMeshThreadgroups = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
+    public static readonly Selector DrawMeshThreadgroupsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
     public static readonly Selector DrawMeshThreadgroupsWithIndirectBufferThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup = "drawMeshThreadgroupsWithIndirectBuffer:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawMeshThreads = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
-
-    public static readonly Selector DrawPrimitives = "drawPrimitives:vertexStart:vertexCount:";
+    public static readonly Selector DrawMeshThreadsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
     public static readonly Selector DrawPrimitivesIndirectBuffer = "drawPrimitives:indirectBuffer:";
+
+    public static readonly Selector DrawPrimitivesVertexStartVertexCount = "drawPrimitives:vertexStart:vertexCount:";
 
     public static readonly Selector DrawPrimitivesVertexStartVertexCountInstanceCount = "drawPrimitives:vertexStart:vertexCount:instanceCount:";
 
     public static readonly Selector DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
 
-    public static readonly Selector ExecuteCommands = "executeCommandsInBuffer:indirectBuffer:";
+    public static readonly Selector ExecuteCommandsInBufferIndirectBuffer = "executeCommandsInBuffer:indirectBuffer:";
 
-    public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
+    public static readonly Selector ExecuteCommandsInBufferWithRange = "executeCommandsInBuffer:withRange:";
 
-    public static readonly Selector SetArgumentTable = "setArgumentTable:atStages:";
+    public static readonly Selector SetArgumentTableAtStages = "setArgumentTable:atStages:";
 
-    public static readonly Selector SetBlendColor = "setBlendColorRed:green:blue:alpha:";
+    public static readonly Selector SetBlendColorRedGreenBlueAlpha = "setBlendColorRed:green:blue:alpha:";
 
     public static readonly Selector SetColorAttachmentMap = "setColorAttachmentMap:";
 
-    public static readonly Selector SetColorStoreAction = "setColorStoreAction:atIndex:";
+    public static readonly Selector SetColorStoreActionAtIndex = "setColorStoreAction:atIndex:";
 
     public static readonly Selector SetCullMode = "setCullMode:";
 
-    public static readonly Selector SetDepthBias = "setDepthBias:slopeScale:clamp:";
+    public static readonly Selector SetDepthBiasSlopeScaleClamp = "setDepthBias:slopeScale:clamp:";
 
     public static readonly Selector SetDepthClipMode = "setDepthClipMode:";
 
@@ -271,17 +271,17 @@ file static class MTL4RenderCommandEncoderBindings
 
     public static readonly Selector SetDepthStoreAction = "setDepthStoreAction:";
 
-    public static readonly Selector SetDepthTestMinBound = "setDepthTestMinBound:maxBound:";
+    public static readonly Selector SetDepthTestMinBoundMaxBound = "setDepthTestMinBound:maxBound:";
 
-    public static readonly Selector SetFrontFacing = "setFrontFacingWinding:";
+    public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
 
-    public static readonly Selector SetObjectThreadgroupMemoryLength = "setObjectThreadgroupMemoryLength:atIndex:";
+    public static readonly Selector SetObjectThreadgroupMemoryLengthAtIndex = "setObjectThreadgroupMemoryLength:atIndex:";
 
     public static readonly Selector SetRenderPipelineState = "setRenderPipelineState:";
 
     public static readonly Selector SetScissorRect = "setScissorRect:";
 
-    public static readonly Selector SetScissorRects = "setScissorRects:count:";
+    public static readonly Selector SetScissorRectsCount = "setScissorRects:count:";
 
     public static readonly Selector SetStencilFrontReferenceValueBackReferenceValue = "setStencilFrontReferenceValue:backReferenceValue:";
 
@@ -289,21 +289,21 @@ file static class MTL4RenderCommandEncoderBindings
 
     public static readonly Selector SetStencilStoreAction = "setStencilStoreAction:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:offset:atIndex:";
+    public static readonly Selector SetThreadgroupMemoryLengthOffsetAtIndex = "setThreadgroupMemoryLength:offset:atIndex:";
 
     public static readonly Selector SetTriangleFillMode = "setTriangleFillMode:";
 
-    public static readonly Selector SetVertexAmplificationCount = "setVertexAmplificationCount:viewMappings:";
+    public static readonly Selector SetVertexAmplificationCountViewMappings = "setVertexAmplificationCount:viewMappings:";
 
     public static readonly Selector SetViewport = "setViewport:";
 
-    public static readonly Selector SetViewports = "setViewports:count:";
+    public static readonly Selector SetViewportsCount = "setViewports:count:";
 
-    public static readonly Selector SetVisibilityResultMode = "setVisibilityResultMode:offset:";
+    public static readonly Selector SetVisibilityResultModeOffset = "setVisibilityResultMode:offset:";
 
     public static readonly Selector TileHeight = "tileHeight";
 
     public static readonly Selector TileWidth = "tileWidth";
 
-    public static readonly Selector WriteTimestamp = "writeTimestampWithGranularity:afterStage:intoHeap:atIndex:";
+    public static readonly Selector WriteTimestampWithGranularityAfterStageIntoHeapAtIndex = "writeTimestampWithGranularity:afterStage:intoHeap:atIndex:";
 }

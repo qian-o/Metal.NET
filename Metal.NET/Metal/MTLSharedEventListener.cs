@@ -22,7 +22,7 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
 
     public static MTLSharedEventListener Shared()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.Shared);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -34,5 +34,5 @@ file static class MTLSharedEventListenerBindings
 
     public static readonly Selector DispatchQueue = "dispatchQueue";
 
-    public static readonly Selector Shared = "sharedListener";
+    public static readonly Selector SharedListener = "sharedListener";
 }

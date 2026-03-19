@@ -40,7 +40,7 @@ public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTL
 
     public MTLArrayType Element()
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.Element);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementArrayType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -73,7 +73,7 @@ file static class MTLArrayTypeBindings
 
     public static readonly Selector ArrayLength = "arrayLength";
 
-    public static readonly Selector Element = "elementArrayType";
+    public static readonly Selector ElementArrayType = "elementArrayType";
 
     public static readonly Selector ElementPointerType = "elementPointerType";
 

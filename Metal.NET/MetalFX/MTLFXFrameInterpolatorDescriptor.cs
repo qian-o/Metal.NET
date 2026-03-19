@@ -77,7 +77,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
 
     public MTLFXFrameInterpolator MakeFrameInterpolator(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.MakeFrameInterpolator, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevice, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -112,9 +112,9 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 
     public static readonly Selector InputWidth = "inputWidth";
 
-    public static readonly Selector MakeFrameInterpolator = "newFrameInterpolatorWithDevice:";
-
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
+
+    public static readonly Selector NewFrameInterpolatorWithDevice = "newFrameInterpolatorWithDevice:";
 
     public static readonly Selector NewFrameInterpolatorWithDeviceCompiler = "newFrameInterpolatorWithDevice:compiler:";
 
