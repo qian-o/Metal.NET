@@ -14219,7 +14219,7 @@
           "parameters": []
         },
         {
-          "name": "renderCommandEncoderWithDescriptor",
+          "name": "makeRenderCommandEncoder",
           "selector": "renderCommandEncoderWithDescriptor:",
           "isClassMethod": false,
           "returnType": "id<MTL4RenderCommandEncoder> _Nullable",
@@ -21495,7 +21495,7 @@
           ]
         },
         {
-          "name": "executeCommandsInBuffer",
+          "name": "executeCommands",
           "selector": "executeCommandsInBuffer:withRange:",
           "isClassMethod": false,
           "returnType": "void",
@@ -21895,7 +21895,7 @@
           ]
         },
         {
-          "name": "executeCommandsInBuffer",
+          "name": "executeCommands",
           "selector": "executeCommandsInBuffer:withRange:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22055,7 +22055,7 @@
           ]
         },
         {
-          "name": "copyFromTexture",
+          "name": "copy",
           "selector": "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toBuffer:destinationOffset:destinationBytesPerRow:destinationBytesPerImage:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22109,7 +22109,7 @@
           ]
         },
         {
-          "name": "copyFromTexture",
+          "name": "copy",
           "selector": "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toBuffer:destinationOffset:destinationBytesPerRow:destinationBytesPerImage:options:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22202,7 +22202,7 @@
           ]
         },
         {
-          "name": "copyFromBuffer",
+          "name": "copy",
           "selector": "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22256,7 +22256,7 @@
           ]
         },
         {
-          "name": "copyFromBuffer",
+          "name": "copy",
           "selector": "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:options:",
           "isClassMethod": false,
           "returnType": "void",
@@ -22573,7 +22573,7 @@
           ]
         },
         {
-          "name": "refitAccelerationStructure",
+          "name": "refit",
           "selector": "refitAccelerationStructure:descriptor:destination:scratchBuffer:",
           "isClassMethod": false,
           "returnType": "void",
@@ -43549,7 +43549,7 @@
           ]
         },
         {
-          "name": "initWithSampleCount",
+          "name": "init",
           "selector": "initWithSampleCount:horizontal:vertical:",
           "isClassMethod": false,
           "returnType": "instancetype _Nonnull",
