@@ -191,6 +191,11 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public void GetCharacters(nint buffer, NSRange range)
+    {
+        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetCharacters_Range, buffer, range);
+    }
+
     public NSComparisonResult Compare(NSString @string)
     {
         return (NSComparisonResult)ObjectiveC.MsgSendLong(NativePtr, NSStringBindings.Compare, @string.NativePtr);
@@ -412,6 +417,13 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return ObjectiveC.MsgSendNUInt(NativePtr, NSStringBindings.LengthOfBytesUsingEncoding, (nuint)enc);
     }
 
+    public NSString[] ComponentsSeparatedByString(NSString separator)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.ComponentsSeparatedByString, separator.NativePtr);
+
+        return NSArray.ToArray<NSString>(nativePtr);
+    }
+
     public NSString StringByPaddingToLength(nuint newLength, NSString padString, nuint padIndex)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByPaddingToLength_WithString_StartingAtIndex, newLength, padString.NativePtr, padIndex);
@@ -507,6 +519,11 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         return ObjectiveC.MsgSendBool(NativePtr, NSStringBindings.WriteToURL_Atomically, url.NativePtr, atomically);
     }
 
+    public void GetCharacters(nint buffer)
+    {
+        ObjectiveC.MsgSend(NativePtr, NSStringBindings.GetCharacters, buffer);
+    }
+
     public NSString VariantFittingPresentationWidth(nint width)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.VariantFittingPresentationWidth, width);
@@ -526,6 +543,17 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringByAppendingPathExtension, str.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public NSString[] StringsByAppendingPaths(NSString[] paths)
+    {
+        nint pPaths = NSArray.FromArray(paths);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.StringsByAppendingPaths, pPaths);
+
+        ObjectiveC.Release(pPaths);
+
+        return NSArray.ToArray<NSString>(nativePtr);
     }
 
     public nuint CompletePathIntoString(NSString outputName, bool flag, NSString[] outputArray, NSString[] filterTypes)
@@ -570,6 +598,11 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
     public static nint StringWithString(NSString @string)
     {
         return ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithString, @string.NativePtr);
+    }
+
+    public static nint StringWithCharacters(nint characters, nuint length)
+    {
+        return ObjectiveC.MsgSendNInt(NSStringBindings.Class, NSStringBindings.StringWithCharacters_Length, characters, length);
     }
 
     public static nint StringWithUTF8String(nint nullTerminatedCString)
@@ -665,6 +698,27 @@ public partial class NSString(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.Release(pComponents);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static NSString InitWithCharactersNoCopy(nint characters, nuint length, bool freeBuffer)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCharactersNoCopy_Length_FreeWhenDone, characters, length, freeBuffer);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSString InitWithCharactersNoCopy(nint chars, nuint len, NSInitWithCharactersNoCopyDeallocator deallocator)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCharactersNoCopy_Length_Deallocator, chars, len, deallocator.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
+
+    public static NSString InitWithCharacters(nint characters, nuint length)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCharacters_Length, characters, length);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
     }
 
     public static NSString InitWithUTF8String(nint nullTerminatedCString)
@@ -828,6 +882,8 @@ file static class NSStringBindings
 
     public static readonly Selector CompletePathIntoString_CaseSensitive_MatchesIntoArray_FilterTypes = "completePathIntoString:caseSensitive:matchesIntoArray:filterTypes:";
 
+    public static readonly Selector ComponentsSeparatedByString = "componentsSeparatedByString:";
+
     public static readonly Selector ContainsString = "containsString:";
 
     public static readonly Selector CString = "cString";
@@ -854,6 +910,10 @@ file static class NSStringBindings
 
     public static readonly Selector FloatValue = "floatValue";
 
+    public static readonly Selector GetCharacters = "getCharacters:";
+
+    public static readonly Selector GetCharacters_Range = "getCharacters:range:";
+
     public static readonly Selector GetCString = "getCString:";
 
     public static readonly Selector GetCString_MaxLength = "getCString:maxLength:";
@@ -875,6 +935,12 @@ file static class NSStringBindings
     public static readonly Selector InitWithBytesNoCopy_Length_Encoding_Deallocator = "initWithBytesNoCopy:length:encoding:deallocator:";
 
     public static readonly Selector InitWithBytesNoCopy_Length_Encoding_FreeWhenDone = "initWithBytesNoCopy:length:encoding:freeWhenDone:";
+
+    public static readonly Selector InitWithCharacters_Length = "initWithCharacters:length:";
+
+    public static readonly Selector InitWithCharactersNoCopy_Length_Deallocator = "initWithCharactersNoCopy:length:deallocator:";
+
+    public static readonly Selector InitWithCharactersNoCopy_Length_FreeWhenDone = "initWithCharactersNoCopy:length:freeWhenDone:";
 
     public static readonly Selector InitWithContentsOfFile = "initWithContentsOfFile:";
 
@@ -1015,6 +1081,10 @@ file static class NSStringBindings
     public static readonly Selector StringByResolvingSymlinksInPath = "stringByResolvingSymlinksInPath";
 
     public static readonly Selector StringByStandardizingPath = "stringByStandardizingPath";
+
+    public static readonly Selector StringsByAppendingPaths = "stringsByAppendingPaths:";
+
+    public static readonly Selector StringWithCharacters_Length = "stringWithCharacters:length:";
 
     public static readonly Selector StringWithContentsOfFile = "stringWithContentsOfFile:";
 

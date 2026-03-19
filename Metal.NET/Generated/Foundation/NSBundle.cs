@@ -183,6 +183,20 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public NSURL[] URLsForResourcesWithExtension(NSString ext, NSString subpath)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLsForResourcesWithExtension_Subdirectory, ext.NativePtr, subpath.NativePtr);
+
+        return NSArray.ToArray<NSURL>(nativePtr);
+    }
+
+    public NSURL[] URLsForResourcesWithExtension(NSString ext, NSString subpath, NSString localizationName)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.URLsForResourcesWithExtension_Subdirectory_Localization, ext.NativePtr, subpath.NativePtr, localizationName.NativePtr);
+
+        return NSArray.ToArray<NSURL>(nativePtr);
+    }
+
     public NSString PathForResource(NSString name, NSString ext)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.PathForResource_OfType, name.NativePtr, ext.NativePtr);
@@ -195,6 +209,13 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.PathForResource_OfType_InDirectory_ForLocalization, name.NativePtr, ext.NativePtr, subpath.NativePtr, localizationName.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public NSString[] PathsForResourcesOfType(NSString ext, NSString subpath, NSString localizationName)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.PathsForResourcesOfType_InDirectory_ForLocalization, ext.NativePtr, subpath.NativePtr, localizationName.NativePtr);
+
+        return NSArray.ToArray<NSString>(nativePtr);
     }
 
     public NSString LocalizedStringForKey(NSString key, NSString value, NSString tableName)
@@ -251,11 +272,49 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public static NSURL[] URLsForResourcesWithExtension(NSString ext, NSString subpath, NSURL bundleURL)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.URLsForResourcesWithExtension_Subdirectory_InBundleWithURL, ext.NativePtr, subpath.NativePtr, bundleURL.NativePtr);
+
+        return NSArray.ToArray<NSURL>(nativePtr);
+    }
+
     public static NSString PathForResource(NSString name, NSString ext, NSString bundlePath)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.PathForResource_OfType_InDirectory, name.NativePtr, ext.NativePtr, bundlePath.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static NSString[] PathsForResourcesOfType(NSString ext, NSString bundlePath)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.PathsForResourcesOfType_InDirectory, ext.NativePtr, bundlePath.NativePtr);
+
+        return NSArray.ToArray<NSString>(nativePtr);
+    }
+
+    public static NSString[] PreferredLocalizationsFromArray(NSString[] localizationsArray)
+    {
+        nint pLocalizationsArray = NSArray.FromArray(localizationsArray);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.PreferredLocalizationsFromArray, pLocalizationsArray);
+
+        ObjectiveC.Release(pLocalizationsArray);
+
+        return NSArray.ToArray<NSString>(nativePtr);
+    }
+
+    public static NSString[] PreferredLocalizationsFromArray(NSString[] localizationsArray, NSString[] preferencesArray)
+    {
+        nint pLocalizationsArray = NSArray.FromArray(localizationsArray);
+        nint pPreferencesArray = NSArray.FromArray(preferencesArray);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.PreferredLocalizationsFromArray_ForPreferences, pLocalizationsArray, pPreferencesArray);
+
+        ObjectiveC.Release(pLocalizationsArray);
+        ObjectiveC.Release(pPreferencesArray);
+
+        return NSArray.ToArray<NSString>(nativePtr);
     }
 
     public static NSBundle InitWithPath(NSString path)
@@ -331,6 +390,14 @@ file static class NSBundleBindings
 
     public static readonly Selector PathForResource_OfType_InDirectory_ForLocalization = "pathForResource:ofType:inDirectory:forLocalization:";
 
+    public static readonly Selector PathsForResourcesOfType_InDirectory = "pathsForResourcesOfType:inDirectory:";
+
+    public static readonly Selector PathsForResourcesOfType_InDirectory_ForLocalization = "pathsForResourcesOfType:inDirectory:forLocalization:";
+
+    public static readonly Selector PreferredLocalizationsFromArray = "preferredLocalizationsFromArray:";
+
+    public static readonly Selector PreferredLocalizationsFromArray_ForPreferences = "preferredLocalizationsFromArray:forPreferences:";
+
     public static readonly Selector PreflightAndReturnError = "preflightAndReturnError:";
 
     public static readonly Selector PreservationPriorityForTag = "preservationPriorityForTag:";
@@ -362,4 +429,10 @@ file static class NSBundleBindings
     public static readonly Selector URLForResource_WithExtension_Subdirectory_InBundleWithURL = "URLForResource:withExtension:subdirectory:inBundleWithURL:";
 
     public static readonly Selector URLForResource_WithExtension_Subdirectory_Localization = "URLForResource:withExtension:subdirectory:localization:";
+
+    public static readonly Selector URLsForResourcesWithExtension_Subdirectory = "URLsForResourcesWithExtension:subdirectory:";
+
+    public static readonly Selector URLsForResourcesWithExtension_Subdirectory_InBundleWithURL = "URLsForResourcesWithExtension:subdirectory:inBundleWithURL:";
+
+    public static readonly Selector URLsForResourcesWithExtension_Subdirectory_Localization = "URLsForResourcesWithExtension:subdirectory:localization:";
 }

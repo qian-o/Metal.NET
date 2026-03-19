@@ -221,10 +221,19 @@ partial class AstJsonParser
                 continue;
             }
 
-            // Skip methods that return NSArray (can only be used as properties)
+            // For NSArray-returning methods, try to extract the element type from AST generics.
+            // If resolved, register it in the context so the emitter can look it up.
             if (returnType.StartsWith("NSArray"))
             {
-                continue;
+                string? elemType = ExtractNSArrayElementType(astMethod.ReturnType);
+                if (elemType == null)
+                {
+                    continue;
+                }
+
+                string csElemType = TypeMapper.MapType(elemType);
+                string csMethodName = TypeMapper.ToPascalCase(name);
+                context.NSArrayReturnTypes.TryAdd((ast.Name, csMethodName), csElemType);
             }
 
             // Parse parameters

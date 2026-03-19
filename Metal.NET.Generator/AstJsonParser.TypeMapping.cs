@@ -206,7 +206,6 @@ partial class AstJsonParser
             || t.Contains("NS_RETURNS_INNER_POINTER")
             || t.Contains("NSStringEncoding *") || t == "NSStringEncodingConversionOptions"
             || (t.Contains("*const ") && !t.EndsWith('*')) || (t.Contains("const") && t.Contains("* _Nonnull *") && !t.EndsWith('*'))
-            || t.Contains("unichar *")
             || t.Contains("CAEDRMetadata")
             || t.Contains("NSCoder")
             || t.Contains("MTLIOCompressionContext")

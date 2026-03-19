@@ -90,7 +90,7 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
     /// Tries to resolve the element type for an NSArray property or method.
     /// Returns null if no mapping is found.
     /// </summary>
-    static string? TryResolveNSArrayElementType(string className, string propertyName)
+    string? TryResolveNSArrayElementType(string className, string propertyName)
     {
         if (NSArrayElementTypes.TryGetValue((className, propertyName), out string? elementType))
         {
@@ -103,6 +103,12 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
             {
                 return elemType;
             }
+        }
+
+        // Fallback: check element types extracted from AST generics by the parser
+        if (context.NSArrayReturnTypes.TryGetValue((className, propertyName), out string? astElemType))
+        {
+            return astElemType;
         }
 
         return null;

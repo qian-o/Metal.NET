@@ -34,6 +34,15 @@ class GeneratorContext
     public List<BlockTypeAlias> BlockTypeAliases { get; } = [];
 
     /// <summary>
+    /// NSArray-returning methods whose element type was extracted from AST generics.
+    /// <para>Key: (C# class name, PascalCase method/property name).</para>
+    /// <para>Value: C# element type (e.g., <c>"NSURL"</c>).</para>
+    /// Populated by the parser, consumed by the emitter as a fallback in
+    /// <see cref="CSharpEmitter.TryResolveNSArrayElementType"/>.
+    /// </summary>
+    public Dictionary<(string Class, string Member), string> NSArrayReturnTypes { get; } = [];
+
+    /// <summary>
     /// Collected <c>MsgSend</c> overload signatures, populated during emission.
     /// <para>Key: method group (e.g., <c>"MsgSend"</c>, <c>"MsgSendNInt"</c>).</para>
     /// <para>Value: sorted set of parameter type signatures
