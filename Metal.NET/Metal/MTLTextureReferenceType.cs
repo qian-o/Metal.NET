@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTextureReferenceType>
+public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTextureReferenceType>
 {
     #region INativeObject
     public static new MTLTextureReferenceType Null { get; } = new(0, NativeObjectOwnership.Borrowed);

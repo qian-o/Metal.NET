@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLDepthStencilState(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDepthStencilState>
+public class MTLDepthStencilState(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDepthStencilState>
 {
     #region INativeObject
     public static new MTLDepthStencilState Null { get; } = new(0, NativeObjectOwnership.Borrowed);

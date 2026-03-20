@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLFXFrameInterpolatableScaler(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatableScaler>
+public class MTLFXFrameInterpolatableScaler(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatableScaler>
 {
     #region INativeObject
     public static new MTLFXFrameInterpolatableScaler Null { get; } = new(0, NativeObjectOwnership.Borrowed);

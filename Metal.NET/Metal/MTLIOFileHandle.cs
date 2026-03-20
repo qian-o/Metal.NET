@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLIOFileHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOFileHandle>
+public class MTLIOFileHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOFileHandle>
 {
     #region INativeObject
     public static new MTLIOFileHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);

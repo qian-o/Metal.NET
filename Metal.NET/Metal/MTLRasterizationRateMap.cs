@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMap>
+public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMap>
 {
     #region INativeObject
     public static new MTLRasterizationRateMap Null { get; } = new(0, NativeObjectOwnership.Borrowed);

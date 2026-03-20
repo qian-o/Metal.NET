@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
+public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
 {
     #region INativeObject
     public static new MTLCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);

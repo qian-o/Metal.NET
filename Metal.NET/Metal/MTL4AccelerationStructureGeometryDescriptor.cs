@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
+public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
 {
     #region INativeObject
     public static new MTL4AccelerationStructureGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

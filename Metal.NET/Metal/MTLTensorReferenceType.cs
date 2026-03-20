@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTensorReferenceType>
+public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTensorReferenceType>
 {
     #region INativeObject
     public static new MTLTensorReferenceType Null { get; } = new(0, NativeObjectOwnership.Borrowed);

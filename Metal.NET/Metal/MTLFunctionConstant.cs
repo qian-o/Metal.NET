@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionConstant>
+public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionConstant>
 {
     #region INativeObject
     public static new MTLFunctionConstant Null { get; } = new(0, NativeObjectOwnership.Borrowed);

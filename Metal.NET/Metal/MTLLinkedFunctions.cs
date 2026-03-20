@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLinkedFunctions>
+public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLinkedFunctions>
 {
     #region INativeObject
     public static new MTLLinkedFunctions Null { get; } = new(0, NativeObjectOwnership.Borrowed);

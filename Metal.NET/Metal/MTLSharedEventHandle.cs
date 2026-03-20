@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLSharedEventHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedEventHandle>
+public class MTLSharedEventHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedEventHandle>
 {
     #region INativeObject
     public static new MTLSharedEventHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);

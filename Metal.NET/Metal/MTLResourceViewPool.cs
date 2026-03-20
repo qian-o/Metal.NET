@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceViewPool>
+public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceViewPool>
 {
     #region INativeObject
     public static new MTLResourceViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);

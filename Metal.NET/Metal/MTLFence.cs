@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLFence(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFence>
+public class MTLFence(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFence>
 {
     #region INativeObject
     public static new MTLFence Null { get; } = new(0, NativeObjectOwnership.Borrowed);

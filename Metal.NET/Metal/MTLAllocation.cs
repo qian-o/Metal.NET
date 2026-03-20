@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLAllocation(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAllocation>
+public class MTLAllocation(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAllocation>
 {
     #region INativeObject
     public static new MTLAllocation Null { get; } = new(0, NativeObjectOwnership.Borrowed);

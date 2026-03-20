@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLObjectPayloadBinding>
+public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLObjectPayloadBinding>
 {
     #region INativeObject
     public static new MTLObjectPayloadBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);

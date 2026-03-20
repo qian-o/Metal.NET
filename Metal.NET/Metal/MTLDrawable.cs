@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDrawable>
+public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDrawable>
 {
     #region INativeObject
     public static new MTLDrawable Null { get; } = new(0, NativeObjectOwnership.Borrowed);

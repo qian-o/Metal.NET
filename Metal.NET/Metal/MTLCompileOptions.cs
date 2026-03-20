@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCompileOptions>
+public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCompileOptions>
 {
     #region INativeObject
     public static new MTLCompileOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);

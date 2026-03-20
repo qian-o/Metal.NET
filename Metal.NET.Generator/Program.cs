@@ -11,7 +11,7 @@
 
 string projectDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
 string astJsonPath = Path.Combine(projectDir, "Metal.NET.Generator", "metal-ast.json");
-string outputDir = Path.Combine(projectDir, "Metal.NET", "Generated");
+string outputDir = Path.Combine(projectDir, "Metal.NET");
 
 new Generator(astJsonPath, outputDir).Run();
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLSharedTextureHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedTextureHandle>
+public class MTLSharedTextureHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedTextureHandle>
 {
     #region INativeObject
     public static new MTLSharedTextureHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);

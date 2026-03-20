@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
+public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
 {
     #region INativeObject
     public static new MTLCaptureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

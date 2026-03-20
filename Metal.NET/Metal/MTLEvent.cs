@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLEvent(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLEvent>
+public class MTLEvent(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLEvent>
 {
     #region INativeObject
     public static new MTLEvent Null { get; } = new(0, NativeObjectOwnership.Borrowed);

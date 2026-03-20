@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassStencilAttachmentDescriptor>
+public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassStencilAttachmentDescriptor>
 {
     #region INativeObject
     public static new MTLRenderPassStencilAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

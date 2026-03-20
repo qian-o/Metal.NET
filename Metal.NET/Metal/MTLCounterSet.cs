@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLCounterSet(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounterSet>
+public class MTLCounterSet(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounterSet>
 {
     #region INativeObject
     public static new MTLCounterSet Null { get; } = new(0, NativeObjectOwnership.Borrowed);

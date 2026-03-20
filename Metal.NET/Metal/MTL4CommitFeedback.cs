@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4CommitFeedback(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommitFeedback>
+public class MTL4CommitFeedback(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommitFeedback>
 {
     #region INativeObject
     public static new MTL4CommitFeedback Null { get; } = new(0, NativeObjectOwnership.Borrowed);

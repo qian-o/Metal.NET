@@ -70,7 +70,7 @@ partial class CSharpEmitter
         string baseClass = classDef.BaseClassName != null && context.KnownClassNames.Contains(classDef.BaseClassName)
             ? classDef.BaseClassName
             : "NSObject";
-        string partialKeyword = "partial ";
+        string partialKeyword = hasFreeFunctions ? "partial " : "";
 
         // Class-level [Obsolete] from AST
         if (classDef.Deprecated)

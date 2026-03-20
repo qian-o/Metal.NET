@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatorBase>
+public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatorBase>
 {
     #region INativeObject
     public static new MTLFXFrameInterpolatorBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);

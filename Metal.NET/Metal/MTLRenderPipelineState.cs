@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLRenderPipelineState>
+public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLRenderPipelineState>
 {
     #region INativeObject
     public static new MTLRenderPipelineState Null { get; } = new(0, NativeObjectOwnership.Borrowed);

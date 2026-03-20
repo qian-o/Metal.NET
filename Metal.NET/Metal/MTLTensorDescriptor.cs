@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLTensorDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorDescriptor>
+public class MTLTensorDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorDescriptor>
 {
     #region INativeObject
     public static new MTLTensorDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

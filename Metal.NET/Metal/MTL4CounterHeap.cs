@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CounterHeap>
+public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CounterHeap>
 {
     #region INativeObject
     public static new MTL4CounterHeap Null { get; } = new(0, NativeObjectOwnership.Borrowed);

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassDepthAttachmentDescriptor>
+public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassDepthAttachmentDescriptor>
 {
     #region INativeObject
     public static new MTLRenderPassDepthAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

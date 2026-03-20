@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLVisibleFunctionTable(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLVisibleFunctionTable>
+public class MTLVisibleFunctionTable(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLVisibleFunctionTable>
 {
     #region INativeObject
     public static new MTLVisibleFunctionTable Null { get; } = new(0, NativeObjectOwnership.Borrowed);

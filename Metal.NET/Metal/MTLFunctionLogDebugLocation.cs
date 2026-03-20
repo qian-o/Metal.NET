@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionLogDebugLocation>
+public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionLogDebugLocation>
 {
     #region INativeObject
     public static new MTLFunctionLogDebugLocation Null { get; } = new(0, NativeObjectOwnership.Borrowed);

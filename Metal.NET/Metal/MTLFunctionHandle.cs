@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionHandle>
+public class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionHandle>
 {
     #region INativeObject
     public static new MTLFunctionHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);

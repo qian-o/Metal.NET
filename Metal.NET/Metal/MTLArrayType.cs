@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLArrayType>
+public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLArrayType>
 {
     #region INativeObject
     public static new MTLArrayType Null { get; } = new(0, NativeObjectOwnership.Borrowed);

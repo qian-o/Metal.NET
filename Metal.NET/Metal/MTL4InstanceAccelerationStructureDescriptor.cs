@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTL4InstanceAccelerationStructureDescriptor>
+public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTL4InstanceAccelerationStructureDescriptor>
 {
     #region INativeObject
     public static new MTL4InstanceAccelerationStructureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOCommandQueue>
+public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOCommandQueue>
 {
     #region INativeObject
     public static new MTLIOCommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);

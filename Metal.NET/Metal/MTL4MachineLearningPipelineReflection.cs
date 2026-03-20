@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4MachineLearningPipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4MachineLearningPipelineReflection>
+public class MTL4MachineLearningPipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4MachineLearningPipelineReflection>
 {
     #region INativeObject
     public static new MTL4MachineLearningPipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);

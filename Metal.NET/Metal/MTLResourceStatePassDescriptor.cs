@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceStatePassDescriptor>
+public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceStatePassDescriptor>
 {
     #region INativeObject
     public static new MTLResourceStatePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

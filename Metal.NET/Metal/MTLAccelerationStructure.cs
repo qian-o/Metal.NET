@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLAccelerationStructure(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLAccelerationStructure>
+public class MTLAccelerationStructure(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLAccelerationStructure>
 {
     #region INativeObject
     public static new MTLAccelerationStructure Null { get; } = new(0, NativeObjectOwnership.Borrowed);

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTextureViewDescriptor>
+public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTextureViewDescriptor>
 {
     #region INativeObject
     public static new MTLTextureViewDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

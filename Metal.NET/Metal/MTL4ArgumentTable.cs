@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4ArgumentTable>
+public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4ArgumentTable>
 {
     #region INativeObject
     public static new MTL4ArgumentTable Null { get; } = new(0, NativeObjectOwnership.Borrowed);

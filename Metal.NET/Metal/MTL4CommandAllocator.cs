@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandAllocator>
+public class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandAllocator>
 {
     #region INativeObject
     public static new MTL4CommandAllocator Null { get; } = new(0, NativeObjectOwnership.Borrowed);

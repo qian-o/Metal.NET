@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLibrary>
+public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLibrary>
 {
     #region INativeObject
     public static new MTLLibrary Null { get; } = new(0, NativeObjectOwnership.Borrowed);

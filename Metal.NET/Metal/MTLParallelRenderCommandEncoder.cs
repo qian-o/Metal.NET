@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLParallelRenderCommandEncoder>
+public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLParallelRenderCommandEncoder>
 {
     #region INativeObject
     public static new MTLParallelRenderCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);

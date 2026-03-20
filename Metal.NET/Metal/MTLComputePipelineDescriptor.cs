@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLComputePipelineDescriptor>
+public class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLComputePipelineDescriptor>
 {
     #region INativeObject
     public static new MTLComputePipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

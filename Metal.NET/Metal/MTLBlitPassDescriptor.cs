@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBlitPassDescriptor>
+public class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBlitPassDescriptor>
 {
     #region INativeObject
     public static new MTLBlitPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

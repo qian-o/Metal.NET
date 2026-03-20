@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineOptions>
+public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineOptions>
 {
     #region INativeObject
     public static new MTL4PipelineOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);

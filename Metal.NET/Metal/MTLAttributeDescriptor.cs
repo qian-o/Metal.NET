@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLAttributeDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAttributeDescriptor>
+public class MTLAttributeDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAttributeDescriptor>
 {
     #region INativeObject
     public static new MTLAttributeDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounterSampleBuffer>
+public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounterSampleBuffer>
 {
     #region INativeObject
     public static new MTLCounterSampleBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);

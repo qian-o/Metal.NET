@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStencilDescriptor>
+public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStencilDescriptor>
 {
     #region INativeObject
     public static new MTLStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);

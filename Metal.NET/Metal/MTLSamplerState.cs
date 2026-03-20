@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSamplerState>
+public class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSamplerState>
 {
     #region INativeObject
     public static new MTLSamplerState Null { get; } = new(0, NativeObjectOwnership.Borrowed);

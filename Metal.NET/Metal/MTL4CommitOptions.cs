@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTL4CommitOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommitOptions>
+public class MTL4CommitOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommitOptions>
 {
     #region INativeObject
     public static new MTL4CommitOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);

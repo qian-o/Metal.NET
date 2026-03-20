@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public partial class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLBufferBinding>
+public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLBufferBinding>
 {
     #region INativeObject
     public static new MTLBufferBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
