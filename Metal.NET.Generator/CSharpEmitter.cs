@@ -229,36 +229,35 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
             .GroupBy(f => f.TargetClassName)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-        // Record MsgSend signatures used by hand-written Foundation classes
-        // (NSObject, NSString, NSArray, NSData, etc.) which are not auto-generated
-        // but still need matching ObjectiveC.MsgSend* overloads in ObjectiveC.cs.
+        // Record MsgSend signatures used by hand-written classes
+        // (NSObject, NSString, NSArray, NSData, CAMetalLayer, etc.) which are not
+        // auto-generated but still need matching ObjectiveC.MsgSend* overloads.
+        RecordMsgSend("MsgSend");
+        RecordMsgSend("MsgSend", "CGSize");
         RecordMsgSend("MsgSend", "nint");
 
+        RecordMsgSend("MsgSendBool");
+        RecordMsgSend("MsgSendCGSize");
+        RecordMsgSend("MsgSendDouble");
+        RecordMsgSend("MsgSendFloat");
+        RecordMsgSend("MsgSendInt");
+        RecordMsgSend("MsgSendLong");
+
         RecordMsgSend("MsgSendNInt");
+        RecordMsgSend("MsgSendNInt", "Bool8");
+        RecordMsgSend("MsgSendNInt", "double");
+        RecordMsgSend("MsgSendNInt", "float");
+        RecordMsgSend("MsgSendNInt", "int");
+        RecordMsgSend("MsgSendNInt", "long");
         RecordMsgSend("MsgSendNInt", "nint");
         RecordMsgSend("MsgSendNInt", "nint", "nint");
-        RecordMsgSend("MsgSendNInt", "Bool8");
-        RecordMsgSend("MsgSendNInt", "float");
-        RecordMsgSend("MsgSendNInt", "double");
-        RecordMsgSend("MsgSendNInt", "int");
-        RecordMsgSend("MsgSendNInt", "uint");
-        RecordMsgSend("MsgSendNInt", "long");
-        RecordMsgSend("MsgSendNInt", "ulong");
         RecordMsgSend("MsgSendNInt", "nuint");
+        RecordMsgSend("MsgSendNInt", "uint");
+        RecordMsgSend("MsgSendNInt", "ulong");
 
-        RecordMsgSend("MsgSendBool");
-        RecordMsgSend("MsgSendFloat");
-        RecordMsgSend("MsgSendDouble");
-        RecordMsgSend("MsgSendInt");
-        RecordMsgSend("MsgSendUInt");
-        RecordMsgSend("MsgSendLong");
-        RecordMsgSend("MsgSendULong");
         RecordMsgSend("MsgSendNUInt");
-        RecordMsgSend("MsgSend");
-
-        // Hand-written Core Animation classes (CAMetalLayer, etc.)
-        RecordMsgSend("MsgSendCGSize");
-        RecordMsgSend("MsgSend", "CGSize");
+        RecordMsgSend("MsgSendUInt");
+        RecordMsgSend("MsgSendULong");
 
         foreach (ClassDef classDef in context.Classes)
         {
