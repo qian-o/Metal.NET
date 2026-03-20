@@ -68,6 +68,12 @@ public partial class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownershi
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetWantsExtendedDynamicRangeContent, value);
     }
 
+    public CAEDRMetadata EDRMetadata
+    {
+        get => GetProperty(ref field, CAMetalLayerBindings.EDRMetadata);
+        set => SetProperty(ref field, CAMetalLayerBindings.SetEDRMetadata, value);
+    }
+
     public Bool8 DisplaySyncEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
@@ -115,6 +121,8 @@ file static class CAMetalLayerBindings
 
     public static readonly Selector DrawableSize = "drawableSize";
 
+    public static readonly Selector EDRMetadata = "EDRMetadata";
+
     public static readonly Selector FramebufferOnly = "framebufferOnly";
 
     public static readonly Selector MaximumDrawableCount = "maximumDrawableCount";
@@ -140,6 +148,8 @@ file static class CAMetalLayerBindings
     public static readonly Selector SetDisplaySyncEnabled = "setDisplaySyncEnabled:";
 
     public static readonly Selector SetDrawableSize = "setDrawableSize:";
+
+    public static readonly Selector SetEDRMetadata = "setEDRMetadata:";
 
     public static readonly Selector SetFramebufferOnly = "setFramebufferOnly:";
 

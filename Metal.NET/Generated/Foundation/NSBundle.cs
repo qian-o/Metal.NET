@@ -255,6 +255,13 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public NSAttributedString LocalizedAttributedStringForKey(NSString key, NSString value, NSString tableName)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.LocalizedAttributedStringForKey_Value_Table, key.NativePtr, value.NativePtr, tableName.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public NSString LocalizedStringForKey(NSString key, NSString value, NSString tableName, NSString[] localizations)
     {
         nint pLocalizations = NSArray.FromArray(localizations);
@@ -276,6 +283,15 @@ public partial class NSBundle(nint nativePtr, NativeObjectOwnership ownership) :
     public nint ClassNamed(NSString className)
     {
         return ObjectiveC.MsgSendNInt(NativePtr, NSBundleBindings.ClassNamed, className.NativePtr);
+    }
+
+    public void SetPreservationPriority(double priority, NSString[] tags)
+    {
+        nint pTags = NSSet.FromArray(tags);
+
+        ObjectiveC.MsgSend(NativePtr, NSBundleBindings.SetPreservationPriority_ForTags, priority, pTags);
+
+        ObjectiveC.Release(pTags);
     }
 
     public double PreservationPriorityForTag(NSString tag)
@@ -426,6 +442,8 @@ file static class NSBundleBindings
 
     public static readonly Selector Localizations = "localizations";
 
+    public static readonly Selector LocalizedAttributedStringForKey_Value_Table = "localizedAttributedStringForKey:value:table:";
+
     public static readonly Selector LocalizedInfoDictionary = "localizedInfoDictionary";
 
     public static readonly Selector LocalizedStringForKey_Value_Table = "localizedStringForKey:value:table:";
@@ -467,6 +485,8 @@ file static class NSBundleBindings
     public static readonly Selector ResourcePath = "resourcePath";
 
     public static readonly Selector ResourceURL = "resourceURL";
+
+    public static readonly Selector SetPreservationPriority_ForTags = "setPreservationPriority:forTags:";
 
     public static readonly Selector SharedFrameworksPath = "sharedFrameworksPath";
 

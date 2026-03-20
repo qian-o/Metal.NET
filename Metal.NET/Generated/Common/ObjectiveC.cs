@@ -258,6 +258,16 @@ internal static unsafe partial class ObjectiveC
         ((delegate* unmanaged<nint, Selector, double, void>)msgSend)(receiver, selector, a);
     }
 
+    public static void MsgSend(nint receiver, Selector selector, double a, nint b)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        ((delegate* unmanaged<nint, Selector, double, nint, void>)msgSend)(receiver, selector, a, b);
+    }
+
     public static void MsgSend(nint receiver, Selector selector, float a)
     {
         if (receiver is 0)

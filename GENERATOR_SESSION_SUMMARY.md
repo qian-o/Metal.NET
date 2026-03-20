@@ -20,9 +20,10 @@
 | 指标 | 数值 |
 |---|---|
 | 生成类（含 Selectors） | 245 |
-| 总 Selectors | **3208** |
+| 总 Selectors | **3212** |
 | Metal/MetalFX 缺失 | **0** |
-| MsgSend 重载 | 208（21 组） |
+| 全框架缺失 | **0** |
+| MsgSend 重载 | 209（21 组） |
 | Delegate 类 | 19 |
 | 编译错误/警告 | **0** |
 
@@ -106,20 +107,41 @@
 | 移除 NSArray 方法跳过 + unichar * | 3196 (+15) |
 | 移除 Class 不可映射 + NSArray 属性注册 | **3208** (+12) |
 
+### 会话 6（完整绑定 — 消灭最后 4 个缺失 selector）
+
+目标：为 3 个缺失类型创建完整绑定，实现全框架 0 缺失。
+
+#### 6.1 新增手写绑定类
+
+| 类 | 文件 | 说明 |
+|---|---|---|
+| `NSAttributedString` | `Metal.NET/Foundation/NSAttributedString.cs` | Foundation 富文本类，继承 NSObject，提供 String/Length 属性 |
+| `NSSet` | `Metal.NET/Foundation/NSSet.cs` | Foundation 集合类，静态类（同 NSArray 模式），提供 `FromArray<T>()` |
+| `CAEDRMetadata` | `Metal.NET/QuartzCore/CAEDRMetadata.cs` | QuartzCore EDR 元数据类，继承 NSObject |
+
+#### 6.2 生成器修改
+
+**`AstJsonParser.TypeMapping.cs`**：
+- `IsUnmappableObjCType`：移除 `CAEDRMetadata`、`NSAttributedString`、`NSSet<`
+- `MapObjCTypeForModel`：新增 `NSSet<...>` → `NSSet*` 泛型剥离（同 NSArray/NSDictionary 模式）
+
+**`TypeMapper.cs`**：
+- `MapType`：新增 `NSSet` → `nint`（NSSet 是静态类，参数传原生指针）
+
+#### 6.3 Selector 增长
+
+| 阶段 | Selectors |
+|---|---|
+| 会话 5 完成后 | 3208 |
+| 新增 3 个类绑定 | **3212** (+4) |
+
 ---
 
-## 3. 当前剩余缺失（仅 4 个）
+## 3. 当前剩余缺失
 
-通过 `_audit_truly_missing.py` 精确审计（排除 SkipClasses、SkipSelectors、init、继承），**所有框架合计仅剩 4 个缺失**：
+通过 `_audit_truly_missing.py` 精确审计（排除 SkipClasses、SkipSelectors、init、继承），**所有框架合计缺失：0**。
 
-| 缺失 Selector | 类 | 阻塞类型 | 说明 |
-|---|---|---|---|
-| `localizedAttributedStringForKey:value:table:` | NSBundle | `NSAttributedString` 返回值 | Foundation 富文本类，无绑定 |
-| `setPreservationPriority:forTags:` | NSBundle | `NSSet<>` 参数 | Foundation 泛型集合，无绑定 |
-| `EDRMetadata` | CAMetalLayer | `CAEDRMetadata` 返回值 | QuartzCore EDR 元数据类，无绑定 |
-| `setEDRMetadata:` | CAMetalLayer | `CAEDRMetadata` 参数 | 同上 |
-
-**这 4 个都需要新增类绑定才能解决**，不是简单的类型映射问题。
+全部 selector 已覆盖 ✓
 
 ---
 
@@ -137,8 +159,8 @@ ObjC 类型 (AST)
 
 ### 4.2 跳过/过滤规则
 
-- `IsUnmappableObjCType`：跳过 `IMP`、`SEL`、`FourCharCode`、`id *`（精确匹配），以及 `NSSet<`、`NSCoder`、`CAEDRMetadata`、`NSAttributedString` 等（模式匹配）
-- **已移除的过滤**（本次会话）：`Class`（→`nint`）、`unichar *`（→`nint`）、NSArray 返回值无条件跳过
+- `IsUnmappableObjCType`：跳过 `IMP`、`SEL`、`FourCharCode`、`id *`（精确匹配），以及 `NSCoder`、`MTLIOCompressionContext` 等（模式匹配）
+- **已移除的过滤**（历次会话）：`Class`（→`nint`）、`unichar *`（→`nint`）、NSArray 返回值无条件跳过、`CAEDRMetadata`（→手写类）、`NSAttributedString`（→手写类）、`NSSet<`（→`nint`）
 - `SkipClasses`：`NSArray`、`NSObject`、`NSDate`、`NSSet`、`NSEnumerator` 等（手写或不生成）
 - `SkipSelectors`：`description`、`hash`、`isEqual:` 等 NSObject 基础方法（39 个）
 - `SkipMethods`：`alloc`、`init`、`retain`、`release` 等（6 个）
@@ -248,7 +270,7 @@ NSDataReadingOptions, NSDataBase64, NSDataCompressionAlgorithm,
 NSDecimal, NSLinguistic, NSEnumerator, NSErrorDomain
 ```
 
-已移除（历次会话中）：`Class`（→`nint`）、`unichar *`（→`nint`）、`kern_return_t`、`task_id_token_t`
+已移除（历次会话中）：`Class`（→`nint`）、`unichar *`（→`nint`）、`kern_return_t`、`task_id_token_t`、`CAEDRMetadata`（→手写类）、`NSAttributedString`（→手写类）、`NSSet<`（→泛型剥离+`nint`）
 
 ---
 
@@ -289,10 +311,7 @@ _search_enums.py
 
 ## 9. 后续工作建议
 
-1. **剩余 4 个缺失的 selector**（需新增类绑定）：
-   - `NSAttributedString` — Foundation 富文本类
-   - `NSSet` — Foundation 集合类（类似 NSArray 的包装）
-   - `CAEDRMetadata` — QuartzCore EDR 元数据类（影响 `CAMetalLayer` 的 2 个方法）
+1. ~~**剩余 4 个缺失的 selector**~~ ✓ 已在会话 6 完成
 2. **考虑移除更多不必要的 IsUnmappableObjCType 条目**：
    - `NSErrorDomain` → 已映射为 `NSString`
    - `NSDecimal` → 已映射为 `nint`

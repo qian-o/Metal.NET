@@ -271,6 +271,16 @@ partial class AstJsonParser
                     }
                 }
 
+                // For NSSet params, try to extract generic element type for typed array support
+                if (paramType == "NSSet*")
+                {
+                    string? elemType = ExtractNSArrayElementType(p.Type);
+                    if (elemType != null)
+                    {
+                        paramType = $"NSSET_PARAM:{elemType}";
+                    }
+                }
+
                 // Skip methods with unresolved NSArray/NSDictionary parameters
                 if (paramType is "NSArray*" or "NSDictionary*")
                 {
@@ -339,6 +349,16 @@ partial class AstJsonParser
                     if (elemType != null)
                     {
                         paramType = $"NSARRAY_PARAM:{elemType}";
+                    }
+                }
+
+                // For NSSet params, try to extract generic element type for typed array support
+                if (paramType == "NSSet*")
+                {
+                    string? elemType = ExtractNSArrayElementType(p.Type);
+                    if (elemType != null)
+                    {
+                        paramType = $"NSSET_PARAM:{elemType}";
                     }
                 }
 

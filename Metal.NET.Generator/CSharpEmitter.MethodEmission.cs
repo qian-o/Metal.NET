@@ -174,6 +174,24 @@ partial class CSharpEmitter
                 continue;
             }
 
+            // NSSet param with known element type → typed array + NSSet.FromArray
+            if (param.Type.StartsWith("NSSET_PARAM:"))
+            {
+                string elemModelType = param.Type["NSSET_PARAM:".Length..];
+                string elemCsType = TypeMapper.MapType(elemModelType);
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+
+                csParams.Add($"{elemCsType}[] {csParamName}");
+
+                string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                arraySetupLines.Add($"        nint {ptrVar} = NSSet.FromArray({csParamName});");
+                nsArrayReleaseVars.Add(ptrVar);
+
+                callArgs.Add(ptrVar);
+                callArgTypes.Add("nint");
+                continue;
+            }
+
             if (IsBlockHandlerType(param.Type, knownDelegateNames))
             {
                 string csType = TypeMapper.MapType(param.Type);

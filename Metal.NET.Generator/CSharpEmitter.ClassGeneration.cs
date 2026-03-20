@@ -324,7 +324,7 @@ partial class CSharpEmitter
 #pragma warning disable IDE0028 // Collection initialization can be simplified (requires custom comparer)
         HashSet<MethodInfo> used = new(ReferenceEqualityComparer.Instance);
 
-        Dictionary<string, MethodInfo> setterMap = new(StringComparer.Ordinal);
+        Dictionary<string, MethodInfo> setterMap = new(StringComparer.OrdinalIgnoreCase);
 #pragma warning restore IDE0028
         foreach (MethodInfo m in allMethods)
         {

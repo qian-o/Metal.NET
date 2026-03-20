@@ -46,6 +46,11 @@ partial class AstJsonParser
             return "NSDictionary*";
         }
 
+        if (t is "NSSet" || t.StartsWith("NSSet<") || t.StartsWith("NSSet *"))
+        {
+            return "NSSet*";
+        }
+
         // Well-known exact-match types → switch expression
         string? exactMatch = t switch
         {
@@ -198,15 +203,13 @@ partial class AstJsonParser
         }
 
         // Pattern-based exclusions
-        return t.StartsWith("NSSet<")
-            || t.Contains("NS::Process") || t.Contains("NS::Observer")
+        return t.Contains("NS::Process") || t.Contains("NS::Observer")
             || t.Contains("NSProcess") || t.Contains("NSObserver")
 
             || t.Contains("ObjectType") || t.Contains("KeyType")
             || t.Contains("NS_RETURNS_INNER_POINTER")
             || t.Contains("NSStringEncoding *") || t == "NSStringEncodingConversionOptions"
             || (t.Contains("*const ") && !t.EndsWith('*')) || (t.Contains("const") && t.Contains("* _Nonnull *") && !t.EndsWith('*'))
-            || t.Contains("CAEDRMetadata")
             || t.Contains("NSCoder")
             || t.Contains("MTLIOCompressionContext")
             || t.Contains("va_list")
@@ -218,7 +221,6 @@ partial class AstJsonParser
             || t.Contains("NSURLBookmark")
             || t.Contains("NSURLHandle")
             || t.Contains("NSURLResourceKey")
-            || t.Contains("NSAttributedString")
             || t.Contains("NSDataWritingOptions")
             || t.Contains("NSDataSearchOptions")
             || t.Contains("NSDataReadingOptions")
