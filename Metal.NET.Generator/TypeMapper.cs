@@ -349,12 +349,19 @@ partial class TypeMapper(GeneratorContext context)
 
     #region Naming Helpers
 
-    /// <summary>Converts the first character of <paramref name="name"/> to uppercase (PascalCase).</summary>
+    /// <summary>Converts <paramref name="name"/> to PascalCase, handling underscore prefixes and snake_case.</summary>
     public static string ToPascalCase(string name)
     {
         if (string.IsNullOrEmpty(name))
         {
             return name;
+        }
+
+        // Strip leading underscores and split on '_' for snake_case (e.g. "_impl" → "Impl")
+        if (name.Contains('_'))
+        {
+            string[] parts = name.Split('_', StringSplitOptions.RemoveEmptyEntries);
+            return string.Concat(parts.Select(p => char.ToUpper(p[0]) + p[1..]));
         }
 
         if (name.Length == 1)
@@ -365,7 +372,7 @@ partial class TypeMapper(GeneratorContext context)
         return char.ToUpper(name[0]) + name[1..];
     }
 
-    /// <summary>Converts the first character of <paramref name="name"/> to lowercase (camelCase), applying known corrections.</summary>
+    /// <summary>Converts <paramref name="name"/> to camelCase, handling snake_case and applying known corrections.</summary>
     public static string ToCamelCase(string name)
     {
         if (string.IsNullOrEmpty(name))
@@ -376,6 +383,14 @@ partial class TypeMapper(GeneratorContext context)
         if (ParamNameCorrections.TryGetValue(name, out string? corrected))
         {
             name = corrected;
+        }
+
+        // Convert snake_case (e.g. "task_id_token") → camelCase ("taskIdToken")
+        if (name.Contains('_'))
+        {
+            string[] parts = name.Split('_', StringSplitOptions.RemoveEmptyEntries);
+            return char.ToLower(parts[0][0]) + parts[0][1..]
+                + string.Concat(parts.Skip(1).Select(p => char.ToUpper(p[0]) + p[1..]));
         }
 
         if (name.Length == 1)

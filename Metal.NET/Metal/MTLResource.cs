@@ -67,9 +67,9 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
         return ObjectiveC.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
     }
 
-    public int SetOwnerWithIdentity(uint task_id_token)
+    public int SetOwnerWithIdentity(uint taskIdToken)
     {
-        return ObjectiveC.MsgSendInt(NativePtr, MTLResourceBindings.SetOwnerWithIdentity, task_id_token);
+        return ObjectiveC.MsgSendInt(NativePtr, MTLResourceBindings.SetOwnerWithIdentity, taskIdToken);
     }
 }
 
