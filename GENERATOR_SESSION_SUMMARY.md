@@ -128,7 +128,40 @@
 **`TypeMapper.cs`**：
 - `MapType`：新增 `NSSet` → `nint`（NSSet 是静态类，参数传原生指针）
 
-#### 6.3 Selector 增长
+#### 6.3 NSSET_PARAM 机制 — NSSet 参数类型化
+
+**问题**：`MTLHeap.SetPreservationPriority(double, nint)` 中 `nint` 参数实际是 `NSSet<NSString>`，用户需手动创建 NSSet 传入，不友好。
+
+**方案**：参照已有 `NSARRAY_PARAM` 机制，新增 `NSSET_PARAM:{elemType}` 标记。
+
+**修改 3 个文件**：
+- `AstJsonParser.ClassParsing.cs` — 方法解析 + init 解析：检测 `NSSet<...>` 参数类型，提取元素类型后标记为 `NSSET_PARAM:{elemType}`
+- `CSharpEmitter.MethodEmission.cs` — 新增 NSSET_PARAM 处理：生成 `ElementType[] param` 签名 + `NSSet.FromArray(param)` 转换 + 自动释放
+
+**效果**：`SetPreservationPriority(double priority, NSString[] tags)` — 自动转换为 NSSet，与 NSARRAY_PARAM 保持一致。
+
+#### 6.4 属性配对大小写修复（EDRMetadata）
+
+**问题**：`EDRMetadata`（getter）和 `setEDRMetadata:`（setter）未被配对为属性，仍然是两个独立方法。
+
+**根因**：`GetPropertyName` 将 `setEDRMetadata` 转换为 `eDRMetadata`（首字母小写），但 getter 名为 `EDRMetadata`（大写）。`CategorizeMembers` 中的 `setterMap` 使用 `StringComparer.Ordinal`，导致 `eDRMetadata` ≠ `EDRMetadata` 匹配失败。
+
+**修复**：`CSharpEmitter.ClassGeneration.cs` — 将 `setterMap` 的比较器从 `StringComparer.Ordinal` 改为 `StringComparer.OrdinalIgnoreCase`。
+
+#### 6.5 NSSet.ToArray 方法
+
+为 `Metal.NET/Foundation/NSSet.cs` 添加 `ToArray<T>(nint setPtr)` 方法，内部调用 `allObjects` selector 获取 NSArray，再委托给 `NSArray.ToArray<T>()`。
+
+#### 6.6 最终审计 — 不可映射类型与 nint 回退
+
+运行 `_audit_nint_fallback.py` 全面审计：
+
+- **IsUnmappableObjCType 阻止的 selector**：101 个，**全部在 CoreFoundation**（NSString、NSDictionary、NSData 等 Foundation 类），Metal/MetalFX/QuartzCore 为 0
+- **生成代码中的 nint 参数**：108 个，均为合法用途（`void*` 指针、`NSInteger`、`Class`、`IOSurfaceRef` 等）
+- **生成代码中的 nint 返回/属性**：54 个，均为 `id` 返回、`void*` 指针、`NSInteger` 属性等合法用途
+- **结论**：无需修复，所有类型映射正确
+
+#### 6.7 Selector 增长
 
 | 阶段 | Selectors |
 |---|---|
@@ -205,6 +238,17 @@ public static ClassName InitXxx(params)
 
 通过 `CategorizeMembers` 将方法分为属性（getter/setter 配对）和剩余方法。Setter selector 使用 AST 中的显式名称（如 `setUITexture:` 而非自动推导的 `setUiTexture:`）。布尔属性：`isDepthReversed` → setter 为 `setDepthReversed:`。
 
+**大小写不敏感匹配**（会话 6 修复）：`setterMap` 使用 `StringComparer.OrdinalIgnoreCase`，解决 `setEDRMetadata` → `eDRMetadata` 与 getter `EDRMetadata` 首字母大小写不匹配的问题。
+
+### 4.9 NSSET_PARAM 处理（同 NSARRAY_PARAM 模式）
+
+**解析阶段**（AstJsonParser.ClassParsing.cs）：
+- 检测参数类型含 `NSSet<...>` → 提取泛型元素类型 → 标记参数类型为 `NSSET_PARAM:{elemType}`
+
+**发射阶段**（CSharpEmitter.MethodEmission.cs）：
+- 检测 `NSSET_PARAM:` 前缀 → 生成 `ElemType[] paramName` 签名
+- 方法体中调用 `NSSet.FromArray(paramName)` 创建临时 NSSet → 传入 MsgSend → 事后释放
+
 ### 4.7 枚举支持
 
 - AST 中的枚举（Metal / MetalFX）→ 自动生成
@@ -259,18 +303,24 @@ public static ClassName InitXxx(params)
 
 模式匹配（`t.Contains()`）：
 ```
-NSSet<, NS::Process, NS::Observer, NSProcess, NSObserver,
+NS::Process, NS::Observer, NSProcess, NSObserver,
 ObjectType, KeyType, NS_RETURNS_INNER_POINTER,
 NSStringEncoding *, NSStringEncodingConversionOptions,
-CAEDRMetadata, NSCoder, MTLIOCompressionContext, va_list,
+NSCoder, MTLIOCompressionContext, va_list,
 NSDate, NSLocale, NSCharacterSet, NSStringTransform,
 NSRangePointer, NSURLBookmark, NSURLHandle, NSURLResourceKey,
-NSAttributedString, NSDataWritingOptions, NSDataSearchOptions,
-NSDataReadingOptions, NSDataBase64, NSDataCompressionAlgorithm,
+NSDataWritingOptions, NSDataSearchOptions, NSDataReadingOptions,
+NSDataBase64, NSDataCompressionAlgorithm,
 NSDecimal, NSLinguistic, NSEnumerator, NSErrorDomain
 ```
 
+> 注：以上 101 个被阻止的 selector **全部在 CoreFoundation**（Foundation 类），Metal/MetalFX/QuartzCore 为 0。
+
 已移除（历次会话中）：`Class`（→`nint`）、`unichar *`（→`nint`）、`kern_return_t`、`task_id_token_t`、`CAEDRMetadata`（→手写类）、`NSAttributedString`（→手写类）、`NSSet<`（→泛型剥离+`nint`）
+
+特殊模式匹配：
+- `*const ` 在类型中且不以 `*` 结尾
+- `const` + `* _Nonnull *` 且不以 `*` 结尾
 
 ---
 
@@ -312,12 +362,14 @@ _search_enums.py
 ## 9. 后续工作建议
 
 1. ~~**剩余 4 个缺失的 selector**~~ ✓ 已在会话 6 完成
-2. **考虑移除更多不必要的 IsUnmappableObjCType 条目**：
+2. ~~**NSSET_PARAM 类型化**~~ ✓ 已在会话 6 完成（`SetPreservationPriority` 等方法使用 `NSString[]`）
+3. ~~**属性配对大小写修复**~~ ✓ 已在会话 6 完成（`OrdinalIgnoreCase`）
+4. ~~**最终审计**~~ ✓ 已在会话 6 完成（101 blocked 全在 CoreFoundation，Metal 为 0，nint 均为合法用途）
+5. **考虑移除更多不必要的 IsUnmappableObjCType 条目**（可选，仅增加 Foundation 覆盖率）：
    - `NSErrorDomain` → 已映射为 `NSString`
    - `NSDecimal` → 已映射为 `nint`
    - `NS_RETURNS_INNER_POINTER` → 是注解不是类型，应在 strip 阶段处理
-   - 这些不影响 Metal/MetalFX（已 0 缺失），但可以增加 Foundation 覆盖率
-3. **清理临时审计脚本**：删除根目录下的 `_*.py` 文件
+6. **清理临时审计脚本**：删除根目录下的 `_*.py` 文件
 
 ---
 
@@ -336,3 +388,6 @@ _search_enums.py
 | 属性解析 | `AstJsonParser.ClassParsing.cs` | `foreach (AstProperty prop in ast.Properties)` |
 | 方法解析 | `AstJsonParser.ClassParsing.cs` | `foreach (AstMethod astMethod in ast.Methods)` |
 | Init 解析 | `AstJsonParser.ClassParsing.cs` | 第二个 `foreach (AstMethod astMethod in ast.Methods)` |
+| NSSET_PARAM 解析 | `AstJsonParser.ClassParsing.cs` | 方法/init 循环中 NSSet 检测 |
+| NSSET_PARAM 发射 | `CSharpEmitter.MethodEmission.cs` | `NSSET_PARAM:` 前缀处理 |
+| 属性配对（setter map） | `CSharpEmitter.ClassGeneration.cs` | `CategorizeMembers` → `setterMap` |
