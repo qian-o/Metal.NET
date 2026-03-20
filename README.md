@@ -3,11 +3,11 @@
 [![NuGet Version](https://img.shields.io/nuget/v/Metal.NET)](https://nuget.org/packages/Metal.NET)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Low-level C# bindings for Apple's **Metal**, **MetalFX** and **QuartzCore** frameworks — auto-generated from the macOS SDK via **Clang AST + Swift Symbol Graph** extraction.
+Low-level C# bindings for Apple's **Metal** and **MetalFX** frameworks — auto-generated from the macOS SDK via **Clang AST + Swift Symbol Graph** extraction.
 
 ## Features
 
-- **Comprehensive coverage** — Metal, Metal 4, MetalFX, QuartzCore, Foundation, CoreGraphics and GCD (253 generated files).
+- **Comprehensive coverage** — Metal, Metal 4 and MetalFX (252 generated files), plus hand-written wrappers for CoreFoundation, CoreAnimation, CoreGraphics, GCD and SIMD types.
 - **Clang AST + Swift Symbol Graph** — bindings are extracted from SDK headers, not a hand-maintained IDL. Swift names provide human-readable method & parameter names where Clang only exposes selectors.
 - **Three ownership modes** — `Borrowed`, `Owned` and `Managed`, with deterministic `Dispose()` and an optional finalizer safety net.
 - **ObjC block support** — `NativeBlock<T>` uses `UnmanagedCallersOnly` function pointers for zero-overhead callbacks.
@@ -49,9 +49,8 @@ using MTLBuffer buffer = device.MakeBuffer(1024, MTLResourceOptions.StorageModeS
 |-----------|:-----:|---|
 | **Metal / Metal 4** | 233 | Devices, command queues & buffers, render / compute / blit encoders, pipeline states, acceleration structures, `MTL4*` APIs |
 | **MetalFX** | 18 | Temporal & spatial scalers, frame interpolators |
-| **QuartzCore** | 2 | `CAMetalLayer`, `CAMetalDrawable` |
 
-Hand-written Foundation (`NSObject`, `NSString`, `NSArray`, …), CoreGraphics (`CGColorSpace`) and GCD (`DispatchQueue`, `DispatchData`) wrappers are included as well.
+Hand-written wrappers are included for CoreFoundation (`NSObject`, `NSString`, `NSArray`, …), CoreAnimation (`CAMetalLayer`, `CAMetalDrawable`), CoreGraphics (`CGColorSpace`, `CGSize`), GCD (`DispatchQueue`, `DispatchData`) and SIMD types.
 
 ## Memory Management
 
@@ -110,18 +109,19 @@ A GitHub Actions workflow (`extract-metal-api.yml`) runs on a macOS runner to:
 Metal.NET.slnx
 │
 ├─ Metal.NET/                            Runtime library (NuGet package)
-│  ├─ Common/                            Interop core (hand-written)
+│  ├─ Interop/                           Interop core (hand-written)
 │  │  ├─ NativeObject.cs                 Base class for all ObjC wrappers
 │  │  ├─ NativeBlock.cs                  ObjC block support (UnmanagedCallersOnly)
 │  │  ├─ ObjectiveC.cs                   Auto-generated objc_msgSend overloads
 │  │  ├─ Selector.cs                     Lazy selector handle
-│  │  └─ Bool8.cs / Structs.cs           Value types
-│  ├─ Foundation/                        Hand-written NS* wrappers
+│  │  └─ Bool8.cs                        Boolean value type
+│  ├─ CoreFoundation/                    Hand-written NS* wrappers
+│  ├─ CoreAnimation/                     Hand-written CA* wrappers
 │  ├─ CoreGraphics/                      Hand-written CG* wrappers
-│  ├─ GCD/                               Hand-written Dispatch* wrappers
+│  ├─ Dispatch/                          Hand-written Dispatch* wrappers
+│  ├─ Simd/                              Hand-written SIMD value types
 │  ├─ Metal/                             Auto-generated Metal & Metal 4 API
-│  ├─ MetalFX/                           Auto-generated MetalFX API
-│  └─ QuartzCore/                        Auto-generated QuartzCore API
+│  └─ MetalFX/                           Auto-generated MetalFX API
 │
 ├─ Metal.NET.Generator/                  Code generator (not shipped)
 │  ├─ AstJsonParser*.cs                  JSON → model (7 partial files)
