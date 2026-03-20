@@ -5,6 +5,13 @@ namespace Metal.NET;
 /// </summary>
 public static class NSSet
 {
+    public static T[] ToArray<T>(nint nativePtr) where T : NativeObject, INativeObject<T>
+    {
+        nint arrayPtr = ObjectiveC.MsgSendNInt(nativePtr, NSSetBindings.AllObjects);
+
+        return NSArray.ToArray<T>(arrayPtr);
+    }
+
     public static nint FromArray<T>(T[] array) where T : NativeObject
     {
         nint arrayPtr = NSArray.FromArray(array);
@@ -20,6 +27,8 @@ public static class NSSet
 file static class NSSetBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSSet");
+
+    public static readonly Selector AllObjects = "allObjects";
 
     public static readonly Selector InitWithArray = "initWithArray:";
 }
