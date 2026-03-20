@@ -357,16 +357,10 @@ partial class TypeMapper(GeneratorContext context)
             return name;
         }
 
-        // Strip leading underscores and split on '_' for snake_case (e.g. "_impl" → "Impl")
         if (name.Contains('_'))
         {
             string[] parts = name.Split('_', StringSplitOptions.RemoveEmptyEntries);
             return string.Concat(parts.Select(p => char.ToUpper(p[0]) + p[1..]));
-        }
-
-        if (name.Length == 1)
-        {
-            return char.ToUpper(name[0]).ToString();
         }
 
         return char.ToUpper(name[0]) + name[1..];
@@ -385,20 +379,9 @@ partial class TypeMapper(GeneratorContext context)
             name = corrected;
         }
 
-        // Convert snake_case (e.g. "task_id_token") → camelCase ("taskIdToken")
-        if (name.Contains('_'))
-        {
-            string[] parts = name.Split('_', StringSplitOptions.RemoveEmptyEntries);
-            return char.ToLower(parts[0][0]) + parts[0][1..]
-                + string.Concat(parts.Skip(1).Select(p => char.ToUpper(p[0]) + p[1..]));
-        }
+        string pascal = ToPascalCase(name);
 
-        if (name.Length == 1)
-        {
-            return char.ToLower(name[0]).ToString();
-        }
-
-        return char.ToLower(name[0]) + name[1..];
+        return char.ToLower(pascal[0]) + pascal[1..];
     }
 
     /// <summary>Prefixes <paramref name="name"/> with <c>@</c> if it collides with a C# reserved word.</summary>
