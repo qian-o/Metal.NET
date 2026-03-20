@@ -11,16 +11,31 @@ public class MTLFunctionStitchingInputNode(nint nativePtr, NativeObjectOwnership
     }
     #endregion
 
+    public MTLFunctionStitchingInputNode() : this(ObjectiveC.AllocInit(MTLFunctionStitchingInputNodeBindings.Class), NativeObjectOwnership.Managed)
+    {
+    }
+
     public nuint ArgumentIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeBindings.ArgumentIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingInputNodeBindings.SetArgumentIndex, value);
     }
+
+    public static MTLFunctionStitchingInputNode InitWithArgumentIndex(nuint argument)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLFunctionStitchingInputNodeBindings.Class), MTLFunctionStitchingInputNodeBindings.InitWithArgumentIndex, argument);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
 }
 
 file static class MTLFunctionStitchingInputNodeBindings
 {
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionStitchingInputNode");
+
     public static readonly Selector ArgumentIndex = "argumentIndex";
+
+    public static readonly Selector InitWithArgumentIndex = "initWithArgumentIndex:";
 
     public static readonly Selector SetArgumentIndex = "setArgumentIndex:";
 }

@@ -13,7 +13,7 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
 
     public bool SerializeAsArchiveAndFlush(NSURL url, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsArchiveAndFlushToURLError, url.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsArchiveAndFlushToURL_Error, url.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -32,7 +32,7 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
 
 file static class MTL4PipelineDataSetSerializerBindings
 {
-    public static readonly Selector SerializeAsArchiveAndFlushToURLError = "serializeAsArchiveAndFlushToURL:error:";
+    public static readonly Selector SerializeAsArchiveAndFlushToURL_Error = "serializeAsArchiveAndFlushToURL:error:";
 
     public static readonly Selector SerializeAsPipelinesScriptWithError = "serializeAsPipelinesScriptWithError:";
 }

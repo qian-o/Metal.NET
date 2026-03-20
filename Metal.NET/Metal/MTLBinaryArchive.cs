@@ -24,7 +24,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctionsWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -33,7 +33,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctionsWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -42,7 +42,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctionsWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -51,7 +51,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctionsWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -60,7 +60,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibraryWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibraryWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -69,7 +69,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool Serialize(NSURL url, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURLError, url.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL_Error, url.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -78,7 +78,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
     public bool AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunctionWithDescriptorLibraryError, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunctionWithDescriptor_Library_Error, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -88,23 +88,23 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
 
 file static class MTLBinaryArchiveBindings
 {
-    public static readonly Selector AddComputePipelineFunctionsWithDescriptorError = "addComputePipelineFunctionsWithDescriptor:error:";
+    public static readonly Selector AddComputePipelineFunctionsWithDescriptor_Error = "addComputePipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddFunctionWithDescriptorLibraryError = "addFunctionWithDescriptor:library:error:";
+    public static readonly Selector AddFunctionWithDescriptor_Library_Error = "addFunctionWithDescriptor:library:error:";
 
-    public static readonly Selector AddLibraryWithDescriptorError = "addLibraryWithDescriptor:error:";
+    public static readonly Selector AddLibraryWithDescriptor_Error = "addLibraryWithDescriptor:error:";
 
-    public static readonly Selector AddMeshRenderPipelineFunctionsWithDescriptorError = "addMeshRenderPipelineFunctionsWithDescriptor:error:";
+    public static readonly Selector AddMeshRenderPipelineFunctionsWithDescriptor_Error = "addMeshRenderPipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddRenderPipelineFunctionsWithDescriptorError = "addRenderPipelineFunctionsWithDescriptor:error:";
+    public static readonly Selector AddRenderPipelineFunctionsWithDescriptor_Error = "addRenderPipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddTileRenderPipelineFunctionsWithDescriptorError = "addTileRenderPipelineFunctionsWithDescriptor:error:";
+    public static readonly Selector AddTileRenderPipelineFunctionsWithDescriptor_Error = "addTileRenderPipelineFunctionsWithDescriptor:error:";
 
     public static readonly Selector Device = "device";
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector SerializeToURLError = "serializeToURL:error:";
+    public static readonly Selector SerializeToURL_Error = "serializeToURL:error:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

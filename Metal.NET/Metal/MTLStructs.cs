@@ -39,9 +39,9 @@ public struct MTLSamplePosition(float x, float y)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLResourceID(ulong _impl)
+public struct MTLResourceID(ulong impl)
 {
-    public ulong _impl = _impl;
+    public ulong Impl = impl;
 }
 
 [StructLayout(LayoutKind.Sequential)]

@@ -1,8 +1,5 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-/// <summary>
-/// An object that represents the location of a resource, such as an item on a remote server or the path to a local file.
-/// </summary>
 public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSURL>
 {
     #region INativeObject
@@ -14,24 +11,17 @@ public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NSObject(n
     }
     #endregion
 
-    public nint FileSystemRepresentation
-    {
-        get => ObjectiveC.MsgSendNInt(NativePtr, NSURLBindings.FileSystemRepresentation);
-    }
-
     public static implicit operator NSURL(NSString value)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath, value.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLInteropBindings.Class), NSURLInteropBindings.InitFileURLWithPath, value.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }
 }
 
-file static class NSURLBindings
+file static class NSURLInteropBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSURL");
-
-    public static readonly Selector FileSystemRepresentation = "fileSystemRepresentation";
 
     public static readonly Selector InitFileURLWithPath = "initFileURLWithPath:";
 }

@@ -3,14 +3,14 @@
 /// <summary>
 /// Emits C# source files from parsed metal-ast.json definitions.
 /// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
-/// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
+/// Also auto-generates Interop/ObjectiveC.cs with all required MsgSend overloads.
 /// </summary>
 partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
     /// <summary>Shared UTF-8 encoding with BOM for all generated files.</summary>
     static readonly Encoding Utf8Bom = new UTF8Encoding(true);
 
-    /// <summary>Hand-written structs to skip during generation (located in Common/Structs.cs).</summary>
+    /// <summary>Hand-written structs to skip during generation (located in Simd/).</summary>
     static readonly HashSet<string> SkipStructs =
     [
         "CGSize",
@@ -90,7 +90,7 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
     /// Tries to resolve the element type for an NSArray property or method.
     /// Returns null if no mapping is found.
     /// </summary>
-    static string? TryResolveNSArrayElementType(string className, string propertyName)
+    string? TryResolveNSArrayElementType(string className, string propertyName)
     {
         if (NSArrayElementTypes.TryGetValue((className, propertyName), out string? elementType))
         {
@@ -103,6 +103,12 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
             {
                 return elemType;
             }
+        }
+
+        // Fallback: check element types extracted from AST generics by the parser
+        if (context.NSArrayReturnTypes.TryGetValue((className, propertyName), out string? astElemType))
+        {
+            return astElemType;
         }
 
         return null;
@@ -175,6 +181,11 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         }
         context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
 
+        // Register hand-written Foundation enums (not in AST)
+        context.EnumBackingTypes.TryAdd("NSComparisonResult", "long");
+        context.EnumBackingTypes.TryAdd("NSStringCompareOptions", "ulong");
+        context.EnumBackingTypes.TryAdd("NSStringEncoding", "ulong");
+
         // Pre-build a HashSet of known delegate names for O(1) lookup
         HashSet<string> knownDelegateNames = [.. context.BlockTypeAliases.Select(b => b.CsDelegateName)];
 
@@ -218,32 +229,35 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
             .GroupBy(f => f.TargetClassName)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-        // Record MsgSend signatures used by hand-written Foundation classes
-        // (NSObject, NSString, NSArray, NSData, etc.) which are not auto-generated
-        // but still need matching ObjectiveC.MsgSend* overloads in ObjectiveC.cs.
+        // Record MsgSend signatures used by hand-written classes
+        // (NSObject, NSString, NSArray, NSData, CAMetalLayer, etc.) which are not
+        // auto-generated but still need matching ObjectiveC.MsgSend* overloads.
+        RecordMsgSend("MsgSend");
+        RecordMsgSend("MsgSend", "CGSize");
         RecordMsgSend("MsgSend", "nint");
 
+        RecordMsgSend("MsgSendBool");
+        RecordMsgSend("MsgSendCGSize");
+        RecordMsgSend("MsgSendDouble");
+        RecordMsgSend("MsgSendFloat");
+        RecordMsgSend("MsgSendInt");
+        RecordMsgSend("MsgSendLong");
+
         RecordMsgSend("MsgSendNInt");
+        RecordMsgSend("MsgSendNInt", "Bool8");
+        RecordMsgSend("MsgSendNInt", "double");
+        RecordMsgSend("MsgSendNInt", "float");
+        RecordMsgSend("MsgSendNInt", "int");
+        RecordMsgSend("MsgSendNInt", "long");
         RecordMsgSend("MsgSendNInt", "nint");
         RecordMsgSend("MsgSendNInt", "nint", "nint");
-        RecordMsgSend("MsgSendNInt", "Bool8");
-        RecordMsgSend("MsgSendNInt", "float");
-        RecordMsgSend("MsgSendNInt", "double");
-        RecordMsgSend("MsgSendNInt", "int");
-        RecordMsgSend("MsgSendNInt", "uint");
-        RecordMsgSend("MsgSendNInt", "long");
-        RecordMsgSend("MsgSendNInt", "ulong");
         RecordMsgSend("MsgSendNInt", "nuint");
+        RecordMsgSend("MsgSendNInt", "uint");
+        RecordMsgSend("MsgSendNInt", "ulong");
 
-        RecordMsgSend("MsgSendBool");
-        RecordMsgSend("MsgSendFloat");
-        RecordMsgSend("MsgSendDouble");
-        RecordMsgSend("MsgSendInt");
-        RecordMsgSend("MsgSendUInt");
-        RecordMsgSend("MsgSendLong");
-        RecordMsgSend("MsgSendULong");
         RecordMsgSend("MsgSendNUInt");
-        RecordMsgSend("MsgSend");
+        RecordMsgSend("MsgSendUInt");
+        RecordMsgSend("MsgSendULong");
 
         foreach (ClassDef classDef in context.Classes)
         {

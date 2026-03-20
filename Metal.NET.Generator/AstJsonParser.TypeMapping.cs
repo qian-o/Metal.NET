@@ -14,11 +14,18 @@ partial class AstJsonParser
     {
         string t = StripNullability(objcType).Trim();
 
+        // T *const * → OBJ_ARRAY:T (C-style array of object pointers)
+        if (t.Contains("*const") && t.EndsWith('*'))
+        {
+            string elem = t.Replace("*const", "").TrimEnd('*', ' ').Trim();
+            return $"{ParamDef.ObjArray}{elem}";
+        }
+
         // id<Protocol> const * → OBJ_ARRAY:Protocol (pointer to array of protocol objects)
         Match idConstPtrMatch = IdProtocolConstPointerRegex().Match(t);
         if (idConstPtrMatch.Success)
         {
-            return $"OBJ_ARRAY:{idConstPtrMatch.Groups[1].Value}";
+            return $"{ParamDef.ObjArray}{idConstPtrMatch.Groups[1].Value}";
         }
 
         // id<Protocol> → Protocol*
@@ -37,6 +44,11 @@ partial class AstJsonParser
         if (t is "NSDictionary" || t.StartsWith("NSDictionary<") || t.StartsWith("NSDictionary *"))
         {
             return "NSDictionary*";
+        }
+
+        if (t is "NSSet" || t.StartsWith("NSSet<") || t.StartsWith("NSSet *"))
+        {
+            return "NSSet*";
         }
 
         // Well-known exact-match types → switch expression
@@ -59,6 +71,12 @@ partial class AstJsonParser
             "MTLGPUAddress" => "NS::UInteger",
             "MTLCoordinate2D" => "MTL::Coordinate2D*",
             "const char *" or "char *" => "char*",
+            "unichar" => "ushort",
+            "NSStringEncoding" => "NSStringEncoding",
+            "NSComparisonResult" => "NSComparisonResult",
+            "NSStringCompareOptions" => "NSStringCompareOptions",
+            "const void *" or "void *" => "nint",
+            "const unichar *" or "unichar *" => "nint",
             _ => null
         };
         if (exactMatch is not null)
@@ -80,14 +98,15 @@ partial class AstJsonParser
             if (inlineBlockMatch.Success &&
                 InlineBlockDelegateNames.TryGetValue(inlineBlockMatch.Groups[1].Value.Trim(), out string? delegateName))
             {
-                return $"INLINE_BLOCK:{delegateName}";
+                return $"{ParamDef.InlineBlock}{delegateName}";
             }
-            return "INLINE_BLOCK:UNKNOWN_BLOCK";
+            return $"{ParamDef.InlineBlock}UNKNOWN_BLOCK";
         }
 
         // C primitive types — pass through as-is
         if (t is "uint32_t" or "int32_t" or "uint8_t" or "int8_t" or "uint16_t" or "int16_t"
-                or "uint64_t" or "int64_t" or "float" or "double" or "void")
+                or "uint64_t" or "int64_t" or "float" or "double" or "void"
+                or "kern_return_t" or "task_id_token_t")
         {
             return t;
         }
@@ -118,6 +137,77 @@ partial class AstJsonParser
     }
 
     /// <summary>
+    /// Extracts the element type from an ObjC <c>NSArray&lt;...&gt;</c> type string.
+    /// Returns a model type string (e.g., "MTLFunctionStitchingNode*") or <see langword="null"/>
+    /// if the element type cannot be resolved.
+    /// </summary>
+    static string? ExtractNSArrayElementType(string objcType)
+    {
+        string t = StripNullability(objcType).Trim();
+
+        // Match NSArray<ElementType *> or NSArray<id<Protocol>>
+        int start = t.IndexOf('<');
+        int end = t.LastIndexOf('>');
+        if (start < 0 || end <= start)
+        {
+            return null;
+        }
+
+        string inner = t[(start + 1)..end].Trim();
+
+        // id<Protocol> → Protocol*
+        if (inner.StartsWith("id<") && inner.EndsWith(">"))
+        {
+            string protocol = inner[3..^1];
+            if (protocol.Contains("ObjectType") || protocol.Contains("KeyType"))
+            {
+                return null;
+            }
+
+            // Skipped protocols (e.g., NSCopying) → treat as NSObject
+            if (SkipProtocols.Contains(protocol))
+            {
+                return "NSObject*";
+            }
+
+            return protocol + "*";
+        }
+
+        // ElementType * → ElementType*
+        if (inner.EndsWith(" *") || inner.EndsWith("*"))
+        {
+            string elem = inner.TrimEnd(' ', '*').Trim();
+            if (elem.Contains("ObjectType") || elem.Contains("KeyType"))
+            {
+                return null;
+            }
+
+            return elem + "*";
+        }
+
+        return null;
+    }
+
+    /// <summary>Exact-match ObjC types that cannot be mapped to C#.</summary>
+    static readonly HashSet<string> UnmappableExactTypes =
+    [
+        "IMP", "SEL", "FourCharCode", "id *", "NSStringEncodingConversionOptions"
+    ];
+
+    /// <summary>Substring patterns that mark an ObjC type as unmappable.</summary>
+    static readonly string[] UnmappablePatterns =
+    [
+        "NS::Process", "NS::Observer", "NSProcess", "NSObserver",
+        "ObjectType", "KeyType", "NS_RETURNS_INNER_POINTER",
+        "NSStringEncoding *", "NSCoder", "MTLIOCompressionContext", "va_list",
+        "NSDate", "NSLocale", "NSCharacterSet", "NSStringTransform",
+        "NSRangePointer", "NSURLBookmark", "NSURLHandle", "NSURLResourceKey",
+        "NSDataWritingOptions", "NSDataSearchOptions", "NSDataReadingOptions",
+        "NSDataBase64", "NSDataCompressionAlgorithm", "NSDecimal",
+        "NSLinguistic", "NSEnumerator", "NSErrorDomain",
+    ];
+
+    /// <summary>
     /// Returns <see langword="true"/> if an ObjC type from the AST cannot be mapped to C#
     /// and the containing method/property should be skipped.
     /// </summary>
@@ -125,25 +215,27 @@ partial class AstJsonParser
     {
         string t = StripNullability(objcType).Trim();
 
-        // Exact-match unmappable types
-        if (t is "Class" or "IMP" or "SEL" or "FourCharCode" or "id *")
+        if (UnmappableExactTypes.Contains(t))
         {
             return true;
         }
 
-        // Pattern-based exclusions
-        return t.StartsWith("NSSet<")
-            || t.Contains("NS::Process") || t.Contains("NS::Observer")
-            || t.Contains("NSProcess") || t.Contains("NSObserver")
-            || t.Contains("kern_return_t") || t.Contains("task_id_token_t")
-            || t.Contains("ObjectType")
-            || t.Contains("NS_RETURNS_INNER_POINTER")
-            || t.Contains("NSStringEncoding")
-            || t.Contains("*const ") || (t.Contains("const") && t.Contains("* _Nonnull *"))
-            || t.Contains("unichar")
-            || t.Contains("CAEDRMetadata")
-            || t.Contains("NSCoder")
-            || t.Contains("MTLIOCompressionContext");
+        // Structural exclusions: complex pointer patterns
+        if ((t.Contains("*const ") && !t.EndsWith('*'))
+            || (t.Contains("const") && t.Contains("* _Nonnull *") && !t.EndsWith('*')))
+        {
+            return true;
+        }
+
+        foreach (string pattern in UnmappablePatterns)
+        {
+            if (t.Contains(pattern))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion

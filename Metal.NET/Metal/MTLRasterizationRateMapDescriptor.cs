@@ -37,20 +37,6 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerCount);
     }
 
-    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize, screenSize);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSizeLayer, screenSize, layer.NativePtr);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
     public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerAtIndex, layerIndex);
@@ -60,7 +46,34 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
 
     public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLayerAtIndex, layer.NativePtr, layerIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLayer_AtIndex, layer.NativePtr, layerIndex);
+    }
+
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize, screenSize);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize_Layer, screenSize, layer.NativePtr);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public static unsafe MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, nuint layerCount, MTLRasterizationRateLayerDescriptor[] layers)
+    {
+        nint* pLayers = stackalloc nint[layers.Length];
+        for (int i = 0; i < layers.Length; i++)
+        {
+            pLayers[i] = layers[i].NativePtr;
+        }
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize_LayerCount_Layers, screenSize, layerCount, (nint)pLayers);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 
@@ -78,13 +91,15 @@ file static class MTLRasterizationRateMapDescriptorBindings
 
     public static readonly Selector RasterizationRateMapDescriptorWithScreenSize = "rasterizationRateMapDescriptorWithScreenSize:";
 
-    public static readonly Selector RasterizationRateMapDescriptorWithScreenSizeLayer = "rasterizationRateMapDescriptorWithScreenSize:layer:";
+    public static readonly Selector RasterizationRateMapDescriptorWithScreenSize_Layer = "rasterizationRateMapDescriptorWithScreenSize:layer:";
+
+    public static readonly Selector RasterizationRateMapDescriptorWithScreenSize_LayerCount_Layers = "rasterizationRateMapDescriptorWithScreenSize:layerCount:layers:";
 
     public static readonly Selector ScreenSize = "screenSize";
 
     public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetLayerAtIndex = "setLayer:atIndex:";
+    public static readonly Selector SetLayer_AtIndex = "setLayer:atIndex:";
 
     public static readonly Selector SetScreenSize = "setScreenSize:";
 }

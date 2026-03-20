@@ -13,7 +13,7 @@ partial class AstJsonParser
                 continue;
             }
 
-            if (proto.Framework is null or "CoreFoundation" or "CoreGraphics")
+            if (proto.Framework is null or "Foundation" or "CoreFoundation" or "CoreGraphics")
             {
                 continue;
             }
@@ -24,6 +24,9 @@ partial class AstJsonParser
 
     static void ParseClasses(AstRoot ast, GeneratorContext context)
     {
+        // Build a set of names already parsed from protocols to avoid overwriting
+        HashSet<string> protocolNames = new(context.Classes.Select(c => c.FullCsName));
+
         foreach (AstClass cls in ast.Classes)
         {
             if (SkipClasses.Contains(cls.Name))
@@ -31,7 +34,13 @@ partial class AstJsonParser
                 continue;
             }
 
-            if (cls.Framework is null or "CoreFoundation" or "CoreGraphics")
+            if (cls.Framework is null or "Foundation" or "CoreFoundation" or "CoreGraphics")
+            {
+                continue;
+            }
+
+            // Skip empty class stubs when a protocol with the same name was already parsed
+            if (protocolNames.Contains(cls.Name))
             {
                 continue;
             }
@@ -49,7 +58,8 @@ partial class AstJsonParser
 
         // Determine base class
         string? csBaseClassName = null;
-        if (!isProtocol && !string.IsNullOrEmpty(ast.Super) && ast.Super != "NSObject")
+        if (!isProtocol && !string.IsNullOrEmpty(ast.Super) && ast.Super != "NSObject"
+            && !SkipClasses.Contains(ast.Super))
         {
             csBaseClassName = ast.Super;
         }
@@ -105,8 +115,22 @@ partial class AstJsonParser
             string getterSelector = prop.Getter
                 ?? methodSelectorByName.GetValueOrDefault(prop.Name)
                 ?? prop.Name;
-            string getterName = SelectorToMethodName(getterSelector);
+            // Use the AST property name for the C# name (e.g. "gpuStartTime" → "GpuStartTime"),
+            // not the selector (which may differ in casing, e.g. "GPUStartTime").
+            string getterName = prop.Name;
             string returnType = MapObjCTypeForModel(propObjcType);
+
+            // For NSArray properties, register element type extracted from AST generics
+            if (returnType.StartsWith("NSArray"))
+            {
+                string? elemType = ExtractNSArrayElementType(propObjcType);
+                if (elemType != null)
+                {
+                    string csElemType = TypeMapper.MapType(elemType);
+                    string csPropName = TypeMapper.ToPascalCase(getterName);
+                    context.NSArrayReturnTypes.TryAdd((ast.Name, csPropName), csElemType);
+                }
+            }
 
             // Getter
             propertySelectors.Add(getterSelector);
@@ -178,12 +202,25 @@ partial class AstJsonParser
                 : SelectorToMethodName(selector);
 
             // Skip methods whose name clashes with a property (e.g., GPUStartTime vs gpuStartTime)
-            if (propertyNames.Contains(name))
+            // But allow overloads that have parameters (different selector, e.g., sparseTileSizeInBytesForSparsePageSize:)
+            if (propertyNames.Contains(name) && astMethod.Parameters.Count == 0)
             {
                 continue;
             }
 
+            // Disambiguate: method with params whose name clashes with a property → prefix with "Get"
+            if (propertyNames.Contains(name) && astMethod.Parameters.Count > 0)
+            {
+                name = "get" + name[0..1].ToUpperInvariant() + name[1..];
+            }
+
             if (SkipMethods.Contains(name))
+            {
+                continue;
+            }
+
+            // Skip init methods with parameters — handled separately as constructors
+            if (astMethod.Selector.StartsWith("init") && !astMethod.IsClassMethod && astMethod.Parameters.Count > 0)
             {
                 continue;
             }
@@ -196,34 +233,23 @@ partial class AstJsonParser
                 continue;
             }
 
-            // Skip methods that return NSArray (can only be used as properties)
+            // For NSArray-returning methods, try to extract the element type from AST generics.
+            // If resolved, register it in the context so the emitter can look it up.
             if (returnType.StartsWith("NSArray"))
             {
-                continue;
+                string? elemType = ExtractNSArrayElementType(astMethod.ReturnType);
+                if (elemType == null)
+                {
+                    continue;
+                }
+
+                string csElemType = TypeMapper.MapType(elemType);
+                string csMethodName = TypeMapper.ToPascalCase(name);
+                context.NSArrayReturnTypes.TryAdd((ast.Name, csMethodName), csElemType);
             }
 
             // Parse parameters
-            List<ParamDef> parameters = [];
-            bool skipMethod = false;
-            foreach (AstParam p in astMethod.Parameters)
-            {
-                if (IsUnmappableObjCType(p.Type))
-                {
-                    skipMethod = true;
-                    break;
-                }
-
-                string paramType = MapObjCTypeForModel(p.Type);
-
-                // Skip methods with NSArray/NSDictionary parameters (static class, can't be used as params)
-                if (paramType.StartsWith("NSArray") || paramType.StartsWith("NSDictionary"))
-                {
-                    skipMethod = true;
-                    break;
-                }
-
-                parameters.Add(new ParamDef(paramType, p.Name));
-            }
+            var (parameters, skipMethod) = ParseMethodParameters(astMethod.Parameters, skipUnresolvedCollections: true);
 
             if (skipMethod)
             {
@@ -248,6 +274,56 @@ partial class AstJsonParser
             });
         }
 
+        // Parse init methods (parameterized constructors)
+        foreach (AstMethod astMethod in ast.Methods)
+        {
+            // Only instance methods whose selector starts with "init" and have parameters
+            if (astMethod.IsClassMethod || !astMethod.Selector.StartsWith("init") || astMethod.Parameters.Count == 0)
+            {
+                continue;
+            }
+
+            // Skip selectors already explicitly excluded (e.g., initWithCoder:)
+            if (SkipSelectors.Contains(astMethod.Selector))
+            {
+                continue;
+            }
+
+            // Parse parameters — skip if any are unmappable
+            var (parameters, skipMethod) = ParseMethodParameters(astMethod.Parameters, skipUnresolvedCollections: false);
+
+            if (skipMethod)
+            {
+                continue;
+            }
+
+            // Post-process array param pairs
+            DetectArrayParamPairs(parameters);
+
+            string initName = astMethod.Name != "init"
+                ? astMethod.Name
+                : SelectorToMethodName(astMethod.Selector);
+
+            methods.Add(new MethodInfo
+            {
+                Name = initName,
+                ReturnType = "instancetype",
+                IsStatic = false,
+                IsConst = false,
+                Parameters = parameters,
+                UsesClassTarget = false,
+                Selector = astMethod.Selector,
+                IsInit = true,
+                DeprecationMessage = astMethod.Deprecated ? astMethod.DeprecationMessage : null,
+            });
+        }
+
+        // If class has init methods, it needs AllocInit capability (Class field)
+        if (methods.Any(m => m.IsInit))
+        {
+            hasAllocInit = true;
+        }
+
         context.Classes.Add(new ClassDef
         {
             Namespace = ns,
@@ -258,6 +334,59 @@ partial class AstJsonParser
             Deprecated = ast.Deprecated,
             DeprecationMessage = ast.Deprecated ? ast.DeprecationMessage : null,
         });
+    }
+
+    #endregion
+
+    #region Parameter Parsing
+
+    /// <summary>
+    /// Parses ObjC AST parameters into <see cref="ParamDef"/> list, resolving NSArray/NSSet generics.
+    /// When <paramref name="skipUnresolvedCollections"/> is <see langword="true"/>, methods with
+    /// unresolved <c>NSArray*</c> or <c>NSDictionary*</c> params are skipped (explicit methods);
+    /// init methods pass <see langword="false"/> since they allow raw collection params.
+    /// </summary>
+    static (List<ParamDef> Parameters, bool Skip) ParseMethodParameters(List<AstParam> astParams, bool skipUnresolvedCollections)
+    {
+        List<ParamDef> parameters = [];
+        foreach (AstParam p in astParams)
+        {
+            if (IsUnmappableObjCType(p.Type))
+            {
+                return ([], true);
+            }
+
+            string paramType = MapObjCTypeForModel(p.Type);
+
+            // For NSArray params, try to extract generic element type for typed array support
+            if (paramType == "NSArray*")
+            {
+                string? elemType = ExtractNSArrayElementType(p.Type);
+                if (elemType != null)
+                {
+                    paramType = $"{ParamDef.NsArrayParam}{elemType}";
+                }
+            }
+
+            // For NSSet params, try to extract generic element type for typed array support
+            if (paramType == "NSSet*")
+            {
+                string? elemType = ExtractNSArrayElementType(p.Type);
+                if (elemType != null)
+                {
+                    paramType = $"{ParamDef.NsSetParam}{elemType}";
+                }
+            }
+
+            // Skip methods with unresolved NSArray/NSDictionary parameters
+            if (skipUnresolvedCollections && paramType is "NSArray*" or "NSDictionary*")
+            {
+                return ([], true);
+            }
+
+            parameters.Add(new ParamDef(paramType, p.Name));
+        }
+        return (parameters, false);
     }
 
     #endregion
@@ -282,9 +411,9 @@ partial class AstJsonParser
             ParamDef next = parameters[i + 1];
 
             // Already tagged as an array by type mapping
-            if (current.Type.StartsWith("OBJ_ARRAY:") ||
-                current.Type.StartsWith("STRUCT_ARRAY:") ||
-                current.Type.StartsWith("PRIM_ARRAY:"))
+            if (current.Type.StartsWith(ParamDef.ObjArray) ||
+                current.Type.StartsWith(ParamDef.StructArray) ||
+                current.Type.StartsWith(ParamDef.PrimArray))
             {
                 continue;
             }
@@ -300,16 +429,77 @@ partial class AstJsonParser
             if (type.StartsWith("const ") && type.EndsWith('*'))
             {
                 string elemType = type["const ".Length..];
-                parameters[i] = new ParamDef($"STRUCT_ARRAY:{elemType}", current.Name);
-                parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
+                parameters[i] = new ParamDef($"{ParamDef.StructArray}{elemType}", current.Name);
+                parameters[i + 1] = new ParamDef(ParamDef.ArrayParam, next.Name);
             }
             else if (type.EndsWith('*') && TypeMapper.StructTypes.Contains(type.TrimEnd('*')))
             {
-                parameters[i] = new ParamDef($"STRUCT_ARRAY:{type}", current.Name);
-                parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
+                parameters[i] = new ParamDef($"{ParamDef.StructArray}{type}", current.Name);
+                parameters[i + 1] = new ParamDef(ParamDef.ArrayParam, next.Name);
+            }
+        }
+
+        // Range-terminated arrays: if the last parameter is NSRange, tag untagged
+        // pointer parameters as PRIM_ARRAY so the emitter can marshal them correctly.
+        // E.g., setVertexBuffers:offsets:withRange: has (OBJ_ARRAY:MTLBuffer, const NSUInteger*, NSRange).
+        if (parameters.Count >= 2 && parameters[^1].Type is "NSRange")
+        {
+            for (int i = 0; i < parameters.Count - 1; i++)
+            {
+                ParamDef current = parameters[i];
+
+                // Already tagged
+                if (current.Type.StartsWith(ParamDef.ObjArray) ||
+                    current.Type.StartsWith(ParamDef.StructArray) ||
+                    current.Type.StartsWith(ParamDef.PrimArray))
+                {
+                    continue;
+                }
+
+                string type = current.Type;
+
+                // const X* → PRIM_ARRAY:csType
+                if (type.StartsWith("const ") && type.EndsWith('*'))
+                {
+                    string elemModel = type["const ".Length..].TrimEnd('*').Trim();
+                    string csElem = MapPrimElemType(elemModel);
+                    parameters[i] = new ParamDef($"{ParamDef.PrimArray}{csElem}", current.Name);
+                }
+                // X* where X is a C primitive → PRIM_ARRAY:csType
+                else if (type.EndsWith('*'))
+                {
+                    string elemModel = type.TrimEnd('*').Trim();
+                    if (PrimElemTypes.ContainsKey(elemModel))
+                    {
+                        parameters[i] = new ParamDef($"{ParamDef.PrimArray}{MapPrimElemType(elemModel)}", current.Name);
+                    }
+                }
             }
         }
     }
+
+    /// <summary>Known model-type → C# type mappings for primitive array elements.</summary>
+    static readonly Dictionary<string, string> PrimElemTypes = new(StringComparer.Ordinal)
+    {
+        ["NSUInteger"] = "nuint",
+        ["NS::UInteger"] = "nuint",
+        ["NSInteger"] = "nint",
+        ["NS::Integer"] = "nint",
+        ["float"] = "float",
+        ["double"] = "double",
+        ["uint32_t"] = "uint",
+        ["int32_t"] = "int",
+        ["uint64_t"] = "ulong",
+        ["int64_t"] = "long",
+        ["uint16_t"] = "ushort",
+        ["int16_t"] = "short",
+        ["uint8_t"] = "byte",
+        ["int8_t"] = "sbyte",
+    };
+
+    /// <summary>Maps a model element type to a C# primitive type for PRIM_ARRAY tagging.</summary>
+    static string MapPrimElemType(string modelElemType) =>
+        PrimElemTypes.TryGetValue(modelElemType, out string? csType) ? csType : modelElemType;
 
     #endregion
 }

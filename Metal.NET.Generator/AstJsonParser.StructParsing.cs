@@ -14,9 +14,9 @@ partial class AstJsonParser
             }
 
             string ns = InferNamespaceFromName(astStruct.Name);
-            if (ns.Length == 0)
+            if (ns is "" or "NS")
             {
-                // Structs without a known prefix (like CGSize) are skipped
+                // Structs without a known prefix or Foundation structs are skipped
                 continue;
             }
 

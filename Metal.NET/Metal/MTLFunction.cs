@@ -75,7 +75,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
     [Obsolete("Use MTLDevice's newArgumentEncoderWithBufferBinding: instead")]
     public MTLArgumentEncoder MakeArgumentEncoder(nuint bufferIndex, out MTLArgument reflection)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoderWithBufferIndexReflection, bufferIndex, out nint reflectionPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoderWithBufferIndex_Reflection, bufferIndex, out nint reflectionPtr);
 
         reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
 
@@ -97,7 +97,7 @@ file static class MTLFunctionBindings
 
     public static readonly Selector NewArgumentEncoderWithBufferIndex = "newArgumentEncoderWithBufferIndex:";
 
-    public static readonly Selector NewArgumentEncoderWithBufferIndexReflection = "newArgumentEncoderWithBufferIndex:reflection:";
+    public static readonly Selector NewArgumentEncoderWithBufferIndex_Reflection = "newArgumentEncoderWithBufferIndex:reflection:";
 
     public static readonly Selector Options = "options";
 

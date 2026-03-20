@@ -18,62 +18,62 @@ public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership owne
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBufferOffsetAtIndex, buffer.NativePtr, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBuffer_Offset_AtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetFragmentBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFragmentBufferOffsetAtIndex, buffer.NativePtr, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFragmentBuffer_Offset_AtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, stride, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBuffer_Offset_AttributeStride_AtIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public void DrawPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawPatches_PatchStart_PatchCount_PatchIndexBuffer_PatchIndexBufferOffset_InstanceCount_BaseInstance_TessellationFactorBuffer_TessellationFactorBufferOffset_TessellationFactorBufferInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
     }
 
     public void DrawIndexedPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, nuint controlPointIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, controlPointIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawIndexedPatches_PatchStart_PatchCount_PatchIndexBuffer_PatchIndexBufferOffset_ControlPointIndexBuffer_ControlPointIndexBufferOffset_InstanceCount_BaseInstance_TessellationFactorBuffer_TessellationFactorBufferOffset_TessellationFactorBufferInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, controlPointIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawPrimitives_VertexStart_VertexCount_InstanceCount_BaseInstance, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawIndexedPrimitives_IndexCount_IndexType_IndexBuffer_IndexBufferOffset_InstanceCount_BaseVertex_BaseInstance, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
     }
 
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetObjectThreadgroupMemoryLengthAtIndex, length, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetObjectThreadgroupMemoryLength_AtIndex, length, index);
     }
 
     public void SetObjectBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetObjectBufferOffsetAtIndex, buffer.NativePtr, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetObjectBuffer_Offset_AtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetMeshBufferOffsetAtIndex, buffer.NativePtr, offset, index);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetMeshBuffer_Offset_AtIndex, buffer.NativePtr, offset, index);
     }
 
     public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawMeshThreadgroupsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup, threadgroupsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawMeshThreadgroups_ThreadsPerObjectThreadgroup_ThreadsPerMeshThreadgroup, threadgroupsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
     public void DrawMeshThreads(MTLSize threadsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawMeshThreadsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup, threadsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawMeshThreads_ThreadsPerObjectThreadgroup_ThreadsPerMeshThreadgroup, threadsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
     public void SetBarrier()
@@ -93,7 +93,7 @@ public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership owne
 
     public void SetDepthBias(float depthBias, float slopeScale, float clamp)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetDepthBiasSlopeScaleClamp, depthBias, slopeScale, clamp);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetDepthBias_SlopeScale_Clamp, depthBias, slopeScale, clamp);
     }
 
     public void SetDepthClipMode(MTLDepthClipMode depthClipMode)
@@ -126,17 +126,17 @@ file static class MTLIndirectRenderCommandBindings
 {
     public static readonly Selector ClearBarrier = "clearBarrier";
 
-    public static readonly Selector DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride = "drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:";
+    public static readonly Selector DrawIndexedPatches_PatchStart_PatchCount_PatchIndexBuffer_PatchIndexBufferOffset_ControlPointIndexBuffer_ControlPointIndexBufferOffset_InstanceCount_BaseInstance_TessellationFactorBuffer_TessellationFactorBufferOffset_TessellationFactorBufferInstanceStride = "drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:";
 
-    public static readonly Selector DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:";
+    public static readonly Selector DrawIndexedPrimitives_IndexCount_IndexType_IndexBuffer_IndexBufferOffset_InstanceCount_BaseVertex_BaseInstance = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:";
 
-    public static readonly Selector DrawMeshThreadgroupsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
+    public static readonly Selector DrawMeshThreadgroups_ThreadsPerObjectThreadgroup_ThreadsPerMeshThreadgroup = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawMeshThreadsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
+    public static readonly Selector DrawMeshThreads_ThreadsPerObjectThreadgroup_ThreadsPerMeshThreadgroup = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride = "drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:";
+    public static readonly Selector DrawPatches_PatchStart_PatchCount_PatchIndexBuffer_PatchIndexBufferOffset_InstanceCount_BaseInstance_TessellationFactorBuffer_TessellationFactorBufferOffset_TessellationFactorBufferInstanceStride = "drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:";
 
-    public static readonly Selector DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
+    public static readonly Selector DrawPrimitives_VertexStart_VertexCount_InstanceCount_BaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
 
     public static readonly Selector Reset = "reset";
 
@@ -144,27 +144,27 @@ file static class MTLIndirectRenderCommandBindings
 
     public static readonly Selector SetCullMode = "setCullMode:";
 
-    public static readonly Selector SetDepthBiasSlopeScaleClamp = "setDepthBias:slopeScale:clamp:";
+    public static readonly Selector SetDepthBias_SlopeScale_Clamp = "setDepthBias:slopeScale:clamp:";
 
     public static readonly Selector SetDepthClipMode = "setDepthClipMode:";
 
     public static readonly Selector SetDepthStencilState = "setDepthStencilState:";
 
-    public static readonly Selector SetFragmentBufferOffsetAtIndex = "setFragmentBuffer:offset:atIndex:";
+    public static readonly Selector SetFragmentBuffer_Offset_AtIndex = "setFragmentBuffer:offset:atIndex:";
 
     public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
 
-    public static readonly Selector SetMeshBufferOffsetAtIndex = "setMeshBuffer:offset:atIndex:";
+    public static readonly Selector SetMeshBuffer_Offset_AtIndex = "setMeshBuffer:offset:atIndex:";
 
-    public static readonly Selector SetObjectBufferOffsetAtIndex = "setObjectBuffer:offset:atIndex:";
+    public static readonly Selector SetObjectBuffer_Offset_AtIndex = "setObjectBuffer:offset:atIndex:";
 
-    public static readonly Selector SetObjectThreadgroupMemoryLengthAtIndex = "setObjectThreadgroupMemoryLength:atIndex:";
+    public static readonly Selector SetObjectThreadgroupMemoryLength_AtIndex = "setObjectThreadgroupMemoryLength:atIndex:";
 
     public static readonly Selector SetRenderPipelineState = "setRenderPipelineState:";
 
     public static readonly Selector SetTriangleFillMode = "setTriangleFillMode:";
 
-    public static readonly Selector SetVertexBufferOffsetAtIndex = "setVertexBuffer:offset:atIndex:";
+    public static readonly Selector SetVertexBuffer_Offset_AtIndex = "setVertexBuffer:offset:atIndex:";
 
-    public static readonly Selector SetVertexBufferOffsetAttributeStrideAtIndex = "setVertexBuffer:offset:attributeStride:atIndex:";
+    public static readonly Selector SetVertexBuffer_Offset_AttributeStride_AtIndex = "setVertexBuffer:offset:attributeStride:atIndex:";
 }

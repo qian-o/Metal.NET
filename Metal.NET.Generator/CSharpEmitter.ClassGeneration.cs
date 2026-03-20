@@ -21,15 +21,26 @@ partial class CSharpEmitter
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        bool hasClassField = classDef.HasAllocInit;
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
         List<MethodInfo> validMethods =
         [
-            .. classDef.Methods.Where(m => !HasUnmergableArrayParam(m)
+            .. classDef.Methods.Where(m => !m.IsInit
+                                            && !HasUnmergableArrayParam(m)
+                                            && !HasFunctionPointerParam(m, knownDelegateNames)
+                                            && !HasUnmappableParam(m)
+                                            && !m.ReturnType.Contains("UNKNOWN_BLOCK"))
+        ];
+
+        List<MethodInfo> initMethods =
+        [
+            .. classDef.Methods.Where(m => m.IsInit
                                             && !HasFunctionPointerParam(m, knownDelegateNames)
                                             && !HasUnmappableParam(m))
         ];
+
+        bool hasClassField = classDef.HasAllocInit
+            || validMethods.Any(m => m.IsStatic && m.UsesClassTarget);
 
         (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
 
@@ -84,7 +95,7 @@ partial class CSharpEmitter
         bool hasPrecedingMember = true;
 
         // Constructor
-        if (hasClassField)
+        if (classDef.HasAllocInit)
         {
             sb.AppendLine();
             sb.AppendLine($"    public {csClassName}() : this(ObjectiveC.AllocInit({csClassName}Bindings.Class), NativeObjectOwnership.Managed)");
@@ -149,9 +160,19 @@ partial class CSharpEmitter
             hasPrecedingMember = true;
         }
 
-        // === Methods (in JSON order, no grouping) ===
-        foreach (MethodInfo method in nonIndexerMethods)
+        // === Instance methods ===
+        HashSet<string> emittedMethodSignatures = [];
+        foreach (MethodInfo method in nonIndexerMethods.Where(m => !(m.IsStatic && m.UsesClassTarget)))
         {
+            string csName = TypeMapper.ToPascalCase(method.Name);
+            string methodSig = csName + "(" + string.Join(",", method.Parameters
+                .Where(p => p.Type != ParamDef.ArrayParam)
+                .Select(p => TypeMapper.MapType(p.Type))) + ")";
+            if (!emittedMethodSignatures.Add(methodSig))
+            {
+                continue;
+            }
+
             if (hasPrecedingMember)
             {
                 sb.AppendLine();
@@ -161,7 +182,54 @@ partial class CSharpEmitter
             hasPrecedingMember = true;
         }
 
-        // === Free functions ===
+        // === Static methods ===
+        foreach (MethodInfo method in nonIndexerMethods.Where(m => m.IsStatic && m.UsesClassTarget))
+        {
+            string csName = TypeMapper.ToPascalCase(method.Name);
+            string methodSig = csName + "(" + string.Join(",", method.Parameters
+                .Where(p => p.Type != ParamDef.ArrayParam)
+                .Select(p => TypeMapper.MapType(p.Type))) + ")";
+            if (!emittedMethodSignatures.Add(methodSig))
+            {
+                continue;
+            }
+
+            if (hasPrecedingMember)
+            {
+                sb.AppendLine();
+            }
+
+            EmitMethod(sb, method, csClassName, selectors, knownDelegateNames);
+            hasPrecedingMember = true;
+        }
+
+        // === Init static factory methods ===
+        HashSet<string> emittedInitSignatures = [];
+        foreach (MethodInfo initMethod in initMethods)
+        {
+            // Deduplicate by method name + parameter types
+            string selectorKey = BuildMethodNameFromSelector(initMethod.Selector!);
+            string csMethodName = TypeMapper.ToPascalCase(selectorKey);
+            string sig = csMethodName + "(" + string.Join(",", initMethod.Parameters
+                .Where(p => p.Type != ParamDef.ArrayParam)
+                .Select(p => p.Type.Contains("Error**") ? "out NSError"
+                    : p.Type.StartsWith(ParamDef.NsArrayParam) ? TypeMapper.MapType(p.Type[ParamDef.NsArrayParam.Length..]) + "[]"
+                    : TypeMapper.MapType(p.Type))) + ")";
+            if (!emittedInitSignatures.Add(sig))
+            {
+                continue;
+            }
+
+            if (hasPrecedingMember)
+            {
+                sb.AppendLine();
+            }
+
+            EmitInitStaticMethod(sb, initMethod, csClassName, selectors);
+            hasPrecedingMember = true;
+        }
+
+        // === Free function wrappers (public methods) ===
         foreach (FreeFunctionDef func in freeFunctions)
         {
             if (hasPrecedingMember)
@@ -169,8 +237,18 @@ partial class CSharpEmitter
                 sb.AppendLine();
             }
 
-            EmitFreeFunction(sb, func, csClassName);
+            EmitFreeFunctionWrapper(sb, func, csClassName);
             hasPrecedingMember = true;
+        }
+
+        // === Free function P/Invoke declarations (at bottom of class) ===
+        if (hasFreeFunctions)
+        {
+            foreach (FreeFunctionDef func in freeFunctions)
+            {
+                sb.AppendLine();
+                EmitFreeFunctionPInvoke(sb, func, csClassName);
+            }
         }
 
         sb.AppendLine("}");
@@ -256,7 +334,7 @@ partial class CSharpEmitter
 #pragma warning disable IDE0028 // Collection initialization can be simplified (requires custom comparer)
         HashSet<MethodInfo> used = new(ReferenceEqualityComparer.Instance);
 
-        Dictionary<string, MethodInfo> setterMap = new(StringComparer.Ordinal);
+        Dictionary<string, MethodInfo> setterMap = new(StringComparer.OrdinalIgnoreCase);
 #pragma warning restore IDE0028
         foreach (MethodInfo m in allMethods)
         {
@@ -332,9 +410,9 @@ partial class CSharpEmitter
     {
         return method.Parameters.Any(p =>
         {
-            if (p.Type.StartsWith("INLINE_BLOCK:"))
+            if (p.Type.StartsWith(ParamDef.InlineBlock))
             {
-                string delegateName = p.Type["INLINE_BLOCK:".Length..];
+                string delegateName = p.Type[ParamDef.InlineBlock.Length..];
                 return delegateName == "UNKNOWN_BLOCK";
             }
 
@@ -373,11 +451,12 @@ partial class CSharpEmitter
     {
         foreach (ParamDef p in method.Parameters)
         {
-            if (p.Type.StartsWith("OBJ_ARRAY:") ||
-                p.Type.StartsWith("PRIM_ARRAY:") ||
-                p.Type.StartsWith("STRUCT_ARRAY:") ||
-                p.Type.StartsWith("INLINE_BLOCK:") ||
-                p.Type == "ARRAY_PARAM")
+            if (p.Type.StartsWith(ParamDef.ObjArray) ||
+                p.Type.StartsWith(ParamDef.PrimArray) ||
+                p.Type.StartsWith(ParamDef.StructArray) ||
+                p.Type.StartsWith(ParamDef.InlineBlock) ||
+                p.Type.StartsWith(ParamDef.NsArrayParam) ||
+                p.Type == ParamDef.ArrayParam)
             {
                 continue;
             }
@@ -400,20 +479,29 @@ partial class CSharpEmitter
 
     /// <summary>
     /// Returns <see langword="true"/> if the method has an array parameter whose
-    /// next parameter is <b>not</b> a matching <c>count</c> parameter.
+    /// next parameter is <b>not</b> a matching <c>count</c> parameter and the method
+    /// does not use a range-terminator or preceding count pattern.
     /// </summary>
     static bool HasUnmergableArrayParam(MethodInfo method)
     {
         List<ParamDef> p = method.Parameters;
+
+        // If the last parameter is NSRange, treat all arrays as valid (bulk-set with range).
+        bool hasRangeTerminator = p.Count > 0 && p[^1].Type is "NSRange";
+
         for (int i = 0; i < p.Count; i++)
         {
-            if (p[i].Type.StartsWith("OBJ_ARRAY:") ||
-                p[i].Type.StartsWith("PRIM_ARRAY:") ||
-                p[i].Type.StartsWith("STRUCT_ARRAY:"))
+            if (p[i].Type.StartsWith(ParamDef.ObjArray) ||
+                p[i].Type.StartsWith(ParamDef.PrimArray) ||
+                p[i].Type.StartsWith(ParamDef.StructArray))
             {
                 bool nextIsCount = i + 1 < p.Count &&
-                    p[i + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
-                if (!nextIsCount)
+                    p[i + 1] is { Type: "NS::UInteger" or ParamDef.ArrayParam, Name: "count" };
+
+                // Also accept when a preceding NS::UInteger supplies the count (e.g., layerCount before layers).
+                bool prevIsCount = i > 0 && p[i - 1].Type is "NS::UInteger";
+
+                if (!nextIsCount && !hasRangeTerminator && !prevIsCount)
                 {
                     return true;
                 }

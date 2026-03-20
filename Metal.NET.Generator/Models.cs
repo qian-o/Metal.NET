@@ -14,7 +14,17 @@ record FreeFunctionDef(string CEntryPoint, string ReturnType, string Name, List<
 /// <para><c>Type</c> may contain special prefixes:
 /// <c>OBJ_ARRAY:</c>, <c>STRUCT_ARRAY:</c>, <c>PRIM_ARRAY:</c>, or <c>INLINE_BLOCK:</c>.</para>
 /// </summary>
-record ParamDef(string Type, string Name);
+record ParamDef(string Type, string Name)
+{
+    // Tagged-type prefixes used between parser and emitter
+    internal const string ObjArray = "OBJ_ARRAY:";
+    internal const string StructArray = "STRUCT_ARRAY:";
+    internal const string PrimArray = "PRIM_ARRAY:";
+    internal const string NsArrayParam = "NSARRAY_PARAM:";
+    internal const string NsSetParam = "NSSET_PARAM:";
+    internal const string InlineBlock = "INLINE_BLOCK:";
+    internal const string ArrayParam = "ARRAY_PARAM";
+}
 
 /// <summary>A property defined by a getter and optional setter method pair.</summary>
 record PropertyDef(MethodInfo Getter, MethodInfo? Setter);
@@ -76,6 +86,9 @@ class MethodInfo
 
     /// <summary>Whether this method was parsed from the JSON <c>properties</c> array (as a getter or setter).</summary>
     public bool IsPropertyAccessor { get; set; }
+
+    /// <summary>Whether this is an <c>init</c> method (parameterized constructor).</summary>
+    public bool IsInit { get; set; }
 
     /// <summary>Deprecation message if the method is deprecated, otherwise <c>null</c>.</summary>
     public string? DeprecationMessage { get; set; }

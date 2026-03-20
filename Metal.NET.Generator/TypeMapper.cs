@@ -77,8 +77,13 @@ partial class TypeMapper(GeneratorContext context)
     {
         string t = objcType.Trim();
 
-        // Remove const and class keywords
-        t = t.Replace("const ", "").Replace("class ", "").Trim();
+        // Remove const, class keywords, ObjC annotations and nullability specifiers
+        t = t.Replace("const ", "").Replace("class ", "")
+             .Replace("NS_RETURNS_INNER_POINTER ", "")
+             .Replace(" _Nonnull", "").Replace(" _Nullable", "")
+             .Replace("_Nonnull ", "").Replace("_Nullable ", "")
+             .Replace("_Nonnull", "").Replace("_Nullable", "")
+             .Trim();
 
         bool isPointer = t.EndsWith('*');
         bool isDoublePointer = t.EndsWith("**");
@@ -114,19 +119,43 @@ partial class TypeMapper(GeneratorContext context)
             "NSInteger" => "nint",
             "uint32_t" => "uint",
             "int32_t" => "int",
+            "kern_return_t" => "int",
+            "task_id_token_t" => "uint",
             "uint8_t" => "byte",
             "int8_t" => "sbyte",
             "uint16_t" => "ushort",
             "int16_t" => "short",
             "uint64_t" or "std::uint64_t" => "ulong",
             "int64_t" or "std::int64_t" => "long",
+            "long long" => "long",
+            "unsigned long long" => "ulong",
+            "unsigned int" => "uint",
+            "unsigned long" => "nuint",
+            "unsigned short" => "ushort",
+            "unsigned char" => "byte",
+            "short" => "short",
+            "long" => "nint",
+            "unichar" => "ushort",
+            "OSType" => "uint",
+            "NSStringEncoding" when isPointer => "nint",
+            "NSStringEncoding" => "NSStringEncoding",
+            "NSComparisonResult" => "NSComparisonResult",
+            "NSStringCompareOptions" => "NSStringCompareOptions",
+            "NSErrorDomain" => "NSString",
+            "NSErrorUserInfoKey" => "NSString",
+            "NSURLResourceKey" => "NSString",
+            "NSDecimal" => "nint",
+            "Class" => "nint",
+            "id" => "nint",
             "float" => "float",
             "double" => "double",
             "bool" or "BOOL" => "bool",
             "char" when isPointer => "nint",
+            "char" => "sbyte",
             "IOSurfaceRef" => "nint",
             "dispatch_queue_t" => "DispatchQueue",
             "dispatch_data_t" => "DispatchData",
+            "NSSet" => "nint",
             "CGColorSpaceRef" => "CGColorSpace",
             "CFTimeInterval" => "double",
             "CGSize" => "CGSize",
@@ -232,7 +261,7 @@ partial class TypeMapper(GeneratorContext context)
         objcType.Contains('&') ||
         (objcType.Contains("* const") && !objcType.Contains("**")) ||
         objcType.Contains("NS::Process") || objcType.Contains("NS::Observer") ||
-        objcType.Contains("kern_return_t") || objcType.Contains("task_id_token_t");
+        false;
 
     #endregion
 
@@ -253,6 +282,11 @@ partial class TypeMapper(GeneratorContext context)
         "double" => "MsgSendDouble",
         _ => "MsgSendNInt"
     };
+
+    /// <summary>
+    /// Returns <see langword="true"/> if a narrowing cast is needed from the MsgSend return type to <paramref name="csType"/>.
+    /// </summary>
+    public static bool NeedsNarrowCast(string csType) => csType is "sbyte" or "byte" or "short" or "ushort";
 
     /// <summary>
     /// Returns the MsgSend call expression for reading an enum property, based on its backing type.
@@ -315,7 +349,7 @@ partial class TypeMapper(GeneratorContext context)
 
     #region Naming Helpers
 
-    /// <summary>Converts the first character of <paramref name="name"/> to uppercase (PascalCase).</summary>
+    /// <summary>Converts <paramref name="name"/> to PascalCase, handling underscore prefixes and snake_case.</summary>
     public static string ToPascalCase(string name)
     {
         if (string.IsNullOrEmpty(name))
@@ -323,15 +357,16 @@ partial class TypeMapper(GeneratorContext context)
             return name;
         }
 
-        if (name.Length == 1)
+        if (name.Contains('_'))
         {
-            return char.ToUpper(name[0]).ToString();
+            string[] parts = name.Split('_', StringSplitOptions.RemoveEmptyEntries);
+            return string.Concat(parts.Select(p => char.ToUpper(p[0]) + p[1..]));
         }
 
         return char.ToUpper(name[0]) + name[1..];
     }
 
-    /// <summary>Converts the first character of <paramref name="name"/> to lowercase (camelCase), applying known corrections.</summary>
+    /// <summary>Converts <paramref name="name"/> to camelCase, handling snake_case and applying known corrections.</summary>
     public static string ToCamelCase(string name)
     {
         if (string.IsNullOrEmpty(name))
@@ -344,12 +379,9 @@ partial class TypeMapper(GeneratorContext context)
             name = corrected;
         }
 
-        if (name.Length == 1)
-        {
-            return char.ToLower(name[0]).ToString();
-        }
+        string pascal = ToPascalCase(name);
 
-        return char.ToLower(name[0]) + name[1..];
+        return char.ToLower(pascal[0]) + pascal[1..];
     }
 
     /// <summary>Prefixes <paramref name="name"/> with <c>@</c> if it collides with a C# reserved word.</summary>

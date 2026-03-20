@@ -59,7 +59,7 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
             pAllocations[i] = allocations[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocationsCount, (nint)pAllocations, (nuint)allocations.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocations_Count, (nint)pAllocations, (nuint)allocations.Length);
     }
 
     public void RemoveAllocation(MTLAllocation allocation)
@@ -75,7 +75,7 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
             pAllocations[i] = allocations[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocationsCount, (nint)pAllocations, (nuint)allocations.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocations_Count, (nint)pAllocations, (nuint)allocations.Length);
     }
 
     public void RemoveAllAllocations()
@@ -98,7 +98,7 @@ file static class MTLResidencySetBindings
 {
     public static readonly Selector AddAllocation = "addAllocation:";
 
-    public static readonly Selector AddAllocationsCount = "addAllocations:count:";
+    public static readonly Selector AddAllocations_Count = "addAllocations:count:";
 
     public static readonly Selector AllAllocations = "allAllocations";
 
@@ -120,7 +120,7 @@ file static class MTLResidencySetBindings
 
     public static readonly Selector RemoveAllocation = "removeAllocation:";
 
-    public static readonly Selector RemoveAllocationsCount = "removeAllocations:count:";
+    public static readonly Selector RemoveAllocations_Count = "removeAllocations:count:";
 
     public static readonly Selector RequestResidency = "requestResidency";
 }

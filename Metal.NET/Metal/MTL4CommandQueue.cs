@@ -29,7 +29,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
             pCommandBuffers[i] = commandBuffers[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CommitCount, (nint)pCommandBuffers, (nuint)commandBuffers.Length);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit_Count, (nint)pCommandBuffers, (nuint)commandBuffers.Length);
     }
 
     public unsafe void Commit(MTL4CommandBuffer[] commandBuffers, MTL4CommitOptions options)
@@ -40,17 +40,17 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
             pCommandBuffers[i] = commandBuffers[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CommitCountOptions, (nint)pCommandBuffers, (nuint)commandBuffers.Length, options.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit_Count_Options, (nint)pCommandBuffers, (nuint)commandBuffers.Length, options.NativePtr);
     }
 
     public void SignalEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEventValue, @event.NativePtr, value);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent_Value, @event.NativePtr, value);
     }
 
     public void WaitForEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.WaitForEventValue, @event.NativePtr, value);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.WaitForEvent_Value, @event.NativePtr, value);
     }
 
     public void SignalDrawable(MTLDrawable drawable)
@@ -76,7 +76,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
             pResidencySets[i] = residencySets[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySetsCount, (nint)pResidencySets, (nuint)residencySets.Length);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
@@ -92,14 +92,14 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
             pResidencySets[i] = residencySets[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySetsCount, (nint)pResidencySets, (nuint)residencySets.Length);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public unsafe void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation[] operations)
     {
         fixed (MTL4UpdateSparseTextureMappingOperation* pOperations = operations)
         {
-            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateTextureMappingsHeapOperationsCount, texture.NativePtr, heap.NativePtr, (nint)pOperations, (nuint)operations.Length);
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateTextureMappings_Heap_Operations_Count, texture.NativePtr, heap.NativePtr, (nint)pOperations, (nuint)operations.Length);
         }
     }
 
@@ -107,7 +107,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
     {
         fixed (MTL4CopySparseTextureMappingOperation* pOperations = operations)
         {
-            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyTextureMappingsFromTextureToTextureOperationsCount, sourceTexture.NativePtr, destinationTexture.NativePtr, (nint)pOperations, (nuint)operations.Length);
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyTextureMappingsFromTexture_ToTexture_Operations_Count, sourceTexture.NativePtr, destinationTexture.NativePtr, (nint)pOperations, (nuint)operations.Length);
         }
     }
 
@@ -115,7 +115,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
     {
         fixed (MTL4UpdateSparseBufferMappingOperation* pOperations = operations)
         {
-            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateBufferMappingsHeapOperationsCount, buffer.NativePtr, heap.NativePtr, (nint)pOperations, (nuint)operations.Length);
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.UpdateBufferMappings_Heap_Operations_Count, buffer.NativePtr, heap.NativePtr, (nint)pOperations, (nuint)operations.Length);
         }
     }
 
@@ -123,7 +123,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
     {
         fixed (MTL4CopySparseBufferMappingOperation* pOperations = operations)
         {
-            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyBufferMappingsFromBufferToBufferOperationsCount, sourceBuffer.NativePtr, destinationBuffer.NativePtr, (nint)pOperations, (nuint)operations.Length);
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyBufferMappingsFromBuffer_ToBuffer_Operations_Count, sourceBuffer.NativePtr, destinationBuffer.NativePtr, (nint)pOperations, (nuint)operations.Length);
         }
     }
 }
@@ -132,15 +132,15 @@ file static class MTL4CommandQueueBindings
 {
     public static readonly Selector AddResidencySet = "addResidencySet:";
 
-    public static readonly Selector AddResidencySetsCount = "addResidencySets:count:";
+    public static readonly Selector AddResidencySets_Count = "addResidencySets:count:";
 
-    public static readonly Selector CommitCount = "commit:count:";
+    public static readonly Selector Commit_Count = "commit:count:";
 
-    public static readonly Selector CommitCountOptions = "commit:count:options:";
+    public static readonly Selector Commit_Count_Options = "commit:count:options:";
 
-    public static readonly Selector CopyBufferMappingsFromBufferToBufferOperationsCount = "copyBufferMappingsFromBuffer:toBuffer:operations:count:";
+    public static readonly Selector CopyBufferMappingsFromBuffer_ToBuffer_Operations_Count = "copyBufferMappingsFromBuffer:toBuffer:operations:count:";
 
-    public static readonly Selector CopyTextureMappingsFromTextureToTextureOperationsCount = "copyTextureMappingsFromTexture:toTexture:operations:count:";
+    public static readonly Selector CopyTextureMappingsFromTexture_ToTexture_Operations_Count = "copyTextureMappingsFromTexture:toTexture:operations:count:";
 
     public static readonly Selector Device = "device";
 
@@ -148,17 +148,17 @@ file static class MTL4CommandQueueBindings
 
     public static readonly Selector RemoveResidencySet = "removeResidencySet:";
 
-    public static readonly Selector RemoveResidencySetsCount = "removeResidencySets:count:";
+    public static readonly Selector RemoveResidencySets_Count = "removeResidencySets:count:";
 
     public static readonly Selector SignalDrawable = "signalDrawable:";
 
-    public static readonly Selector SignalEventValue = "signalEvent:value:";
+    public static readonly Selector SignalEvent_Value = "signalEvent:value:";
 
-    public static readonly Selector UpdateBufferMappingsHeapOperationsCount = "updateBufferMappings:heap:operations:count:";
+    public static readonly Selector UpdateBufferMappings_Heap_Operations_Count = "updateBufferMappings:heap:operations:count:";
 
-    public static readonly Selector UpdateTextureMappingsHeapOperationsCount = "updateTextureMappings:heap:operations:count:";
+    public static readonly Selector UpdateTextureMappings_Heap_Operations_Count = "updateTextureMappings:heap:operations:count:";
 
     public static readonly Selector WaitForDrawable = "waitForDrawable:";
 
-    public static readonly Selector WaitForEventValue = "waitForEvent:value:";
+    public static readonly Selector WaitForEvent_Value = "waitForEvent:value:";
 }

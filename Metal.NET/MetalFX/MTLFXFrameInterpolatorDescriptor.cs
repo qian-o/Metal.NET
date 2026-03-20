@@ -42,7 +42,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
     public MTLPixelFormat UiTextureFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.UiTextureFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetUiTextureFormat, (nuint)value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetUITextureFormat, (nuint)value);
     }
 
     public MTLFXFrameInterpolatableScaler Scaler
@@ -84,7 +84,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
 
     public MTL4FXFrameInterpolator MakeFrameInterpolator(MTLDevice device, MTL4Compiler compiler)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDeviceCompiler, device.NativePtr, compiler.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevice_Compiler, device.NativePtr, compiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -116,7 +116,7 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 
     public static readonly Selector NewFrameInterpolatorWithDevice = "newFrameInterpolatorWithDevice:";
 
-    public static readonly Selector NewFrameInterpolatorWithDeviceCompiler = "newFrameInterpolatorWithDevice:compiler:";
+    public static readonly Selector NewFrameInterpolatorWithDevice_Compiler = "newFrameInterpolatorWithDevice:compiler:";
 
     public static readonly Selector OutputHeight = "outputHeight";
 
@@ -144,7 +144,7 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 
     public static readonly Selector SetScaler = "setScaler:";
 
-    public static readonly Selector SetUiTextureFormat = "setUITextureFormat:";
+    public static readonly Selector SetUITextureFormat = "setUITextureFormat:";
 
     public static readonly Selector SupportsDevice = "supportsDevice:";
 

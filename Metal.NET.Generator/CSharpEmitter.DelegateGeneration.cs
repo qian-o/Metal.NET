@@ -91,21 +91,35 @@ partial class CSharpEmitter
     /// </summary>
     static string ResolveStrongType(BlockParam param)
     {
+        // Normalize: strip nullability annotations so both typedef and inline blocks behave consistently
+        string objcType = AstJsonParser.StripNullability(param.ObjCType).Trim();
+
         // Value types pass through directly
-        if (!param.ObjCType.TrimEnd().EndsWith('*'))
+        if (!objcType.EndsWith('*'))
         {
             return param.CsType;
         }
 
         // void* stays as nint (e.g., MTLDeallocator's pointer param)
-        string stripped = param.ObjCType.TrimEnd().TrimEnd('*').Trim();
+        string stripped = objcType.TrimEnd('*').Trim();
         if (stripped is "void" or "")
         {
             return "nint";
         }
 
-        // Use TypeMapper to resolve the strong type
-        return TypeMapper.MapType(param.ObjCType);
+        // Pointers to value types stay as nint (e.g., BOOL * stop flag)
+        if (stripped is "BOOL" or "bool" or "int" or "float" or "double"
+            or "char" or "short" or "long" or "unsigned" or "unichar"
+            or "uint8_t" or "uint16_t" or "uint32_t" or "uint64_t"
+            or "int8_t" or "int16_t" or "int32_t" or "int64_t"
+            or "size_t" or "NSUInteger" or "NSInteger"
+            || stripped.StartsWith("const "))
+        {
+            return "nint";
+        }
+
+        // Use TypeMapper to resolve the strong type (ObjC object pointers)
+        return TypeMapper.MapType(objcType);
     }
 
     #endregion

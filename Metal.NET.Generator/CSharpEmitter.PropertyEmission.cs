@@ -24,6 +24,7 @@ partial class CSharpEmitter
         if (csType == "NSArray")
         {
             nsArrayElemType = TryResolveNSArrayElementType(csClassName, csPropName);
+            if (nsArrayElemType == null) return false;
         }
 
         bool isNSArray = nsArrayElemType != null;
@@ -32,8 +33,8 @@ partial class CSharpEmitter
         bool isStruct = TypeMapper.StructTypes.Contains(csType);
         bool isBool = csType == "bool";
 
-        string selectorName = csPropName;
         string selectorObjC = getter.Selector ?? getter.Name;
+        string selectorName = BuildMethodNameFromSelector(selectorObjC);
         selectors.TryAdd(selectorName, selectorObjC);
 
         const string Target = "NativePtr";
@@ -44,8 +45,8 @@ partial class CSharpEmitter
         string? setSelName = null;
         if (prop.Setter != null)
         {
-            setSelName = TypeMapper.ToPascalCase(prop.Setter.Name);
             string setSelObjC = prop.Setter.Selector ?? "set" + csPropName + ":";
+            setSelName = BuildMethodNameFromSelector(setSelObjC);
             selectors.TryAdd(setSelName, setSelObjC);
         }
 
@@ -124,9 +125,10 @@ partial class CSharpEmitter
         {
             string msgSend = TypeMapper.GetMsgSendMethod(csType);
             RecordMsgSend(msgSend);
+            string narrowCast = TypeMapper.NeedsNarrowCast(csType) ? $"({csType})" : "";
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveC.{msgSend}({Target}, {selectorRef});");
+            sb.AppendLine($"        get => {narrowCast}ObjectiveC.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
                 RecordMsgSend("MsgSend", csType);

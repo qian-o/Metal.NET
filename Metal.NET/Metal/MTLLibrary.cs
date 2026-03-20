@@ -46,11 +46,16 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 
     public MTLFunction MakeFunction(NSString name, MTLFunctionConstantValues constantValues, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithNameConstantValuesError, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithName_ConstantValues_Error, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public void MakeFunction(NSString name, MTLFunctionConstantValues constantValues, MTLNewFunctionWithNameCompletionHandler completionHandler)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewFunctionWithName_ConstantValues_CompletionHandler, name.NativePtr, constantValues.NativePtr, completionHandler.NativePtr);
     }
 
     public MTLFunctionReflection Reflection(NSString functionName)
@@ -60,18 +65,28 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public void MakeFunction(MTLFunctionDescriptor descriptor, MTLNewFunctionWithNameCompletionHandler completionHandler)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptor_CompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
+    }
+
     public MTLFunction MakeFunction(MTLFunctionDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public void MakeIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, MTLNewFunctionWithNameCompletionHandler completionHandler)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewIntersectionFunctionWithDescriptor_CompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
+    }
+
     public MTLFunction MakeIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewIntersectionFunctionWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLLibraryBindings.NewIntersectionFunctionWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -89,13 +104,19 @@ file static class MTLLibraryBindings
 
     public static readonly Selector Label = "label";
 
-    public static readonly Selector NewFunctionWithDescriptorError = "newFunctionWithDescriptor:error:";
+    public static readonly Selector NewFunctionWithDescriptor_CompletionHandler = "newFunctionWithDescriptor:completionHandler:";
+
+    public static readonly Selector NewFunctionWithDescriptor_Error = "newFunctionWithDescriptor:error:";
 
     public static readonly Selector NewFunctionWithName = "newFunctionWithName:";
 
-    public static readonly Selector NewFunctionWithNameConstantValuesError = "newFunctionWithName:constantValues:error:";
+    public static readonly Selector NewFunctionWithName_ConstantValues_CompletionHandler = "newFunctionWithName:constantValues:completionHandler:";
 
-    public static readonly Selector NewIntersectionFunctionWithDescriptorError = "newIntersectionFunctionWithDescriptor:error:";
+    public static readonly Selector NewFunctionWithName_ConstantValues_Error = "newFunctionWithName:constantValues:error:";
+
+    public static readonly Selector NewIntersectionFunctionWithDescriptor_CompletionHandler = "newIntersectionFunctionWithDescriptor:completionHandler:";
+
+    public static readonly Selector NewIntersectionFunctionWithDescriptor_Error = "newIntersectionFunctionWithDescriptor:error:";
 
     public static readonly Selector ReflectionForFunctionWithName = "reflectionForFunctionWithName:";
 

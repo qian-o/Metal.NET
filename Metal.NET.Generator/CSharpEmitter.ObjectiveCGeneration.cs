@@ -5,14 +5,14 @@ partial class CSharpEmitter
     #region ObjectiveC.cs Generation
 
     /// <summary>
-    /// Generates the auto-generated Common/ObjectiveC.cs file containing all required
+    /// Generates the auto-generated Interop/ObjectiveC.cs file containing all required
     /// MsgSend overloads using delegate* unmanaged function pointers, null-guard wrappers,
     /// and Alloc/Init/Release helpers.
     /// Signatures are collected during property/method emission via RecordMsgSend().
     /// </summary>
     void GenerateObjectiveCFile()
     {
-        string dir = Path.Combine(outputDir, "Common");
+        string dir = Path.Combine(outputDir, "Interop");
         Directory.CreateDirectory(dir);
 
         StringBuilder sb = new();
@@ -153,7 +153,7 @@ partial class CSharpEmitter
         File.WriteAllText(Path.Combine(dir, "ObjectiveC.cs"), sb.ToString(), Utf8Bom);
 
         int totalOverloads = context.MsgSendSignatures.Values.Sum(s => s.Count);
-        Console.WriteLine($"  Generated: Common/ObjectiveC.cs ({totalOverloads} overloads across {context.MsgSendSignatures.Count} groups)");
+        Console.WriteLine($"  Generated: Interop/ObjectiveC.cs ({totalOverloads} overloads across {context.MsgSendSignatures.Count} groups)");
     }
 
     /// <summary>Classification of a parameter in a MsgSend signature.</summary>

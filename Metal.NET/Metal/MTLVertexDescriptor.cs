@@ -25,16 +25,16 @@ public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership
         get => GetProperty(ref field, MTLVertexDescriptorBindings.Attributes);
     }
 
+    public void Reset()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLVertexDescriptorBindings.Reset);
+    }
+
     public static MTLVertexDescriptor VertexDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
-    public void Reset()
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLVertexDescriptorBindings.Reset);
     }
 }
 

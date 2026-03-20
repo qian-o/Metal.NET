@@ -1,11 +1,8 @@
-﻿using System.Runtime.InteropServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Metal.NET;
 
-/// <summary>
-/// A static, plain-text Unicode string object.
-/// </summary>
 public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSString>
 {
     #region INativeObject
@@ -17,16 +14,11 @@ public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
     }
     #endregion
 
-    public string Value
-    {
-        get => Marshal.PtrToStringUTF8(ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.Utf8String)) ?? string.Empty;
-    }
-
     public static unsafe implicit operator NSString(string value)
     {
         fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))
         {
-            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithUtf8String, (nint)utf8);
+            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringInteropBindings.Class), NSStringInteropBindings.InitWithUtf8String, (nint)utf8);
 
             return new(nativePtr, NativeObjectOwnership.Managed);
         }
@@ -34,16 +26,16 @@ public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
 
     public static implicit operator string(NSString value)
     {
-        return value.Value;
+        return value.ToString();
     }
 
     public override string ToString()
     {
-        return Value;
+        return Marshal.PtrToStringUTF8(ObjectiveC.MsgSendNInt(NativePtr, NSStringInteropBindings.Utf8String)) ?? string.Empty;
     }
 }
 
-file static class NSStringBindings
+file static class NSStringInteropBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSString");
 

@@ -27,8 +27,6 @@ jobs:
           TEMP_HEADER=$(mktemp /tmp/metal_XXXXXX.h)
           cat > "$TEMP_HEADER" <<'HEADER'
           #import <Metal/Metal.h>
-          #import <Foundation/Foundation.h>
-          #import <QuartzCore/QuartzCore.h>
           #if __has_include(<MetalFX/MetalFX.h>)
           #import <MetalFX/MetalFX.h>
           #endif

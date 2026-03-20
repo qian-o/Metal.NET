@@ -14,25 +14,36 @@ public sealed unsafe class MTL4CommitFeedbackHandler(Action<nint> callback) : Na
     }
 }
 
-public sealed unsafe class MTL4NewBinaryFunctionCompletionHandler(Action<nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTL4NewBinaryFunctionCompletionHandler(Action<nint, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint mTL4BinaryFunction, nint nSError)
     {
-        Action<nint, nint> callback = GetContext<Action<nint, nint>>(block);
+        Action<nint, NSError> callback = GetContext<Action<nint, NSError>>(block);
 
-        callback(mTL4BinaryFunction, nSError);
+        callback(mTL4BinaryFunction, new NSError(nSError, NativeObjectOwnership.Borrowed));
     }
 }
 
-public sealed unsafe class MTL4NewMachineLearningPipelineStateCompletionHandler(Action<nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTL4NewMachineLearningPipelineStateCompletionHandler(Action<nint, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint mTL4MachineLearningPipelineState, nint nSError)
     {
-        Action<nint, nint> callback = GetContext<Action<nint, nint>>(block);
+        Action<nint, NSError> callback = GetContext<Action<nint, NSError>>(block);
 
-        callback(mTL4MachineLearningPipelineState, nSError);
+        callback(mTL4MachineLearningPipelineState, new NSError(nSError, NativeObjectOwnership.Borrowed));
+    }
+}
+
+public sealed unsafe class MTLAddLogHandlerBlock(Action<NSString, NSString, long, NSString> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, long, nint, void>)&Trampoline, callback)
+{
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void Trampoline(nint block, nint nSString, nint nSString2, long param2, nint nSString3)
+    {
+        Action<NSString, NSString, long, NSString> callback = GetContext<Action<NSString, NSString, long, NSString>>(block);
+
+        callback(new NSString(nSString, NativeObjectOwnership.Borrowed), new NSString(nSString2, NativeObjectOwnership.Borrowed), param2, new NSString(nSString3, NativeObjectOwnership.Borrowed));
     }
 }
 
@@ -80,69 +91,91 @@ public sealed unsafe class MTLIOCommandBufferHandler(Action<nint> callback) : Na
     }
 }
 
-public sealed unsafe class MTLNewComputePipelineStateCompletionHandler(Action<nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTLNewBufferWithBytesNoCopyDeallocator(Action<nint, nuint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nuint, void>)&Trampoline, callback)
+{
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void Trampoline(nint block, nint pointer, nuint value)
+    {
+        Action<nint, nuint> callback = GetContext<Action<nint, nuint>>(block);
+
+        callback(pointer, value);
+    }
+}
+
+public sealed unsafe class MTLNewComputePipelineStateCompletionHandler(Action<nint, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint mTLComputePipelineState, nint nSError)
     {
-        Action<nint, nint> callback = GetContext<Action<nint, nint>>(block);
+        Action<nint, NSError> callback = GetContext<Action<nint, NSError>>(block);
 
-        callback(mTLComputePipelineState, nSError);
+        callback(mTLComputePipelineState, new NSError(nSError, NativeObjectOwnership.Borrowed));
     }
 }
 
-public sealed unsafe class MTLNewComputePipelineStateWithReflectionCompletionHandler(Action<nint, nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTLNewComputePipelineStateWithReflectionCompletionHandler(Action<nint, MTLComputePipelineReflection, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint mTLComputePipelineState, nint mTLComputePipelineReflection, nint nSError)
     {
-        Action<nint, nint, nint> callback = GetContext<Action<nint, nint, nint>>(block);
+        Action<nint, MTLComputePipelineReflection, NSError> callback = GetContext<Action<nint, MTLComputePipelineReflection, NSError>>(block);
 
-        callback(mTLComputePipelineState, mTLComputePipelineReflection, nSError);
+        callback(mTLComputePipelineState, new MTLComputePipelineReflection(mTLComputePipelineReflection, NativeObjectOwnership.Borrowed), new NSError(nSError, NativeObjectOwnership.Borrowed));
     }
 }
 
-public sealed unsafe class MTLNewDynamicLibraryCompletionHandler(Action<nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTLNewDynamicLibraryCompletionHandler(Action<nint, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint mTLDynamicLibrary, nint nSError)
     {
-        Action<nint, nint> callback = GetContext<Action<nint, nint>>(block);
+        Action<nint, NSError> callback = GetContext<Action<nint, NSError>>(block);
 
-        callback(mTLDynamicLibrary, nSError);
+        callback(mTLDynamicLibrary, new NSError(nSError, NativeObjectOwnership.Borrowed));
     }
 }
 
-public sealed unsafe class MTLNewLibraryCompletionHandler(Action<nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTLNewFunctionWithNameCompletionHandler(Action<nint, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+{
+    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
+    private static void Trampoline(nint block, nint mTLFunction, nint nSError)
+    {
+        Action<nint, NSError> callback = GetContext<Action<nint, NSError>>(block);
+
+        callback(mTLFunction, new NSError(nSError, NativeObjectOwnership.Borrowed));
+    }
+}
+
+public sealed unsafe class MTLNewLibraryCompletionHandler(Action<nint, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint mTLLibrary, nint nSError)
     {
-        Action<nint, nint> callback = GetContext<Action<nint, nint>>(block);
+        Action<nint, NSError> callback = GetContext<Action<nint, NSError>>(block);
 
-        callback(mTLLibrary, nSError);
+        callback(mTLLibrary, new NSError(nSError, NativeObjectOwnership.Borrowed));
     }
 }
 
-public sealed unsafe class MTLNewRenderPipelineStateCompletionHandler(Action<nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTLNewRenderPipelineStateCompletionHandler(Action<nint, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint mTLRenderPipelineState, nint nSError)
     {
-        Action<nint, nint> callback = GetContext<Action<nint, nint>>(block);
+        Action<nint, NSError> callback = GetContext<Action<nint, NSError>>(block);
 
-        callback(mTLRenderPipelineState, nSError);
+        callback(mTLRenderPipelineState, new NSError(nSError, NativeObjectOwnership.Borrowed));
     }
 }
 
-public sealed unsafe class MTLNewRenderPipelineStateWithReflectionCompletionHandler(Action<nint, nint, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTLNewRenderPipelineStateWithReflectionCompletionHandler(Action<nint, MTLRenderPipelineReflection, NSError> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint mTLRenderPipelineState, nint mTLRenderPipelineReflection, nint nSError)
     {
-        Action<nint, nint, nint> callback = GetContext<Action<nint, nint, nint>>(block);
+        Action<nint, MTLRenderPipelineReflection, NSError> callback = GetContext<Action<nint, MTLRenderPipelineReflection, NSError>>(block);
 
-        callback(mTLRenderPipelineState, mTLRenderPipelineReflection, nSError);
+        callback(mTLRenderPipelineState, new MTLRenderPipelineReflection(mTLRenderPipelineReflection, NativeObjectOwnership.Borrowed), new NSError(nSError, NativeObjectOwnership.Borrowed));
     }
 }
 

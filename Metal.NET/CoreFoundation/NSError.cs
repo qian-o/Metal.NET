@@ -1,8 +1,5 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-/// <summary>
-/// Information about an error condition including a domain, a domain-specific error code, and application-specific information.
-/// </summary>
 public class NSError(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSError>
 {
     #region INativeObject
@@ -14,27 +11,27 @@ public class NSError(nint nativePtr, NativeObjectOwnership ownership) : NSObject
     }
     #endregion
 
-    public NSString LocalizedDescription
+    public int Code
     {
-        get => GetProperty(ref field, NSErrorBindings.LocalizedDescription);
-    }
-
-    public nint Code
-    {
-        get => ObjectiveC.MsgSendNInt(NativePtr, NSErrorBindings.Code);
+        get => ObjectiveC.MsgSendInt(NativePtr, NSErrorBindings.Code);
     }
 
     public NSString Domain
     {
         get => GetProperty(ref field, NSErrorBindings.Domain);
     }
+
+    public NSString LocalizedDescription
+    {
+        get => GetProperty(ref field, NSErrorBindings.LocalizedDescription);
+    }
 }
 
 file static class NSErrorBindings
 {
-    public static readonly Selector LocalizedDescription = "localizedDescription";
-
     public static readonly Selector Code = "code";
 
     public static readonly Selector Domain = "domain";
+
+    public static readonly Selector LocalizedDescription = "localizedDescription";
 }

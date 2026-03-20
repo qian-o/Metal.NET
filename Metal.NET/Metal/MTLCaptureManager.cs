@@ -26,13 +26,6 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
     }
 
-    public static MTLCaptureManager Shared()
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
-    }
-
     public MTLCaptureScope MakeCaptureScope(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithDevice, device.NativePtr);
@@ -61,7 +54,7 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -99,6 +92,13 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StopCapture);
     }
+
+    public static MTLCaptureManager Shared()
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
 }
 
 file static class MTLCaptureManagerBindings
@@ -121,7 +121,7 @@ file static class MTLCaptureManagerBindings
 
     public static readonly Selector StartCaptureWithCommandQueue = "startCaptureWithCommandQueue:";
 
-    public static readonly Selector StartCaptureWithDescriptorError = "startCaptureWithDescriptor:error:";
+    public static readonly Selector StartCaptureWithDescriptor_Error = "startCaptureWithDescriptor:error:";
 
     public static readonly Selector StartCaptureWithDevice = "startCaptureWithDevice:";
 

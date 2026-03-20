@@ -11,6 +11,10 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwners
     }
     #endregion
 
+    public MTLFunctionStitchingFunctionNode() : this(ObjectiveC.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), NativeObjectOwnership.Managed)
+    {
+    }
+
     public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
@@ -28,13 +32,30 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwners
         get => GetArrayProperty<MTLFunctionStitchingFunctionNode>(MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
         set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
     }
+
+    public static MTLFunctionStitchingFunctionNode InitWithName(NSString name, MTLFunctionStitchingNode[] arguments, MTLFunctionStitchingFunctionNode[] controlDependencies)
+    {
+        nint pArguments = NSArray.FromArray(arguments);
+        nint pControlDependencies = NSArray.FromArray(controlDependencies);
+
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLFunctionStitchingFunctionNodeBindings.Class), MTLFunctionStitchingFunctionNodeBindings.InitWithName_Arguments_ControlDependencies, name.NativePtr, pArguments, pControlDependencies);
+
+        ObjectiveC.Release(pArguments);
+        ObjectiveC.Release(pControlDependencies);
+
+        return new(nativePtr, NativeObjectOwnership.Managed);
+    }
 }
 
 file static class MTLFunctionStitchingFunctionNodeBindings
 {
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionStitchingFunctionNode");
+
     public static readonly Selector Arguments = "arguments";
 
     public static readonly Selector ControlDependencies = "controlDependencies";
+
+    public static readonly Selector InitWithName_Arguments_ControlDependencies = "initWithName:arguments:controlDependencies:";
 
     public static readonly Selector Name = "name";
 

@@ -16,12 +16,12 @@ public class MTL4CommitFeedback(nint nativePtr, NativeObjectOwnership ownership)
         get => GetProperty(ref field, MTL4CommitFeedbackBindings.Error);
     }
 
-    public double GPUStartTime
+    public double GpuStartTime
     {
         get => ObjectiveC.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GPUStartTime);
     }
 
-    public double GPUEndTime
+    public double GpuEndTime
     {
         get => ObjectiveC.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GPUEndTime);
     }

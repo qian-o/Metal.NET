@@ -52,12 +52,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         get => GetProperty(ref field, MTLCommandBufferBindings.Logs);
     }
 
-    public double GPUStartTime
+    public double GpuStartTime
     {
         get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUStartTime);
     }
 
-    public double GPUEndTime
+    public double GpuEndTime
     {
         get => ObjectiveC.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUEndTime);
     }
@@ -94,12 +94,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void PresentDrawableAtTime(MTLDrawable drawable, double presentationTime)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableAtTime, drawable.NativePtr, presentationTime);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawable_AtTime, drawable.NativePtr, presentationTime);
     }
 
     public void PresentDrawableAfterMinimumDuration(MTLDrawable drawable, double duration)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableAfterMinimumDuration, drawable.NativePtr, duration);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawable_AfterMinimumDuration, drawable.NativePtr, duration);
     }
 
     public void WaitUntilScheduled()
@@ -161,12 +161,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void EncodeWaitForEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWaitForEventValue, @event.NativePtr, value);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWaitForEvent_Value, @event.NativePtr, value);
     }
 
     public void EncodeSignalEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEventValue, @event.NativePtr, value);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent_Value, @event.NativePtr, value);
     }
 
     public MTLParallelRenderCommandEncoder MakeParallelRenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
@@ -227,7 +227,7 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
             pResidencySets[i] = residencySets[i].NativePtr;
         }
 
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySetsCount, (nint)pResidencySets, (nuint)residencySets.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 }
 
@@ -257,9 +257,9 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector Device = "device";
 
-    public static readonly Selector EncodeSignalEventValue = "encodeSignalEvent:value:";
+    public static readonly Selector EncodeSignalEvent_Value = "encodeSignalEvent:value:";
 
-    public static readonly Selector EncodeWaitForEventValue = "encodeWaitForEvent:value:";
+    public static readonly Selector EncodeWaitForEvent_Value = "encodeWaitForEvent:value:";
 
     public static readonly Selector Enqueue = "enqueue";
 
@@ -285,9 +285,9 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector PresentDrawable = "presentDrawable:";
 
-    public static readonly Selector PresentDrawableAfterMinimumDuration = "presentDrawable:afterMinimumDuration:";
+    public static readonly Selector PresentDrawable_AfterMinimumDuration = "presentDrawable:afterMinimumDuration:";
 
-    public static readonly Selector PresentDrawableAtTime = "presentDrawable:atTime:";
+    public static readonly Selector PresentDrawable_AtTime = "presentDrawable:atTime:";
 
     public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
@@ -305,7 +305,7 @@ file static class MTLCommandBufferBindings
 
     public static readonly Selector UseResidencySet = "useResidencySet:";
 
-    public static readonly Selector UseResidencySetsCount = "useResidencySets:count:";
+    public static readonly Selector UseResidencySets_Count = "useResidencySets:count:";
 
     public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 
