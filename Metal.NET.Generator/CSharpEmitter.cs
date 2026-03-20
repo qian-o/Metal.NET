@@ -3,14 +3,14 @@
 /// <summary>
 /// Emits C# source files from parsed metal-ast.json definitions.
 /// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
-/// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
+/// Also auto-generates Interop/ObjectiveC.cs with all required MsgSend overloads.
 /// </summary>
 partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
     /// <summary>Shared UTF-8 encoding with BOM for all generated files.</summary>
     static readonly Encoding Utf8Bom = new UTF8Encoding(true);
 
-    /// <summary>Hand-written structs to skip during generation (located in Common/Structs.cs).</summary>
+    /// <summary>Hand-written structs to skip during generation (located in Simd/).</summary>
     static readonly HashSet<string> SkipStructs =
     [
         "CGSize",
