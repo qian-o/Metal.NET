@@ -189,25 +189,3 @@ public sealed unsafe class MTLSharedEventNotificationBlock(Action<nint, ulong> c
         callback(mTLSharedEvent, value);
     }
 }
-
-public sealed unsafe class NSEnumerateLinesUsingBlockBlock(Action<NSString, nint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&Trampoline, callback)
-{
-    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
-    private static void Trampoline(nint block, nint nSString, nint bOOL)
-    {
-        Action<NSString, nint> callback = GetContext<Action<NSString, nint>>(block);
-
-        callback(new NSString(nSString, NativeObjectOwnership.Borrowed), bOOL);
-    }
-}
-
-public sealed unsafe class NSInitWithCharactersNoCopyDeallocator(Action<nint, nuint> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, nuint, void>)&Trampoline, callback)
-{
-    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
-    private static void Trampoline(nint block, nint unichar, nuint value)
-    {
-        Action<nint, nuint> callback = GetContext<Action<nint, nuint>>(block);
-
-        callback(unichar, value);
-    }
-}
