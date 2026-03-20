@@ -11,19 +11,40 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
     }
     #endregion
 
-    public bool BoolValue => ObjectiveC.MsgSendBool(NativePtr, NSNumberInteropBindings.BoolValue);
+    public bool BoolValue
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, NSNumberInteropBindings.BoolValue);
+    }
 
-    public int IntValue => ObjectiveC.MsgSendInt(NativePtr, NSNumberInteropBindings.IntValue);
+    public int IntValue
+    {
+        get => ObjectiveC.MsgSendInt(NativePtr, NSNumberInteropBindings.IntValue);
+    }
 
-    public uint UnsignedIntValue => ObjectiveC.MsgSendUInt(NativePtr, NSNumberInteropBindings.UnsignedIntValue);
+    public uint UnsignedIntValue
+    {
+        get => ObjectiveC.MsgSendUInt(NativePtr, NSNumberInteropBindings.UnsignedIntValue);
+    }
 
-    public long LongLongValue => ObjectiveC.MsgSendLong(NativePtr, NSNumberInteropBindings.LongLongValue);
+    public long LongLongValue
+    {
+        get => ObjectiveC.MsgSendLong(NativePtr, NSNumberInteropBindings.LongLongValue);
+    }
 
-    public ulong UnsignedLongLongValue => ObjectiveC.MsgSendULong(NativePtr, NSNumberInteropBindings.UnsignedLongLongValue);
+    public ulong UnsignedLongLongValue
+    {
+        get => ObjectiveC.MsgSendULong(NativePtr, NSNumberInteropBindings.UnsignedLongLongValue);
+    }
 
-    public float FloatValue => ObjectiveC.MsgSendFloat(NativePtr, NSNumberInteropBindings.FloatValue);
+    public float FloatValue
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, NSNumberInteropBindings.FloatValue);
+    }
 
-    public double DoubleValue => ObjectiveC.MsgSendDouble(NativePtr, NSNumberInteropBindings.DoubleValue);
+    public double DoubleValue
+    {
+        get => ObjectiveC.MsgSendDouble(NativePtr, NSNumberInteropBindings.DoubleValue);
+    }
 
     public static implicit operator NSNumber(bool value)
     {
@@ -60,19 +81,40 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
         return new(ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithDouble, value), NativeObjectOwnership.Managed);
     }
 
-    public static implicit operator bool(NSNumber value) => value.BoolValue;
+    public static implicit operator bool(NSNumber value)
+    {
+        return value.BoolValue;
+    }
 
-    public static implicit operator int(NSNumber value) => value.IntValue;
+    public static implicit operator int(NSNumber value)
+    {
+        return value.IntValue;
+    }
 
-    public static implicit operator uint(NSNumber value) => value.UnsignedIntValue;
+    public static implicit operator uint(NSNumber value)
+    {
+        return value.UnsignedIntValue;
+    }
 
-    public static implicit operator long(NSNumber value) => value.LongLongValue;
+    public static implicit operator long(NSNumber value)
+    {
+        return value.LongLongValue;
+    }
 
-    public static implicit operator ulong(NSNumber value) => value.UnsignedLongLongValue;
+    public static implicit operator ulong(NSNumber value)
+    {
+        return value.UnsignedLongLongValue;
+    }
 
-    public static implicit operator float(NSNumber value) => value.FloatValue;
+    public static implicit operator float(NSNumber value)
+    {
+        return value.FloatValue;
+    }
 
-    public static implicit operator double(NSNumber value) => value.DoubleValue;
+    public static implicit operator double(NSNumber value)
+    {
+        return value.DoubleValue;
+    }
 }
 
 file static class NSNumberInteropBindings
