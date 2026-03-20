@@ -229,7 +229,7 @@ partial class CSharpEmitter
             hasPrecedingMember = true;
         }
 
-        // === Free functions ===
+        // === Free function wrappers (public methods) ===
         foreach (FreeFunctionDef func in freeFunctions)
         {
             if (hasPrecedingMember)
@@ -237,8 +237,18 @@ partial class CSharpEmitter
                 sb.AppendLine();
             }
 
-            EmitFreeFunction(sb, func, csClassName);
+            EmitFreeFunctionWrapper(sb, func, csClassName);
             hasPrecedingMember = true;
+        }
+
+        // === Free function P/Invoke declarations (at bottom of class) ===
+        if (hasFreeFunctions)
+        {
+            foreach (FreeFunctionDef func in freeFunctions)
+            {
+                sb.AppendLine();
+                EmitFreeFunctionPInvoke(sb, func, csClassName);
+            }
         }
 
         sb.AppendLine("}");

@@ -926,48 +926,45 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLOriginMake")]
-    private static partial MTLOrigin MTLOriginMake(nuint x, nuint y, nuint z);
+    public static MTLOrigin OriginMake(nuint x, nuint y, nuint z)
+    {
+        return MTLOriginMake(x, y, z);
+    }
 
-    public static MTLOrigin OriginMake(nuint x, nuint y, nuint z) => MTLOriginMake(x, y, z);
+    public static MTLSize SizeMake(nuint width, nuint height, nuint depth)
+    {
+        return MTLSizeMake(width, height, depth);
+    }
 
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLSizeMake")]
-    private static partial MTLSize MTLSizeMake(nuint width, nuint height, nuint depth);
+    public static MTLRegion RegionMake1D(nuint x, nuint width)
+    {
+        return MTLRegionMake1D(x, width);
+    }
 
-    public static MTLSize SizeMake(nuint width, nuint height, nuint depth) => MTLSizeMake(width, height, depth);
+    public static MTLRegion RegionMake2D(nuint x, nuint y, nuint width, nuint height)
+    {
+        return MTLRegionMake2D(x, y, width, height);
+    }
 
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake1D")]
-    private static partial MTLRegion MTLRegionMake1D(nuint x, nuint width);
+    public static MTLRegion RegionMake3D(nuint x, nuint y, nuint z, nuint width, nuint height, nuint depth)
+    {
+        return MTLRegionMake3D(x, y, z, width, height, depth);
+    }
 
-    public static MTLRegion RegionMake1D(nuint x, nuint width) => MTLRegionMake1D(x, width);
+    public static MTLSamplePosition SamplePositionMake(float x, float y)
+    {
+        return MTLSamplePositionMake(x, y);
+    }
 
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake2D")]
-    private static partial MTLRegion MTLRegionMake2D(nuint x, nuint y, nuint width, nuint height);
+    public static MTLSamplePosition Coordinate2DMake(float x, float y)
+    {
+        return MTLCoordinate2DMake(x, y);
+    }
 
-    public static MTLRegion RegionMake2D(nuint x, nuint y, nuint width, nuint height) => MTLRegionMake2D(x, y, width, height);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake3D")]
-    private static partial MTLRegion MTLRegionMake3D(nuint x, nuint y, nuint z, nuint width, nuint height, nuint depth);
-
-    public static MTLRegion RegionMake3D(nuint x, nuint y, nuint z, nuint width, nuint height, nuint depth) => MTLRegionMake3D(x, y, z, width, height, depth);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLSamplePositionMake")]
-    private static partial MTLSamplePosition MTLSamplePositionMake(float x, float y);
-
-    public static MTLSamplePosition SamplePositionMake(float x, float y) => MTLSamplePositionMake(x, y);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCoordinate2DMake")]
-    private static partial MTLSamplePosition MTLCoordinate2DMake(float x, float y);
-
-    public static MTLSamplePosition Coordinate2DMake(float x, float y) => MTLCoordinate2DMake(x, y);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLTextureSwizzleChannelsMake")]
-    private static partial MTLTextureSwizzleChannels MTLTextureSwizzleChannelsMake(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a);
-
-    public static MTLTextureSwizzleChannels TextureSwizzleChannelsMake(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a) => MTLTextureSwizzleChannelsMake(r, g, b, a);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCreateSystemDefaultDevice")]
-    private static partial nint MTLCreateSystemDefaultDevice();
+    public static MTLTextureSwizzleChannels TextureSwizzleChannelsMake(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a)
+    {
+        return MTLTextureSwizzleChannelsMake(r, g, b, a);
+    }
 
     public static MTLDevice CreateSystemDefaultDevice()
     {
@@ -976,35 +973,80 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public static void RemoveDeviceObserver(NSObject observer)
+    {
+        MTLRemoveDeviceObserver(observer.NativePtr);
+    }
+
+    public static MTLClearColor ClearColorMake(double red, double green, double blue, double alpha)
+    {
+        return MTLClearColorMake(red, green, blue, alpha);
+    }
+
+    public static MTLPackedFloat3 PackedFloat3Make(float x, float y, float z)
+    {
+        return MTLPackedFloat3Make(x, y, z);
+    }
+
+    public static MTLPackedFloatQuaternion PackedFloatQuaternionMake(float x, float y, float z, float w)
+    {
+        return MTLPackedFloatQuaternionMake(x, y, z, w);
+    }
+
+    public static MTLIndirectCommandBufferExecutionRange IndirectCommandBufferExecutionRangeMake(uint location, uint length)
+    {
+        return MTLIndirectCommandBufferExecutionRangeMake(location, length);
+    }
+
+    public static nuint IOCompressionContextDefaultChunkSize()
+    {
+        return MTLIOCompressionContextDefaultChunkSize();
+    }
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLOriginMake")]
+    private static partial MTLOrigin MTLOriginMake(nuint x, nuint y, nuint z);
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLSizeMake")]
+    private static partial MTLSize MTLSizeMake(nuint width, nuint height, nuint depth);
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake1D")]
+    private static partial MTLRegion MTLRegionMake1D(nuint x, nuint width);
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake2D")]
+    private static partial MTLRegion MTLRegionMake2D(nuint x, nuint y, nuint width, nuint height);
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake3D")]
+    private static partial MTLRegion MTLRegionMake3D(nuint x, nuint y, nuint z, nuint width, nuint height, nuint depth);
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLSamplePositionMake")]
+    private static partial MTLSamplePosition MTLSamplePositionMake(float x, float y);
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCoordinate2DMake")]
+    private static partial MTLSamplePosition MTLCoordinate2DMake(float x, float y);
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLTextureSwizzleChannelsMake")]
+    private static partial MTLTextureSwizzleChannels MTLTextureSwizzleChannelsMake(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a);
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCreateSystemDefaultDevice")]
+    private static partial nint MTLCreateSystemDefaultDevice();
+
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRemoveDeviceObserver")]
     private static partial void MTLRemoveDeviceObserver(nint observer);
-
-    public static void RemoveDeviceObserver(NSObject observer) => MTLRemoveDeviceObserver(observer.NativePtr);
 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLClearColorMake")]
     private static partial MTLClearColor MTLClearColorMake(double red, double green, double blue, double alpha);
 
-    public static MTLClearColor ClearColorMake(double red, double green, double blue, double alpha) => MTLClearColorMake(red, green, blue, alpha);
-
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLPackedFloat3Make")]
     private static partial MTLPackedFloat3 MTLPackedFloat3Make(float x, float y, float z);
-
-    public static MTLPackedFloat3 PackedFloat3Make(float x, float y, float z) => MTLPackedFloat3Make(x, y, z);
 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLPackedFloatQuaternionMake")]
     private static partial MTLPackedFloatQuaternion MTLPackedFloatQuaternionMake(float x, float y, float z, float w);
 
-    public static MTLPackedFloatQuaternion PackedFloatQuaternionMake(float x, float y, float z, float w) => MTLPackedFloatQuaternionMake(x, y, z, w);
-
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLIndirectCommandBufferExecutionRangeMake")]
     private static partial MTLIndirectCommandBufferExecutionRange MTLIndirectCommandBufferExecutionRangeMake(uint location, uint length);
 
-    public static MTLIndirectCommandBufferExecutionRange IndirectCommandBufferExecutionRangeMake(uint location, uint length) => MTLIndirectCommandBufferExecutionRangeMake(location, length);
-
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLIOCompressionContextDefaultChunkSize")]
     private static partial nuint MTLIOCompressionContextDefaultChunkSize();
-
-    public static nuint IOCompressionContextDefaultChunkSize() => MTLIOCompressionContextDefaultChunkSize();
 }
 
 file static class MTLDeviceBindings

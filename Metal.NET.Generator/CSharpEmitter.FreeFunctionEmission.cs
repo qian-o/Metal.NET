@@ -5,10 +5,10 @@ partial class CSharpEmitter
     #region Free Function Emission
 
     /// <summary>
-    /// Emits a free function as a <c>[LibraryImport]</c> P/Invoke declaration followed
-    /// by a public static wrapper that handles <c>NativeObject</c> marshalling.
+    /// Builds the shared parameter lists for a free function (P/Invoke params, wrapper params, call args).
     /// </summary>
-    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string csClassName)
+    (string PInvokeReturnType, string PInvokeParams, string WrapperParams, string CallArgs, string CsReturnType, string? ArrayElemType)
+        BuildFreeFunctionSignature(FreeFunctionDef func, string csClassName)
     {
         string csReturnType = TypeMapper.MapType(func.ReturnType);
 
@@ -21,54 +21,52 @@ partial class CSharpEmitter
         bool nullable = !returnsArray && typeMapper.IsNativeObjectType(csReturnType);
 
         List<string> pinvokeParams = [];
-        foreach (ParamDef p in func.Parameters)
-        {
-            string csType = TypeMapper.MapType(p.Type);
-            if (typeMapper.IsNativeObjectType(csType))
-            {
-                pinvokeParams.Add($"nint {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
-            }
-            else
-            {
-                pinvokeParams.Add($"{csType} {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
-            }
-        }
-
-        string pinvokeReturnType = (nullable || returnsArray) ? "nint" : csReturnType;
-
-        sb.AppendLine($"    [LibraryImport(\"{func.LibraryPath}\", EntryPoint = \"{func.CEntryPoint}\")]");
-        sb.AppendLine($"    private static partial {pinvokeReturnType} {func.CEntryPoint}({string.Join(", ", pinvokeParams)});");
-        sb.AppendLine();
-
         List<string> wrapperParams = [];
         List<string> callArgs = [];
+
         foreach (ParamDef p in func.Parameters)
         {
             string csType = TypeMapper.MapType(p.Type);
             string csName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name));
+
             if (typeMapper.IsNativeObjectType(csType))
             {
+                pinvokeParams.Add($"nint {csName}");
                 wrapperParams.Add($"{csType} {csName}");
                 callArgs.Add($"{csName}.NativePtr");
             }
             else
             {
+                pinvokeParams.Add($"{csType} {csName}");
                 wrapperParams.Add($"{csType} {csName}");
                 callArgs.Add(csName);
             }
         }
 
-        string csFullReturnType = returnsArray ? $"{returnArrayElemType}[]" : csReturnType;
-        string wrapperParamStr = string.Join(", ", wrapperParams);
-        string callArgStr = string.Join(", ", callArgs);
+        string pinvokeReturnType = (nullable || returnsArray) ? "nint" : csReturnType;
+
+        return (pinvokeReturnType, string.Join(", ", pinvokeParams), string.Join(", ", wrapperParams),
+            string.Join(", ", callArgs), csReturnType, returnArrayElemType);
+    }
+
+    /// <summary>
+    /// Emits the public static wrapper method for a free function.
+    /// </summary>
+    void EmitFreeFunctionWrapper(StringBuilder sb, FreeFunctionDef func, string csClassName)
+    {
+        var sig = BuildFreeFunctionSignature(func, csClassName);
+        bool returnsArray = sig.ArrayElemType != null;
+        bool nullable = !returnsArray && typeMapper.IsNativeObjectType(sig.CsReturnType);
+
+        string csFullReturnType = returnsArray ? $"{sig.ArrayElemType}[]" : sig.CsReturnType;
 
         if (returnsArray)
         {
-            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({wrapperParamStr})");
+            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({sig.WrapperParams})");
             sb.AppendLine("    {");
-            sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({sig.CallArgs});");
             sb.AppendLine();
-            sb.AppendLine($"        {returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+            sb.AppendLine($"        {sig.ArrayElemType}[] result = NSArray.ToArray<{sig.ArrayElemType}>(nativePtr);");
             sb.AppendLine();
             sb.AppendLine("        ObjectiveC.Release(nativePtr);");
             sb.AppendLine();
@@ -77,21 +75,38 @@ partial class CSharpEmitter
         }
         else if (nullable)
         {
-            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({wrapperParamStr})");
+            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({sig.WrapperParams})");
             sb.AppendLine("    {");
-            sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({sig.CallArgs});");
             sb.AppendLine();
             sb.AppendLine("        return new(nativePtr, NativeObjectOwnership.Owned);");
             sb.AppendLine("    }");
         }
-        else if (csReturnType == "void")
+        else if (sig.CsReturnType == "void")
         {
-            sb.AppendLine($"    public static void {func.Name}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"    public static void {func.Name}({sig.WrapperParams})");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        {func.CEntryPoint}({sig.CallArgs});");
+            sb.AppendLine("    }");
         }
         else
         {
-            sb.AppendLine($"    public static {csReturnType} {func.Name}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"    public static {sig.CsReturnType} {func.Name}({sig.WrapperParams})");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        return {func.CEntryPoint}({sig.CallArgs});");
+            sb.AppendLine("    }");
         }
+    }
+
+    /// <summary>
+    /// Emits the <c>[LibraryImport]</c> P/Invoke declaration for a free function.
+    /// </summary>
+    void EmitFreeFunctionPInvoke(StringBuilder sb, FreeFunctionDef func, string csClassName)
+    {
+        var sig = BuildFreeFunctionSignature(func, csClassName);
+
+        sb.AppendLine($"    [LibraryImport(\"{func.LibraryPath}\", EntryPoint = \"{func.CEntryPoint}\")]");
+        sb.AppendLine($"    private static partial {sig.PInvokeReturnType} {func.CEntryPoint}({sig.PInvokeParams});");
     }
 
     #endregion
