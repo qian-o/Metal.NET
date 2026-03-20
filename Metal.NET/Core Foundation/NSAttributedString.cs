@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public partial class NSAttributedString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSAttributedString>
+public class NSAttributedString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSAttributedString>
 {
     #region INativeObject
     public static new NSAttributedString Null { get; } = new(0, NativeObjectOwnership.Borrowed);

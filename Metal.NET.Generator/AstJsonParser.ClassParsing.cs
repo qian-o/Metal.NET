@@ -13,7 +13,7 @@ partial class AstJsonParser
                 continue;
             }
 
-            if (proto.Framework is null or "CoreFoundation" or "CoreGraphics")
+            if (proto.Framework is null or "Foundation" or "CoreFoundation" or "CoreGraphics")
             {
                 continue;
             }
@@ -34,7 +34,7 @@ partial class AstJsonParser
                 continue;
             }
 
-            if (cls.Framework is null or "CoreGraphics")
+            if (cls.Framework is null or "Foundation" or "CoreFoundation" or "CoreGraphics")
             {
                 continue;
             }

@@ -1,7 +1,30 @@
 namespace Metal.NET;
 
-public partial class NSNumber
+public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSNumber>
 {
+    #region INativeObject
+    public static new NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+
+    public static new NSNumber New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
+
+    public bool BoolValue => ObjectiveC.MsgSendBool(NativePtr, NSNumberInteropBindings.BoolValue);
+
+    public int IntValue => ObjectiveC.MsgSendInt(NativePtr, NSNumberInteropBindings.IntValue);
+
+    public uint UnsignedIntValue => ObjectiveC.MsgSendUInt(NativePtr, NSNumberInteropBindings.UnsignedIntValue);
+
+    public long LongLongValue => ObjectiveC.MsgSendLong(NativePtr, NSNumberInteropBindings.LongLongValue);
+
+    public ulong UnsignedLongLongValue => ObjectiveC.MsgSendULong(NativePtr, NSNumberInteropBindings.UnsignedLongLongValue);
+
+    public float FloatValue => ObjectiveC.MsgSendFloat(NativePtr, NSNumberInteropBindings.FloatValue);
+
+    public double DoubleValue => ObjectiveC.MsgSendDouble(NativePtr, NSNumberInteropBindings.DoubleValue);
+
     public static implicit operator NSNumber(bool value)
     {
         return new(ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithBool, value), NativeObjectOwnership.Managed);
@@ -69,4 +92,18 @@ file static class NSNumberInteropBindings
     public static readonly Selector NumberWithFloat = "numberWithFloat:";
 
     public static readonly Selector NumberWithDouble = "numberWithDouble:";
+
+    public static readonly Selector BoolValue = "boolValue";
+
+    public static readonly Selector IntValue = "intValue";
+
+    public static readonly Selector UnsignedIntValue = "unsignedIntValue";
+
+    public static readonly Selector LongLongValue = "longLongValue";
+
+    public static readonly Selector UnsignedLongLongValue = "unsignedLongLongValue";
+
+    public static readonly Selector FloatValue = "floatValue";
+
+    public static readonly Selector DoubleValue = "doubleValue";
 }

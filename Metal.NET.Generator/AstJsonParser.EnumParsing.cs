@@ -8,7 +8,7 @@ partial class AstJsonParser
     {
         foreach (AstEnum astEnum in ast.Enums)
         {
-            if (astEnum.Framework is null or "CoreFoundation" or "CoreGraphics")
+            if (astEnum.Framework is null or "Foundation" or "CoreFoundation" or "CoreGraphics")
             {
                 continue;
             }

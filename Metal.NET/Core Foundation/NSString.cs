@@ -3,8 +3,17 @@ using System.Text;
 
 namespace Metal.NET;
 
-public partial class NSString
+public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSString>
 {
+    #region INativeObject
+    public static new NSString Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+
+    public static new NSString New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
+
     public static unsafe implicit operator NSString(string value)
     {
         fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))

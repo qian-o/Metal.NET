@@ -23,13 +23,7 @@ from itertools import chain
 # ---------------------------------------------------------------------------
 
 WANTED_PREFIXES = ("MTL", "MTLFX")
-WANTED_EXTRA = frozenset({
-    "NSObject", "NSString", "NSError", "NSArray", "NSDictionary",
-    "NSURL", "NSBundle", "NSData", "NSNumber",
-    "NSRange", "NSNotificationName",
-    "CAMetalLayer", "CAMetalDrawable",
-    "CGSize", "CGColorSpaceRef",
-})
+WANTED_EXTRA: frozenset[str] = frozenset()
 FRAMEWORKS = ("Metal", "MetalFX")
 
 _API_MACRO_PREFIXES = (
