@@ -61,22 +61,22 @@ partial class CSharpEmitter
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
             ParamDef param = method.Parameters[pi];
-            if (param.Type == "ARRAY_PARAM")
+            if (param.Type == ParamDef.ArrayParam)
             {
                 continue;
             }
 
-            if (param.Type.StartsWith("OBJ_ARRAY:"))
+            if (param.Type.StartsWith(ParamDef.ObjArray))
             {
                 needsUnsafeContext = true;
-                string elemType = param.Type["OBJ_ARRAY:".Length..];
+                string elemType = param.Type[ParamDef.ObjArray.Length..];
                 string elemCsType = TypeMapper.MapType(elemType + "*");
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
-                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
+                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or ParamDef.ArrayParam, Name: "count" };
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
                 if (arraySetupLines.Count > 0) arraySetupLines.Add("");
@@ -98,10 +98,10 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (param.Type.StartsWith("PRIM_ARRAY:"))
+            if (param.Type.StartsWith(ParamDef.PrimArray))
             {
                 needsUnsafeContext = true;
-                string elemType = param.Type["PRIM_ARRAY:".Length..];
+                string elemType = param.Type[ParamDef.PrimArray.Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemType}[] {csParamName}");
@@ -119,17 +119,17 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (param.Type.StartsWith("STRUCT_ARRAY:"))
+            if (param.Type.StartsWith(ParamDef.StructArray))
             {
                 needsUnsafeContext = true;
-                string elemType = param.Type["STRUCT_ARRAY:".Length..];
+                string elemType = param.Type[ParamDef.StructArray.Length..];
                 string elemCsType = TypeMapper.MapType(elemType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
-                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
+                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or ParamDef.ArrayParam, Name: "count" };
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
                 fixedStatements.Add($"fixed ({elemCsType}* {ptrVar} = {csParamName})");
@@ -146,9 +146,9 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (param.Type.StartsWith("INLINE_BLOCK:"))
+            if (param.Type.StartsWith(ParamDef.InlineBlock))
             {
-                string delegateName = param.Type["INLINE_BLOCK:".Length..];
+                string delegateName = param.Type[ParamDef.InlineBlock.Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
                 callArgs.Add($"{csParamName}.NativePtr");
@@ -157,9 +157,9 @@ partial class CSharpEmitter
             }
 
             // NSArray param with known element type → typed array + NSArray.FromArray
-            if (param.Type.StartsWith("NSARRAY_PARAM:"))
+            if (param.Type.StartsWith(ParamDef.NsArrayParam))
             {
-                string elemModelType = param.Type["NSARRAY_PARAM:".Length..];
+                string elemModelType = param.Type[ParamDef.NsArrayParam.Length..];
                 string elemCsType = TypeMapper.MapType(elemModelType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
@@ -175,9 +175,9 @@ partial class CSharpEmitter
             }
 
             // NSSet param with known element type → typed array + NSSet.FromArray
-            if (param.Type.StartsWith("NSSET_PARAM:"))
+            if (param.Type.StartsWith(ParamDef.NsSetParam))
             {
-                string elemModelType = param.Type["NSSET_PARAM:".Length..];
+                string elemModelType = param.Type[ParamDef.NsSetParam.Length..];
                 string elemCsType = TypeMapper.MapType(elemModelType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
@@ -492,7 +492,7 @@ partial class CSharpEmitter
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
             ParamDef param = method.Parameters[pi];
-            if (param.Type == "ARRAY_PARAM")
+            if (param.Type == ParamDef.ArrayParam)
             {
                 continue;
             }
@@ -516,9 +516,9 @@ partial class CSharpEmitter
             }
 
             // NSArray param with known element type → typed array + NSArray.FromArray
-            if (param.Type.StartsWith("NSARRAY_PARAM:"))
+            if (param.Type.StartsWith(ParamDef.NsArrayParam))
             {
-                string elemModelType = param.Type["NSARRAY_PARAM:".Length..];
+                string elemModelType = param.Type[ParamDef.NsArrayParam.Length..];
                 string elemCsType = TypeMapper.MapType(elemModelType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
@@ -543,17 +543,17 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (param.Type.StartsWith("OBJ_ARRAY:"))
+            if (param.Type.StartsWith(ParamDef.ObjArray))
             {
                 needsUnsafeContext = true;
-                string elemType = param.Type["OBJ_ARRAY:".Length..];
+                string elemType = param.Type[ParamDef.ObjArray.Length..];
                 string elemCsType = TypeMapper.MapType(elemType + "*");
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
-                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
+                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or ParamDef.ArrayParam, Name: "count" };
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
                 if (arraySetupLines.Count > 0) arraySetupLines.Add("");
@@ -575,10 +575,10 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (param.Type.StartsWith("PRIM_ARRAY:"))
+            if (param.Type.StartsWith(ParamDef.PrimArray))
             {
                 needsUnsafeContext = true;
-                string elemType = param.Type["PRIM_ARRAY:".Length..];
+                string elemType = param.Type[ParamDef.PrimArray.Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemType}[] {csParamName}");
@@ -596,17 +596,17 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (param.Type.StartsWith("STRUCT_ARRAY:"))
+            if (param.Type.StartsWith(ParamDef.StructArray))
             {
                 needsUnsafeContext = true;
-                string elemType = param.Type["STRUCT_ARRAY:".Length..];
+                string elemType = param.Type[ParamDef.StructArray.Length..];
                 string elemCsType = TypeMapper.MapType(elemType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
-                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
+                    method.Parameters[pi + 1] is { Type: "NS::UInteger" or ParamDef.ArrayParam, Name: "count" };
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
                 fixedStatements.Add($"fixed ({elemCsType}* {ptrVar} = {csParamName})");
@@ -623,9 +623,9 @@ partial class CSharpEmitter
                 continue;
             }
 
-            if (param.Type.StartsWith("INLINE_BLOCK:"))
+            if (param.Type.StartsWith(ParamDef.InlineBlock))
             {
-                string delegateName = param.Type["INLINE_BLOCK:".Length..];
+                string delegateName = param.Type[ParamDef.InlineBlock.Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
                 callArgs.Add($"{csParamName}.NativePtr");

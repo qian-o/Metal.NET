@@ -249,47 +249,7 @@ partial class AstJsonParser
             }
 
             // Parse parameters
-            List<ParamDef> parameters = [];
-            bool skipMethod = false;
-            foreach (AstParam p in astMethod.Parameters)
-            {
-                if (IsUnmappableObjCType(p.Type))
-                {
-                    skipMethod = true;
-                    break;
-                }
-
-                string paramType = MapObjCTypeForModel(p.Type);
-
-                // For NSArray params, try to extract generic element type for typed array support
-                if (paramType == "NSArray*")
-                {
-                    string? elemType = ExtractNSArrayElementType(p.Type);
-                    if (elemType != null)
-                    {
-                        paramType = $"NSARRAY_PARAM:{elemType}";
-                    }
-                }
-
-                // For NSSet params, try to extract generic element type for typed array support
-                if (paramType == "NSSet*")
-                {
-                    string? elemType = ExtractNSArrayElementType(p.Type);
-                    if (elemType != null)
-                    {
-                        paramType = $"NSSET_PARAM:{elemType}";
-                    }
-                }
-
-                // Skip methods with unresolved NSArray/NSDictionary parameters
-                if (paramType is "NSArray*" or "NSDictionary*")
-                {
-                    skipMethod = true;
-                    break;
-                }
-
-                parameters.Add(new ParamDef(paramType, p.Name));
-            }
+            var (parameters, skipMethod) = ParseMethodParameters(astMethod.Parameters, skipUnresolvedCollections: true);
 
             if (skipMethod)
             {
@@ -330,40 +290,7 @@ partial class AstJsonParser
             }
 
             // Parse parameters — skip if any are unmappable
-            List<ParamDef> parameters = [];
-            bool skipMethod = false;
-            foreach (AstParam p in astMethod.Parameters)
-            {
-                if (IsUnmappableObjCType(p.Type))
-                {
-                    skipMethod = true;
-                    break;
-                }
-
-                string paramType = MapObjCTypeForModel(p.Type);
-
-                // For NSArray params, try to extract generic element type for typed array support
-                if (paramType == "NSArray*")
-                {
-                    string? elemType = ExtractNSArrayElementType(p.Type);
-                    if (elemType != null)
-                    {
-                        paramType = $"NSARRAY_PARAM:{elemType}";
-                    }
-                }
-
-                // For NSSet params, try to extract generic element type for typed array support
-                if (paramType == "NSSet*")
-                {
-                    string? elemType = ExtractNSArrayElementType(p.Type);
-                    if (elemType != null)
-                    {
-                        paramType = $"NSSET_PARAM:{elemType}";
-                    }
-                }
-
-                parameters.Add(new ParamDef(paramType, p.Name));
-            }
+            var (parameters, skipMethod) = ParseMethodParameters(astMethod.Parameters, skipUnresolvedCollections: false);
 
             if (skipMethod)
             {
@@ -411,6 +338,59 @@ partial class AstJsonParser
 
     #endregion
 
+    #region Parameter Parsing
+
+    /// <summary>
+    /// Parses ObjC AST parameters into <see cref="ParamDef"/> list, resolving NSArray/NSSet generics.
+    /// When <paramref name="skipUnresolvedCollections"/> is <see langword="true"/>, methods with
+    /// unresolved <c>NSArray*</c> or <c>NSDictionary*</c> params are skipped (explicit methods);
+    /// init methods pass <see langword="false"/> since they allow raw collection params.
+    /// </summary>
+    static (List<ParamDef> Parameters, bool Skip) ParseMethodParameters(List<AstParam> astParams, bool skipUnresolvedCollections)
+    {
+        List<ParamDef> parameters = [];
+        foreach (AstParam p in astParams)
+        {
+            if (IsUnmappableObjCType(p.Type))
+            {
+                return ([], true);
+            }
+
+            string paramType = MapObjCTypeForModel(p.Type);
+
+            // For NSArray params, try to extract generic element type for typed array support
+            if (paramType == "NSArray*")
+            {
+                string? elemType = ExtractNSArrayElementType(p.Type);
+                if (elemType != null)
+                {
+                    paramType = $"{ParamDef.NsArrayParam}{elemType}";
+                }
+            }
+
+            // For NSSet params, try to extract generic element type for typed array support
+            if (paramType == "NSSet*")
+            {
+                string? elemType = ExtractNSArrayElementType(p.Type);
+                if (elemType != null)
+                {
+                    paramType = $"{ParamDef.NsSetParam}{elemType}";
+                }
+            }
+
+            // Skip methods with unresolved NSArray/NSDictionary parameters
+            if (skipUnresolvedCollections && paramType is "NSArray*" or "NSDictionary*")
+            {
+                return ([], true);
+            }
+
+            parameters.Add(new ParamDef(paramType, p.Name));
+        }
+        return (parameters, false);
+    }
+
+    #endregion
+
     #region Array Parameter Detection
 
     /// <summary>
@@ -431,9 +411,9 @@ partial class AstJsonParser
             ParamDef next = parameters[i + 1];
 
             // Already tagged as an array by type mapping
-            if (current.Type.StartsWith("OBJ_ARRAY:") ||
-                current.Type.StartsWith("STRUCT_ARRAY:") ||
-                current.Type.StartsWith("PRIM_ARRAY:"))
+            if (current.Type.StartsWith(ParamDef.ObjArray) ||
+                current.Type.StartsWith(ParamDef.StructArray) ||
+                current.Type.StartsWith(ParamDef.PrimArray))
             {
                 continue;
             }
@@ -449,13 +429,13 @@ partial class AstJsonParser
             if (type.StartsWith("const ") && type.EndsWith('*'))
             {
                 string elemType = type["const ".Length..];
-                parameters[i] = new ParamDef($"STRUCT_ARRAY:{elemType}", current.Name);
-                parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
+                parameters[i] = new ParamDef($"{ParamDef.StructArray}{elemType}", current.Name);
+                parameters[i + 1] = new ParamDef(ParamDef.ArrayParam, next.Name);
             }
             else if (type.EndsWith('*') && TypeMapper.StructTypes.Contains(type.TrimEnd('*')))
             {
-                parameters[i] = new ParamDef($"STRUCT_ARRAY:{type}", current.Name);
-                parameters[i + 1] = new ParamDef("ARRAY_PARAM", next.Name);
+                parameters[i] = new ParamDef($"{ParamDef.StructArray}{type}", current.Name);
+                parameters[i + 1] = new ParamDef(ParamDef.ArrayParam, next.Name);
             }
         }
 
@@ -469,9 +449,9 @@ partial class AstJsonParser
                 ParamDef current = parameters[i];
 
                 // Already tagged
-                if (current.Type.StartsWith("OBJ_ARRAY:") ||
-                    current.Type.StartsWith("STRUCT_ARRAY:") ||
-                    current.Type.StartsWith("PRIM_ARRAY:"))
+                if (current.Type.StartsWith(ParamDef.ObjArray) ||
+                    current.Type.StartsWith(ParamDef.StructArray) ||
+                    current.Type.StartsWith(ParamDef.PrimArray))
                 {
                     continue;
                 }
@@ -483,7 +463,7 @@ partial class AstJsonParser
                 {
                     string elemModel = type["const ".Length..].TrimEnd('*').Trim();
                     string csElem = MapPrimElemType(elemModel);
-                    parameters[i] = new ParamDef($"PRIM_ARRAY:{csElem}", current.Name);
+                    parameters[i] = new ParamDef($"{ParamDef.PrimArray}{csElem}", current.Name);
                 }
                 // X* where X is a C primitive → PRIM_ARRAY:csType
                 else if (type.EndsWith('*'))
@@ -491,7 +471,7 @@ partial class AstJsonParser
                     string elemModel = type.TrimEnd('*').Trim();
                     if (PrimElemTypes.ContainsKey(elemModel))
                     {
-                        parameters[i] = new ParamDef($"PRIM_ARRAY:{MapPrimElemType(elemModel)}", current.Name);
+                        parameters[i] = new ParamDef($"{ParamDef.PrimArray}{MapPrimElemType(elemModel)}", current.Name);
                     }
                 }
             }

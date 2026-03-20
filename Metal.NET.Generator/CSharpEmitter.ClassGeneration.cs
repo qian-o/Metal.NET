@@ -166,7 +166,7 @@ partial class CSharpEmitter
         {
             string csName = TypeMapper.ToPascalCase(method.Name);
             string methodSig = csName + "(" + string.Join(",", method.Parameters
-                .Where(p => p.Type != "ARRAY_PARAM")
+                .Where(p => p.Type != ParamDef.ArrayParam)
                 .Select(p => TypeMapper.MapType(p.Type))) + ")";
             if (!emittedMethodSignatures.Add(methodSig))
             {
@@ -187,7 +187,7 @@ partial class CSharpEmitter
         {
             string csName = TypeMapper.ToPascalCase(method.Name);
             string methodSig = csName + "(" + string.Join(",", method.Parameters
-                .Where(p => p.Type != "ARRAY_PARAM")
+                .Where(p => p.Type != ParamDef.ArrayParam)
                 .Select(p => TypeMapper.MapType(p.Type))) + ")";
             if (!emittedMethodSignatures.Add(methodSig))
             {
@@ -211,9 +211,9 @@ partial class CSharpEmitter
             string selectorKey = BuildMethodNameFromSelector(initMethod.Selector!);
             string csMethodName = TypeMapper.ToPascalCase(selectorKey);
             string sig = csMethodName + "(" + string.Join(",", initMethod.Parameters
-                .Where(p => p.Type != "ARRAY_PARAM")
+                .Where(p => p.Type != ParamDef.ArrayParam)
                 .Select(p => p.Type.Contains("Error**") ? "out NSError"
-                    : p.Type.StartsWith("NSARRAY_PARAM:") ? TypeMapper.MapType(p.Type["NSARRAY_PARAM:".Length..]) + "[]"
+                    : p.Type.StartsWith(ParamDef.NsArrayParam) ? TypeMapper.MapType(p.Type[ParamDef.NsArrayParam.Length..]) + "[]"
                     : TypeMapper.MapType(p.Type))) + ")";
             if (!emittedInitSignatures.Add(sig))
             {
@@ -400,9 +400,9 @@ partial class CSharpEmitter
     {
         return method.Parameters.Any(p =>
         {
-            if (p.Type.StartsWith("INLINE_BLOCK:"))
+            if (p.Type.StartsWith(ParamDef.InlineBlock))
             {
-                string delegateName = p.Type["INLINE_BLOCK:".Length..];
+                string delegateName = p.Type[ParamDef.InlineBlock.Length..];
                 return delegateName == "UNKNOWN_BLOCK";
             }
 
@@ -441,12 +441,12 @@ partial class CSharpEmitter
     {
         foreach (ParamDef p in method.Parameters)
         {
-            if (p.Type.StartsWith("OBJ_ARRAY:") ||
-                p.Type.StartsWith("PRIM_ARRAY:") ||
-                p.Type.StartsWith("STRUCT_ARRAY:") ||
-                p.Type.StartsWith("INLINE_BLOCK:") ||
-                p.Type.StartsWith("NSARRAY_PARAM:") ||
-                p.Type == "ARRAY_PARAM")
+            if (p.Type.StartsWith(ParamDef.ObjArray) ||
+                p.Type.StartsWith(ParamDef.PrimArray) ||
+                p.Type.StartsWith(ParamDef.StructArray) ||
+                p.Type.StartsWith(ParamDef.InlineBlock) ||
+                p.Type.StartsWith(ParamDef.NsArrayParam) ||
+                p.Type == ParamDef.ArrayParam)
             {
                 continue;
             }
@@ -481,12 +481,12 @@ partial class CSharpEmitter
 
         for (int i = 0; i < p.Count; i++)
         {
-            if (p[i].Type.StartsWith("OBJ_ARRAY:") ||
-                p[i].Type.StartsWith("PRIM_ARRAY:") ||
-                p[i].Type.StartsWith("STRUCT_ARRAY:"))
+            if (p[i].Type.StartsWith(ParamDef.ObjArray) ||
+                p[i].Type.StartsWith(ParamDef.PrimArray) ||
+                p[i].Type.StartsWith(ParamDef.StructArray))
             {
                 bool nextIsCount = i + 1 < p.Count &&
-                    p[i + 1] is { Type: "NS::UInteger" or "ARRAY_PARAM", Name: "count" };
+                    p[i + 1] is { Type: "NS::UInteger" or ParamDef.ArrayParam, Name: "count" };
 
                 // Also accept when a preceding NS::UInteger supplies the count (e.g., layerCount before layers).
                 bool prevIsCount = i > 0 && p[i - 1].Type is "NS::UInteger";

@@ -18,14 +18,14 @@ partial class AstJsonParser
         if (t.Contains("*const") && t.EndsWith('*'))
         {
             string elem = t.Replace("*const", "").TrimEnd('*', ' ').Trim();
-            return $"OBJ_ARRAY:{elem}";
+            return $"{ParamDef.ObjArray}{elem}";
         }
 
         // id<Protocol> const * → OBJ_ARRAY:Protocol (pointer to array of protocol objects)
         Match idConstPtrMatch = IdProtocolConstPointerRegex().Match(t);
         if (idConstPtrMatch.Success)
         {
-            return $"OBJ_ARRAY:{idConstPtrMatch.Groups[1].Value}";
+            return $"{ParamDef.ObjArray}{idConstPtrMatch.Groups[1].Value}";
         }
 
         // id<Protocol> → Protocol*
@@ -98,9 +98,9 @@ partial class AstJsonParser
             if (inlineBlockMatch.Success &&
                 InlineBlockDelegateNames.TryGetValue(inlineBlockMatch.Groups[1].Value.Trim(), out string? delegateName))
             {
-                return $"INLINE_BLOCK:{delegateName}";
+                return $"{ParamDef.InlineBlock}{delegateName}";
             }
-            return "INLINE_BLOCK:UNKNOWN_BLOCK";
+            return $"{ParamDef.InlineBlock}UNKNOWN_BLOCK";
         }
 
         // C primitive types — pass through as-is
@@ -188,6 +188,25 @@ partial class AstJsonParser
         return null;
     }
 
+    /// <summary>Exact-match ObjC types that cannot be mapped to C#.</summary>
+    static readonly HashSet<string> UnmappableExactTypes =
+    [
+        "IMP", "SEL", "FourCharCode", "id *", "NSStringEncodingConversionOptions"
+    ];
+
+    /// <summary>Substring patterns that mark an ObjC type as unmappable.</summary>
+    static readonly string[] UnmappablePatterns =
+    [
+        "NS::Process", "NS::Observer", "NSProcess", "NSObserver",
+        "ObjectType", "KeyType", "NS_RETURNS_INNER_POINTER",
+        "NSStringEncoding *", "NSCoder", "MTLIOCompressionContext", "va_list",
+        "NSDate", "NSLocale", "NSCharacterSet", "NSStringTransform",
+        "NSRangePointer", "NSURLBookmark", "NSURLHandle", "NSURLResourceKey",
+        "NSDataWritingOptions", "NSDataSearchOptions", "NSDataReadingOptions",
+        "NSDataBase64", "NSDataCompressionAlgorithm", "NSDecimal",
+        "NSLinguistic", "NSEnumerator", "NSErrorDomain",
+    ];
+
     /// <summary>
     /// Returns <see langword="true"/> if an ObjC type from the AST cannot be mapped to C#
     /// and the containing method/property should be skipped.
@@ -196,40 +215,27 @@ partial class AstJsonParser
     {
         string t = StripNullability(objcType).Trim();
 
-        // Exact-match unmappable types
-        if (t is "IMP" or "SEL" or "FourCharCode" or "id *")
+        if (UnmappableExactTypes.Contains(t))
         {
             return true;
         }
 
-        // Pattern-based exclusions
-        return t.Contains("NS::Process") || t.Contains("NS::Observer")
-            || t.Contains("NSProcess") || t.Contains("NSObserver")
+        // Structural exclusions: complex pointer patterns
+        if ((t.Contains("*const ") && !t.EndsWith('*'))
+            || (t.Contains("const") && t.Contains("* _Nonnull *") && !t.EndsWith('*')))
+        {
+            return true;
+        }
 
-            || t.Contains("ObjectType") || t.Contains("KeyType")
-            || t.Contains("NS_RETURNS_INNER_POINTER")
-            || t.Contains("NSStringEncoding *") || t == "NSStringEncodingConversionOptions"
-            || (t.Contains("*const ") && !t.EndsWith('*')) || (t.Contains("const") && t.Contains("* _Nonnull *") && !t.EndsWith('*'))
-            || t.Contains("NSCoder")
-            || t.Contains("MTLIOCompressionContext")
-            || t.Contains("va_list")
-            || t.Contains("NSDate")
-            || t.Contains("NSLocale")
-            || t.Contains("NSCharacterSet")
-            || t.Contains("NSStringTransform")
-            || t.Contains("NSRangePointer")
-            || t.Contains("NSURLBookmark")
-            || t.Contains("NSURLHandle")
-            || t.Contains("NSURLResourceKey")
-            || t.Contains("NSDataWritingOptions")
-            || t.Contains("NSDataSearchOptions")
-            || t.Contains("NSDataReadingOptions")
-            || t.Contains("NSDataBase64")
-            || t.Contains("NSDataCompressionAlgorithm")
-            || t.Contains("NSDecimal")
-            || t.Contains("NSLinguistic")
-            || t.Contains("NSEnumerator")
-            || t.Contains("NSErrorDomain");
+        foreach (string pattern in UnmappablePatterns)
+        {
+            if (t.Contains(pattern))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #endregion
