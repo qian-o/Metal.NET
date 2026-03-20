@@ -78,6 +78,16 @@ internal static unsafe partial class ObjectiveC
         ((delegate* unmanaged<nint, Selector, Bool8, void>)msgSend)(receiver, selector, a);
     }
 
+    public static void MsgSend(nint receiver, Selector selector, CGSize a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        ((delegate* unmanaged<nint, Selector, CGSize, void>)msgSend)(receiver, selector, a);
+    }
+
     public static void MsgSend(nint receiver, Selector selector, MTL4BufferRange a)
     {
         if (receiver is 0)
@@ -1107,6 +1117,20 @@ internal static unsafe partial class ObjectiveC
         }
 
         return ((delegate* unmanaged<nint, Selector, ulong, ulong, Bool8>)msgSend)(receiver, selector, a, b);
+    }
+
+    #endregion
+
+    #region MsgSendCGSize
+
+    public static CGSize MsgSendCGSize(nint receiver, Selector selector)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return ((delegate* unmanaged<nint, Selector, CGSize>)msgSend)(receiver, selector);
     }
 
     #endregion

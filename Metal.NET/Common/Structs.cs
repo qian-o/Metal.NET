@@ -3,14 +3,6 @@
 namespace Metal.NET;
 
 [StructLayout(LayoutKind.Sequential)]
-public struct CGSize(double width, double height)
-{
-    public double Width = width;
-
-    public double Height = height;
-}
-
-[StructLayout(LayoutKind.Sequential)]
 public struct SimdFloat4(float x, float y, float z, float w)
 {
     public float X = x;

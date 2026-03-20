@@ -256,6 +256,10 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         RecordMsgSend("MsgSendNUInt");
         RecordMsgSend("MsgSend");
 
+        // Hand-written Core Animation classes (CAMetalLayer, etc.)
+        RecordMsgSend("MsgSendCGSize");
+        RecordMsgSend("MsgSend", "CGSize");
+
         foreach (ClassDef classDef in context.Classes)
         {
             string csClassName = classDef.FullCsName;
