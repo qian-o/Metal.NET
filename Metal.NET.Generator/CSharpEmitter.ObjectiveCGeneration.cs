@@ -12,7 +12,8 @@ partial class CSharpEmitter
     /// </summary>
     void GenerateObjectiveCFile()
     {
-        string dir = Path.Combine(outputDir, "Common");
+        // Output to Metal.NET/Common/ (alongside hand-written files), not Generated/Common/
+        string dir = Path.Combine(outputDir, "..", "Common");
         Directory.CreateDirectory(dir);
 
         StringBuilder sb = new();
