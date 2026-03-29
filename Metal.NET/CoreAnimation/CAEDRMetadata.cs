@@ -1,6 +1,6 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
-public partial class CAEDRMetadata(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<CAEDRMetadata>
+public class CAEDRMetadata(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<CAEDRMetadata>
 {
     #region INativeObject
     public static new CAEDRMetadata Null { get; } = new(0, NativeObjectOwnership.Borrowed);
