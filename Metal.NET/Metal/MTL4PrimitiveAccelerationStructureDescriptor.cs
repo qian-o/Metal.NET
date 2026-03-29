@@ -15,9 +15,9 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr, Native
     {
     }
 
-    public MTLAccelerationStructureGeometryDescriptor[] GeometryDescriptors
+    public MTL4AccelerationStructureGeometryDescriptor[] GeometryDescriptors
     {
-        get => GetArrayProperty<MTLAccelerationStructureGeometryDescriptor>(MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
+        get => GetArrayProperty<MTL4AccelerationStructureGeometryDescriptor>(MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
         set => SetArrayProperty(MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
     }
 

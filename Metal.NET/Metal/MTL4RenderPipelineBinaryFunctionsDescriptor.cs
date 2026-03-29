@@ -15,33 +15,33 @@ public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, NativeO
     {
     }
 
-    public MTLFunction[] VertexAdditionalBinaryFunctions
+    public MTL4BinaryFunction[] VertexAdditionalBinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.VertexAdditionalBinaryFunctions);
+        get => GetArrayProperty<MTL4BinaryFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.VertexAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetVertexAdditionalBinaryFunctions, value);
     }
 
-    public MTLFunction[] FragmentAdditionalBinaryFunctions
+    public MTL4BinaryFunction[] FragmentAdditionalBinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.FragmentAdditionalBinaryFunctions);
+        get => GetArrayProperty<MTL4BinaryFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.FragmentAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetFragmentAdditionalBinaryFunctions, value);
     }
 
-    public MTLFunction[] TileAdditionalBinaryFunctions
+    public MTL4BinaryFunction[] TileAdditionalBinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.TileAdditionalBinaryFunctions);
+        get => GetArrayProperty<MTL4BinaryFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.TileAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetTileAdditionalBinaryFunctions, value);
     }
 
-    public MTLFunction[] ObjectAdditionalBinaryFunctions
+    public MTL4BinaryFunction[] ObjectAdditionalBinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.ObjectAdditionalBinaryFunctions);
+        get => GetArrayProperty<MTL4BinaryFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.ObjectAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetObjectAdditionalBinaryFunctions, value);
     }
 
-    public MTLFunction[] MeshAdditionalBinaryFunctions
+    public MTL4BinaryFunction[] MeshAdditionalBinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.MeshAdditionalBinaryFunctions);
+        get => GetArrayProperty<MTL4BinaryFunction>(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.MeshAdditionalBinaryFunctions);
         set => SetArrayProperty(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetMeshAdditionalBinaryFunctions, value);
     }
 

@@ -97,18 +97,19 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
             return elementType;
         }
 
+        // Check element types extracted from AST generics by the parser before suffix rules,
+        // because AST generics carry the exact type (e.g. MTL4 vs MTL) for each class.
+        if (context.NSArrayReturnTypes.TryGetValue((className, propertyName), out string? astElemType))
+        {
+            return astElemType;
+        }
+
         foreach ((string suffix, string elemType) in NSArraySuffixRules)
         {
             if (propertyName.EndsWith(suffix, StringComparison.Ordinal))
             {
                 return elemType;
             }
-        }
-
-        // Fallback: check element types extracted from AST generics by the parser
-        if (context.NSArrayReturnTypes.TryGetValue((className, propertyName), out string? astElemType))
-        {
-            return astElemType;
         }
 
         return null;
