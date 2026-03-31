@@ -58,19 +58,13 @@ partial class CSharpEmitter
         bool returnsArray = sig.ArrayElemType != null;
         bool nullable = !returnsArray && typeMapper.IsNativeObjectType(sig.CsReturnType);
 
-        string csFullReturnType = returnsArray ? $"{sig.ArrayElemType}[]" : sig.CsReturnType;
+        string csFullReturnType = returnsArray ? $"NSArray<{sig.ArrayElemType}>" : sig.CsReturnType;
 
         if (returnsArray)
         {
             sb.AppendLine($"    public static {csFullReturnType} {func.Name}({sig.WrapperParams})");
             sb.AppendLine("    {");
-            sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({sig.CallArgs});");
-            sb.AppendLine();
-            sb.AppendLine($"        {sig.ArrayElemType}[] result = NSArray.ToArray<{sig.ArrayElemType}>(nativePtr);");
-            sb.AppendLine();
-            sb.AppendLine("        ObjectiveC.Release(nativePtr);");
-            sb.AppendLine();
-            sb.AppendLine("        return result;");
+            sb.AppendLine($"        return new({func.CEntryPoint}({sig.CallArgs}), NativeObjectOwnership.Owned);");
             sb.AppendLine("    }");
         }
         else if (nullable)

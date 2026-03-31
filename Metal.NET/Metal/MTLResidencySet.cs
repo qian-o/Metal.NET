@@ -26,9 +26,9 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
         get => ObjectiveC.MsgSendULong(NativePtr, MTLResidencySetBindings.AllocatedSize);
     }
 
-    public MTLAllocation[] AllAllocations
+    public NSArray<MTLAllocation> AllAllocations
     {
-        get => GetArrayProperty<MTLAllocation>(MTLResidencySetBindings.AllAllocations);
+        get => GetProperty(ref field, MTLResidencySetBindings.AllAllocations);
     }
 
     public nuint AllocationCount

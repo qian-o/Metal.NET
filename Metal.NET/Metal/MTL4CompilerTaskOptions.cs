@@ -15,10 +15,10 @@ public class MTL4CompilerTaskOptions(nint nativePtr, NativeObjectOwnership owner
     {
     }
 
-    public MTL4Archive[] LookupArchives
+    public NSArray<MTL4Archive> LookupArchives
     {
-        get => GetArrayProperty<MTL4Archive>(MTL4CompilerTaskOptionsBindings.LookupArchives);
-        set => SetArrayProperty(MTL4CompilerTaskOptionsBindings.SetLookupArchives, value);
+        get => GetProperty(ref field, MTL4CompilerTaskOptionsBindings.LookupArchives);
+        set => SetProperty(ref field, MTL4CompilerTaskOptionsBindings.SetLookupArchives, value);
     }
 }
 

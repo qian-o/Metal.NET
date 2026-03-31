@@ -155,7 +155,6 @@ partial class TypeMapper(GeneratorContext context)
             "IOSurfaceRef" => "nint",
             "dispatch_queue_t" => "DispatchQueue",
             "dispatch_data_t" => "DispatchData",
-            "NSSet" => "nint",
             "CGColorSpaceRef" => "CGColorSpace",
             "CFTimeInterval" => "double",
             "CGSize" => "CGSize",

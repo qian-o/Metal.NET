@@ -15,22 +15,22 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
     {
     }
 
-    public MTLFunctionStitchingGraph[] FunctionGraphs
+    public NSArray<MTLFunctionStitchingGraph> FunctionGraphs
     {
-        get => GetArrayProperty<MTLFunctionStitchingGraph>(MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
+        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
     }
 
-    public MTLFunction[] Functions
+    public NSArray<MTLFunction> Functions
     {
-        get => GetArrayProperty<MTLFunction>(MTLStitchedLibraryDescriptorBindings.Functions);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.Functions);
+        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
     }
 
-    public MTLBinaryArchive[] BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLStitchedLibraryDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLStitchedLibraryOptions Options

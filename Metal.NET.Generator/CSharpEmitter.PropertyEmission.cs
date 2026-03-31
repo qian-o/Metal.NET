@@ -57,12 +57,12 @@ partial class CSharpEmitter
 
         if (isNSArray)
         {
-            sb.AppendLine($"    public {nsArrayElemType}[] {csPropName}");
+            sb.AppendLine($"    public NSArray<{nsArrayElemType}> {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => GetArrayProperty<{nsArrayElemType}>({selectorRef});");
+            sb.AppendLine($"        get => GetProperty(ref field, {selectorRef});");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => SetArrayProperty({csClassName}Bindings.{setSelName}, value);");
+                sb.AppendLine($"        set => SetProperty(ref field, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }

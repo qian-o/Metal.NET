@@ -11,18 +11,18 @@ public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership 
     }
     #endregion
 
-    public MTLBinding[] Bindings
+    public NSArray<MTLBinding> Bindings
     {
-        get => GetArrayProperty<MTLBinding>(MTLComputePipelineReflectionBindings.Bindings);
+        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Bindings);
     }
 
     /// <summary>
     /// Deprecated: Use bindings instead
     /// </summary>
     [Obsolete("Use bindings instead")]
-    public MTLArgument[] Arguments
+    public NSArray<MTLArgument> Arguments
     {
-        get => GetArrayProperty<MTLArgument>(MTLComputePipelineReflectionBindings.Arguments);
+        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Arguments);
     }
 }
 

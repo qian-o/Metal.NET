@@ -21,16 +21,16 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, NativeObj
         set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetMaxCallStackDepth, value);
     }
 
-    public MTL4BinaryFunction[] BinaryLinkedFunctions
+    public NSArray<MTL4BinaryFunction> BinaryLinkedFunctions
     {
-        get => GetArrayProperty<MTL4BinaryFunction>(MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
-        set => SetArrayProperty(MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value);
+        get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
+        set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value);
     }
 
-    public MTLDynamicLibrary[] PreloadedLibraries
+    public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
-        get => GetArrayProperty<MTLDynamicLibrary>(MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
-        set => SetArrayProperty(MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value);
+        get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
+        set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value);
     }
 }
 

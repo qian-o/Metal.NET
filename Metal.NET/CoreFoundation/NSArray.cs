@@ -1,32 +1,72 @@
 ﻿namespace Metal.NET;
 
 /// <summary>
-/// A static ordered collection of objects.
+/// A typed ordered collection of objects backed by an Objective-C NSArray.
 /// </summary>
-public static class NSArray
+public class NSArray<T>(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSArray<T>> where T : NativeObject, INativeObject<T>
 {
-    public static T[] ToArray<T>(nint nativePtr) where T : NativeObject, INativeObject<T>
+    #region INativeObject
+    public static new NSArray<T> Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+
+    public static new NSArray<T> New(nint nativePtr, NativeObjectOwnership ownership)
     {
-        nuint count = ObjectiveC.MsgSendNUInt(nativePtr, NSArrayBindings.Count);
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-        T[] result = new T[(int)count];
+    private T[]? cachedItems;
 
-        for (nuint i = 0; i < count; i++)
-        {
-            result[(int)i] = T.New(ObjectiveC.MsgSendNInt(nativePtr, NSArrayBindings.ObjectAtIndex, i), NativeObjectOwnership.Borrowed);
-        }
-
-        return result;
+    public nuint Count
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
     }
 
-    public static unsafe nint FromArray<T>(T[] array) where T : NativeObject
+    public T this[nuint index]
+    {
+        get
+        {
+            int count = (int)Count;
+
+            if (cachedItems is null || cachedItems.Length != count)
+            {
+                cachedItems = new T[count];
+            }
+
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSArrayBindings.ObjectAtIndex, index);
+
+            if (cachedItems[index] is null || cachedItems[index].NativePtr != nativePtr)
+            {
+                cachedItems[index] = T.New(nativePtr, NativeObjectOwnership.Borrowed);
+            }
+
+            return cachedItems[index];
+        }
+    }
+
+    public static unsafe implicit operator NSArray<T>(T[] array)
     {
         nint[] nativePtrs = [.. array.Select(static item => item.NativePtr)];
 
         fixed (nint* pNativePtrs = nativePtrs)
         {
-            return ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)array.Length);
+            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)array.Length);
+
+            return new(nativePtr, NativeObjectOwnership.Managed);
         }
+    }
+
+    public static implicit operator T[](NSArray<T> array)
+    {
+        int count = (int)array.Count;
+
+        T[] result = new T[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            result[i] = array[(uint)i];
+        }
+
+        return result;
     }
 }
 

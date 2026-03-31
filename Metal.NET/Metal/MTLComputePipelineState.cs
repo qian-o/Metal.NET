@@ -75,15 +75,11 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLComputePipelineState MakeComputePipelineState(MTL4BinaryFunction[] additionalBinaryFunctions, out NSError error)
+    public MTLComputePipelineState MakeComputePipelineState(NSArray<MTL4BinaryFunction> additionalBinaryFunctions, out NSError error)
     {
-        nint pAdditionalBinaryFunctions = NSArray.FromArray(additionalBinaryFunctions);
-
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions_Error, pAdditionalBinaryFunctions, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions_Error, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
-
-        ObjectiveC.Release(pAdditionalBinaryFunctions);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -100,15 +96,11 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLComputePipelineState MakeComputePipelineStateWithAdditionalBinaryFunctions(MTLFunction[] functions, out NSError error)
+    public MTLComputePipelineState MakeComputePipelineStateWithAdditionalBinaryFunctions(NSArray<MTLFunction> functions, out NSError error)
     {
-        nint pFunctions = NSArray.FromArray(functions);
-
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithAdditionalBinaryFunctions_Error, pFunctions, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithAdditionalBinaryFunctions_Error, functions.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
-
-        ObjectiveC.Release(pFunctions);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

@@ -15,10 +15,10 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr, Native
     {
     }
 
-    public MTL4AccelerationStructureGeometryDescriptor[] GeometryDescriptors
+    public NSArray<MTL4AccelerationStructureGeometryDescriptor> GeometryDescriptors
     {
-        get => GetArrayProperty<MTL4AccelerationStructureGeometryDescriptor>(MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
-        set => SetArrayProperty(MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
+        get => GetProperty(ref field, MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
+        set => SetProperty(ref field, MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
     }
 
     public MTLMotionBorderMode MotionStartBorderMode

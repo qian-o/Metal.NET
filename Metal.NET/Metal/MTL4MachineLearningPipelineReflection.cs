@@ -11,9 +11,9 @@ public class MTL4MachineLearningPipelineReflection(nint nativePtr, NativeObjectO
     }
     #endregion
 
-    public MTLBinding[] Bindings
+    public NSArray<MTLBinding> Bindings
     {
-        get => GetArrayProperty<MTLBinding>(MTL4MachineLearningPipelineReflectionBindings.Bindings);
+        get => GetProperty(ref field, MTL4MachineLearningPipelineReflectionBindings.Bindings);
     }
 }
 

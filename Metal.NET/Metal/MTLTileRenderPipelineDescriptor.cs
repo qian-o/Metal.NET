@@ -55,16 +55,16 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
-    public MTLBinaryArchive[] BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
-    public MTLDynamicLibrary[] PreloadedLibraries
+    public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
-        get => GetArrayProperty<MTLDynamicLibrary>(MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
-        set => SetArrayProperty(MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
+        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
     public MTLLinkedFunctions LinkedFunctions

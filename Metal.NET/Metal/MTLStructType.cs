@@ -11,9 +11,9 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
     }
     #endregion
 
-    public MTLStructMember[] Members
+    public NSArray<MTLStructMember> Members
     {
-        get => GetArrayProperty<MTLStructMember>(MTLStructTypeBindings.Members);
+        get => GetProperty(ref field, MTLStructTypeBindings.Members);
     }
 
     public MTLStructMember MemberByName(NSString name)

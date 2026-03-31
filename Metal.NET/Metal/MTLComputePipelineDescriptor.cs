@@ -60,22 +60,22 @@ public class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership 
     /// Deprecated: Use preloadedLibraries instead
     /// </summary>
     [Obsolete("Use preloadedLibraries instead")]
-    public MTLDynamicLibrary[] InsertLibraries
+    public NSArray<MTLDynamicLibrary> InsertLibraries
     {
-        get => GetArrayProperty<MTLDynamicLibrary>(MTLComputePipelineDescriptorBindings.InsertLibraries);
-        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.InsertLibraries);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
     }
 
-    public MTLDynamicLibrary[] PreloadedLibraries
+    public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
-        get => GetArrayProperty<MTLDynamicLibrary>(MTLComputePipelineDescriptorBindings.PreloadedLibraries);
-        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
-    public MTLBinaryArchive[] BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLComputePipelineDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLLinkedFunctions LinkedFunctions

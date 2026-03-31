@@ -21,7 +21,6 @@ record ParamDef(string Type, string Name)
     internal const string StructArray = "STRUCT_ARRAY:";
     internal const string PrimArray = "PRIM_ARRAY:";
     internal const string NsArrayParam = "NSARRAY_PARAM:";
-    internal const string NsSetParam = "NSSET_PARAM:";
     internal const string InlineBlock = "INLINE_BLOCK:";
     internal const string ArrayParam = "ARRAY_PARAM";
 }

@@ -21,27 +21,21 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwners
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
     }
 
-    public MTLFunctionStitchingNode[] Arguments
+    public NSArray<MTLFunctionStitchingNode> Arguments
     {
-        get => GetArrayProperty<MTLFunctionStitchingNode>(MTLFunctionStitchingFunctionNodeBindings.Arguments);
-        set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
+        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
     }
 
-    public MTLFunctionStitchingFunctionNode[] ControlDependencies
+    public NSArray<MTLFunctionStitchingFunctionNode> ControlDependencies
     {
-        get => GetArrayProperty<MTLFunctionStitchingFunctionNode>(MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
-        set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
+        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
     }
 
-    public static MTLFunctionStitchingFunctionNode InitWithName(NSString name, MTLFunctionStitchingNode[] arguments, MTLFunctionStitchingFunctionNode[] controlDependencies)
+    public static MTLFunctionStitchingFunctionNode InitWithName(NSString name, NSArray<MTLFunctionStitchingNode> arguments, NSArray<MTLFunctionStitchingFunctionNode> controlDependencies)
     {
-        nint pArguments = NSArray.FromArray(arguments);
-        nint pControlDependencies = NSArray.FromArray(controlDependencies);
-
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLFunctionStitchingFunctionNodeBindings.Class), MTLFunctionStitchingFunctionNodeBindings.InitWithName_Arguments_ControlDependencies, name.NativePtr, pArguments, pControlDependencies);
-
-        ObjectiveC.Release(pArguments);
-        ObjectiveC.Release(pControlDependencies);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLFunctionStitchingFunctionNodeBindings.Class), MTLFunctionStitchingFunctionNodeBindings.InitWithName_Arguments_ControlDependencies, name.NativePtr, arguments.NativePtr, controlDependencies.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }

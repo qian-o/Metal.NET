@@ -61,10 +61,10 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetInstallName, value);
     }
 
-    public MTLDynamicLibrary[] Libraries
+    public NSArray<MTLDynamicLibrary> Libraries
     {
-        get => GetArrayProperty<MTLDynamicLibrary>(MTLCompileOptionsBindings.Libraries);
-        set => SetArrayProperty(MTLCompileOptionsBindings.SetLibraries, value);
+        get => GetProperty(ref field, MTLCompileOptionsBindings.Libraries);
+        set => SetProperty(ref field, MTLCompileOptionsBindings.SetLibraries, value);
     }
 
     public Bool8 PreserveInvariance

@@ -123,7 +123,7 @@ partial class AstJsonParser
         "NSObject", "NSArray",
         "NSValue", "NSProcessInfo", "NSAutoreleasePool",
         "NSDate", "NSNotification", "NSNotificationCenter",
-        "NSSet", "NSEnumerator",
+        "NSEnumerator",
     ];
 
     /// <summary>Structs to skip during parsing.</summary>

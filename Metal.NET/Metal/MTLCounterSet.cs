@@ -16,9 +16,9 @@ public class MTLCounterSet(nint nativePtr, NativeObjectOwnership ownership) : NS
         get => GetProperty(ref field, MTLCounterSetBindings.Name);
     }
 
-    public MTLCounter[] Counters
+    public NSArray<MTLCounter> Counters
     {
-        get => GetArrayProperty<MTLCounter>(MTLCounterSetBindings.Counters);
+        get => GetProperty(ref field, MTLCounterSetBindings.Counters);
     }
 }
 

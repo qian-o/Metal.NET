@@ -37,14 +37,14 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         get => ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.PatchControlPointCount);
     }
 
-    public MTLVertexAttribute[] VertexAttributes
+    public NSArray<MTLVertexAttribute> VertexAttributes
     {
-        get => GetArrayProperty<MTLVertexAttribute>(MTLFunctionBindings.VertexAttributes);
+        get => GetProperty(ref field, MTLFunctionBindings.VertexAttributes);
     }
 
-    public MTLAttribute[] StageInputAttributes
+    public NSArray<MTLAttribute> StageInputAttributes
     {
-        get => GetArrayProperty<MTLAttribute>(MTLFunctionBindings.StageInputAttributes);
+        get => GetProperty(ref field, MTLFunctionBindings.StageInputAttributes);
     }
 
     public NSString Name

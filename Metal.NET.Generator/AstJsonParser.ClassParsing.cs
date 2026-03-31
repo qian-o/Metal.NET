@@ -341,7 +341,7 @@ partial class AstJsonParser
     #region Parameter Parsing
 
     /// <summary>
-    /// Parses ObjC AST parameters into <see cref="ParamDef"/> list, resolving NSArray/NSSet generics.
+    /// Parses ObjC AST parameters into <see cref="ParamDef"/> list, resolving NSArray generics.
     /// When <paramref name="skipUnresolvedCollections"/> is <see langword="true"/>, methods with
     /// unresolved <c>NSArray*</c> or <c>NSDictionary*</c> params are skipped (explicit methods);
     /// init methods pass <see langword="false"/> since they allow raw collection params.
@@ -365,16 +365,6 @@ partial class AstJsonParser
                 if (elemType != null)
                 {
                     paramType = $"{ParamDef.NsArrayParam}{elemType}";
-                }
-            }
-
-            // For NSSet params, try to extract generic element type for typed array support
-            if (paramType == "NSSet*")
-            {
-                string? elemType = ExtractNSArrayElementType(p.Type);
-                if (elemType != null)
-                {
-                    paramType = $"{ParamDef.NsSetParam}{elemType}";
                 }
             }
 

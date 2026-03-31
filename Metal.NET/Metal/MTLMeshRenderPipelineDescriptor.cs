@@ -143,10 +143,10 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
 
-    public MTLBinaryArchive[] BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLLinkedFunctions ObjectLinkedFunctions

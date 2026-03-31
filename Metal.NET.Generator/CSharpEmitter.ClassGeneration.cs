@@ -213,7 +213,7 @@ partial class CSharpEmitter
             string sig = csMethodName + "(" + string.Join(",", initMethod.Parameters
                 .Where(p => p.Type != ParamDef.ArrayParam)
                 .Select(p => p.Type.Contains("Error**") ? "out NSError"
-                    : p.Type.StartsWith(ParamDef.NsArrayParam) ? TypeMapper.MapType(p.Type[ParamDef.NsArrayParam.Length..]) + "[]"
+                    : p.Type.StartsWith(ParamDef.NsArrayParam) ? "NSArray<" + TypeMapper.MapType(p.Type[ParamDef.NsArrayParam.Length..]) + ">"
                     : TypeMapper.MapType(p.Type))) + ")";
             if (!emittedInitSignatures.Add(sig))
             {

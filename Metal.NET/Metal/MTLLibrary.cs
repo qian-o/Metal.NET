@@ -22,9 +22,9 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
         get => GetProperty(ref field, MTLLibraryBindings.Device);
     }
 
-    public NSString[] FunctionNames
+    public NSArray<NSString> FunctionNames
     {
-        get => GetArrayProperty<NSString>(MTLLibraryBindings.FunctionNames);
+        get => GetProperty(ref field, MTLLibraryBindings.FunctionNames);
     }
 
     public MTLLibraryType Type

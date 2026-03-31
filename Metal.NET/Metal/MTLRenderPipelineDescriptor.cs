@@ -160,22 +160,22 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
 
-    public MTLBinaryArchive[] BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
-    public MTLDynamicLibrary[] VertexPreloadedLibraries
+    public NSArray<MTLDynamicLibrary> VertexPreloadedLibraries
     {
-        get => GetArrayProperty<MTLDynamicLibrary>(MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
-        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);
+        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
+        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);
     }
 
-    public MTLDynamicLibrary[] FragmentPreloadedLibraries
+    public NSArray<MTLDynamicLibrary> FragmentPreloadedLibraries
     {
-        get => GetArrayProperty<MTLDynamicLibrary>(MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
-        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
+        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
+        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
     }
 
     public MTLLinkedFunctions VertexLinkedFunctions

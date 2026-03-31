@@ -16,9 +16,9 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr, NativeObjectOwnership o
         get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.Label);
     }
 
-    public NSString[] DebugSignposts
+    public NSArray<NSString> DebugSignposts
     {
-        get => GetArrayProperty<NSString>(MTLCommandBufferEncoderInfoBindings.DebugSignposts);
+        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
     }
 
     public MTLCommandEncoderErrorState ErrorState

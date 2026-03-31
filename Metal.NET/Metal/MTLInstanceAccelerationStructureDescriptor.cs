@@ -39,10 +39,10 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, NativeOb
         set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceCount, value);
     }
 
-    public MTLAccelerationStructure[] InstancedAccelerationStructures
+    public NSArray<MTLAccelerationStructure> InstancedAccelerationStructures
     {
-        get => GetArrayProperty<MTLAccelerationStructure>(MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
-        set => SetArrayProperty(MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
+        get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
+        set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
     }
 
     public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType

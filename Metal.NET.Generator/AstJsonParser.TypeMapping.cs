@@ -46,11 +46,6 @@ partial class AstJsonParser
             return "NSDictionary*";
         }
 
-        if (t is "NSSet" || t.StartsWith("NSSet<") || t.StartsWith("NSSet *"))
-        {
-            return "NSSet*";
-        }
-
         // Well-known exact-match types → switch expression
         string? exactMatch = t switch
         {

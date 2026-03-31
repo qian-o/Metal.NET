@@ -39,10 +39,10 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
         set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 
-    public MTLBinaryArchive[] BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLFunctionDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLFunctionDescriptorBindings.SetBinaryArchives, value);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetBinaryArchives, value);
     }
 
     public static MTLFunctionDescriptor FunctionDescriptor()

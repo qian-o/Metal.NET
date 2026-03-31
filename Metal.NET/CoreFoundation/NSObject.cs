@@ -41,22 +41,6 @@ public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeO
         field = T.New(value.NativePtr, NativeObjectOwnership.Borrowed);
     }
 
-    protected T[] GetArrayProperty<T>(Selector selector) where T : NativeObject, INativeObject<T>
-    {
-        nint arrayPtr = ObjectiveC.MsgSendNInt(NativePtr, selector);
-
-        return NSArray.ToArray<T>(arrayPtr);
-    }
-
-    protected void SetArrayProperty<T>(Selector selector, T[] value) where T : NativeObject
-    {
-        nint arrayPtr = NSArray.FromArray(value);
-
-        ObjectiveC.MsgSend(NativePtr, selector, arrayPtr);
-
-        ObjectiveC.Release(arrayPtr);
-    }
-
     protected override void ReleaseNative()
     {
         ObjectiveC.Release(NativePtr);

@@ -15,22 +15,22 @@ public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr, NativeObjectOw
     {
     }
 
-    public MTLFunction[] VertexAdditionalBinaryFunctions
+    public NSArray<MTLFunction> VertexAdditionalBinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTLRenderPipelineFunctionsDescriptorBindings.VertexAdditionalBinaryFunctions);
-        set => SetArrayProperty(MTLRenderPipelineFunctionsDescriptorBindings.SetVertexAdditionalBinaryFunctions, value);
+        get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.VertexAdditionalBinaryFunctions);
+        set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetVertexAdditionalBinaryFunctions, value);
     }
 
-    public MTLFunction[] FragmentAdditionalBinaryFunctions
+    public NSArray<MTLFunction> FragmentAdditionalBinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTLRenderPipelineFunctionsDescriptorBindings.FragmentAdditionalBinaryFunctions);
-        set => SetArrayProperty(MTLRenderPipelineFunctionsDescriptorBindings.SetFragmentAdditionalBinaryFunctions, value);
+        get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.FragmentAdditionalBinaryFunctions);
+        set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetFragmentAdditionalBinaryFunctions, value);
     }
 
-    public MTLFunction[] TileAdditionalBinaryFunctions
+    public NSArray<MTLFunction> TileAdditionalBinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTLRenderPipelineFunctionsDescriptorBindings.TileAdditionalBinaryFunctions);
-        set => SetArrayProperty(MTLRenderPipelineFunctionsDescriptorBindings.SetTileAdditionalBinaryFunctions, value);
+        get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.TileAdditionalBinaryFunctions);
+        set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetTileAdditionalBinaryFunctions, value);
     }
 }
 

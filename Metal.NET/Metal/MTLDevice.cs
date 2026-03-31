@@ -177,9 +177,9 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDeviceBindings.MaxBufferLength);
     }
 
-    public MTLCounterSet[] CounterSets
+    public NSArray<MTLCounterSet> CounterSets
     {
-        get => GetArrayProperty<MTLCounterSet>(MTLDeviceBindings.CounterSets);
+        get => GetProperty(ref field, MTLDeviceBindings.CounterSets);
     }
 
     public Bool8 SupportsDynamicLibraries
@@ -565,13 +565,9 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         }
     }
 
-    public MTLArgumentEncoder MakeArgumentEncoder(MTLArgumentDescriptor[] arguments)
+    public MTLArgumentEncoder MakeArgumentEncoder(NSArray<MTLArgumentDescriptor> arguments)
     {
-        nint pArguments = NSArray.FromArray(arguments);
-
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewArgumentEncoderWithArguments, pArguments);
-
-        ObjectiveC.Release(pArguments);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewArgumentEncoderWithArguments, arguments.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

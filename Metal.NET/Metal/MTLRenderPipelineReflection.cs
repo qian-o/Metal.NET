@@ -11,56 +11,56 @@ public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership o
     }
     #endregion
 
-    public MTLBinding[] VertexBindings
+    public NSArray<MTLBinding> VertexBindings
     {
-        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.VertexBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexBindings);
     }
 
-    public MTLBinding[] FragmentBindings
+    public NSArray<MTLBinding> FragmentBindings
     {
-        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.FragmentBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentBindings);
     }
 
-    public MTLBinding[] TileBindings
+    public NSArray<MTLBinding> TileBindings
     {
-        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.TileBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileBindings);
     }
 
-    public MTLBinding[] ObjectBindings
+    public NSArray<MTLBinding> ObjectBindings
     {
-        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.ObjectBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.ObjectBindings);
     }
 
-    public MTLBinding[] MeshBindings
+    public NSArray<MTLBinding> MeshBindings
     {
-        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.MeshBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.MeshBindings);
     }
 
     /// <summary>
     /// Deprecated: Use vertexBindings instead
     /// </summary>
     [Obsolete("Use vertexBindings instead")]
-    public MTLArgument[] VertexArguments
+    public NSArray<MTLArgument> VertexArguments
     {
-        get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.VertexArguments);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexArguments);
     }
 
     /// <summary>
     /// Deprecated: Use fragmentBindings instead
     /// </summary>
     [Obsolete("Use fragmentBindings instead")]
-    public MTLArgument[] FragmentArguments
+    public NSArray<MTLArgument> FragmentArguments
     {
-        get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.FragmentArguments);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentArguments);
     }
 
     /// <summary>
     /// Deprecated: Use tileBindings instead
     /// </summary>
     [Obsolete("Use tileBindings instead")]
-    public MTLArgument[] TileArguments
+    public NSArray<MTLArgument> TileArguments
     {
-        get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.TileArguments);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileArguments);
     }
 }
 

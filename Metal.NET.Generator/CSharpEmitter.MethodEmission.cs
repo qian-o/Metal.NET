@@ -12,7 +12,6 @@ partial class CSharpEmitter
         public List<string> CallArgTypes { get; } = [];
         public List<string> ArraySetupLines { get; } = [];
         public List<string> FixedStatements { get; } = [];
-        public List<string> NsArrayReleaseVars { get; } = [];
         public List<(string CsType, string CsParamName, string PtrVarName)> AutoreleasedOutParams { get; } = [];
         public bool NeedsUnsafeContext { get; set; }
         public bool HasOutError { get; set; }
@@ -164,33 +163,13 @@ partial class CSharpEmitter
                 string elemCsType = TypeMapper.MapType(elemModelType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
-                mc.CsParams.Add($"{elemCsType}[] {csParamName}");
-
-                string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
-                mc.ArraySetupLines.Add($"        nint {ptrVar} = NSArray.FromArray({csParamName});");
-                mc.NsArrayReleaseVars.Add(ptrVar);
-
-                mc.CallArgs.Add(ptrVar);
+                mc.CsParams.Add($"NSArray<{elemCsType}> {csParamName}");
+                mc.CallArgs.Add($"{csParamName}.NativePtr");
                 mc.CallArgTypes.Add("nint");
                 continue;
             }
 
-            if (param.Type.StartsWith(ParamDef.NsSetParam))
-            {
-                string elemModelType = param.Type[ParamDef.NsSetParam.Length..];
-                string elemCsType = TypeMapper.MapType(elemModelType);
-                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
-                mc.CsParams.Add($"{elemCsType}[] {csParamName}");
-
-                string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
-                mc.ArraySetupLines.Add($"        nint {ptrVar} = NSSet.FromArray({csParamName});");
-                mc.NsArrayReleaseVars.Add(ptrVar);
-
-                mc.CallArgs.Add(ptrVar);
-                mc.CallArgTypes.Add("nint");
-                continue;
-            }
 
             if (knownDelegateNames != null && IsBlockHandlerType(param.Type, knownDelegateNames))
             {
@@ -234,16 +213,9 @@ partial class CSharpEmitter
                 string? paramArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName);
                 if (paramArrayElemType != null)
                 {
-                    mc.CsParams[^1] = $"{paramArrayElemType}[] {paramName}";
-                    string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
-                    mc.ArraySetupLines.Add($"        nint {ptrVar} = NSArray.FromArray({paramName});");
-                    mc.CallArgs.Add(ptrVar);
-                    mc.NsArrayReleaseVars.Add(ptrVar);
+                    mc.CsParams[^1] = $"NSArray<{paramArrayElemType}> {paramName}";
                 }
-                else
-                {
-                    mc.CallArgs.Add($"{paramName}");
-                }
+                mc.CallArgs.Add($"{paramName}.NativePtr");
                 mc.CallArgTypes.Add("nint");
             }
             else if (typeMapper.IsNativeObjectType(csParamType))
@@ -304,12 +276,6 @@ partial class CSharpEmitter
             sb.AppendLine();
             sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
         }
-        if (mc.NsArrayReleaseVars.Count > 0)
-        {
-            sb.AppendLine();
-            foreach (string rv in mc.NsArrayReleaseVars)
-                sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
-        }
     }
 
     /// <summary>Closes fixed blocks opened in <see cref="EmitBodyPrologue"/>.</summary>
@@ -363,7 +329,7 @@ partial class CSharpEmitter
         string argsStr = string.Join(", ", mc.CallArgs);
         string staticKw = isStaticClassMethod ? "static " : "";
         string unsafeKw = mc.NeedsUnsafeContext ? "unsafe " : "";
-        string csReturnType = returnsArray ? $"{returnArrayElemType}[]" : (isVoid ? "void" : returnType);
+        string csReturnType = returnsArray ? $"NSArray<{returnArrayElemType}>" : (isVoid ? "void" : returnType);
 
         if (method.DeprecationMessage != null)
         {
@@ -427,7 +393,7 @@ partial class CSharpEmitter
             EmitOutParamCleanup(sb, indent, mc);
             sb.AppendLine();
             sb.AppendLine(returnsArray
-                ? $"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);"
+                ? $"{indent}return new(nativePtr, NativeObjectOwnership.Borrowed);"
                 : $"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
         }
         else if (mc.HasOutError || mc.AutoreleasedOutParams.Count > 0)

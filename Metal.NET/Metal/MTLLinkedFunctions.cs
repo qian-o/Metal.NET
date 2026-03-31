@@ -15,16 +15,16 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
     {
     }
 
-    public MTLFunction[] Functions
+    public NSArray<MTLFunction> Functions
     {
-        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.Functions);
-        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetFunctions, value);
+        get => GetProperty(ref field, MTLLinkedFunctionsBindings.Functions);
+        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetFunctions, value);
     }
 
-    public MTLFunction[] BinaryFunctions
+    public NSArray<MTLFunction> BinaryFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.BinaryFunctions);
-        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
+        get => GetProperty(ref field, MTLLinkedFunctionsBindings.BinaryFunctions);
+        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
     }
 
     public NSDictionary Groups
@@ -33,10 +33,10 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
         set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetGroups, value);
     }
 
-    public MTLFunction[] PrivateFunctions
+    public NSArray<MTLFunction> PrivateFunctions
     {
-        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.PrivateFunctions);
-        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
+        get => GetProperty(ref field, MTLLinkedFunctionsBindings.PrivateFunctions);
+        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
     }
 
     public static MTLLinkedFunctions LinkedFunctions()
