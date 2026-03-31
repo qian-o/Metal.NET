@@ -68,6 +68,26 @@ public class NSArray<T>(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 
         return result;
     }
+
+    public Enumerator GetEnumerator()
+    {
+        return new(this);
+    }
+
+    public struct Enumerator(NSArray<T> array)
+    {
+        private int index = -1;
+
+        public readonly T Current
+        {
+            get => array[(uint)index];
+        }
+
+        public bool MoveNext()
+        {
+            return ++index < (int)array.Count;
+        }
+    }
 }
 
 file static class NSArrayBindings
