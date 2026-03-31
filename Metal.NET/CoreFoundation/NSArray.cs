@@ -25,12 +25,7 @@ public class NSArray<T>(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     {
         get
         {
-            int count = (int)Count;
-
-            if (cachedItems is null || cachedItems.Length != count)
-            {
-                cachedItems = new T[count];
-            }
+            cachedItems ??= new T[(int)Count];
 
             nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSArrayBindings.ObjectAtIndex, index);
 
