@@ -169,8 +169,6 @@ partial class CSharpEmitter
                 continue;
             }
 
-
-
             if (knownDelegateNames != null && IsBlockHandlerType(param.Type, knownDelegateNames))
             {
                 string csType = TypeMapper.MapType(param.Type);
@@ -263,7 +261,7 @@ partial class CSharpEmitter
         return indent;
     }
 
-    /// <summary>Emits out-param assignments (autoreleased + NSError) and NSArray release calls.</summary>
+    /// <summary>Emits out-param assignments (autoreleased + NSError).</summary>
     static void EmitOutParamCleanup(StringBuilder sb, string indent, MarshalledCall mc)
     {
         foreach ((_, string csParamName, string ptrVar) in mc.AutoreleasedOutParams)
