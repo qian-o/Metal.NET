@@ -34,11 +34,6 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
 
     public bool IsNull => NativePtr is 0;
 
-    public T Cast<T>() where T : NativeObject, INativeObject<T>
-    {
-        return T.New(NativePtr, Ownership);
-    }
-
     public void Dispose()
     {
         if (IsNull)
