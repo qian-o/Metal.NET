@@ -1,5 +1,5 @@
 ﻿{
-  "sdkVersion": "26.2",
+  "sdkVersion": "26.5",
   "enums": [
     {
       "kind": "enum",
@@ -1329,6 +1329,14 @@
         {
           "name": "MTLTensorDataTypeUInt32",
           "value": "33"
+        },
+        {
+          "name": "MTLTensorDataTypeInt4",
+          "value": "143"
+        },
+        {
+          "name": "MTLTensorDataTypeUInt4",
+          "value": "144"
         }
       ],
       "framework": "Metal"
@@ -2424,6 +2432,23 @@
         {
           "name": "MTLCounterSamplingPointAtBlitBoundary",
           "value": "4"
+        }
+      ],
+      "framework": "Metal"
+    },
+    {
+      "kind": "enum",
+      "name": "MTLDeviceError",
+      "underlyingType": "NSInteger",
+      "isOptions": false,
+      "members": [
+        {
+          "name": "MTLDeviceErrorNone",
+          "value": "0"
+        },
+        {
+          "name": "MTLDeviceErrorNotSupported",
+          "value": "1"
         }
       ],
       "framework": "Metal"
@@ -6799,6 +6824,14 @@
           "parameters": []
         },
         {
+          "name": "supportsPlacementSparse",
+          "selector": "supportsPlacementSparse",
+          "isClassMethod": false,
+          "returnType": "BOOL",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
           "name": "supportsRaytracing",
           "selector": "supportsRaytracing",
           "isClassMethod": false,
@@ -7085,6 +7118,12 @@
         },
         {
           "name": "supportsRenderDynamicLibraries",
+          "type": "BOOL",
+          "nullability": null,
+          "readonly": true
+        },
+        {
+          "name": "supportsPlacementSparse",
           "type": "BOOL",
           "nullability": null,
           "readonly": true
@@ -15283,7 +15322,9 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Access counters are no longer supported in Metal"
         },
         {
           "name": "resetTextureAccessCounters",
@@ -15312,7 +15353,9 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Access counters are no longer supported in Metal"
         },
         {
           "name": "optimizeContentsForGPUAccess",
@@ -21413,8 +21456,8 @@
           "parameters": [
             {
               "name": "argumentTable",
-              "type": "id<MTL4ArgumentTable> _Nonnull",
-              "nullability": "nonnull"
+              "type": "id<MTL4ArgumentTable> _Nullable",
+              "nullability": "nullable"
             },
             {
               "name": "stages",
@@ -22493,8 +22536,8 @@
           "parameters": [
             {
               "name": "argumentTable",
-              "type": "id<MTL4ArgumentTable> _Nonnull",
-              "nullability": "nonnull"
+              "type": "id<MTL4ArgumentTable> _Nullable",
+              "nullability": "nullable"
             }
           ]
         },
@@ -51832,6 +51875,11 @@
       "framework": "Metal"
     },
     {
+      "name": "MTLDeviceError",
+      "underlyingType": "enum MTLDeviceError",
+      "framework": "Metal"
+    },
+    {
       "name": "MTLSizeAndAlign",
       "underlyingType": "struct MTLSizeAndAlign",
       "framework": "Metal"
@@ -53265,7 +53313,7 @@
       "fields": [
         {
           "name": "",
-          "type": "union _MTLPackedFloat3::(anonymous at /Applications/Xcode_26.2.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLAccelerationStructureTypes.h:19:5)"
+          "type": "union _MTLPackedFloat3::(anonymous at /Applications/Xcode_26.5.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLAccelerationStructureTypes.h:19:5)"
         }
       ],
       "framework": "Metal"
