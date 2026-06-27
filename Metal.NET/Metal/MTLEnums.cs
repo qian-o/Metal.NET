@@ -646,7 +646,11 @@ public enum MTLTensorDataType : long
 
     Int32 = 29,
 
-    UInt32 = 33
+    UInt32 = 33,
+
+    Int4 = 143,
+
+    UInt4 = 144
 }
 
 public enum MTLTensorError : long
@@ -1149,6 +1153,13 @@ public enum MTLCounterSamplingPoint : ulong
     TileDispatchBoundary = 3,
 
     BlitBoundary = 4
+}
+
+public enum MTLDeviceError : long
+{
+    None = 0,
+
+    NotSupported = 1
 }
 
 public enum MTLSparseTextureMappingMode : ulong

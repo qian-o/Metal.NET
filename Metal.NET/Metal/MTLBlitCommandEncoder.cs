@@ -81,11 +81,19 @@ public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownersh
         ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.WaitForFence, fence.NativePtr);
     }
 
+    /// <summary>
+    /// Deprecated: Access counters are no longer supported in Metal
+    /// </summary>
+    [Obsolete("Access counters are no longer supported in Metal")]
     public void GetTextureAccessCounters(MTLTexture texture, MTLRegion region, nuint mipLevel, nuint slice, bool resetCounters, MTLBuffer countersBuffer, nuint countersBufferOffset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.GetTextureAccessCounters_Region_MipLevel_Slice_ResetCounters_CountersBuffer_CountersBufferOffset, texture.NativePtr, region, mipLevel, slice, resetCounters, countersBuffer.NativePtr, countersBufferOffset);
     }
 
+    /// <summary>
+    /// Deprecated: Access counters are no longer supported in Metal
+    /// </summary>
+    [Obsolete("Access counters are no longer supported in Metal")]
     public void ResetTextureAccessCounters(MTLTexture texture, MTLRegion region, nuint mipLevel, nuint slice)
     {
         ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.ResetTextureAccessCounters_Region_MipLevel_Slice, texture.NativePtr, region, mipLevel, slice);

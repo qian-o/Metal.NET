@@ -192,6 +192,11 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsRenderDynamicLibraries);
     }
 
+    public Bool8 SupportsPlacementSparse
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsPlacementSparse);
+    }
+
     public Bool8 SupportsRaytracing
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsRaytracing);
@@ -1300,6 +1305,8 @@ file static class MTLDeviceBindings
     public static readonly Selector SupportsFunctionPointers = "supportsFunctionPointers";
 
     public static readonly Selector SupportsFunctionPointersFromRender = "supportsFunctionPointersFromRender";
+
+    public static readonly Selector SupportsPlacementSparse = "supportsPlacementSparse";
 
     public static readonly Selector SupportsPrimitiveMotionBlur = "supportsPrimitiveMotionBlur";
 
