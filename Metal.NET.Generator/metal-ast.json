@@ -53313,7 +53313,7 @@
       "fields": [
         {
           "name": "",
-          "type": "union _MTLPackedFloat3::(anonymous at /Applications/Xcode_26.5.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLAccelerationStructureTypes.h:19:5)"
+          "type": "union _MTLPackedFloat3::(anonymous at /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLAccelerationStructureTypes.h:19:5)"
         }
       ],
       "framework": "Metal"
