@@ -2,44 +2,34 @@
 
     <PropertyGroup>
         <TargetFramework>$(StandardTargetFramework)</TargetFramework>
-        <IsTrimmable>True</IsTrimmable>
-        <IsAotCompatible>True</IsAotCompatible>
+        <IsAotCompatible>true</IsAotCompatible>
         <NoWarn>IDE0130</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <Title>$(AssemblyName)</Title>
-        
         <Version>2.4.0</Version>
         <Authors>qian-o</Authors>
-        <Copyright>MIT</Copyright>
-        
-        <PackageTags>metal;apple;gpu;graphics;macos</PackageTags>
-        <Description>C# bindings for Apple's Metal graphics API, auto-generated from the Objective-C headers via Clang AST extraction.</Description>
-        
-        <RepositoryUrl>https://github.com/qian-o/Metal.NET</RepositoryUrl>
+        <Copyright>Copyright (c) 2026 qian-o</Copyright>
+        <Description>C# bindings for Apple's Metal graphics API.</Description>
+
+        <RepositoryType>Git</RepositoryType>
+        <RepositoryUrl>https://github.com/qian-o/Metal.NET.git</RepositoryUrl>
+
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>Metal;Apple;Graphics;CSharp</PackageTags>
         <PackageProjectUrl>https://github.com/qian-o/Metal.NET</PackageProjectUrl>
 
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        
-        <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     </PropertyGroup>
 
     <ItemGroup Condition="'$(Configuration)' == 'Release'">
-        <None Include="..\LICENSE">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
-
-        <None Include="..\README.md">
-            <Pack>True</Pack>
-            <PackagePath>\</PackagePath>
-        </None>
+        <None Include="..\LICENSE" Pack="true" PackagePath="\" />
+        <None Include="..\README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
 </Project>
