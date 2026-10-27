@@ -39,7 +39,7 @@ partial class CSharpEmitter
         sb.AppendLine();
         sb.AppendLine("        foreach (string framework in frameworks)");
         sb.AppendLine("        {");
-        sb.AppendLine("            NativeLibrary.TryLoad(framework, out _);");
+        sb.AppendLine("            NativeLibrary.TryLoad($\"/System/Library/Frameworks/{framework}.framework/{framework}\", out _);");
         sb.AppendLine("        }");
         sb.AppendLine();
         sb.AppendLine("        msgSend = NativeLibrary.GetExport(NativeLibrary.Load(\"/usr/lib/libobjc.A.dylib\"), \"objc_msgSend\");");
