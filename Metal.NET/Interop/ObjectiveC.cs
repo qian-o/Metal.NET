@@ -20,7 +20,7 @@ internal static unsafe partial class ObjectiveC
 
         foreach (string framework in frameworks)
         {
-            NativeLibrary.TryLoad(framework, out _);
+            NativeLibrary.TryLoad($"/System/Library/Frameworks/{framework}.framework/{framework}", out _);
         }
 
         msgSend = NativeLibrary.GetExport(NativeLibrary.Load("/usr/lib/libobjc.A.dylib"), "objc_msgSend");
