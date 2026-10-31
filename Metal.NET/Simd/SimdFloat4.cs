@@ -1,15 +1,24 @@
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Intrinsics;
 
 namespace Metal.NET;
 
 [StructLayout(LayoutKind.Sequential)]
 public struct SimdFloat4(float x, float y, float z, float w)
 {
-    public float X = x;
+    public Vector128<float> XYZW = Vector128.Create(x, y, z, w);
 
-    public float Y = y;
+    [UnscopedRef]
+    public ref float X => ref Unsafe.As<Vector128<float>, float>(ref XYZW);
 
-    public float Z = z;
+    [UnscopedRef]
+    public ref float Y => ref Unsafe.Add(ref Unsafe.As<Vector128<float>, float>(ref XYZW), 1);
 
-    public float W = w;
+    [UnscopedRef]
+    public ref float Z => ref Unsafe.Add(ref Unsafe.As<Vector128<float>, float>(ref XYZW), 2);
+
+    [UnscopedRef]
+    public ref float W => ref Unsafe.Add(ref Unsafe.As<Vector128<float>, float>(ref XYZW), 3);
 }
