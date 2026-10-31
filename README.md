@@ -3,11 +3,11 @@
 [![NuGet Version](https://img.shields.io/nuget/v/Metal.NET)](https://nuget.org/packages/Metal.NET)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Low-level C# bindings for Apple's **Metal** and **MetalFX** frameworks — auto-generated from the macOS SDK via **Clang AST + Swift Symbol Graph** extraction.
+Low-level C# bindings for Apple's **Metal** and **MetalFX** frameworks — auto-generated from the macOS 27.0 SDK via **Clang AST + Swift Symbol Graph** extraction.
 
 ## Features
 
-- **Comprehensive coverage** — Metal, Metal 4 and MetalFX (252 generated files), plus hand-written wrappers for CoreFoundation, CoreAnimation, CoreGraphics, GCD and SIMD types.
+- **Comprehensive coverage** — Metal, Metal 4 and MetalFX (257 generated files, including Objective-C interop), plus hand-written wrappers for CoreFoundation, CoreAnimation, CoreGraphics, GCD and SIMD types.
 - **Clang AST + Swift Symbol Graph** — bindings are extracted from SDK headers, not a hand-maintained IDL. Swift names provide human-readable method & parameter names where Clang only exposes selectors.
 - **Three ownership modes** — `Borrowed`, `Owned` and `Managed`, with deterministic `Dispose()` and an optional finalizer safety net.
 - **ObjC block support** — `NativeBlock<T>` uses `UnmanagedCallersOnly` function pointers for zero-overhead callbacks.
@@ -47,8 +47,8 @@ using MTLBuffer buffer = device.MakeBuffer(1024, MTLResourceOptions.StorageModeS
 
 | Framework | Files | Highlights |
 |-----------|:-----:|---|
-| **Metal / Metal 4** | 233 | Devices, command queues & buffers, render / compute / blit encoders, pipeline states, acceleration structures, `MTL4*` APIs |
-| **MetalFX** | 18 | Temporal & spatial scalers, frame interpolators |
+| **Metal / Metal 4** | 238 | Devices, command queues & buffers, render / compute / blit encoders, pipeline states, acceleration structures, tensors with auxiliary planes, `MTL4*` APIs |
+| **MetalFX** | 18 | Temporal & spatial scalers, frame interpolators, content offsets and distortion textures |
 
 Hand-written wrappers are included for CoreFoundation (`NSObject`, `NSString`, `NSArray`, …), CoreAnimation (`CAMetalLayer`, `CAMetalDrawable`), CoreGraphics (`CGColorSpace`, `CGSize`), GCD (`DispatchQueue`, `DispatchData`) and SIMD types.
 
@@ -96,7 +96,7 @@ MTLDevice device = commandQueue.Device;
                   Generated bindings
 ```
 
-A GitHub Actions workflow (`extract-metal-api.yml`) runs on a macOS runner to:
+The pipeline has four stages. The GitHub Actions workflow (`extract-metal-api.yml`) runs the first three on the `xcode-27` runner; C# bindings are then generated locally:
 
 1. **Dump the Clang AST** — `clang -Xclang -ast-dump=json` produces a complete JSON representation of every declaration in the Metal / MetalFX headers.
 2. **Extract Swift Symbol Graphs** — `swift-symbolgraph-extract` provides the human-readable Swift names for methods and properties.
@@ -138,7 +138,7 @@ Metal.NET.slnx
 
 ## Updating Bindings
 
-1. Run the **Extract Metal API** workflow to regenerate `metal-ast.json` from the latest Xcode SDK.
+1. Run the **Extract Metal API** workflow to regenerate `metal-ast.json` from the macOS SDK bundled with the `xcode-27` runner's default Xcode.
 2. Regenerate and verify locally:
 
 ```bash
