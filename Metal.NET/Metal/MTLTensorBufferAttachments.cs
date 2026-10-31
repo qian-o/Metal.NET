@@ -11,6 +11,10 @@ public class MTLTensorBufferAttachments(nint nativePtr, NativeObjectOwnership ow
     }
     #endregion
 
+    public MTLTensorBufferAttachments() : this(ObjectiveC.AllocInit(MTLTensorBufferAttachmentsBindings.Class), NativeObjectOwnership.Managed)
+    {
+    }
+
     public void SetBuffer(MTLBuffer buffer, nuint offset, MTLTensorPlaneType plane)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTensorBufferAttachmentsBindings.SetBuffer_Offset_ForPlane, buffer.NativePtr, offset, (nint)plane);
@@ -36,6 +40,8 @@ public class MTLTensorBufferAttachments(nint nativePtr, NativeObjectOwnership ow
 
 file static class MTLTensorBufferAttachmentsBindings
 {
+    public static readonly nint Class = ObjectiveC.GetClass("MTLTensorBufferAttachments");
+
     public static readonly Selector BufferForPlane = "bufferForPlane:";
 
     public static readonly Selector OffsetForPlane = "offsetForPlane:";

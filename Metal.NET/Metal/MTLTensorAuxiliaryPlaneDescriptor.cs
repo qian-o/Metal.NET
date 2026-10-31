@@ -11,6 +11,10 @@ public class MTLTensorAuxiliaryPlaneDescriptor(nint nativePtr, NativeObjectOwner
     }
     #endregion
 
+    public MTLTensorAuxiliaryPlaneDescriptor() : this(ObjectiveC.AllocInit(MTLTensorAuxiliaryPlaneDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    {
+    }
+
     public MTLTensorDataType DataType
     {
         get => (MTLTensorDataType)ObjectiveC.MsgSendLong(NativePtr, MTLTensorAuxiliaryPlaneDescriptorBindings.DataType);
@@ -26,6 +30,8 @@ public class MTLTensorAuxiliaryPlaneDescriptor(nint nativePtr, NativeObjectOwner
 
 file static class MTLTensorAuxiliaryPlaneDescriptorBindings
 {
+    public static readonly nint Class = ObjectiveC.GetClass("MTLTensorAuxiliaryPlaneDescriptor");
+
     public static readonly Selector BlockFactors = "blockFactors";
 
     public static readonly Selector DataType = "dataType";

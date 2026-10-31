@@ -11,6 +11,10 @@ public class MTLTensorAuxiliaryPlaneDescriptorMap(nint nativePtr, NativeObjectOw
     }
     #endregion
 
+    public MTLTensorAuxiliaryPlaneDescriptorMap() : this(ObjectiveC.AllocInit(MTLTensorAuxiliaryPlaneDescriptorMapBindings.Class), NativeObjectOwnership.Managed)
+    {
+    }
+
     public void SetDescriptor(MTLTensorAuxiliaryPlaneDescriptor descriptor, MTLTensorPlaneType plane)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTensorAuxiliaryPlaneDescriptorMapBindings.SetDescriptor_ForPlane, descriptor.NativePtr, (nint)plane);
@@ -31,6 +35,8 @@ public class MTLTensorAuxiliaryPlaneDescriptorMap(nint nativePtr, NativeObjectOw
 
 file static class MTLTensorAuxiliaryPlaneDescriptorMapBindings
 {
+    public static readonly nint Class = ObjectiveC.GetClass("MTLTensorAuxiliaryPlaneDescriptorMap");
+
     public static readonly Selector DescriptorForPlane = "descriptorForPlane:";
 
     public static readonly Selector Reset = "reset";
