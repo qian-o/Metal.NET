@@ -1,6 +1,23 @@
 ﻿{
-  "sdkVersion": "26.5",
+  "sdkVersion": "27.0",
   "enums": [
+    {
+      "kind": "enum",
+      "name": "MTLContentionRelief",
+      "underlyingType": "NSInteger",
+      "isOptions": false,
+      "members": [
+        {
+          "name": "MTLContentionReliefAutomatic",
+          "value": "0"
+        },
+        {
+          "name": "MTLContentionReliefNone",
+          "value": "1"
+        }
+      ],
+      "framework": "Metal"
+    },
     {
       "kind": "enum",
       "name": "MTLResourceUsage",
@@ -152,7 +169,9 @@
         },
         {
           "name": "MTLStorageModeManaged",
-          "value": "1"
+          "value": "1",
+          "deprecated": true,
+          "deprecationMessage": "Managed storage has no effect on Apple Silicon, use Shared storage instead"
         },
         {
           "name": "MTLStorageModePrivate",
@@ -206,7 +225,9 @@
         },
         {
           "name": "MTLResourceStorageModeManaged",
-          "value": "16"
+          "value": "16",
+          "deprecated": true,
+          "deprecationMessage": "Managed storage has no effect on Apple Silicon, use Shared storage instead"
         },
         {
           "name": "MTLResourceStorageModePrivate",
@@ -393,6 +414,22 @@
           "value": "43"
         },
         {
+          "name": "MTLPixelFormatRGB8Unorm",
+          "value": "45"
+        },
+        {
+          "name": "MTLPixelFormatRGB8Snorm",
+          "value": "46"
+        },
+        {
+          "name": "MTLPixelFormatRGB8Uint",
+          "value": "47"
+        },
+        {
+          "name": "MTLPixelFormatRGB8Sint",
+          "value": "48"
+        },
+        {
           "name": "MTLPixelFormatR32Uint",
           "value": "53"
         },
@@ -481,6 +518,26 @@
           "value": "555"
         },
         {
+          "name": "MTLPixelFormatRGB16Unorm",
+          "value": "95"
+        },
+        {
+          "name": "MTLPixelFormatRGB16Snorm",
+          "value": "96"
+        },
+        {
+          "name": "MTLPixelFormatRGB16Uint",
+          "value": "97"
+        },
+        {
+          "name": "MTLPixelFormatRGB16Sint",
+          "value": "98"
+        },
+        {
+          "name": "MTLPixelFormatRGB16Float",
+          "value": "99"
+        },
+        {
           "name": "MTLPixelFormatRG32Uint",
           "value": "103"
         },
@@ -519,6 +576,18 @@
         {
           "name": "MTLPixelFormatBGRA10_XR_sRGB",
           "value": "553"
+        },
+        {
+          "name": "MTLPixelFormatRGB32Uint",
+          "value": "120"
+        },
+        {
+          "name": "MTLPixelFormatRGB32Sint",
+          "value": "121"
+        },
+        {
+          "name": "MTLPixelFormatRGB32Float",
+          "value": "122"
         },
         {
           "name": "MTLPixelFormatRGBA32Uint",
@@ -866,7 +935,9 @@
         },
         {
           "name": "MTLPixelFormatDepth24Unorm_Stencil8",
-          "value": "255"
+          "value": "255",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLPixelFormatDepth32Float_Stencil8 instead"
         },
         {
           "name": "MTLPixelFormatDepth32Float_Stencil8",
@@ -878,7 +949,9 @@
         },
         {
           "name": "MTLPixelFormatX24_Stencil8",
-          "value": "262"
+          "value": "262",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLPixelFormatX32_Stencil8 instead"
         },
         {
           "name": "MTLPixelFormatUnspecialized",
@@ -1337,6 +1410,30 @@
         {
           "name": "MTLTensorDataTypeUInt4",
           "value": "144"
+        },
+        {
+          "name": "MTLTensorDataTypeMetalFloat8UE8M0",
+          "value": "145"
+        },
+        {
+          "name": "MTLTensorDataTypeUInt2",
+          "value": "149"
+        },
+        {
+          "name": "MTLTensorDataTypeInt2",
+          "value": "150"
+        },
+        {
+          "name": "MTLTensorDataTypeMetalFloat8E5M2",
+          "value": "141"
+        },
+        {
+          "name": "MTLTensorDataTypeMetalFloat8E4M3",
+          "value": "142"
+        },
+        {
+          "name": "MTLTensorDataTypeMetalFloat4E2M1",
+          "value": "148"
         }
       ],
       "framework": "Metal"
@@ -1379,6 +1476,23 @@
         {
           "name": "MTLTensorUsageMachineLearning",
           "value": "4"
+        }
+      ],
+      "framework": "Metal"
+    },
+    {
+      "kind": "enum",
+      "name": "MTLTensorPlaneType",
+      "underlyingType": "NSInteger",
+      "isOptions": false,
+      "members": [
+        {
+          "name": "MTLTensorPlaneTypeData",
+          "value": "0"
+        },
+        {
+          "name": "MTLTensorPlaneTypeScales",
+          "value": "1"
         }
       ],
       "framework": "Metal"
@@ -1827,6 +1941,10 @@
         {
           "name": "MTLLanguageVersion4_0",
           "value": "262144"
+        },
+        {
+          "name": "MTLLanguageVersion4_1",
+          "value": "262145"
         }
       ],
       "framework": "Metal"
@@ -1915,6 +2033,23 @@
         },
         {
           "name": "MTLMathFloatingPointFunctionsPrecise",
+          "value": "1"
+        }
+      ],
+      "framework": "Metal"
+    },
+    {
+      "kind": "enum",
+      "name": "MTLFloatingPointConversionRoundingMode",
+      "underlyingType": "NSInteger",
+      "isOptions": false,
+      "members": [
+        {
+          "name": "MTLFloatingPointConversionRoundingModeToNearestEven",
+          "value": "0"
+        },
+        {
+          "name": "MTLFloatingPointConversionRoundingModeTowardZero",
           "value": "1"
         }
       ],
@@ -2252,38 +2387,50 @@
           "value": "1010"
         },
         {
+          "name": "MTLGPUFamilyApple11",
+          "value": "1011"
+        },
+        {
           "name": "MTLGPUFamilyMac1",
           "value": "2001",
           "deprecated": true,
-          "deprecationMessage": "Use MTLGPUFamilyMac2 instead"
+          "deprecationMessage": "Use MTLGPUFamilyApple7 instead"
         },
         {
           "name": "MTLGPUFamilyMac2",
-          "value": "2002"
+          "value": "2002",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLGPUFamilyApple7 instead"
         },
         {
           "name": "MTLGPUFamilyCommon1",
-          "value": "3001"
+          "value": "3001",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLGPUFamilyApple1 instead"
         },
         {
           "name": "MTLGPUFamilyCommon2",
-          "value": "3002"
+          "value": "3002",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLGPUFamilyApple3 instead"
         },
         {
           "name": "MTLGPUFamilyCommon3",
-          "value": "3003"
+          "value": "3003",
+          "deprecated": true,
+          "deprecationMessage": "Use MTLGPUFamilyApple5 instead"
         },
         {
           "name": "MTLGPUFamilyMacCatalyst1",
           "value": "4001",
           "deprecated": true,
-          "deprecationMessage": "Use MTLGPUFamilyMac2 instead"
+          "deprecationMessage": "Use MTLGPUFamilyApple7 instead"
         },
         {
           "name": "MTLGPUFamilyMacCatalyst2",
           "value": "4002",
           "deprecated": true,
-          "deprecationMessage": "Use MTLGPUFamilyMac2 instead"
+          "deprecationMessage": "Use MTLGPUFamilyApple7 instead"
         },
         {
           "name": "MTLGPUFamilyMetal3",
@@ -2319,7 +2466,9 @@
           "value": "18446744073709551615"
         }
       ],
-      "framework": "Metal"
+      "framework": "Metal",
+      "deprecated": true,
+      "deprecationMessage": "Not applicable on Apple Silicon"
     },
     {
       "kind": "enum",
@@ -2539,7 +2688,9 @@
           "value": "1"
         }
       ],
-      "framework": "Metal"
+      "framework": "Metal",
+      "deprecated": true,
+      "deprecationMessage": "Store action options have no effect on Apple Silicon"
     },
     {
       "kind": "enum",
@@ -2704,7 +2855,9 @@
         },
         {
           "name": "MTLCommandBufferErrorDeviceRemoved",
-          "value": "11"
+          "value": "11",
+          "deprecated": true,
+          "deprecationMessage": "MTLCommandBufferErrorDeviceRemoved cannot occur on Apple Silicon"
         },
         {
           "name": "MTLCommandBufferErrorStackOverflow",
@@ -3419,6 +3572,27 @@
         },
         {
           "name": "MTLShaderValidationDisabled",
+          "value": "2"
+        }
+      ],
+      "framework": "Metal"
+    },
+    {
+      "kind": "enum",
+      "name": "MTLForwardProgressUsage",
+      "underlyingType": "NSInteger",
+      "isOptions": false,
+      "members": [
+        {
+          "name": "MTLForwardProgressUsageAutomatic",
+          "value": "0"
+        },
+        {
+          "name": "MTLForwardProgressUsageWeak",
+          "value": "1"
+        },
+        {
+          "name": "MTLForwardProgressUsageSIMDGroupParallel",
           "value": "2"
         }
       ],
@@ -4265,7 +4439,9 @@
         },
         {
           "name": "MTL4CommandQueueErrorDeviceRemoved",
-          "value": "4"
+          "value": "4",
+          "deprecated": true,
+          "deprecationMessage": "MTL4CommandQueueErrorDeviceRemoved cannot occur on Apple Silicon"
         },
         {
           "name": "MTL4CommandQueueErrorAccessRevoked",
@@ -6299,6 +6475,30 @@
           ]
         },
         {
+          "name": "makeTensor",
+          "selector": "newTensorWithDescriptor:attachments:error:",
+          "isClassMethod": false,
+          "returnType": "id<MTLTensor> _Nullable",
+          "returnNullability": "nullable",
+          "parameters": [
+            {
+              "name": "descriptor",
+              "type": "MTLTensorDescriptor * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "attachments",
+              "type": "MTLTensorBufferAttachments * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "error",
+              "type": "NSError * _Nullable * _Nullable",
+              "nullability": "nullable"
+            }
+          ]
+        },
+        {
           "name": "functionHandle",
           "selector": "functionHandleWithFunction:",
           "isClassMethod": false,
@@ -6932,21 +7132,27 @@
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
-          "getter": "isLowPower"
+          "getter": "isLowPower",
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "isHeadless",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
-          "getter": "isHeadless"
+          "getter": "isHeadless",
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "isRemovable",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
-          "getter": "isRemovable"
+          "getter": "isRemovable",
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "hasUnifiedMemory",
@@ -6964,26 +7170,34 @@
           "name": "location",
           "type": "MTLDeviceLocation",
           "nullability": null,
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "locationNumber",
           "type": "NSUInteger",
           "nullability": null,
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "maxTransferRate",
           "type": "uint64_t",
           "nullability": null,
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "isDepth24Stencil8PixelFormatSupported",
           "type": "BOOL",
           "nullability": null,
           "readonly": true,
-          "getter": "isDepth24Stencil8PixelFormatSupported"
+          "getter": "isDepth24Stencil8PixelFormatSupported",
+          "deprecated": true,
+          "deprecationMessage": "Never supported on Apple Silicon"
         },
         {
           "name": "readWriteTextureSupport",
@@ -7078,19 +7292,25 @@
           "name": "peerGroupID",
           "type": "uint64_t",
           "nullability": null,
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "peerIndex",
           "type": "uint32_t",
           "nullability": null,
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "peerCount",
           "type": "uint32_t",
           "nullability": null,
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "sparseTileSizeInBytes",
@@ -7875,7 +8095,9 @@
               "type": "NSRange",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Managed storage has no effect on Apple Silicon, use Shared storage instead"
         },
         {
           "name": "makeTexture",
@@ -7964,7 +8186,9 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "length",
@@ -8010,7 +8234,9 @@
           "name": "remoteStorageBuffer",
           "type": "id<MTLBuffer>",
           "nullability": null,
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "gpuAddress",
@@ -8027,6 +8253,88 @@
       ],
       "protocols": [
         "MTLResource"
+      ],
+      "framework": "Metal"
+    },
+    {
+      "kind": "protocol",
+      "name": "MTLTensorAuxiliaryPlane",
+      "methods": [
+        {
+          "name": "dataType",
+          "selector": "dataType",
+          "isClassMethod": false,
+          "returnType": "MTLTensorDataType",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "blockFactors",
+          "selector": "blockFactors",
+          "isClassMethod": false,
+          "returnType": "MTLTensorExtents * _Nonnull",
+          "returnNullability": "nonnull",
+          "parameters": []
+        },
+        {
+          "name": "buffer",
+          "selector": "buffer",
+          "isClassMethod": false,
+          "returnType": "id<MTLBuffer> _Nullable",
+          "returnNullability": "nullable",
+          "parameters": []
+        },
+        {
+          "name": "bufferOffset",
+          "selector": "bufferOffset",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "planeType",
+          "selector": "planeType",
+          "isClassMethod": false,
+          "returnType": "MTLTensorPlaneType",
+          "returnNullability": null,
+          "parameters": []
+        }
+      ],
+      "properties": [
+        {
+          "name": "dataType",
+          "type": "MTLTensorDataType",
+          "nullability": null,
+          "readonly": true
+        },
+        {
+          "name": "blockFactors",
+          "type": "MTLTensorExtents * _Nonnull",
+          "nullability": "nonnull",
+          "readonly": true
+        },
+        {
+          "name": "buffer",
+          "type": "id<MTLBuffer> _Nullable",
+          "nullability": "nullable",
+          "readonly": true
+        },
+        {
+          "name": "bufferOffset",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": true
+        },
+        {
+          "name": "planeType",
+          "type": "MTLTensorPlaneType",
+          "nullability": null,
+          "readonly": true
+        }
+      ],
+      "protocols": [
+        "NSObject"
       ],
       "framework": "Metal"
     },
@@ -8093,6 +8401,74 @@
           ]
         },
         {
+          "name": "getBytes",
+          "selector": "getBytes:strides:fromSliceOrigin:sliceDimensions:plane:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "bytes",
+              "type": "void * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "strides",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sliceOrigin",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sliceDimensions",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "plane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "replace",
+          "selector": "replaceSliceOrigin:sliceDimensions:plane:withBytes:strides:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "sliceOrigin",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sliceDimensions",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "plane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            },
+            {
+              "name": "bytes",
+              "type": "const void * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "strides",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            }
+          ]
+        },
+        {
           "name": "gpuResourceID",
           "selector": "gpuResourceID",
           "isClassMethod": false,
@@ -8147,6 +8523,14 @@
           "returnType": "MTLTensorUsage",
           "returnNullability": null,
           "parameters": []
+        },
+        {
+          "name": "auxiliaryPlanes",
+          "selector": "auxiliaryPlanes",
+          "isClassMethod": false,
+          "returnType": "NSArray<id<MTLTensorAuxiliaryPlane>> * _Nonnull",
+          "returnNullability": "nonnull",
+          "parameters": []
         }
       ],
       "properties": [
@@ -8190,6 +8574,12 @@
           "name": "usage",
           "type": "MTLTensorUsage",
           "nullability": null,
+          "readonly": true
+        },
+        {
+          "name": "auxiliaryPlanes",
+          "type": "NSArray<id<MTLTensorAuxiliaryPlane>> * _Nonnull",
+          "nullability": "nonnull",
           "readonly": true
         }
       ],
@@ -8415,7 +8805,9 @@
               "type": "id<MTLDevice> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "makeTextureView",
@@ -8682,6 +9074,14 @@
           "returnType": "MTLTextureSparseTier",
           "returnNullability": null,
           "parameters": []
+        },
+        {
+          "name": "minLOD",
+          "selector": "minLOD",
+          "isClassMethod": false,
+          "returnType": "float",
+          "returnNullability": null,
+          "parameters": []
         }
       ],
       "properties": [
@@ -8849,7 +9249,9 @@
           "name": "remoteStorageTexture",
           "type": "id<MTLTexture>",
           "nullability": null,
-          "readonly": true
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Not applicable on Apple Silicon"
         },
         {
           "name": "swizzle",
@@ -8860,6 +9262,12 @@
         {
           "name": "sparseTextureTier",
           "type": "MTLTextureSparseTier",
+          "nullability": null,
+          "readonly": true
+        },
+        {
+          "name": "minLOD",
+          "type": "float",
           "nullability": null,
           "readonly": true
         }
@@ -9225,6 +9633,14 @@
           "returnType": "MTLTensorExtents * _Nullable",
           "returnNullability": "nullable",
           "parameters": []
+        },
+        {
+          "name": "auxiliaryPlanes",
+          "selector": "auxiliaryPlanes",
+          "isClassMethod": false,
+          "returnType": "NSArray<MTLTensorAuxiliaryPlaneType *> * _Nonnull",
+          "returnNullability": "nonnull",
+          "parameters": []
         }
       ],
       "properties": [
@@ -9244,6 +9660,12 @@
           "name": "dimensions",
           "type": "MTLTensorExtents * _Nullable",
           "nullability": "nullable",
+          "readonly": true
+        },
+        {
+          "name": "auxiliaryPlanes",
+          "type": "NSArray<MTLTensorAuxiliaryPlaneType *> * _Nonnull",
+          "nullability": "nonnull",
           "readonly": true
         }
       ],
@@ -10513,6 +10935,20 @@
           ]
         },
         {
+          "name": "recommendedPersistentThreadgroupsPerGrid",
+          "selector": "recommendedPersistentThreadgroupsPerGridForThreadsPerThreadgroup:",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "threadsPerThreadgroup",
+              "type": "MTLSize",
+              "nullability": null
+            }
+          ]
+        },
+        {
           "name": "label",
           "selector": "label",
           "isClassMethod": false,
@@ -10591,6 +11027,14 @@
           "returnType": "MTLSize",
           "returnNullability": null,
           "parameters": []
+        },
+        {
+          "name": "forwardProgressUsage",
+          "selector": "forwardProgressUsage",
+          "isClassMethod": false,
+          "returnType": "MTLForwardProgressUsage",
+          "returnNullability": null,
+          "parameters": []
         }
       ],
       "properties": [
@@ -10651,6 +11095,12 @@
         {
           "name": "requiredThreadsPerThreadgroup",
           "type": "MTLSize",
+          "nullability": null,
+          "readonly": true
+        },
+        {
+          "name": "forwardProgressUsage",
+          "type": "MTLForwardProgressUsage",
           "nullability": null,
           "readonly": true
         }
@@ -14806,7 +15256,9 @@
               "type": "id<MTLResource> _Nonnull",
               "nullability": "nonnull"
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Managed storage has no effect on Apple Silicon, use Shared storage instead"
         },
         {
           "name": "synchronize",
@@ -14830,7 +15282,9 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Managed storage has no effect on Apple Silicon, use Shared storage instead"
         },
         {
           "name": "copy",
@@ -15589,6 +16043,55 @@
               "name": "destinationDimensions",
               "type": "MTLTensorExtents * _Nonnull",
               "nullability": "nonnull"
+            }
+          ]
+        },
+        {
+          "name": "copy",
+          "selector": "copyFromTensor:sourceOrigin:sourceDimensions:sourcePlane:toTensor:destinationOrigin:destinationDimensions:destinationPlane:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "sourceTensor",
+              "type": "id<MTLTensor> _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sourceOrigin",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sourceDimensions",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sourcePlane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            },
+            {
+              "name": "destinationTensor",
+              "type": "id<MTLTensor> _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "destinationOrigin",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "destinationDimensions",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "destinationPlane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
             }
           ]
         }
@@ -16711,7 +17214,9 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Store action options have no effect on Apple Silicon"
         },
         {
           "name": "setDepthStoreActionOptions",
@@ -16725,7 +17230,9 @@
               "type": "MTLStoreActionOptions",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Store action options have no effect on Apple Silicon"
         },
         {
           "name": "setStencilStoreActionOptions",
@@ -16739,7 +17246,9 @@
               "type": "MTLStoreActionOptions",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Store action options have no effect on Apple Silicon"
         },
         {
           "name": "setObjectBytes",
@@ -18605,7 +19114,9 @@
               "type": "NSUInteger",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Store action options have no effect on Apple Silicon"
         },
         {
           "name": "setDepthStoreActionOptions",
@@ -18619,7 +19130,9 @@
               "type": "MTLStoreActionOptions",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Store action options have no effect on Apple Silicon"
         },
         {
           "name": "setStencilStoreActionOptions",
@@ -18633,7 +19146,9 @@
               "type": "MTLStoreActionOptions",
               "nullability": null
             }
-          ]
+          ],
+          "deprecated": true,
+          "deprecationMessage": "Store action options have no effect on Apple Silicon"
         }
       ],
       "properties": [],
@@ -22140,6 +22655,55 @@
           ]
         },
         {
+          "name": "copy",
+          "selector": "copyFromTensor:sourceOrigin:sourceDimensions:sourcePlane:toTensor:destinationOrigin:destinationDimensions:destinationPlane:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "sourceTensor",
+              "type": "id<MTLTensor> _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sourceOrigin",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sourceDimensions",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "sourcePlane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            },
+            {
+              "name": "destinationTensor",
+              "type": "id<MTLTensor> _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "destinationOrigin",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "destinationDimensions",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "destinationPlane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            }
+          ]
+        },
+        {
           "name": "generateMipmaps",
           "selector": "generateMipmapsForTexture:",
           "isClassMethod": false,
@@ -23225,7 +23789,7 @@
           "returnNullability": null,
           "parameters": [
             {
-              "name": "frontFacingWindning",
+              "name": "frontFacingWinding",
               "type": "MTLWinding",
               "nullability": null
             }
@@ -24159,6 +24723,14 @@
           "parameters": []
         },
         {
+          "name": "reactiveMaskTextureUsage",
+          "selector": "reactiveMaskTextureUsage",
+          "isClassMethod": false,
+          "returnType": "MTLTextureUsage",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
           "name": "reactiveTextureUsage",
           "selector": "reactiveTextureUsage",
           "isClassMethod": false,
@@ -24213,6 +24785,226 @@
           "parameters": [
             {
               "name": "inputContentHeight",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "colorContentOffsetX",
+          "selector": "colorContentOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setColorContentOffsetX",
+          "selector": "setColorContentOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "colorContentOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "colorContentOffsetY",
+          "selector": "colorContentOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setColorContentOffsetY",
+          "selector": "setColorContentOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "colorContentOffsetY",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "depthContentOffsetX",
+          "selector": "depthContentOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDepthContentOffsetX",
+          "selector": "setDepthContentOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "depthContentOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "depthContentOffsetY",
+          "selector": "depthContentOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDepthContentOffsetY",
+          "selector": "setDepthContentOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "depthContentOffsetY",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "motionContentOffsetX",
+          "selector": "motionContentOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setMotionContentOffsetX",
+          "selector": "setMotionContentOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "motionContentOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "motionContentOffsetY",
+          "selector": "motionContentOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setMotionContentOffsetY",
+          "selector": "setMotionContentOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "motionContentOffsetY",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "reactiveMaskContentOffsetX",
+          "selector": "reactiveMaskContentOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setReactiveMaskContentOffsetX",
+          "selector": "setReactiveMaskContentOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "reactiveMaskContentOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "reactiveMaskContentOffsetY",
+          "selector": "reactiveMaskContentOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setReactiveMaskContentOffsetY",
+          "selector": "setReactiveMaskContentOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "reactiveMaskContentOffsetY",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "outputOffsetX",
+          "selector": "outputOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setOutputOffsetX",
+          "selector": "setOutputOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "outputOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "outputOffsetY",
+          "selector": "outputOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setOutputOffsetY",
+          "selector": "setOutputOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "outputOffsetY",
               "type": "NSUInteger",
               "nullability": null
             }
@@ -24635,10 +25427,18 @@
           "readonly": true
         },
         {
-          "name": "reactiveTextureUsage",
+          "name": "reactiveMaskTextureUsage",
           "type": "MTLTextureUsage",
           "nullability": null,
           "readonly": true
+        },
+        {
+          "name": "reactiveTextureUsage",
+          "type": "MTLTextureUsage",
+          "nullability": null,
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Use reactiveMaskTextureUsage instead"
         },
         {
           "name": "outputTextureUsage",
@@ -24654,6 +25454,66 @@
         },
         {
           "name": "inputContentHeight",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "colorContentOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "colorContentOffsetY",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "depthContentOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "depthContentOffsetY",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "motionContentOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "motionContentOffsetY",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "reactiveMaskContentOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "reactiveMaskContentOffsetY",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "outputOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "outputOffsetY",
           "type": "NSUInteger",
           "nullability": null,
           "readonly": false
@@ -24888,6 +25748,14 @@
         {
           "name": "motionTextureUsage",
           "selector": "motionTextureUsage",
+          "isClassMethod": false,
+          "returnType": "MTLTextureUsage",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "reactiveMaskTextureUsage",
+          "selector": "reactiveMaskTextureUsage",
           "isClassMethod": false,
           "returnType": "MTLTextureUsage",
           "returnNullability": null,
@@ -25636,10 +26504,18 @@
           "readonly": true
         },
         {
-          "name": "reactiveTextureUsage",
+          "name": "reactiveMaskTextureUsage",
           "type": "MTLTextureUsage",
           "nullability": null,
           "readonly": true
+        },
+        {
+          "name": "reactiveTextureUsage",
+          "type": "MTLTextureUsage",
+          "nullability": null,
+          "readonly": true,
+          "deprecated": true,
+          "deprecationMessage": "Use reactiveMaskTextureUsage instead"
         },
         {
           "name": "diffuseAlbedoTextureUsage",
@@ -26437,6 +27313,270 @@
           "parameters": []
         },
         {
+          "name": "contentWidth",
+          "selector": "contentWidth",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setContentWidth",
+          "selector": "setContentWidth:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "contentWidth",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "contentHeight",
+          "selector": "contentHeight",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setContentHeight",
+          "selector": "setContentHeight:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "contentHeight",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "depthContentOffsetX",
+          "selector": "depthContentOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDepthContentOffsetX",
+          "selector": "setDepthContentOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "depthContentOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "depthContentOffsetY",
+          "selector": "depthContentOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDepthContentOffsetY",
+          "selector": "setDepthContentOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "depthContentOffsetY",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "motionContentOffsetX",
+          "selector": "motionContentOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setMotionContentOffsetX",
+          "selector": "setMotionContentOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "motionContentOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "motionContentOffsetY",
+          "selector": "motionContentOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setMotionContentOffsetY",
+          "selector": "setMotionContentOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "motionContentOffsetY",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "outputOffsetX",
+          "selector": "outputOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setOutputOffsetX",
+          "selector": "setOutputOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "outputOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "outputOffsetY",
+          "selector": "outputOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setOutputOffsetY",
+          "selector": "setOutputOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "outputOffsetY",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "distortionOffsetX",
+          "selector": "distortionOffsetX",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDistortionOffsetX",
+          "selector": "setDistortionOffsetX:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "distortionOffsetX",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "distortionOffsetY",
+          "selector": "distortionOffsetY",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDistortionOffsetY",
+          "selector": "setDistortionOffsetY:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "distortionOffsetY",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "distortionWidth",
+          "selector": "distortionWidth",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDistortionWidth",
+          "selector": "setDistortionWidth:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "distortionWidth",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "distortionHeight",
+          "selector": "distortionHeight",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDistortionHeight",
+          "selector": "setDistortionHeight:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "distortionHeight",
+              "type": "NSUInteger",
+              "nullability": null
+            }
+          ]
+        },
+        {
           "name": "colorTexture",
           "selector": "colorTexture",
           "isClassMethod": false,
@@ -26679,6 +27819,50 @@
           ]
         },
         {
+          "name": "worldToViewMatrix",
+          "selector": "worldToViewMatrix",
+          "isClassMethod": false,
+          "returnType": "simd_float4x4",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setWorldToViewMatrix",
+          "selector": "setWorldToViewMatrix:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "worldToViewMatrix",
+              "type": "simd_float4x4",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "viewToClipMatrix",
+          "selector": "viewToClipMatrix",
+          "isClassMethod": false,
+          "returnType": "simd_float4x4",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setViewToClipMatrix",
+          "selector": "setViewToClipMatrix:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "viewToClipMatrix",
+              "type": "simd_float4x4",
+              "nullability": null
+            }
+          ]
+        },
+        {
           "name": "uiTexture",
           "selector": "uiTexture",
           "isClassMethod": false,
@@ -26807,6 +27991,28 @@
               "name": "outputTexture",
               "type": "id<MTLTexture> _Nullable",
               "nullability": "nullable"
+            }
+          ]
+        },
+        {
+          "name": "distortionTexture",
+          "selector": "distortionTexture",
+          "isClassMethod": false,
+          "returnType": "API_UNAVAILABLE id<MTLTexture>",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDistortionTexture",
+          "selector": "setDistortionTexture:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "distortionTexture",
+              "type": "API_UNAVAILABLE id<MTLTexture>",
+              "nullability": null
             }
           ]
         },
@@ -26941,6 +28147,78 @@
           "readonly": true
         },
         {
+          "name": "contentWidth",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "contentHeight",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "depthContentOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "depthContentOffsetY",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "motionContentOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "motionContentOffsetY",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "outputOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "outputOffsetY",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "distortionOffsetX",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "distortionOffsetY",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "distortionWidth",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "distortionHeight",
+          "type": "NSUInteger",
+          "nullability": null,
+          "readonly": false
+        },
+        {
           "name": "colorTexture",
           "type": "id<MTLTexture> _Nullable",
           "nullability": "nullable",
@@ -27007,6 +28285,18 @@
           "readonly": false
         },
         {
+          "name": "worldToViewMatrix",
+          "type": "simd_float4x4",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "viewToClipMatrix",
+          "type": "simd_float4x4",
+          "nullability": null,
+          "readonly": false
+        },
+        {
           "name": "uiTexture",
           "type": "id<MTLTexture> _Nullable",
           "nullability": "nullable",
@@ -27043,6 +28333,12 @@
           "name": "outputTexture",
           "type": "id<MTLTexture> _Nullable",
           "nullability": "nullable",
+          "readonly": false
+        },
+        {
+          "name": "distortionTexture",
+          "type": "API_UNAVAILABLE id<MTLTexture>",
+          "nullability": null,
           "readonly": false
         },
         {
@@ -27120,7 +28416,131 @@
           "readonly": true
         }
       ],
-      "protocols": [],
+      "protocols": [
+        "NSCopying"
+      ],
+      "super": "NSObject",
+      "framework": "Metal"
+    },
+    {
+      "kind": "class",
+      "name": "MTLTensorAuxiliaryPlaneDescriptor",
+      "methods": [
+        {
+          "name": "dataType",
+          "selector": "dataType",
+          "isClassMethod": false,
+          "returnType": "MTLTensorDataType",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDataType",
+          "selector": "setDataType:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "dataType",
+              "type": "MTLTensorDataType",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "blockFactors",
+          "selector": "blockFactors",
+          "isClassMethod": false,
+          "returnType": "MTLTensorExtents * _Nonnull",
+          "returnNullability": "nonnull",
+          "parameters": []
+        },
+        {
+          "name": "setBlockFactors",
+          "selector": "setBlockFactors:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "blockFactors",
+              "type": "MTLTensorExtents * _Nonnull",
+              "nullability": "nonnull"
+            }
+          ]
+        }
+      ],
+      "properties": [
+        {
+          "name": "dataType",
+          "type": "MTLTensorDataType",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "blockFactors",
+          "type": "MTLTensorExtents * _Nonnull",
+          "nullability": "nonnull",
+          "readonly": false
+        }
+      ],
+      "protocols": [
+        "NSCopying"
+      ],
+      "super": "NSObject",
+      "framework": "Metal"
+    },
+    {
+      "kind": "class",
+      "name": "MTLTensorAuxiliaryPlaneDescriptorMap",
+      "methods": [
+        {
+          "name": "setDescriptor",
+          "selector": "setDescriptor:forPlane:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "descriptor",
+              "type": "MTLTensorAuxiliaryPlaneDescriptor * _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "plane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "descriptor",
+          "selector": "descriptorForPlane:",
+          "isClassMethod": false,
+          "returnType": "MTLTensorAuxiliaryPlaneDescriptor * _Nullable",
+          "returnNullability": "nullable",
+          "parameters": [
+            {
+              "name": "plane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "selector": "reset",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": []
+        }
+      ],
+      "properties": [],
+      "protocols": [
+        "NSCopying"
+      ],
       "super": "NSObject",
       "framework": "Metal"
     },
@@ -27213,6 +28633,28 @@
               "name": "usage",
               "type": "MTLTensorUsage",
               "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "auxiliaryPlanes",
+          "selector": "auxiliaryPlanes",
+          "isClassMethod": false,
+          "returnType": "MTLTensorAuxiliaryPlaneDescriptorMap * _Nullable",
+          "returnNullability": "nullable",
+          "parameters": []
+        },
+        {
+          "name": "setAuxiliaryPlanes",
+          "selector": "setAuxiliaryPlanes:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "auxiliaryPlanes",
+              "type": "MTLTensorAuxiliaryPlaneDescriptorMap * _Nullable",
+              "nullability": "nullable"
             }
           ]
         },
@@ -27331,6 +28773,12 @@
           "readonly": false
         },
         {
+          "name": "auxiliaryPlanes",
+          "type": "MTLTensorAuxiliaryPlaneDescriptorMap * _Nullable",
+          "nullability": "nullable",
+          "readonly": false
+        },
+        {
           "name": "resourceOptions",
           "type": "MTLResourceOptions",
           "nullability": null,
@@ -27355,6 +28803,78 @@
           "readonly": false
         }
       ],
+      "protocols": [
+        "NSCopying"
+      ],
+      "super": "NSObject",
+      "framework": "Metal"
+    },
+    {
+      "kind": "class",
+      "name": "MTLTensorBufferAttachments",
+      "methods": [
+        {
+          "name": "setBuffer",
+          "selector": "setBuffer:offset:forPlane:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "buffer",
+              "type": "id<MTLBuffer> _Nonnull",
+              "nullability": "nonnull"
+            },
+            {
+              "name": "offset",
+              "type": "NSUInteger",
+              "nullability": null
+            },
+            {
+              "name": "plane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "buffer",
+          "selector": "bufferForPlane:",
+          "isClassMethod": false,
+          "returnType": "id<MTLBuffer> _Nullable",
+          "returnNullability": "nullable",
+          "parameters": [
+            {
+              "name": "plane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "offset",
+          "selector": "offsetForPlane:",
+          "isClassMethod": false,
+          "returnType": "NSUInteger",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "plane",
+              "type": "MTLTensorPlaneType",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "reset",
+          "selector": "reset",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": []
+        }
+      ],
+      "properties": [],
       "protocols": [
         "NSCopying"
       ],
@@ -28086,6 +29606,28 @@
               "nullability": null
             }
           ]
+        },
+        {
+          "name": "minLOD",
+          "selector": "minLOD",
+          "isClassMethod": false,
+          "returnType": "float",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setMinLOD",
+          "selector": "setMinLOD:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "minLOD",
+              "type": "float",
+              "nullability": null
+            }
+          ]
         }
       ],
       "properties": [
@@ -28116,6 +29658,12 @@
         {
           "name": "swizzle",
           "type": "MTLTextureSwizzleChannels",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "minLOD",
+          "type": "float",
           "nullability": null,
           "readonly": false
         }
@@ -28703,6 +30251,14 @@
           "parameters": []
         },
         {
+          "name": "auxiliaryPlanes",
+          "selector": "auxiliaryPlanes",
+          "isClassMethod": false,
+          "returnType": "NSArray<MTLTensorAuxiliaryPlaneType *> * _Nonnull",
+          "returnNullability": "nonnull",
+          "parameters": []
+        },
+        {
           "name": "access",
           "selector": "access",
           "isClassMethod": false,
@@ -28728,6 +30284,12 @@
           "name": "dimensions",
           "type": "MTLTensorExtents * _Nullable",
           "nullability": "nullable",
+          "readonly": true
+        },
+        {
+          "name": "auxiliaryPlanes",
+          "type": "NSArray<MTLTensorAuxiliaryPlaneType *> * _Nonnull",
+          "nullability": "nonnull",
           "readonly": true
         },
         {
@@ -28865,6 +30427,59 @@
         {
           "name": "argumentIndex",
           "type": "NSUInteger",
+          "nullability": null,
+          "readonly": true
+        }
+      ],
+      "protocols": [],
+      "super": "NSObject",
+      "framework": "Metal"
+    },
+    {
+      "kind": "class",
+      "name": "MTLTensorAuxiliaryPlaneType",
+      "methods": [
+        {
+          "name": "dataType",
+          "selector": "dataType",
+          "isClassMethod": false,
+          "returnType": "MTLTensorDataType",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "blockFactors",
+          "selector": "blockFactors",
+          "isClassMethod": false,
+          "returnType": "MTLTensorExtents * _Nonnull",
+          "returnNullability": "nonnull",
+          "parameters": []
+        },
+        {
+          "name": "planeType",
+          "selector": "planeType",
+          "isClassMethod": false,
+          "returnType": "MTLTensorPlaneType",
+          "returnNullability": null,
+          "parameters": []
+        }
+      ],
+      "properties": [
+        {
+          "name": "dataType",
+          "type": "MTLTensorDataType",
+          "nullability": null,
+          "readonly": true
+        },
+        {
+          "name": "blockFactors",
+          "type": "MTLTensorExtents * _Nonnull",
+          "nullability": "nonnull",
+          "readonly": true
+        },
+        {
+          "name": "planeType",
+          "type": "MTLTensorPlaneType",
           "nullability": null,
           "readonly": true
         }
@@ -29470,6 +31085,28 @@
               "nullability": null
             }
           ]
+        },
+        {
+          "name": "floatingPointConversionRoundingMode",
+          "selector": "floatingPointConversionRoundingMode",
+          "isClassMethod": false,
+          "returnType": "MTLFloatingPointConversionRoundingMode",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setFloatingPointConversionRoundingMode",
+          "selector": "setFloatingPointConversionRoundingMode:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "floatingPointConversionRoundingMode",
+              "type": "MTLFloatingPointConversionRoundingMode",
+              "nullability": null
+            }
+          ]
         }
       ],
       "properties": [
@@ -29562,6 +31199,12 @@
         {
           "name": "enableLogging",
           "type": "BOOL",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "floatingPointConversionRoundingMode",
+          "type": "MTLFloatingPointConversionRoundingMode",
           "nullability": null,
           "readonly": false
         }
@@ -30896,6 +32539,72 @@
               "nullability": null
             }
           ]
+        },
+        {
+          "name": "forwardProgressUsage",
+          "selector": "forwardProgressUsage",
+          "isClassMethod": false,
+          "returnType": "MTLForwardProgressUsage",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setForwardProgressUsage",
+          "selector": "setForwardProgressUsage:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "forwardProgressUsage",
+              "type": "MTLForwardProgressUsage",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "contentionRelief",
+          "selector": "contentionRelief",
+          "isClassMethod": false,
+          "returnType": "MTLContentionRelief",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setContentionRelief",
+          "selector": "setContentionRelief:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "contentionRelief",
+              "type": "MTLContentionRelief",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "optimizeForPersistentKernel",
+          "selector": "optimizeForPersistentKernel",
+          "isClassMethod": false,
+          "returnType": "BOOL",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setOptimizeForPersistentKernel",
+          "selector": "setOptimizeForPersistentKernel:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "optimizeForPersistentKernel",
+              "type": "BOOL",
+              "nullability": null
+            }
+          ]
         }
       ],
       "properties": [
@@ -30938,6 +32647,24 @@
         {
           "name": "supportIndirectCommandBuffers",
           "type": "MTL4IndirectCommandBufferSupportState",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "forwardProgressUsage",
+          "type": "MTLForwardProgressUsage",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "contentionRelief",
+          "type": "MTLContentionRelief",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "optimizeForPersistentKernel",
+          "type": "BOOL",
           "nullability": null,
           "readonly": false
         }
@@ -35868,6 +37595,72 @@
               "nullability": null
             }
           ]
+        },
+        {
+          "name": "forwardProgressUsage",
+          "selector": "forwardProgressUsage",
+          "isClassMethod": false,
+          "returnType": "MTLForwardProgressUsage",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setForwardProgressUsage",
+          "selector": "setForwardProgressUsage:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "forwardProgressUsage",
+              "type": "MTLForwardProgressUsage",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "contentionRelief",
+          "selector": "contentionRelief",
+          "isClassMethod": false,
+          "returnType": "MTLContentionRelief",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setContentionRelief",
+          "selector": "setContentionRelief:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "contentionRelief",
+              "type": "MTLContentionRelief",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "optimizeForPersistentKernel",
+          "selector": "optimizeForPersistentKernel",
+          "isClassMethod": false,
+          "returnType": "BOOL",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setOptimizeForPersistentKernel",
+          "selector": "setOptimizeForPersistentKernel:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "optimizeForPersistentKernel",
+              "type": "BOOL",
+              "nullability": null
+            }
+          ]
         }
       ],
       "properties": [
@@ -35960,6 +37753,24 @@
         {
           "name": "requiredThreadsPerThreadgroup",
           "type": "MTLSize",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "forwardProgressUsage",
+          "type": "MTLForwardProgressUsage",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "contentionRelief",
+          "type": "MTLContentionRelief",
+          "nullability": null,
+          "readonly": false
+        },
+        {
+          "name": "optimizeForPersistentKernel",
+          "type": "BOOL",
           "nullability": null,
           "readonly": false
         }
@@ -38548,7 +40359,9 @@
           "name": "storeActionOptions",
           "type": "MTLStoreActionOptions",
           "nullability": null,
-          "readonly": false
+          "readonly": false,
+          "deprecated": true,
+          "deprecationMessage": "Store action options have no effect on Apple Silicon"
         }
       ],
       "protocols": [
@@ -49999,6 +51812,50 @@
           ]
         },
         {
+          "name": "isOutputResolutionMotionVectorsEnabled",
+          "selector": "isOutputResolutionMotionVectorsEnabled",
+          "isClassMethod": false,
+          "returnType": "BOOL",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setOutputResolutionMotionVectorsEnabled",
+          "selector": "setOutputResolutionMotionVectorsEnabled:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "outputResolutionMotionVectorsEnabled",
+              "type": "BOOL",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "isJitteredMotionVectorsEnabled",
+          "selector": "isJitteredMotionVectorsEnabled",
+          "isClassMethod": false,
+          "returnType": "BOOL",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setJitteredMotionVectorsEnabled",
+          "selector": "setJitteredMotionVectorsEnabled:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "jitteredMotionVectorsEnabled",
+              "type": "BOOL",
+              "nullability": null
+            }
+          ]
+        },
+        {
           "name": "isReactiveMaskTextureEnabled",
           "selector": "isReactiveMaskTextureEnabled",
           "isClassMethod": false,
@@ -50123,6 +51980,20 @@
           "type": "float",
           "nullability": null,
           "readonly": false
+        },
+        {
+          "name": "isOutputResolutionMotionVectorsEnabled",
+          "type": "BOOL",
+          "nullability": null,
+          "readonly": false,
+          "getter": "isOutputResolutionMotionVectorsEnabled"
+        },
+        {
+          "name": "isJitteredMotionVectorsEnabled",
+          "type": "BOOL",
+          "nullability": null,
+          "readonly": false,
+          "getter": "isJitteredMotionVectorsEnabled"
         },
         {
           "name": "isReactiveMaskTextureEnabled",
@@ -51421,6 +53292,50 @@
               "nullability": null
             }
           ]
+        },
+        {
+          "name": "isDistortionTextureEnabled",
+          "selector": "isDistortionTextureEnabled",
+          "isClassMethod": false,
+          "returnType": "BOOL",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setDistortionTextureEnabled",
+          "selector": "setDistortionTextureEnabled:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "distortionTextureEnabled",
+              "type": "BOOL",
+              "nullability": null
+            }
+          ]
+        },
+        {
+          "name": "requiresPrevColorTexture",
+          "selector": "requiresPrevColorTexture",
+          "isClassMethod": false,
+          "returnType": "BOOL",
+          "returnNullability": null,
+          "parameters": []
+        },
+        {
+          "name": "setRequiresPrevColorTexture",
+          "selector": "setRequiresPrevColorTexture:",
+          "isClassMethod": false,
+          "returnType": "void",
+          "returnNullability": null,
+          "parameters": [
+            {
+              "name": "requiresPrevColorTexture",
+              "type": "BOOL",
+              "nullability": null
+            }
+          ]
         }
       ],
       "properties": [
@@ -51484,6 +53399,19 @@
           "type": "NSUInteger",
           "nullability": null,
           "readonly": false
+        },
+        {
+          "name": "isDistortionTextureEnabled",
+          "type": "BOOL",
+          "nullability": null,
+          "readonly": false,
+          "getter": "isDistortionTextureEnabled"
+        },
+        {
+          "name": "requiresPrevColorTexture",
+          "type": "BOOL",
+          "nullability": null,
+          "readonly": false
         }
       ],
       "protocols": [
@@ -51517,6 +53445,11 @@
     {
       "name": "MTLCoordinate2D",
       "underlyingType": "MTLSamplePosition",
+      "framework": "Metal"
+    },
+    {
+      "name": "MTLContentionRelief",
+      "underlyingType": "enum MTLContentionRelief",
       "framework": "Metal"
     },
     {
@@ -51602,6 +53535,11 @@
     {
       "name": "MTLTensorUsage",
       "underlyingType": "enum MTLTensorUsage",
+      "framework": "Metal"
+    },
+    {
+      "name": "MTLTensorPlaneType",
+      "underlyingType": "enum MTLTensorPlaneType",
       "framework": "Metal"
     },
     {
@@ -51747,6 +53685,11 @@
     {
       "name": "MTLMathFloatingPointFunctions",
       "underlyingType": "enum MTLMathFloatingPointFunctions",
+      "framework": "Metal"
+    },
+    {
+      "name": "MTLFloatingPointConversionRoundingMode",
+      "underlyingType": "enum MTLFloatingPointConversionRoundingMode",
       "framework": "Metal"
     },
     {
@@ -52027,6 +53970,11 @@
     {
       "name": "MTLShaderValidation",
       "underlyingType": "enum MTLShaderValidation",
+      "framework": "Metal"
+    },
+    {
+      "name": "MTLForwardProgressUsage",
+      "underlyingType": "enum MTLForwardProgressUsage",
       "framework": "Metal"
     },
     {
@@ -53313,7 +55261,7 @@
       "fields": [
         {
           "name": "",
-          "type": "union _MTLPackedFloat3::(anonymous at /Applications/Xcode_26.6.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLAccelerationStructureTypes.h:19:5)"
+          "type": "union _MTLPackedFloat3::(anonymous at /Applications/Xcode_27.1.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/System/Library/Frameworks/Metal.framework/Headers/MTLAccelerationStructureTypes.h:19:5)"
         }
       ],
       "framework": "Metal"
