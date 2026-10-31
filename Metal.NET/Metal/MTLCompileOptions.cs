@@ -108,6 +108,12 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.EnableLogging);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, value);
     }
+
+    public MTLFloatingPointConversionRoundingMode FloatingPointConversionRoundingMode
+    {
+        get => (MTLFloatingPointConversionRoundingMode)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.FloatingPointConversionRoundingMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFloatingPointConversionRoundingMode, (nint)value);
+    }
 }
 
 file static class MTLCompileOptionsBindings
@@ -121,6 +127,8 @@ file static class MTLCompileOptionsBindings
     public static readonly Selector EnableLogging = "enableLogging";
 
     public static readonly Selector FastMathEnabled = "fastMathEnabled";
+
+    public static readonly Selector FloatingPointConversionRoundingMode = "floatingPointConversionRoundingMode";
 
     public static readonly Selector InstallName = "installName";
 
@@ -151,6 +159,8 @@ file static class MTLCompileOptionsBindings
     public static readonly Selector SetEnableLogging = "setEnableLogging:";
 
     public static readonly Selector SetFastMathEnabled = "setFastMathEnabled:";
+
+    public static readonly Selector SetFloatingPointConversionRoundingMode = "setFloatingPointConversionRoundingMode:";
 
     public static readonly Selector SetInstallName = "setInstallName:";
 

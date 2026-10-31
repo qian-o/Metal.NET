@@ -75,6 +75,18 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
         set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputHeight, value);
     }
 
+    public Bool8 IsDistortionTextureEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.IsDistortionTextureEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetDistortionTextureEnabled, value);
+    }
+
+    public Bool8 RequiresPrevColorTexture
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.RequiresPrevColorTexture);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetRequiresPrevColorTexture, value);
+    }
+
     public MTLFXFrameInterpolator MakeFrameInterpolator(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevice, device.NativePtr);
@@ -112,6 +124,8 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 
     public static readonly Selector InputWidth = "inputWidth";
 
+    public static readonly Selector IsDistortionTextureEnabled = "isDistortionTextureEnabled";
+
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
     public static readonly Selector NewFrameInterpolatorWithDevice = "newFrameInterpolatorWithDevice:";
@@ -124,11 +138,15 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 
     public static readonly Selector OutputWidth = "outputWidth";
 
+    public static readonly Selector RequiresPrevColorTexture = "requiresPrevColorTexture";
+
     public static readonly Selector Scaler = "scaler";
 
     public static readonly Selector SetColorTextureFormat = "setColorTextureFormat:";
 
     public static readonly Selector SetDepthTextureFormat = "setDepthTextureFormat:";
+
+    public static readonly Selector SetDistortionTextureEnabled = "setDistortionTextureEnabled:";
 
     public static readonly Selector SetInputHeight = "setInputHeight:";
 
@@ -141,6 +159,8 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
     public static readonly Selector SetOutputTextureFormat = "setOutputTextureFormat:";
 
     public static readonly Selector SetOutputWidth = "setOutputWidth:";
+
+    public static readonly Selector SetRequiresPrevColorTexture = "setRequiresPrevColorTexture:";
 
     public static readonly Selector SetScaler = "setScaler:";
 

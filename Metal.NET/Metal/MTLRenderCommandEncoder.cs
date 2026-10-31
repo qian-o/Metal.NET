@@ -423,16 +423,28 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilStoreAction, (nuint)storeAction);
     }
 
+    /// <summary>
+    /// Deprecated: Store action options have no effect on Apple Silicon
+    /// </summary>
+    [Obsolete("Store action options have no effect on Apple Silicon")]
     public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetColorStoreActionOptions_AtIndex, (nuint)storeActionOptions, colorAttachmentIndex);
     }
 
+    /// <summary>
+    /// Deprecated: Store action options have no effect on Apple Silicon
+    /// </summary>
+    [Obsolete("Store action options have no effect on Apple Silicon")]
     public void SetDepthStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetDepthStoreActionOptions, (nuint)storeActionOptions);
     }
 
+    /// <summary>
+    /// Deprecated: Store action options have no effect on Apple Silicon
+    /// </summary>
+    [Obsolete("Store action options have no effect on Apple Silicon")]
     public void SetStencilStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilStoreActionOptions, (nuint)storeActionOptions);

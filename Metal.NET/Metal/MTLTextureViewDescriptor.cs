@@ -44,6 +44,12 @@ public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership owne
         get => ObjectiveC.MsgSendMTLTextureSwizzleChannels(NativePtr, MTLTextureViewDescriptorBindings.Swizzle);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetSwizzle, value);
     }
+
+    public float MinLOD
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLTextureViewDescriptorBindings.MinLOD);
+        set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetMinLOD, value);
+    }
 }
 
 file static class MTLTextureViewDescriptorBindings
@@ -52,9 +58,13 @@ file static class MTLTextureViewDescriptorBindings
 
     public static readonly Selector LevelRange = "levelRange";
 
+    public static readonly Selector MinLOD = "minLOD";
+
     public static readonly Selector PixelFormat = "pixelFormat";
 
     public static readonly Selector SetLevelRange = "setLevelRange:";
+
+    public static readonly Selector SetMinLOD = "setMinLOD:";
 
     public static readonly Selector SetPixelFormat = "setPixelFormat:";
 

@@ -26,6 +26,15 @@ public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership owner
         get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalScalerBaseBindings.MotionTextureUsage);
     }
 
+    public MTLTextureUsage ReactiveMaskTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalScalerBaseBindings.ReactiveMaskTextureUsage);
+    }
+
+    /// <summary>
+    /// Deprecated: Use reactiveMaskTextureUsage instead
+    /// </summary>
+    [Obsolete("Use reactiveMaskTextureUsage instead")]
     public MTLTextureUsage ReactiveTextureUsage
     {
         get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalScalerBaseBindings.ReactiveTextureUsage);
@@ -46,6 +55,66 @@ public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership owner
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.InputContentHeight);
         set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetInputContentHeight, value);
+    }
+
+    public nuint ColorContentOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.ColorContentOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetColorContentOffsetX, value);
+    }
+
+    public nuint ColorContentOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.ColorContentOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetColorContentOffsetY, value);
+    }
+
+    public nuint DepthContentOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.DepthContentOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthContentOffsetX, value);
+    }
+
+    public nuint DepthContentOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.DepthContentOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthContentOffsetY, value);
+    }
+
+    public nuint MotionContentOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.MotionContentOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetMotionContentOffsetX, value);
+    }
+
+    public nuint MotionContentOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.MotionContentOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetMotionContentOffsetY, value);
+    }
+
+    public nuint ReactiveMaskContentOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.ReactiveMaskContentOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetReactiveMaskContentOffsetX, value);
+    }
+
+    public nuint ReactiveMaskContentOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.ReactiveMaskContentOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetReactiveMaskContentOffsetY, value);
+    }
+
+    public nuint OutputOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.OutputOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetOutputOffsetX, value);
+    }
+
+    public nuint OutputOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.OutputOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetOutputOffsetY, value);
     }
 
     public MTLTexture ColorTexture
@@ -190,11 +259,19 @@ public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership owner
 
 file static class MTLFXTemporalScalerBaseBindings
 {
+    public static readonly Selector ColorContentOffsetX = "colorContentOffsetX";
+
+    public static readonly Selector ColorContentOffsetY = "colorContentOffsetY";
+
     public static readonly Selector ColorTexture = "colorTexture";
 
     public static readonly Selector ColorTextureFormat = "colorTextureFormat";
 
     public static readonly Selector ColorTextureUsage = "colorTextureUsage";
+
+    public static readonly Selector DepthContentOffsetX = "depthContentOffsetX";
+
+    public static readonly Selector DepthContentOffsetY = "depthContentOffsetY";
 
     public static readonly Selector DepthTexture = "depthTexture";
 
@@ -224,6 +301,10 @@ file static class MTLFXTemporalScalerBaseBindings
 
     public static readonly Selector JitterOffsetY = "jitterOffsetY";
 
+    public static readonly Selector MotionContentOffsetX = "motionContentOffsetX";
+
+    public static readonly Selector MotionContentOffsetY = "motionContentOffsetY";
+
     public static readonly Selector MotionTexture = "motionTexture";
 
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
@@ -236,6 +317,10 @@ file static class MTLFXTemporalScalerBaseBindings
 
     public static readonly Selector OutputHeight = "outputHeight";
 
+    public static readonly Selector OutputOffsetX = "outputOffsetX";
+
+    public static readonly Selector OutputOffsetY = "outputOffsetY";
+
     public static readonly Selector OutputTexture = "outputTexture";
 
     public static readonly Selector OutputTextureFormat = "outputTextureFormat";
@@ -246,15 +331,29 @@ file static class MTLFXTemporalScalerBaseBindings
 
     public static readonly Selector PreExposure = "preExposure";
 
+    public static readonly Selector ReactiveMaskContentOffsetX = "reactiveMaskContentOffsetX";
+
+    public static readonly Selector ReactiveMaskContentOffsetY = "reactiveMaskContentOffsetY";
+
     public static readonly Selector ReactiveMaskTexture = "reactiveMaskTexture";
 
     public static readonly Selector ReactiveMaskTextureFormat = "reactiveMaskTextureFormat";
+
+    public static readonly Selector ReactiveMaskTextureUsage = "reactiveMaskTextureUsage";
 
     public static readonly Selector ReactiveTextureUsage = "reactiveTextureUsage";
 
     public static readonly Selector Reset = "reset";
 
+    public static readonly Selector SetColorContentOffsetX = "setColorContentOffsetX:";
+
+    public static readonly Selector SetColorContentOffsetY = "setColorContentOffsetY:";
+
     public static readonly Selector SetColorTexture = "setColorTexture:";
+
+    public static readonly Selector SetDepthContentOffsetX = "setDepthContentOffsetX:";
+
+    public static readonly Selector SetDepthContentOffsetY = "setDepthContentOffsetY:";
 
     public static readonly Selector SetDepthReversed = "setDepthReversed:";
 
@@ -272,15 +371,27 @@ file static class MTLFXTemporalScalerBaseBindings
 
     public static readonly Selector SetJitterOffsetY = "setJitterOffsetY:";
 
+    public static readonly Selector SetMotionContentOffsetX = "setMotionContentOffsetX:";
+
+    public static readonly Selector SetMotionContentOffsetY = "setMotionContentOffsetY:";
+
     public static readonly Selector SetMotionTexture = "setMotionTexture:";
 
     public static readonly Selector SetMotionVectorScaleX = "setMotionVectorScaleX:";
 
     public static readonly Selector SetMotionVectorScaleY = "setMotionVectorScaleY:";
 
+    public static readonly Selector SetOutputOffsetX = "setOutputOffsetX:";
+
+    public static readonly Selector SetOutputOffsetY = "setOutputOffsetY:";
+
     public static readonly Selector SetOutputTexture = "setOutputTexture:";
 
     public static readonly Selector SetPreExposure = "setPreExposure:";
+
+    public static readonly Selector SetReactiveMaskContentOffsetX = "setReactiveMaskContentOffsetX:";
+
+    public static readonly Selector SetReactiveMaskContentOffsetY = "setReactiveMaskContentOffsetY:";
 
     public static readonly Selector SetReactiveMaskTexture = "setReactiveMaskTexture:";
 

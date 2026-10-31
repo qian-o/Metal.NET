@@ -61,6 +61,11 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLComputePipelineStateBindings.RequiredThreadsPerThreadgroup);
     }
 
+    public MTLForwardProgressUsage ForwardProgressUsage
+    {
+        get => (MTLForwardProgressUsage)ObjectiveC.MsgSendLong(NativePtr, MTLComputePipelineStateBindings.ForwardProgressUsage);
+    }
+
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithName, name.NativePtr);
@@ -118,11 +123,18 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+
+    public nuint RecommendedPersistentThreadgroupsPerGrid(MTLSize threadsPerThreadgroup)
+    {
+        return ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.RecommendedPersistentThreadgroupsPerGridForThreadsPerThreadgroup, threadsPerThreadgroup);
+    }
 }
 
 file static class MTLComputePipelineStateBindings
 {
     public static readonly Selector Device = "device";
+
+    public static readonly Selector ForwardProgressUsage = "forwardProgressUsage";
 
     public static readonly Selector FunctionHandleWithBinaryFunction = "functionHandleWithBinaryFunction:";
 
@@ -145,6 +157,8 @@ file static class MTLComputePipelineStateBindings
     public static readonly Selector NewIntersectionFunctionTableWithDescriptor = "newIntersectionFunctionTableWithDescriptor:";
 
     public static readonly Selector NewVisibleFunctionTableWithDescriptor = "newVisibleFunctionTableWithDescriptor:";
+
+    public static readonly Selector RecommendedPersistentThreadgroupsPerGridForThreadsPerThreadgroup = "recommendedPersistentThreadgroupsPerGridForThreadsPerThreadgroup:";
 
     public static readonly Selector Reflection = "reflection";
 

@@ -39,6 +39,12 @@ public class MTLTensorDescriptor(nint nativePtr, NativeObjectOwnership ownership
         set => ObjectiveC.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetUsage, (nuint)value);
     }
 
+    public MTLTensorAuxiliaryPlaneDescriptorMap AuxiliaryPlanes
+    {
+        get => GetProperty(ref field, MTLTensorDescriptorBindings.AuxiliaryPlanes);
+        set => SetProperty(ref field, MTLTensorDescriptorBindings.SetAuxiliaryPlanes, value);
+    }
+
     public MTLResourceOptions ResourceOptions
     {
         get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLTensorDescriptorBindings.ResourceOptions);
@@ -68,6 +74,8 @@ file static class MTLTensorDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLTensorDescriptor");
 
+    public static readonly Selector AuxiliaryPlanes = "auxiliaryPlanes";
+
     public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
     public static readonly Selector DataType = "dataType";
@@ -77,6 +85,8 @@ file static class MTLTensorDescriptorBindings
     public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
 
     public static readonly Selector ResourceOptions = "resourceOptions";
+
+    public static readonly Selector SetAuxiliaryPlanes = "setAuxiliaryPlanes:";
 
     public static readonly Selector SetCpuCacheMode = "setCpuCacheMode:";
 

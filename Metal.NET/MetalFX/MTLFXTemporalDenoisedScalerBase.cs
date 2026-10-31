@@ -26,6 +26,15 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, NativeObjectOwnersh
         get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionTextureUsage);
     }
 
+    public MTLTextureUsage ReactiveMaskTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveMaskTextureUsage);
+    }
+
+    /// <summary>
+    /// Deprecated: Use reactiveMaskTextureUsage instead
+    /// </summary>
+    [Obsolete("Use reactiveMaskTextureUsage instead")]
     public MTLTextureUsage ReactiveTextureUsage
     {
         get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveTextureUsage);
@@ -375,6 +384,8 @@ file static class MTLFXTemporalDenoisedScalerBaseBindings
     public static readonly Selector ReactiveMaskTexture = "reactiveMaskTexture";
 
     public static readonly Selector ReactiveMaskTextureFormat = "reactiveMaskTextureFormat";
+
+    public static readonly Selector ReactiveMaskTextureUsage = "reactiveMaskTextureUsage";
 
     public static readonly Selector ReactiveTextureUsage = "reactiveTextureUsage";
 

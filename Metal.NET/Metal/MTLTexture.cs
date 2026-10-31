@@ -145,6 +145,10 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureBindings.GpuResourceID);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public MTLTexture RemoteStorageTexture
     {
         get => GetProperty(ref field, MTLTextureBindings.RemoteStorageTexture);
@@ -158,6 +162,11 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
     public MTLTextureSparseTier SparseTextureTier
     {
         get => (MTLTextureSparseTier)ObjectiveC.MsgSendLong(NativePtr, MTLTextureBindings.SparseTextureTier);
+    }
+
+    public float MinLOD
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLTextureBindings.MinLOD);
     }
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
@@ -208,6 +217,10 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public MTLTexture MakeRemoteTextureView(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewRemoteTextureViewForDevice, device.NativePtr);
@@ -258,6 +271,8 @@ file static class MTLTextureBindings
     public static readonly Selector IsShareable = "isShareable";
 
     public static readonly Selector IsSparse = "isSparse";
+
+    public static readonly Selector MinLOD = "minLOD";
 
     public static readonly Selector MipmapLevelCount = "mipmapLevelCount";
 

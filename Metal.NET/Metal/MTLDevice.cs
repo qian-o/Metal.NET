@@ -33,16 +33,28 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLDeviceBindings.MaxThreadsPerThreadgroup);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public Bool8 IsLowPower
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.IsLowPower);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public Bool8 IsHeadless
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.IsHeadless);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public Bool8 IsRemovable
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.IsRemovable);
@@ -58,21 +70,37 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendULong(NativePtr, MTLDeviceBindings.RecommendedMaxWorkingSetSize);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public MTLDeviceLocation Location
     {
         get => (MTLDeviceLocation)ObjectiveC.MsgSendULong(NativePtr, MTLDeviceBindings.Location);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public nuint LocationNumber
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDeviceBindings.LocationNumber);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public ulong MaxTransferRate
     {
         get => ObjectiveC.MsgSendULong(NativePtr, MTLDeviceBindings.MaxTransferRate);
     }
 
+    /// <summary>
+    /// Deprecated: Never supported on Apple Silicon
+    /// </summary>
+    [Obsolete("Never supported on Apple Silicon")]
     public Bool8 IsDepth24Stencil8PixelFormatSupported
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.IsDepth24Stencil8PixelFormatSupported);
@@ -152,16 +180,28 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.AreProgrammableSamplePositionsSupported);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public ulong PeerGroupID
     {
         get => ObjectiveC.MsgSendULong(NativePtr, MTLDeviceBindings.PeerGroupID);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public uint PeerIndex
     {
         get => ObjectiveC.MsgSendUInt(NativePtr, MTLDeviceBindings.PeerIndex);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public uint PeerCount
     {
         get => ObjectiveC.MsgSendUInt(NativePtr, MTLDeviceBindings.PeerCount);
@@ -805,6 +845,15 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLTensor MakeTensor(MTLTensorDescriptor descriptor, MTLTensorBufferAttachments attachments, out NSError error)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewTensorWithDescriptor_Attachments_Error, descriptor.NativePtr, attachments.NativePtr, out nint errorPtr);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.FunctionHandleWithFunction, function.NativePtr);
@@ -1249,6 +1298,8 @@ file static class MTLDeviceBindings
     public static readonly Selector NewSharedTextureWithDescriptor = "newSharedTextureWithDescriptor:";
 
     public static readonly Selector NewSharedTextureWithHandle = "newSharedTextureWithHandle:";
+
+    public static readonly Selector NewTensorWithDescriptor_Attachments_Error = "newTensorWithDescriptor:attachments:error:";
 
     public static readonly Selector NewTensorWithDescriptor_Error = "newTensorWithDescriptor:error:";
 

@@ -46,6 +46,11 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         get => (MTLTensorUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.Usage);
     }
 
+    public NSArray<MTLTensorAuxiliaryPlane> AuxiliaryPlanes
+    {
+        get => GetProperty(ref field, MTLTensorBindings.AuxiliaryPlanes);
+    }
+
     public void Replace(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
     {
         ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.ReplaceSliceOrigin_SliceDimensions_WithBytes_Strides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
@@ -55,10 +60,22 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
     {
         ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.GetBytes_Strides_FromSliceOrigin_SliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
     }
+
+    public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, MTLTensorPlaneType plane)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.GetBytes_Strides_FromSliceOrigin_SliceDimensions_Plane, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr, (nint)plane);
+    }
+
+    public void Replace(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, MTLTensorPlaneType plane, nint bytes, MTLTensorExtents strides)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.ReplaceSliceOrigin_SliceDimensions_Plane_WithBytes_Strides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, (nint)plane, bytes, strides.NativePtr);
+    }
 }
 
 file static class MTLTensorBindings
 {
+    public static readonly Selector AuxiliaryPlanes = "auxiliaryPlanes";
+
     public static readonly Selector Buffer = "buffer";
 
     public static readonly Selector BufferOffset = "bufferOffset";
@@ -69,7 +86,11 @@ file static class MTLTensorBindings
 
     public static readonly Selector GetBytes_Strides_FromSliceOrigin_SliceDimensions = "getBytes:strides:fromSliceOrigin:sliceDimensions:";
 
+    public static readonly Selector GetBytes_Strides_FromSliceOrigin_SliceDimensions_Plane = "getBytes:strides:fromSliceOrigin:sliceDimensions:plane:";
+
     public static readonly Selector GpuResourceID = "gpuResourceID";
+
+    public static readonly Selector ReplaceSliceOrigin_SliceDimensions_Plane_WithBytes_Strides = "replaceSliceOrigin:sliceDimensions:plane:withBytes:strides:";
 
     public static readonly Selector ReplaceSliceOrigin_SliceDimensions_WithBytes_Strides = "replaceSliceOrigin:sliceDimensions:withBytes:strides:";
 

@@ -25,10 +25,17 @@ public class MTLTensorBinding(nint nativePtr, NativeObjectOwnership ownership) :
     {
         get => GetProperty(ref field, MTLTensorBindingBindings.Dimensions);
     }
+
+    public NSArray<MTLTensorAuxiliaryPlaneType> AuxiliaryPlanes
+    {
+        get => GetProperty(ref field, MTLTensorBindingBindings.AuxiliaryPlanes);
+    }
 }
 
 file static class MTLTensorBindingBindings
 {
+    public static readonly Selector AuxiliaryPlanes = "auxiliaryPlanes";
+
     public static readonly Selector Dimensions = "dimensions";
 
     public static readonly Selector IndexType = "indexType";

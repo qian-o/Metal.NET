@@ -26,6 +26,11 @@ public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership owners
         get => GetProperty(ref field, MTLTensorReferenceTypeBindings.Dimensions);
     }
 
+    public NSArray<MTLTensorAuxiliaryPlaneType> AuxiliaryPlanes
+    {
+        get => GetProperty(ref field, MTLTensorReferenceTypeBindings.AuxiliaryPlanes);
+    }
+
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.Access);
@@ -35,6 +40,8 @@ public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership owners
 file static class MTLTensorReferenceTypeBindings
 {
     public static readonly Selector Access = "access";
+
+    public static readonly Selector AuxiliaryPlanes = "auxiliaryPlanes";
 
     public static readonly Selector Dimensions = "dimensions";
 

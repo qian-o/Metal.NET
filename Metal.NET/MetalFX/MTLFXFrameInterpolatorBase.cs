@@ -81,6 +81,78 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTextureFormat);
     }
 
+    public nuint ContentWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.ContentWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetContentWidth, value);
+    }
+
+    public nuint ContentHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.ContentHeight);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetContentHeight, value);
+    }
+
+    public nuint DepthContentOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthContentOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthContentOffsetX, value);
+    }
+
+    public nuint DepthContentOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthContentOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthContentOffsetY, value);
+    }
+
+    public nuint MotionContentOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionContentOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionContentOffsetX, value);
+    }
+
+    public nuint MotionContentOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionContentOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionContentOffsetY, value);
+    }
+
+    public nuint OutputOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetOutputOffsetX, value);
+    }
+
+    public nuint OutputOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetOutputOffsetY, value);
+    }
+
+    public nuint DistortionOffsetX
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.DistortionOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDistortionOffsetX, value);
+    }
+
+    public nuint DistortionOffsetY
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.DistortionOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDistortionOffsetY, value);
+    }
+
+    public nuint DistortionWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.DistortionWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDistortionWidth, value);
+    }
+
+    public nuint DistortionHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.DistortionHeight);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDistortionHeight, value);
+    }
+
     public MTLTexture ColorTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
@@ -147,6 +219,18 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
         set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetAspectRatio, value);
     }
 
+    public SimdFloat4x4 WorldToViewMatrix
+    {
+        get => ObjectiveC.MsgSendSimdFloat4x4(NativePtr, MTLFXFrameInterpolatorBaseBindings.WorldToViewMatrix);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetWorldToViewMatrix, value);
+    }
+
+    public SimdFloat4x4 ViewToClipMatrix
+    {
+        get => ObjectiveC.MsgSendSimdFloat4x4(NativePtr, MTLFXFrameInterpolatorBaseBindings.ViewToClipMatrix);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetViewToClipMatrix, value);
+    }
+
     public MTLTexture UiTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
@@ -183,6 +267,12 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value);
     }
 
+    public MTLTexture DistortionTexture
+    {
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.DistortionTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDistortionTexture, value);
+    }
+
     public MTLFence Fence
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
@@ -206,13 +296,31 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector ColorTextureUsage = "colorTextureUsage";
 
+    public static readonly Selector ContentHeight = "contentHeight";
+
+    public static readonly Selector ContentWidth = "contentWidth";
+
     public static readonly Selector DeltaTime = "deltaTime";
+
+    public static readonly Selector DepthContentOffsetX = "depthContentOffsetX";
+
+    public static readonly Selector DepthContentOffsetY = "depthContentOffsetY";
 
     public static readonly Selector DepthTexture = "depthTexture";
 
     public static readonly Selector DepthTextureFormat = "depthTextureFormat";
 
     public static readonly Selector DepthTextureUsage = "depthTextureUsage";
+
+    public static readonly Selector DistortionHeight = "distortionHeight";
+
+    public static readonly Selector DistortionOffsetX = "distortionOffsetX";
+
+    public static readonly Selector DistortionOffsetY = "distortionOffsetY";
+
+    public static readonly Selector DistortionTexture = "distortionTexture";
+
+    public static readonly Selector DistortionWidth = "distortionWidth";
 
     public static readonly Selector FarPlane = "farPlane";
 
@@ -232,6 +340,10 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector JitterOffsetY = "jitterOffsetY";
 
+    public static readonly Selector MotionContentOffsetX = "motionContentOffsetX";
+
+    public static readonly Selector MotionContentOffsetY = "motionContentOffsetY";
+
     public static readonly Selector MotionTexture = "motionTexture";
 
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
@@ -245,6 +357,10 @@ file static class MTLFXFrameInterpolatorBaseBindings
     public static readonly Selector NearPlane = "nearPlane";
 
     public static readonly Selector OutputHeight = "outputHeight";
+
+    public static readonly Selector OutputOffsetX = "outputOffsetX";
+
+    public static readonly Selector OutputOffsetY = "outputOffsetY";
 
     public static readonly Selector OutputTexture = "outputTexture";
 
@@ -260,11 +376,29 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetColorTexture = "setColorTexture:";
 
+    public static readonly Selector SetContentHeight = "setContentHeight:";
+
+    public static readonly Selector SetContentWidth = "setContentWidth:";
+
     public static readonly Selector SetDeltaTime = "setDeltaTime:";
+
+    public static readonly Selector SetDepthContentOffsetX = "setDepthContentOffsetX:";
+
+    public static readonly Selector SetDepthContentOffsetY = "setDepthContentOffsetY:";
 
     public static readonly Selector SetDepthReversed = "setDepthReversed:";
 
     public static readonly Selector SetDepthTexture = "setDepthTexture:";
+
+    public static readonly Selector SetDistortionHeight = "setDistortionHeight:";
+
+    public static readonly Selector SetDistortionOffsetX = "setDistortionOffsetX:";
+
+    public static readonly Selector SetDistortionOffsetY = "setDistortionOffsetY:";
+
+    public static readonly Selector SetDistortionTexture = "setDistortionTexture:";
+
+    public static readonly Selector SetDistortionWidth = "setDistortionWidth:";
 
     public static readonly Selector SetFarPlane = "setFarPlane:";
 
@@ -278,6 +412,10 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetJitterOffsetY = "setJitterOffsetY:";
 
+    public static readonly Selector SetMotionContentOffsetX = "setMotionContentOffsetX:";
+
+    public static readonly Selector SetMotionContentOffsetY = "setMotionContentOffsetY:";
+
     public static readonly Selector SetMotionTexture = "setMotionTexture:";
 
     public static readonly Selector SetMotionVectorScaleX = "setMotionVectorScaleX:";
@@ -285,6 +423,10 @@ file static class MTLFXFrameInterpolatorBaseBindings
     public static readonly Selector SetMotionVectorScaleY = "setMotionVectorScaleY:";
 
     public static readonly Selector SetNearPlane = "setNearPlane:";
+
+    public static readonly Selector SetOutputOffsetX = "setOutputOffsetX:";
+
+    public static readonly Selector SetOutputOffsetY = "setOutputOffsetY:";
 
     public static readonly Selector SetOutputTexture = "setOutputTexture:";
 
@@ -294,6 +436,10 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetUITexture = "setUITexture:";
 
+    public static readonly Selector SetViewToClipMatrix = "setViewToClipMatrix:";
+
+    public static readonly Selector SetWorldToViewMatrix = "setWorldToViewMatrix:";
+
     public static readonly Selector ShouldResetHistory = "shouldResetHistory";
 
     public static readonly Selector UiTexture = "uiTexture";
@@ -301,4 +447,8 @@ file static class MTLFXFrameInterpolatorBaseBindings
     public static readonly Selector UiTextureFormat = "uiTextureFormat";
 
     public static readonly Selector UiTextureUsage = "uiTextureUsage";
+
+    public static readonly Selector ViewToClipMatrix = "viewToClipMatrix";
+
+    public static readonly Selector WorldToViewMatrix = "worldToViewMatrix";
 }

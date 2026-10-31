@@ -108,6 +108,24 @@ public class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership 
         set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
     }
 
+    public MTLForwardProgressUsage ForwardProgressUsage
+    {
+        get => (MTLForwardProgressUsage)ObjectiveC.MsgSendLong(NativePtr, MTLComputePipelineDescriptorBindings.ForwardProgressUsage);
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetForwardProgressUsage, (nint)value);
+    }
+
+    public MTLContentionRelief ContentionRelief
+    {
+        get => (MTLContentionRelief)ObjectiveC.MsgSendLong(NativePtr, MTLComputePipelineDescriptorBindings.ContentionRelief);
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetContentionRelief, (nint)value);
+    }
+
+    public Bool8 OptimizeForPersistentKernel
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.OptimizeForPersistentKernel);
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetOptimizeForPersistentKernel, value);
+    }
+
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.Reset);
@@ -124,6 +142,10 @@ file static class MTLComputePipelineDescriptorBindings
 
     public static readonly Selector ComputeFunction = "computeFunction";
 
+    public static readonly Selector ContentionRelief = "contentionRelief";
+
+    public static readonly Selector ForwardProgressUsage = "forwardProgressUsage";
+
     public static readonly Selector InsertLibraries = "insertLibraries";
 
     public static readonly Selector Label = "label";
@@ -133,6 +155,8 @@ file static class MTLComputePipelineDescriptorBindings
     public static readonly Selector MaxCallStackDepth = "maxCallStackDepth";
 
     public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
+
+    public static readonly Selector OptimizeForPersistentKernel = "optimizeForPersistentKernel";
 
     public static readonly Selector PreloadedLibraries = "preloadedLibraries";
 
@@ -144,6 +168,10 @@ file static class MTLComputePipelineDescriptorBindings
 
     public static readonly Selector SetComputeFunction = "setComputeFunction:";
 
+    public static readonly Selector SetContentionRelief = "setContentionRelief:";
+
+    public static readonly Selector SetForwardProgressUsage = "setForwardProgressUsage:";
+
     public static readonly Selector SetInsertLibraries = "setInsertLibraries:";
 
     public static readonly Selector SetLabel = "setLabel:";
@@ -153,6 +181,8 @@ file static class MTLComputePipelineDescriptorBindings
     public static readonly Selector SetMaxCallStackDepth = "setMaxCallStackDepth:";
 
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
+
+    public static readonly Selector SetOptimizeForPersistentKernel = "setOptimizeForPersistentKernel:";
 
     public static readonly Selector SetPreloadedLibraries = "setPreloadedLibraries:";
 

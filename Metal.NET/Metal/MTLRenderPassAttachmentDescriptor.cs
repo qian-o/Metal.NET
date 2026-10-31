@@ -75,6 +75,10 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwner
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreAction, (nuint)value);
     }
 
+    /// <summary>
+    /// Deprecated: Store action options have no effect on Apple Silicon
+    /// </summary>
+    [Obsolete("Store action options have no effect on Apple Silicon")]
     public MTLStoreActionOptions StoreActionOptions
     {
         get => (MTLStoreActionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreActionOptions);

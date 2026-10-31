@@ -1,5 +1,12 @@
 ﻿namespace Metal.NET;
 
+public enum MTLContentionRelief : long
+{
+    Automatic = 0,
+
+    None = 1
+}
+
 [Flags]
 public enum MTLResourceUsage : ulong
 {
@@ -69,6 +76,7 @@ public enum MTLStorageMode : ulong
 {
     Shared = 0,
 
+    [Obsolete("Managed storage has no effect on Apple Silicon, use Shared storage instead")]
     Managed = 1,
 
     Private = 2,
@@ -94,6 +102,7 @@ public enum MTLResourceOptions : ulong
 
     StorageModeShared = 0,
 
+    [Obsolete("Managed storage has no effect on Apple Silicon, use Shared storage instead")]
     StorageModeManaged = 16,
 
     StorageModePrivate = 32,
@@ -182,6 +191,14 @@ public enum MTLPixelFormat : ulong
 
     BGR5A1Unorm = 43,
 
+    RGB8Unorm = 45,
+
+    RGB8Snorm = 46,
+
+    RGB8Uint = 47,
+
+    RGB8Sint = 48,
+
     R32Uint = 53,
 
     R32Sint = 54,
@@ -226,6 +243,16 @@ public enum MTLPixelFormat : ulong
 
     BGR10_XR_sRGB = 555,
 
+    RGB16Unorm = 95,
+
+    RGB16Snorm = 96,
+
+    RGB16Uint = 97,
+
+    RGB16Sint = 98,
+
+    RGB16Float = 99,
+
     RG32Uint = 103,
 
     RG32Sint = 104,
@@ -245,6 +272,12 @@ public enum MTLPixelFormat : ulong
     BGRA10_XR = 552,
 
     BGRA10_XR_sRGB = 553,
+
+    RGB32Uint = 120,
+
+    RGB32Sint = 121,
+
+    RGB32Float = 122,
 
     RGBA32Uint = 123,
 
@@ -418,12 +451,14 @@ public enum MTLPixelFormat : ulong
 
     Stencil8 = 253,
 
+    [Obsolete("Use MTLPixelFormatDepth32Float_Stencil8 instead")]
     Depth24Unorm_Stencil8 = 255,
 
     Depth32Float_Stencil8 = 260,
 
     X32_Stencil8 = 261,
 
+    [Obsolete("Use MTLPixelFormatX32_Stencil8 instead")]
     X24_Stencil8 = 262,
 
     Unspecialized = 263
@@ -650,7 +685,19 @@ public enum MTLTensorDataType : long
 
     Int4 = 143,
 
-    UInt4 = 144
+    UInt4 = 144,
+
+    MetalFloat8UE8M0 = 145,
+
+    UInt2 = 149,
+
+    Int2 = 150,
+
+    MetalFloat8E5M2 = 141,
+
+    MetalFloat8E4M3 = 142,
+
+    MetalFloat4E2M1 = 148
 }
 
 public enum MTLTensorError : long
@@ -670,6 +717,13 @@ public enum MTLTensorUsage : ulong
     Render = 2,
 
     MachineLearning = 4
+}
+
+public enum MTLTensorPlaneType : long
+{
+    Data = 0,
+
+    Scales = 1
 }
 
 public enum MTLTextureType : ulong
@@ -877,7 +931,9 @@ public enum MTLLanguageVersion : ulong
 
     MTL3_2 = 196610,
 
-    MTL4_0 = 262144
+    MTL4_0 = 262144,
+
+    MTL4_1 = 262145
 }
 
 public enum MTLLibraryType : long
@@ -915,6 +971,13 @@ public enum MTLMathFloatingPointFunctions : long
     Fast = 0,
 
     Precise = 1
+}
+
+public enum MTLFloatingPointConversionRoundingMode : long
+{
+    ToNearestEven = 0,
+
+    TowardZero = 1
 }
 
 public enum MTLLibraryError : ulong
@@ -1071,21 +1134,27 @@ public enum MTLGPUFamily : long
 
     Apple10 = 1010,
 
-    [Obsolete("Use MTLGPUFamilyMac2 instead")]
+    Apple11 = 1011,
+
+    [Obsolete("Use MTLGPUFamilyApple7 instead")]
     Mac1 = 2001,
 
+    [Obsolete("Use MTLGPUFamilyApple7 instead")]
     Mac2 = 2002,
 
+    [Obsolete("Use MTLGPUFamilyApple1 instead")]
     Common1 = 3001,
 
+    [Obsolete("Use MTLGPUFamilyApple3 instead")]
     Common2 = 3002,
 
+    [Obsolete("Use MTLGPUFamilyApple5 instead")]
     Common3 = 3003,
 
-    [Obsolete("Use MTLGPUFamilyMac2 instead")]
+    [Obsolete("Use MTLGPUFamilyApple7 instead")]
     MacCatalyst1 = 4001,
 
-    [Obsolete("Use MTLGPUFamilyMac2 instead")]
+    [Obsolete("Use MTLGPUFamilyApple7 instead")]
     MacCatalyst2 = 4002,
 
     Metal3 = 5001,
@@ -1093,6 +1162,7 @@ public enum MTLGPUFamily : long
     Metal4 = 5002
 }
 
+[Obsolete("Not applicable on Apple Silicon")]
 public enum MTLDeviceLocation : ulong
 {
     BuiltIn = 0,
@@ -1193,6 +1263,7 @@ public enum MTLStoreAction : ulong
     CustomSampleDepthStore = 5
 }
 
+[Obsolete("Store action options have no effect on Apple Silicon")]
 [Flags]
 public enum MTLStoreActionOptions : ulong
 {
@@ -1274,6 +1345,7 @@ public enum MTLCommandBufferError : ulong
 
     Memoryless = 10,
 
+    [Obsolete("MTLCommandBufferErrorDeviceRemoved cannot occur on Apple Silicon")]
     DeviceRemoved = 11,
 
     StackOverflow = 12
@@ -1617,6 +1689,15 @@ public enum MTLShaderValidation : long
     Enabled = 1,
 
     Disabled = 2
+}
+
+public enum MTLForwardProgressUsage : long
+{
+    Automatic = 0,
+
+    Weak = 1,
+
+    SIMDGroupParallel = 2
 }
 
 public enum MTLPrimitiveType : ulong
@@ -1995,6 +2076,7 @@ public enum MTL4CommandQueueError : long
 
     OutOfMemory = 3,
 
+    [Obsolete("MTL4CommandQueueErrorDeviceRemoved cannot occur on Apple Silicon")]
     DeviceRemoved = 4,
 
     AccessRevoked = 5,

@@ -33,16 +33,28 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
         ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetStencilStoreAction, (nuint)storeAction);
     }
 
+    /// <summary>
+    /// Deprecated: Store action options have no effect on Apple Silicon
+    /// </summary>
+    [Obsolete("Store action options have no effect on Apple Silicon")]
     public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionOptions_AtIndex, (nuint)storeActionOptions, colorAttachmentIndex);
     }
 
+    /// <summary>
+    /// Deprecated: Store action options have no effect on Apple Silicon
+    /// </summary>
+    [Obsolete("Store action options have no effect on Apple Silicon")]
     public void SetDepthStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetDepthStoreActionOptions, (nuint)storeActionOptions);
     }
 
+    /// <summary>
+    /// Deprecated: Store action options have no effect on Apple Silicon
+    /// </summary>
+    [Obsolete("Store action options have no effect on Apple Silicon")]
     public void SetStencilStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetStencilStoreActionOptions, (nuint)storeActionOptions);

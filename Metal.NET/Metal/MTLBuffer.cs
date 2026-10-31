@@ -16,6 +16,10 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindings.Length);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public MTLBuffer RemoteStorageBuffer
     {
         get => GetProperty(ref field, MTLBufferBindings.RemoteStorageBuffer);
@@ -36,6 +40,10 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         return ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.Contents);
     }
 
+    /// <summary>
+    /// Deprecated: Managed storage has no effect on Apple Silicon, use Shared storage instead
+    /// </summary>
+    [Obsolete("Managed storage has no effect on Apple Silicon, use Shared storage instead")]
     public void DidModifyRange(NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.DidModifyRange, range);
@@ -67,6 +75,10 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
         ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.RemoveAllDebugMarkers);
     }
 
+    /// <summary>
+    /// Deprecated: Not applicable on Apple Silicon
+    /// </summary>
+    [Obsolete("Not applicable on Apple Silicon")]
     public MTLBuffer MakeRemoteBufferView(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);

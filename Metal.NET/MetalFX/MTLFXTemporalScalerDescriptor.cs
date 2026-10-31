@@ -93,6 +93,18 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
         set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetInputContentMaxScale, value);
     }
 
+    public Bool8 IsOutputResolutionMotionVectorsEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsOutputResolutionMotionVectorsEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetOutputResolutionMotionVectorsEnabled, value);
+    }
+
+    public Bool8 IsJitteredMotionVectorsEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsJitteredMotionVectorsEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetJitteredMotionVectorsEnabled, value);
+    }
+
     public Bool8 IsReactiveMaskTextureEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsReactiveMaskTextureEnabled);
@@ -160,6 +172,10 @@ file static class MTLFXTemporalScalerDescriptorBindings
 
     public static readonly Selector IsInputContentPropertiesEnabled = "isInputContentPropertiesEnabled";
 
+    public static readonly Selector IsJitteredMotionVectorsEnabled = "isJitteredMotionVectorsEnabled";
+
+    public static readonly Selector IsOutputResolutionMotionVectorsEnabled = "isOutputResolutionMotionVectorsEnabled";
+
     public static readonly Selector IsReactiveMaskTextureEnabled = "isReactiveMaskTextureEnabled";
 
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
@@ -194,9 +210,13 @@ file static class MTLFXTemporalScalerDescriptorBindings
 
     public static readonly Selector SetInputWidth = "setInputWidth:";
 
+    public static readonly Selector SetJitteredMotionVectorsEnabled = "setJitteredMotionVectorsEnabled:";
+
     public static readonly Selector SetMotionTextureFormat = "setMotionTextureFormat:";
 
     public static readonly Selector SetOutputHeight = "setOutputHeight:";
+
+    public static readonly Selector SetOutputResolutionMotionVectorsEnabled = "setOutputResolutionMotionVectorsEnabled:";
 
     public static readonly Selector SetOutputTextureFormat = "setOutputTextureFormat:";
 

@@ -11,11 +11,19 @@ public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownersh
     }
     #endregion
 
+    /// <summary>
+    /// Deprecated: Managed storage has no effect on Apple Silicon, use Shared storage instead
+    /// </summary>
+    [Obsolete("Managed storage has no effect on Apple Silicon, use Shared storage instead")]
     public void Synchronize(MTLResource resource)
     {
         ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.SynchronizeResource, resource.NativePtr);
     }
 
+    /// <summary>
+    /// Deprecated: Managed storage has no effect on Apple Silicon, use Shared storage instead
+    /// </summary>
+    [Obsolete("Managed storage has no effect on Apple Silicon, use Shared storage instead")]
     public void Synchronize(MTLTexture texture, nuint slice, nuint level)
     {
         ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.SynchronizeTexture_Slice_Level, texture.NativePtr, slice, level);
@@ -148,6 +156,11 @@ public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownersh
     {
         ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.CopyFromTensor_SourceOrigin_SourceDimensions_ToTensor_DestinationOrigin_DestinationDimensions, sourceTensor.NativePtr, sourceOrigin.NativePtr, sourceDimensions.NativePtr, destinationTensor.NativePtr, destinationOrigin.NativePtr, destinationDimensions.NativePtr);
     }
+
+    public void Copy(MTLTensor sourceTensor, MTLTensorExtents sourceOrigin, MTLTensorExtents sourceDimensions, MTLTensorPlaneType sourcePlane, MTLTensor destinationTensor, MTLTensorExtents destinationOrigin, MTLTensorExtents destinationDimensions, MTLTensorPlaneType destinationPlane)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.CopyFromTensor_SourceOrigin_SourceDimensions_SourcePlane_ToTensor_DestinationOrigin_DestinationDimensions_DestinationPlane, sourceTensor.NativePtr, sourceOrigin.NativePtr, sourceDimensions.NativePtr, (nint)sourcePlane, destinationTensor.NativePtr, destinationOrigin.NativePtr, destinationDimensions.NativePtr, (nint)destinationPlane);
+    }
 }
 
 file static class MTLBlitCommandEncoderBindings
@@ -157,6 +170,8 @@ file static class MTLBlitCommandEncoderBindings
     public static readonly Selector CopyFromBuffer_SourceOffset_SourceBytesPerRow_SourceBytesPerImage_SourceSize_ToTexture_DestinationSlice_DestinationLevel_DestinationOrigin_Options = "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:options:";
 
     public static readonly Selector CopyFromBuffer_SourceOffset_ToBuffer_DestinationOffset_Size = "copyFromBuffer:sourceOffset:toBuffer:destinationOffset:size:";
+
+    public static readonly Selector CopyFromTensor_SourceOrigin_SourceDimensions_SourcePlane_ToTensor_DestinationOrigin_DestinationDimensions_DestinationPlane = "copyFromTensor:sourceOrigin:sourceDimensions:sourcePlane:toTensor:destinationOrigin:destinationDimensions:destinationPlane:";
 
     public static readonly Selector CopyFromTensor_SourceOrigin_SourceDimensions_ToTensor_DestinationOrigin_DestinationDimensions = "copyFromTensor:sourceOrigin:sourceDimensions:toTensor:destinationOrigin:destinationDimensions:";
 
