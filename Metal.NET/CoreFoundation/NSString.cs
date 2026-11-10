@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Metal.NET;
 
@@ -10,7 +10,7 @@ public readonly struct NSString(nint nativePtr) : IDisposable
 
     public static implicit operator NSObject(NSString value) => new(value.NativePtr);
 
-    public unsafe NSString(string value) : this(Create(value))
+    public NSString(string value) : this(Create(value))
     {
     }
 

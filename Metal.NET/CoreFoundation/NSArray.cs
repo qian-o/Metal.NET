@@ -13,7 +13,7 @@ public readonly struct NSArray<T>(nint nativePtr) : IDisposable where T : unmana
 
     public static implicit operator NSObject(NSArray<T> value) => new(value.NativePtr);
 
-    public unsafe NSArray(ReadOnlySpan<T> span) : this(Create(span))
+    public NSArray(ReadOnlySpan<T> span) : this(Create(span))
     {
     }
 
