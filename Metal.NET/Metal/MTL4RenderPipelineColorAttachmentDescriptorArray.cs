@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4RenderPipelineColorAttachmentDescriptorArray>
+public readonly struct MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4RenderPipelineColorAttachmentDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4RenderPipelineColorAttachmentDescriptorArray New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4RenderPipelineColorAttachmentDescriptorArray value) => new(value.NativePtr);
+
+    public MTL4RenderPipelineColorAttachmentDescriptorArray Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTL4RenderPipelineColorAttachmentDescriptor this[nuint attachmentIndex]
     {
@@ -17,7 +24,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Na
         {
             nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-            return new(nativePtr, NativeObjectOwnership.Borrowed);
+            return new(nativePtr);
         }
         set
         {

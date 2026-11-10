@@ -1,46 +1,47 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandQueue>
+public readonly struct MTL4CommandQueue(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CommandQueue New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CommandQueue value) => new(value.NativePtr);
+
+    public MTL4CommandQueue Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTL4CommandQueueBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandQueueBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4CommandQueueBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandQueueBindings.Label));
     }
 
-    public unsafe void Commit(MTL4CommandBuffer[] commandBuffers)
+    public unsafe void Commit(ReadOnlySpan<MTL4CommandBuffer> commandBuffers)
     {
-        nint* pCommandBuffers = stackalloc nint[commandBuffers.Length];
-        for (int i = 0; i < commandBuffers.Length; i++)
+        fixed (MTL4CommandBuffer* pCommandBuffers = commandBuffers)
         {
-            pCommandBuffers[i] = commandBuffers[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit_Count, (nint)pCommandBuffers, (nuint)commandBuffers.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit_Count, (nint)pCommandBuffers, (nuint)commandBuffers.Length);
     }
 
-    public unsafe void Commit(MTL4CommandBuffer[] commandBuffers, MTL4CommitOptions options)
+    public unsafe void Commit(ReadOnlySpan<MTL4CommandBuffer> commandBuffers, MTL4CommitOptions options)
     {
-        nint* pCommandBuffers = stackalloc nint[commandBuffers.Length];
-        for (int i = 0; i < commandBuffers.Length; i++)
+        fixed (MTL4CommandBuffer* pCommandBuffers = commandBuffers)
         {
-            pCommandBuffers[i] = commandBuffers[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit_Count_Options, (nint)pCommandBuffers, (nuint)commandBuffers.Length, options.NativePtr);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit_Count_Options, (nint)pCommandBuffers, (nuint)commandBuffers.Length, options.NativePtr);
     }
 
     public void SignalEvent(MTLEvent @event, ulong value)
@@ -68,15 +69,12 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySet, residencySet.NativePtr);
     }
 
-    public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
+    public unsafe void AddResidencySets(ReadOnlySpan<MTLResidencySet> residencySets)
     {
-        nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++)
+        fixed (MTLResidencySet* pResidencySets = residencySets)
         {
-            pResidencySets[i] = residencySets[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
@@ -84,18 +82,15 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
     }
 
-    public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
+    public unsafe void RemoveResidencySets(ReadOnlySpan<MTLResidencySet> residencySets)
     {
-        nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++)
+        fixed (MTLResidencySet* pResidencySets = residencySets)
         {
-            pResidencySets[i] = residencySets[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
-    public unsafe void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation[] operations)
+    public unsafe void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, ReadOnlySpan<MTL4UpdateSparseTextureMappingOperation> operations)
     {
         fixed (MTL4UpdateSparseTextureMappingOperation* pOperations = operations)
         {
@@ -103,7 +98,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         }
     }
 
-    public unsafe void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation[] operations)
+    public unsafe void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, ReadOnlySpan<MTL4CopySparseTextureMappingOperation> operations)
     {
         fixed (MTL4CopySparseTextureMappingOperation* pOperations = operations)
         {
@@ -111,7 +106,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         }
     }
 
-    public unsafe void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation[] operations)
+    public unsafe void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, ReadOnlySpan<MTL4UpdateSparseBufferMappingOperation> operations)
     {
         fixed (MTL4UpdateSparseBufferMappingOperation* pOperations = operations)
         {
@@ -119,7 +114,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
         }
     }
 
-    public unsafe void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation[] operations)
+    public unsafe void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, ReadOnlySpan<MTL4CopySparseBufferMappingOperation> operations)
     {
         fixed (MTL4CopySparseBufferMappingOperation* pOperations = operations)
         {

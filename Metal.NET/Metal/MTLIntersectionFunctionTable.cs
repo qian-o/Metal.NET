@@ -1,19 +1,76 @@
 ﻿namespace Metal.NET;
 
-public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLIntersectionFunctionTable>
+public readonly struct MTLIntersectionFunctionTable(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIntersectionFunctionTable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIntersectionFunctionTable New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLResource(MTLIntersectionFunctionTable value) => new(value.NativePtr);
+
+    public static implicit operator MTLAllocation(MTLIntersectionFunctionTable value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLIntersectionFunctionTable value) => new(value.NativePtr);
+
+    public MTLIntersectionFunctionTable Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLIntersectionFunctionTableBindings.GpuResourceID);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIntersectionFunctionTableBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIntersectionFunctionTableBindings.Device));
+    }
+
+    public MTLCPUCacheMode CpuCacheMode
+    {
+        get => (MTLCPUCacheMode)ObjectiveC.MsgSendULong(NativePtr, MTLIntersectionFunctionTableBindings.CpuCacheMode);
+    }
+
+    public MTLStorageMode StorageMode
+    {
+        get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLIntersectionFunctionTableBindings.StorageMode);
+    }
+
+    public MTLHazardTrackingMode HazardTrackingMode
+    {
+        get => (MTLHazardTrackingMode)ObjectiveC.MsgSendULong(NativePtr, MTLIntersectionFunctionTableBindings.HazardTrackingMode);
+    }
+
+    public MTLResourceOptions ResourceOptions
+    {
+        get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLIntersectionFunctionTableBindings.ResourceOptions);
+    }
+
+    public MTLHeap Heap
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIntersectionFunctionTableBindings.Heap));
+    }
+
+    public nuint HeapOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableBindings.HeapOffset);
+    }
+
+    public nuint AllocatedSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableBindings.AllocatedSize);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -21,21 +78,15 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetBuffer_Offset_AtIndex, buffer.NativePtr, offset, index);
     }
 
-    public unsafe void SetBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    public unsafe void SetBuffers(ReadOnlySpan<MTLBuffer> buffers, ReadOnlySpan<nuint> offsets, NSRange range)
     {
-        nint* pBuffers = stackalloc nint[buffers.Length];
-        for (int i = 0; i < buffers.Length; i++)
+        fixed (MTLBuffer* pBuffers = buffers)
         {
-            pBuffers[i] = buffers[i].NativePtr;
+            fixed (nuint* pOffsets = offsets)
+            {
+                ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+            }
         }
-
-        nuint* pOffsets = stackalloc nuint[offsets.Length];
-        for (int i = 0; i < offsets.Length; i++)
-        {
-            pOffsets[i] = offsets[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
     }
 
     public void SetFunction(MTLFunctionHandle function, nuint index)
@@ -43,15 +94,12 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetFunction_AtIndex, function.NativePtr, index);
     }
 
-    public unsafe void SetFunctions(MTLFunctionHandle[] functions, NSRange range)
+    public unsafe void SetFunctions(ReadOnlySpan<MTLFunctionHandle> functions, NSRange range)
     {
-        nint* pFunctions = stackalloc nint[functions.Length];
-        for (int i = 0; i < functions.Length; i++)
+        fixed (MTLFunctionHandle* pFunctions = functions)
         {
-            pFunctions[i] = functions[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetFunctions_WithRange, (nint)pFunctions, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetFunctions_WithRange, (nint)pFunctions, range);
     }
 
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
@@ -79,21 +127,58 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetVisibleFunctionTable_AtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
-    public unsafe void SetVisibleFunctionTables(MTLVisibleFunctionTable[] functionTables, NSRange bufferRange)
+    public unsafe void SetVisibleFunctionTables(ReadOnlySpan<MTLVisibleFunctionTable> functionTables, NSRange bufferRange)
     {
-        nint* pFunctionTables = stackalloc nint[functionTables.Length];
-        for (int i = 0; i < functionTables.Length; i++)
+        fixed (MTLVisibleFunctionTable* pFunctionTables = functionTables)
         {
-            pFunctionTables[i] = functionTables[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, bufferRange);
         }
+    }
 
-        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, bufferRange);
+    public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
+    {
+        return (MTLPurgeableState)ObjectiveC.MsgSendULong(NativePtr, MTLIntersectionFunctionTableBindings.SetPurgeableState, (nuint)state);
+    }
+
+    public void MakeAliasable()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.MakeAliasable);
+    }
+
+    public bool IsAliasable()
+    {
+        return ObjectiveC.MsgSendBool(NativePtr, MTLIntersectionFunctionTableBindings.IsAliasable);
+    }
+
+    public int SetOwnerWithIdentity(uint taskIdToken)
+    {
+        return ObjectiveC.MsgSendInt(NativePtr, MTLIntersectionFunctionTableBindings.SetOwnerWithIdentity, taskIdToken);
     }
 }
 
 file static class MTLIntersectionFunctionTableBindings
 {
+    public static readonly Selector AllocatedSize = "allocatedSize";
+
+    public static readonly Selector CpuCacheMode = "cpuCacheMode";
+
+    public static readonly Selector Device = "device";
+
     public static readonly Selector GpuResourceID = "gpuResourceID";
+
+    public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
+
+    public static readonly Selector Heap = "heap";
+
+    public static readonly Selector HeapOffset = "heapOffset";
+
+    public static readonly Selector IsAliasable = "isAliasable";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector MakeAliasable = "makeAliasable";
+
+    public static readonly Selector ResourceOptions = "resourceOptions";
 
     public static readonly Selector SetBuffer_Offset_AtIndex = "setBuffer:offset:atIndex:";
 
@@ -103,6 +188,8 @@ file static class MTLIntersectionFunctionTableBindings
 
     public static readonly Selector SetFunctions_WithRange = "setFunctions:withRange:";
 
+    public static readonly Selector SetLabel = "setLabel:";
+
     public static readonly Selector SetOpaqueCurveIntersectionFunctionWithSignature_AtIndex = "setOpaqueCurveIntersectionFunctionWithSignature:atIndex:";
 
     public static readonly Selector SetOpaqueCurveIntersectionFunctionWithSignature_WithRange = "setOpaqueCurveIntersectionFunctionWithSignature:withRange:";
@@ -111,7 +198,13 @@ file static class MTLIntersectionFunctionTableBindings
 
     public static readonly Selector SetOpaqueTriangleIntersectionFunctionWithSignature_WithRange = "setOpaqueTriangleIntersectionFunctionWithSignature:withRange:";
 
+    public static readonly Selector SetOwnerWithIdentity = "setOwnerWithIdentity:";
+
+    public static readonly Selector SetPurgeableState = "setPurgeableState:";
+
     public static readonly Selector SetVisibleFunctionTable_AtBufferIndex = "setVisibleFunctionTable:atBufferIndex:";
 
     public static readonly Selector SetVisibleFunctionTables_WithBufferRange = "setVisibleFunctionTables:withBufferRange:";
+
+    public static readonly Selector StorageMode = "storageMode";
 }

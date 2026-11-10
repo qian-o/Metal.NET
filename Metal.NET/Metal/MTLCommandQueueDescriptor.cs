@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandQueueDescriptor>
+public readonly struct MTLCommandQueueDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCommandQueueDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCommandQueueDescriptor value) => new(value.NativePtr);
+
+    public MTLCommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTLCommandQueueDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLCommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTLCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCommandQueueDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public nuint MaxCommandBufferCount
@@ -23,8 +30,8 @@ public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership own
 
     public MTLLogState LogState
     {
-        get => GetProperty(ref field, MTLCommandQueueDescriptorBindings.LogState);
-        set => SetProperty(ref field, MTLCommandQueueDescriptorBindings.SetLogState, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueDescriptorBindings.LogState));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetLogState, value.NativePtr);
     }
 }
 

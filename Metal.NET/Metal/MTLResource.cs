@@ -1,25 +1,34 @@
 ﻿namespace Metal.NET;
 
-public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLResource>
+public readonly struct MTLResource(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLResource Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLResource New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAllocation(MTLResource value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLResource value) => new(value.NativePtr);
+
+    public MTLResource Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLResourceBindings.Label);
-        set => SetProperty(ref field, MTLResourceBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLResourceBindings.SetLabel, value.NativePtr);
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLResourceBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceBindings.Device));
     }
 
     public MTLCPUCacheMode CpuCacheMode
@@ -44,12 +53,17 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     public MTLHeap Heap
     {
-        get => GetProperty(ref field, MTLResourceBindings.Heap);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceBindings.Heap));
     }
 
     public nuint HeapOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
+    }
+
+    public nuint AllocatedSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.AllocatedSize);
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
@@ -75,6 +89,8 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
 file static class MTLResourceBindings
 {
+    public static readonly Selector AllocatedSize = "allocatedSize";
+
     public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
     public static readonly Selector Device = "device";

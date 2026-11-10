@@ -64,7 +64,7 @@ partial class CSharpEmitter
         {
             sb.AppendLine($"    public static {csFullReturnType} {func.Name}({sig.WrapperParams})");
             sb.AppendLine("    {");
-            sb.AppendLine($"        return new({func.CEntryPoint}({sig.CallArgs}), NativeObjectOwnership.Owned);");
+            sb.AppendLine($"        return new({func.CEntryPoint}({sig.CallArgs}));");
             sb.AppendLine("    }");
         }
         else if (nullable)
@@ -73,7 +73,7 @@ partial class CSharpEmitter
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({sig.CallArgs});");
             sb.AppendLine();
-            sb.AppendLine("        return new(nativePtr, NativeObjectOwnership.Owned);");
+            sb.AppendLine("        return new(nativePtr);");
             sb.AppendLine("    }");
         }
         else if (sig.CsReturnType == "void")

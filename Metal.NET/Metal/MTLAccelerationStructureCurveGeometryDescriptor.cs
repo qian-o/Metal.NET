@@ -1,24 +1,33 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureCurveGeometryDescriptor>
+public readonly struct MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLAccelerationStructureCurveGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLAccelerationStructureCurveGeometryDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAccelerationStructureGeometryDescriptor(MTLAccelerationStructureCurveGeometryDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLAccelerationStructureCurveGeometryDescriptor value) => new(value.NativePtr);
+
+    public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLAccelerationStructureCurveGeometryDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLBuffer ControlPointBuffer
     {
-        get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointBuffer, value.NativePtr);
     }
 
     public nuint ControlPointBufferOffset
@@ -47,8 +56,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, Nat
 
     public MTLBuffer RadiusBuffer
     {
-        get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusBuffer, value.NativePtr);
     }
 
     public nuint RadiusBufferOffset
@@ -71,8 +80,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, Nat
 
     public MTLBuffer IndexBuffer
     {
-        get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexBuffer, value.NativePtr);
     }
 
     public nuint IndexBufferOffset
@@ -117,6 +126,54 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, Nat
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetCurveEndCaps, (nint)value);
     }
 
+    public nuint IntersectionFunctionTableOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.IntersectionFunctionTableOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIntersectionFunctionTableOffset, value);
+    }
+
+    public Bool8 Opaque
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.Opaque);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetOpaque, value);
+    }
+
+    public Bool8 AllowDuplicateIntersectionFunctionInvocation
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.AllowDuplicateIntersectionFunctionInvocation);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, value);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTLBuffer PrimitiveDataBuffer
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.PrimitiveDataBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetPrimitiveDataBuffer, value.NativePtr);
+    }
+
+    public nuint PrimitiveDataBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.PrimitiveDataBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetPrimitiveDataBufferOffset, value);
+    }
+
+    public nuint PrimitiveDataStride
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.PrimitiveDataStride);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetPrimitiveDataStride, value);
+    }
+
+    public nuint PrimitiveDataElementSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.PrimitiveDataElementSize);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetPrimitiveDataElementSize, value);
+    }
+
     public static nint Descriptor()
     {
         return ObjectiveC.MsgSendNInt(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureCurveGeometryDescriptorBindings.Descriptor);
@@ -126,6 +183,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, Nat
 file static class MTLAccelerationStructureCurveGeometryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLAccelerationStructureCurveGeometryDescriptor");
+
+    public static readonly Selector AllowDuplicateIntersectionFunctionInvocation = "allowDuplicateIntersectionFunctionInvocation";
 
     public static readonly Selector ControlPointBuffer = "controlPointBuffer";
 
@@ -151,6 +210,20 @@ file static class MTLAccelerationStructureCurveGeometryDescriptorBindings
 
     public static readonly Selector IndexType = "indexType";
 
+    public static readonly Selector IntersectionFunctionTableOffset = "intersectionFunctionTableOffset";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector Opaque = "opaque";
+
+    public static readonly Selector PrimitiveDataBuffer = "primitiveDataBuffer";
+
+    public static readonly Selector PrimitiveDataBufferOffset = "primitiveDataBufferOffset";
+
+    public static readonly Selector PrimitiveDataElementSize = "primitiveDataElementSize";
+
+    public static readonly Selector PrimitiveDataStride = "primitiveDataStride";
+
     public static readonly Selector RadiusBuffer = "radiusBuffer";
 
     public static readonly Selector RadiusBufferOffset = "radiusBufferOffset";
@@ -162,6 +235,8 @@ file static class MTLAccelerationStructureCurveGeometryDescriptorBindings
     public static readonly Selector SegmentControlPointCount = "segmentControlPointCount";
 
     public static readonly Selector SegmentCount = "segmentCount";
+
+    public static readonly Selector SetAllowDuplicateIntersectionFunctionInvocation = "setAllowDuplicateIntersectionFunctionInvocation:";
 
     public static readonly Selector SetControlPointBuffer = "setControlPointBuffer:";
 
@@ -184,6 +259,20 @@ file static class MTLAccelerationStructureCurveGeometryDescriptorBindings
     public static readonly Selector SetIndexBufferOffset = "setIndexBufferOffset:";
 
     public static readonly Selector SetIndexType = "setIndexType:";
+
+    public static readonly Selector SetIntersectionFunctionTableOffset = "setIntersectionFunctionTableOffset:";
+
+    public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector SetOpaque = "setOpaque:";
+
+    public static readonly Selector SetPrimitiveDataBuffer = "setPrimitiveDataBuffer:";
+
+    public static readonly Selector SetPrimitiveDataBufferOffset = "setPrimitiveDataBufferOffset:";
+
+    public static readonly Selector SetPrimitiveDataElementSize = "setPrimitiveDataElementSize:";
+
+    public static readonly Selector SetPrimitiveDataStride = "setPrimitiveDataStride:";
 
     public static readonly Selector SetRadiusBuffer = "setRadiusBuffer:";
 

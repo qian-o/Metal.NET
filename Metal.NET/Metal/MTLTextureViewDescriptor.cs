@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTextureViewDescriptor>
+public readonly struct MTLTextureViewDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTextureViewDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTextureViewDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTextureViewDescriptor value) => new(value.NativePtr);
+
+    public MTLTextureViewDescriptor() : this(ObjectiveC.AllocInit(MTLTextureViewDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLTextureViewDescriptor() : this(ObjectiveC.AllocInit(MTLTextureViewDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTextureViewDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLPixelFormat PixelFormat

@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionConstantValues(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionConstantValues>
+public readonly struct MTLFunctionConstantValues(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionConstantValues Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionConstantValues New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunctionConstantValues value) => new(value.NativePtr);
+
+    public MTLFunctionConstantValues() : this(ObjectiveC.AllocInit(MTLFunctionConstantValuesBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLFunctionConstantValues() : this(ObjectiveC.AllocInit(MTLFunctionConstantValuesBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionConstantValues Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public void SetConstantValue(nint value, MTLDataType type, nuint index)

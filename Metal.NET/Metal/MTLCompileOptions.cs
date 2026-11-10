@@ -1,24 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCompileOptions>
+public readonly struct MTLCompileOptions(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCompileOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCompileOptions New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCompileOptions value) => new(value.NativePtr);
+
+    public MTLCompileOptions() : this(ObjectiveC.AllocInit(MTLCompileOptionsBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLCompileOptions() : this(ObjectiveC.AllocInit(MTLCompileOptionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCompileOptions Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSDictionary PreprocessorMacros
     {
-        get => GetProperty(ref field, MTLCompileOptionsBindings.PreprocessorMacros);
-        set => SetProperty(ref field, MTLCompileOptionsBindings.SetPreprocessorMacros, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCompileOptionsBindings.PreprocessorMacros));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreprocessorMacros, value.NativePtr);
     }
 
     /// <summary>
@@ -57,14 +64,14 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     public NSString InstallName
     {
-        get => GetProperty(ref field, MTLCompileOptionsBindings.InstallName);
-        set => SetProperty(ref field, MTLCompileOptionsBindings.SetInstallName, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCompileOptionsBindings.InstallName));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetInstallName, value.NativePtr);
     }
 
     public NSArray<MTLDynamicLibrary> Libraries
     {
-        get => GetProperty(ref field, MTLCompileOptionsBindings.Libraries);
-        set => SetProperty(ref field, MTLCompileOptionsBindings.SetLibraries, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCompileOptionsBindings.Libraries));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraries, value.NativePtr);
     }
 
     public Bool8 PreserveInvariance

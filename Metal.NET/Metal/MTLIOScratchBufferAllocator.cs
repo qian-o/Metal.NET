@@ -1,21 +1,28 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOScratchBufferAllocator(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOScratchBufferAllocator>
+public readonly struct MTLIOScratchBufferAllocator(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIOScratchBufferAllocator Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIOScratchBufferAllocator New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIOScratchBufferAllocator value) => new(value.NativePtr);
+
+    public MTLIOScratchBufferAllocator Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLIOScratchBuffer MakeScratchBuffer(nuint minimumSize)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOScratchBufferAllocatorBindings.NewScratchBufferWithMinimumSize, minimumSize);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

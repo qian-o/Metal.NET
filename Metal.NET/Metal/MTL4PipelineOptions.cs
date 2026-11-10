@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineOptions>
+public readonly struct MTL4PipelineOptions(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4PipelineOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4PipelineOptions New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4PipelineOptions value) => new(value.NativePtr);
+
+    public MTL4PipelineOptions() : this(ObjectiveC.AllocInit(MTL4PipelineOptionsBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4PipelineOptions() : this(ObjectiveC.AllocInit(MTL4PipelineOptionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4PipelineOptions Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLShaderValidation ShaderValidation

@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogState(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLogState>
+public readonly struct MTLLogState(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLLogState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLLogState New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLLogState value) => new(value.NativePtr);
+
+    public MTLLogState Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public void AddLogHandler(MTLAddLogHandlerBlock block)
     {

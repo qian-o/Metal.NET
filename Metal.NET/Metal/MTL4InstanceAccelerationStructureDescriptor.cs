@@ -1,18 +1,29 @@
 ﻿namespace Metal.NET;
 
-public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTL4InstanceAccelerationStructureDescriptor>
+public readonly struct MTL4InstanceAccelerationStructureDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4InstanceAccelerationStructureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4InstanceAccelerationStructureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4AccelerationStructureDescriptor(MTL4InstanceAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator MTLAccelerationStructureDescriptor(MTL4InstanceAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4InstanceAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public MTL4InstanceAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTL4InstanceAccelerationStructureDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4InstanceAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTL4InstanceAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4InstanceAccelerationStructureDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTL4BufferRange InstanceDescriptorBuffer
@@ -68,6 +79,12 @@ public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, NativeO
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.MotionTransformStride);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
     }
+
+    public MTLAccelerationStructureUsage Usage
+    {
+        get => (MTLAccelerationStructureUsage)ObjectiveC.MsgSendULong(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.Usage);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
+    }
 }
 
 file static class MTL4InstanceAccelerationStructureDescriptorBindings
@@ -109,4 +126,8 @@ file static class MTL4InstanceAccelerationStructureDescriptorBindings
     public static readonly Selector SetMotionTransformStride = "setMotionTransformStride:";
 
     public static readonly Selector SetMotionTransformType = "setMotionTransformType:";
+
+    public static readonly Selector SetUsage = "setUsage:";
+
+    public static readonly Selector Usage = "usage";
 }

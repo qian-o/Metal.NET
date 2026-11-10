@@ -1,15 +1,24 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLBufferBinding>
+public readonly struct MTLBufferBinding(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLBufferBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLBufferBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLBinding(MTLBufferBinding value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLBufferBinding value) => new(value.NativePtr);
+
+    public MTLBufferBinding Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public nuint BufferAlignment
     {
@@ -28,17 +37,49 @@ public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) :
 
     public MTLStructType BufferStructType
     {
-        get => GetProperty(ref field, MTLBufferBindingBindings.BufferStructType);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindingBindings.BufferStructType));
     }
 
     public MTLPointerType BufferPointerType
     {
-        get => GetProperty(ref field, MTLBufferBindingBindings.BufferPointerType);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindingBindings.BufferPointerType));
+    }
+
+    public NSString Name
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindingBindings.Name));
+    }
+
+    public MTLBindingType Type
+    {
+        get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLBufferBindingBindings.Type);
+    }
+
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLBufferBindingBindings.Access);
+    }
+
+    public nuint Index
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.Index);
+    }
+
+    public Bool8 IsUsed
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBufferBindingBindings.IsUsed);
+    }
+
+    public Bool8 IsArgument
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBufferBindingBindings.IsArgument);
     }
 }
 
 file static class MTLBufferBindingBindings
 {
+    public static readonly Selector Access = "access";
+
     public static readonly Selector BufferAlignment = "bufferAlignment";
 
     public static readonly Selector BufferDataSize = "bufferDataSize";
@@ -48,4 +89,14 @@ file static class MTLBufferBindingBindings
     public static readonly Selector BufferPointerType = "bufferPointerType";
 
     public static readonly Selector BufferStructType = "bufferStructType";
+
+    public static readonly Selector Index = "index";
+
+    public static readonly Selector IsArgument = "isArgument";
+
+    public static readonly Selector IsUsed = "isUsed";
+
+    public static readonly Selector Name = "name";
+
+    public static readonly Selector Type = "type";
 }

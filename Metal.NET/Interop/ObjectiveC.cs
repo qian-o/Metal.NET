@@ -12,10 +12,8 @@ internal static unsafe partial class ObjectiveC
         [
             "CoreGraphics",
             "QuartzCore",
-            "AppKit",
             "Metal",
-            "MetalFX",
-            "MetalKit"
+            "MetalFX"
         ];
 
         foreach (string framework in frameworks)

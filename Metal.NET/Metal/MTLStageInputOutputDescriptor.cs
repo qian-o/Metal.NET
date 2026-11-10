@@ -1,28 +1,35 @@
 ﻿namespace Metal.NET;
 
-public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStageInputOutputDescriptor>
+public readonly struct MTLStageInputOutputDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLStageInputOutputDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLStageInputOutputDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLStageInputOutputDescriptor value) => new(value.NativePtr);
+
+    public MTLStageInputOutputDescriptor() : this(ObjectiveC.AllocInit(MTLStageInputOutputDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLStageInputOutputDescriptor() : this(ObjectiveC.AllocInit(MTLStageInputOutputDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLStageInputOutputDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLBufferLayoutDescriptorArray Layouts
     {
-        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLStageInputOutputDescriptorBindings.Layouts));
     }
 
     public MTLAttributeDescriptorArray Attributes
     {
-        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Attributes);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLStageInputOutputDescriptorBindings.Attributes));
     }
 
     public MTLIndexType IndexType
@@ -46,7 +53,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

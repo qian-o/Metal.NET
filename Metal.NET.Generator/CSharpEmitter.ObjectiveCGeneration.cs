@@ -31,10 +31,8 @@ partial class CSharpEmitter
         sb.AppendLine("        [");
         sb.AppendLine("            \"CoreGraphics\",");
         sb.AppendLine("            \"QuartzCore\",");
-        sb.AppendLine("            \"AppKit\",");
         sb.AppendLine("            \"Metal\",");
-        sb.AppendLine("            \"MetalFX\",");
-        sb.AppendLine("            \"MetalKit\"");
+        sb.AppendLine("            \"MetalFX\"");
         sb.AppendLine("        ];");
         sb.AppendLine();
         sb.AppendLine("        foreach (string framework in frameworks)");

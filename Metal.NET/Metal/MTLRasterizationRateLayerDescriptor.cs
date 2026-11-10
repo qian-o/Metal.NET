@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateLayerDescriptor>
+public readonly struct MTLRasterizationRateLayerDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRasterizationRateLayerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRasterizationRateLayerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRasterizationRateLayerDescriptor value) => new(value.NativePtr);
+
+    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveC.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveC.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRasterizationRateLayerDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLSize SampleCount
@@ -38,26 +45,26 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
 
     public MTLRasterizationRateSampleArray Horizontal
     {
-        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerDescriptorBindings.Horizontal));
     }
 
     public MTLRasterizationRateSampleArray Vertical
     {
-        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerDescriptorBindings.Vertical));
     }
 
     public static MTLRasterizationRateLayerDescriptor InitWithSampleCount(MTLSize sampleCount)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLRasterizationRateLayerDescriptorBindings.Class), MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCount, sampleCount);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 
     public static MTLRasterizationRateLayerDescriptor InitWithSampleCount(MTLSize sampleCount, float horizontal, float vertical)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLRasterizationRateLayerDescriptorBindings.Class), MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCount_Horizontal_Vertical, sampleCount, horizontal, vertical);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 }
 

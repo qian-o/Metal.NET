@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorAuxiliaryPlaneDescriptorMap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorAuxiliaryPlaneDescriptorMap>
+public readonly struct MTLTensorAuxiliaryPlaneDescriptorMap(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensorAuxiliaryPlaneDescriptorMap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensorAuxiliaryPlaneDescriptorMap New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTensorAuxiliaryPlaneDescriptorMap value) => new(value.NativePtr);
+
+    public MTLTensorAuxiliaryPlaneDescriptorMap() : this(ObjectiveC.AllocInit(MTLTensorAuxiliaryPlaneDescriptorMapBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLTensorAuxiliaryPlaneDescriptorMap() : this(ObjectiveC.AllocInit(MTLTensorAuxiliaryPlaneDescriptorMapBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTensorAuxiliaryPlaneDescriptorMap Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public void SetDescriptor(MTLTensorAuxiliaryPlaneDescriptor descriptor, MTLTensorPlaneType plane)
@@ -24,7 +31,7 @@ public class MTLTensorAuxiliaryPlaneDescriptorMap(nint nativePtr, NativeObjectOw
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTensorAuxiliaryPlaneDescriptorMapBindings.DescriptorForPlane, (nint)plane);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public void Reset()

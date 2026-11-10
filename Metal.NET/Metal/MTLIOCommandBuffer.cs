@@ -1,20 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
+public readonly struct MTLIOCommandBuffer(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIOCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIOCommandBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIOCommandBuffer value) => new(value.NativePtr);
+
+    public MTLIOCommandBuffer Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLIOCommandBufferBindings.Label);
-        set => SetProperty(ref field, MTLIOCommandBufferBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandBufferBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.SetLabel, value.NativePtr);
     }
 
     public MTLIOStatus Status
@@ -24,7 +31,7 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public NSError Error
     {
-        get => GetProperty(ref field, MTLIOCommandBufferBindings.Error);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandBufferBindings.Error));
     }
 
     public void AddCompletedHandler(MTLIOCommandBufferHandler block)

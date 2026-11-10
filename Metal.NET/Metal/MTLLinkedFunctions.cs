@@ -1,49 +1,56 @@
 ﻿namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLinkedFunctions>
+public readonly struct MTLLinkedFunctions(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLLinkedFunctions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLLinkedFunctions New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLLinkedFunctions value) => new(value.NativePtr);
+
+    public MTLLinkedFunctions() : this(ObjectiveC.AllocInit(MTLLinkedFunctionsBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLLinkedFunctions() : this(ObjectiveC.AllocInit(MTLLinkedFunctionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTLLinkedFunctions Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSArray<MTLFunction> Functions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.Functions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLLinkedFunctionsBindings.Functions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetFunctions, value.NativePtr);
     }
 
     public NSArray<MTLFunction> BinaryFunctions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.BinaryFunctions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLLinkedFunctionsBindings.BinaryFunctions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetBinaryFunctions, value.NativePtr);
     }
 
     public NSDictionary Groups
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.Groups);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetGroups, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLLinkedFunctionsBindings.Groups));
+        set => ObjectiveC.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetGroups, value.NativePtr);
     }
 
     public NSArray<MTLFunction> PrivateFunctions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.PrivateFunctions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLLinkedFunctionsBindings.PrivateFunctions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetPrivateFunctions, value.NativePtr);
     }
 
     public static MTLLinkedFunctions LinkedFunctions()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

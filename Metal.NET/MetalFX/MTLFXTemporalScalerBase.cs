@@ -1,15 +1,24 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership ownership) : MTLFXFrameInterpolatableScaler(nativePtr, ownership), INativeObject<MTLFXTemporalScalerBase>
+public readonly struct MTLFXTemporalScalerBase(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFXTemporalScalerBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFXTemporalScalerBase New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLFXFrameInterpolatableScaler(MTLFXTemporalScalerBase value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLFXTemporalScalerBase value) => new(value.NativePtr);
+
+    public MTLFXTemporalScalerBase Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLTextureUsage ColorTextureUsage
     {
@@ -119,38 +128,38 @@ public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership owner
 
     public MTLTexture ColorTexture
     {
-        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.ColorTexture);
-        set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetColorTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerBaseBindings.ColorTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetColorTexture, value.NativePtr);
     }
 
     public MTLTexture DepthTexture
     {
-        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.DepthTexture);
-        set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetDepthTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerBaseBindings.DepthTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthTexture, value.NativePtr);
     }
 
     public MTLTexture MotionTexture
     {
-        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.MotionTexture);
-        set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetMotionTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerBaseBindings.MotionTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetMotionTexture, value.NativePtr);
     }
 
     public MTLTexture OutputTexture
     {
-        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.OutputTexture);
-        set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetOutputTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerBaseBindings.OutputTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetOutputTexture, value.NativePtr);
     }
 
     public MTLTexture ExposureTexture
     {
-        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.ExposureTexture);
-        set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetExposureTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerBaseBindings.ExposureTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetExposureTexture, value.NativePtr);
     }
 
     public MTLTexture ReactiveMaskTexture
     {
-        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.ReactiveMaskTexture);
-        set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetReactiveMaskTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerBaseBindings.ReactiveMaskTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetReactiveMaskTexture, value.NativePtr);
     }
 
     public float PreExposure
@@ -252,8 +261,8 @@ public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership owner
 
     public MTLFence Fence
     {
-        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.Fence);
-        set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetFence, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerBaseBindings.Fence));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetFence, value.NativePtr);
     }
 }
 

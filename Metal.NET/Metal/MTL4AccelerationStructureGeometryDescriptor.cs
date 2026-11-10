@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
+public readonly struct MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4AccelerationStructureGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4AccelerationStructureGeometryDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4AccelerationStructureGeometryDescriptor value) => new(value.NativePtr);
+
+    public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveC.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveC.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4AccelerationStructureGeometryDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public nuint IntersectionFunctionTableOffset
@@ -35,8 +42,8 @@ public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, NativeO
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public MTL4BufferRange PrimitiveDataBuffer

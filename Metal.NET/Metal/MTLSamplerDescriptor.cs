@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSamplerDescriptor>
+public readonly struct MTLSamplerDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLSamplerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLSamplerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLSamplerDescriptor value) => new(value.NativePtr);
+
+    public MTLSamplerDescriptor() : this(ObjectiveC.AllocInit(MTLSamplerDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLSamplerDescriptor() : this(ObjectiveC.AllocInit(MTLSamplerDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLSamplerDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLSamplerMinMagFilter MinFilter
@@ -113,8 +120,8 @@ public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLSamplerDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLSamplerDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLSamplerDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLabel, value.NativePtr);
     }
 }
 

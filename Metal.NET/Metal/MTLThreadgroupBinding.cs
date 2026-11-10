@@ -1,15 +1,24 @@
 ﻿namespace Metal.NET;
 
-public class MTLThreadgroupBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLThreadgroupBinding>
+public readonly struct MTLThreadgroupBinding(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLThreadgroupBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLThreadgroupBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLBinding(MTLThreadgroupBinding value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLThreadgroupBinding value) => new(value.NativePtr);
+
+    public MTLThreadgroupBinding Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public nuint ThreadgroupMemoryAlignment
     {
@@ -20,11 +29,53 @@ public class MTLThreadgroupBinding(nint nativePtr, NativeObjectOwnership ownersh
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryDataSize);
     }
+
+    public NSString Name
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLThreadgroupBindingBindings.Name));
+    }
+
+    public MTLBindingType Type
+    {
+        get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLThreadgroupBindingBindings.Type);
+    }
+
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLThreadgroupBindingBindings.Access);
+    }
+
+    public nuint Index
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.Index);
+    }
+
+    public Bool8 IsUsed
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLThreadgroupBindingBindings.IsUsed);
+    }
+
+    public Bool8 IsArgument
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLThreadgroupBindingBindings.IsArgument);
+    }
 }
 
 file static class MTLThreadgroupBindingBindings
 {
+    public static readonly Selector Access = "access";
+
+    public static readonly Selector Index = "index";
+
+    public static readonly Selector IsArgument = "isArgument";
+
+    public static readonly Selector IsUsed = "isUsed";
+
+    public static readonly Selector Name = "name";
+
     public static readonly Selector ThreadgroupMemoryAlignment = "threadgroupMemoryAlignment";
 
     public static readonly Selector ThreadgroupMemoryDataSize = "threadgroupMemoryDataSize";
+
+    public static readonly Selector Type = "type";
 }

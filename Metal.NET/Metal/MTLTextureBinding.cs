@@ -1,15 +1,24 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLTextureBinding>
+public readonly struct MTLTextureBinding(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTextureBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTextureBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLBinding(MTLTextureBinding value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLTextureBinding value) => new(value.NativePtr);
+
+    public MTLTextureBinding Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLTextureType TextureType
     {
@@ -30,15 +39,57 @@ public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) 
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.ArrayLength);
     }
+
+    public NSString Name
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindingBindings.Name));
+    }
+
+    public MTLBindingType Type
+    {
+        get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLTextureBindingBindings.Type);
+    }
+
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindingBindings.Access);
+    }
+
+    public nuint Index
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.Index);
+    }
+
+    public Bool8 IsUsed
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindingBindings.IsUsed);
+    }
+
+    public Bool8 IsArgument
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindingBindings.IsArgument);
+    }
 }
 
 file static class MTLTextureBindingBindings
 {
+    public static readonly Selector Access = "access";
+
     public static readonly Selector ArrayLength = "arrayLength";
 
+    public static readonly Selector Index = "index";
+
+    public static readonly Selector IsArgument = "isArgument";
+
     public static readonly Selector IsDepthTexture = "isDepthTexture";
+
+    public static readonly Selector IsUsed = "isUsed";
+
+    public static readonly Selector Name = "name";
 
     public static readonly Selector TextureDataType = "textureDataType";
 
     public static readonly Selector TextureType = "textureType";
+
+    public static readonly Selector Type = "type";
 }

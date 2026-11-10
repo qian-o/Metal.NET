@@ -1,30 +1,39 @@
 ﻿namespace Metal.NET;
 
-public class MTL4StitchedFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4FunctionDescriptor(nativePtr, ownership), INativeObject<MTL4StitchedFunctionDescriptor>
+public readonly struct MTL4StitchedFunctionDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4StitchedFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4StitchedFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4FunctionDescriptor(MTL4StitchedFunctionDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4StitchedFunctionDescriptor value) => new(value.NativePtr);
+
+    public MTL4StitchedFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4StitchedFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4StitchedFunctionDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLFunctionStitchingGraph FunctionGraph
     {
-        get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
-        set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4StitchedFunctionDescriptorBindings.FunctionGraph));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value.NativePtr);
     }
 
     public NSArray<MTL4FunctionDescriptor> FunctionDescriptors
     {
-        get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
-        set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value.NativePtr);
     }
 }
 

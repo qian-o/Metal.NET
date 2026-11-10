@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class CAEDRMetadata(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<CAEDRMetadata>
+public readonly struct CAEDRMetadata(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new CAEDRMetadata Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new CAEDRMetadata New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(CAEDRMetadata value) => new(value.NativePtr);
+
+    public CAEDRMetadata Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 }
 
 file static class CAEDRMetadataBindings

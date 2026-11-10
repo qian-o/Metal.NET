@@ -1,36 +1,45 @@
 ﻿namespace Metal.NET;
 
-public class MTL4SpecializedFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4FunctionDescriptor(nativePtr, ownership), INativeObject<MTL4SpecializedFunctionDescriptor>
+public readonly struct MTL4SpecializedFunctionDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4SpecializedFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4SpecializedFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4FunctionDescriptor(MTL4SpecializedFunctionDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4SpecializedFunctionDescriptor value) => new(value.NativePtr);
+
+    public MTL4SpecializedFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4SpecializedFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4SpecializedFunctionDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTL4FunctionDescriptor FunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.FunctionDescriptor);
-        set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4SpecializedFunctionDescriptorBindings.FunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, value.NativePtr);
     }
 
     public NSString SpecializedName
     {
-        get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SpecializedName);
-        set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SpecializedName));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, value.NativePtr);
     }
 
     public MTLFunctionConstantValues ConstantValues
     {
-        get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.ConstantValues);
-        set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4SpecializedFunctionDescriptorBindings.ConstantValues));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value.NativePtr);
     }
 }
 

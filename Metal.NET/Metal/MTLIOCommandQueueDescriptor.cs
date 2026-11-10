@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOCommandQueueDescriptor>
+public readonly struct MTLIOCommandQueueDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIOCommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIOCommandQueueDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIOCommandQueueDescriptor value) => new(value.NativePtr);
+
+    public MTLIOCommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTLIOCommandQueueDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLIOCommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLIOCommandQueueDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public nuint MaxCommandBufferCount
@@ -41,8 +48,8 @@ public class MTLIOCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLIOScratchBufferAllocator ScratchBufferAllocator
     {
-        get => GetProperty(ref field, MTLIOCommandQueueDescriptorBindings.ScratchBufferAllocator);
-        set => SetProperty(ref field, MTLIOCommandQueueDescriptorBindings.SetScratchBufferAllocator, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueDescriptorBindings.ScratchBufferAllocator));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetScratchBufferAllocator, value.NativePtr);
     }
 }
 

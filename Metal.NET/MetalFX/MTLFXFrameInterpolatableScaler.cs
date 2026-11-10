@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatableScaler(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatableScaler>
+public readonly struct MTLFXFrameInterpolatableScaler(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFXFrameInterpolatableScaler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFXFrameInterpolatableScaler New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFXFrameInterpolatableScaler value) => new(value.NativePtr);
+
+    public MTLFXFrameInterpolatableScaler Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 }
 
 file static class MTLFXFrameInterpolatableScalerBindings

@@ -1,25 +1,32 @@
 ﻿namespace Metal.NET;
 
-public class MTLFence(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFence>
+public readonly struct MTLFence(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFence Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFence New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFence value) => new(value.NativePtr);
+
+    public MTLFence Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLFenceBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFenceBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLFenceBindings.Label);
-        set => SetProperty(ref field, MTLFenceBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFenceBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFenceBindings.SetLabel, value.NativePtr);
     }
 }
 

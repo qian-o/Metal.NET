@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatorBase>
+public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFXFrameInterpolatorBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFXFrameInterpolatorBase New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFXFrameInterpolatorBase value) => new(value.NativePtr);
+
+    public MTLFXFrameInterpolatorBase Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLTextureUsage ColorTextureUsage
     {
@@ -155,26 +162,26 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
 
     public MTLTexture ColorTexture
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value.NativePtr);
     }
 
     public MTLTexture PrevColorTexture
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value.NativePtr);
     }
 
     public MTLTexture DepthTexture
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value.NativePtr);
     }
 
     public MTLTexture MotionTexture
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value.NativePtr);
     }
 
     public float MotionVectorScaleX
@@ -233,8 +240,8 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
 
     public MTLTexture UiTexture
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetUITexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetUITexture, value.NativePtr);
     }
 
     public float JitterOffsetX
@@ -263,20 +270,20 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
 
     public MTLTexture OutputTexture
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value.NativePtr);
     }
 
     public MTLTexture DistortionTexture
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.DistortionTexture);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDistortionTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.DistortionTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDistortionTexture, value.NativePtr);
     }
 
     public MTLFence Fence
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetFence, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.Fence));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFence, value.NativePtr);
     }
 
     public Bool8 IsDepthReversed

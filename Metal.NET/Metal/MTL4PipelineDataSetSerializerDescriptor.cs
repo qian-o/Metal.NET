@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineDataSetSerializerDescriptor>
+public readonly struct MTL4PipelineDataSetSerializerDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4PipelineDataSetSerializerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4PipelineDataSetSerializerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4PipelineDataSetSerializerDescriptor value) => new(value.NativePtr);
+
+    public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveC.AllocInit(MTL4PipelineDataSetSerializerDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveC.AllocInit(MTL4PipelineDataSetSerializerDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4PipelineDataSetSerializerDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTL4PipelineDataSetSerializerConfiguration Configuration

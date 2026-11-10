@@ -1,19 +1,26 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBinding>
+public readonly struct MTLBinding(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLBinding value) => new(value.NativePtr);
+
+    public MTLBinding Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLBindingBindings.Name);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBindingBindings.Name));
     }
 
     public MTLBindingType Type

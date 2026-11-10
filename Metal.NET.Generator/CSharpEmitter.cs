@@ -88,9 +88,10 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
 
     /// <summary>
     /// Tries to resolve the element type for an NSArray property or method.
+    /// Searches <paramref name="className"/> and its <paramref name="ancestors"/> before falling back to suffix rules.
     /// Returns null if no mapping is found.
     /// </summary>
-    string? TryResolveNSArrayElementType(string className, string propertyName)
+    string? TryResolveNSArrayElementType(string className, string propertyName, IEnumerable<string>? ancestors = null)
     {
         if (NSArrayElementTypes.TryGetValue((className, propertyName), out string? elementType))
         {
@@ -102,6 +103,22 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         if (context.NSArrayReturnTypes.TryGetValue((className, propertyName), out string? astElemType))
         {
             return astElemType;
+        }
+
+        if (ancestors != null)
+        {
+            foreach (string ancestor in ancestors)
+            {
+                if (NSArrayElementTypes.TryGetValue((ancestor, propertyName), out elementType))
+                {
+                    return elementType;
+                }
+
+                if (context.NSArrayReturnTypes.TryGetValue((ancestor, propertyName), out astElemType))
+                {
+                    return astElemType;
+                }
+            }
         }
 
         foreach ((string suffix, string elemType) in NSArraySuffixRules)
@@ -180,7 +197,7 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         {
             context.KnownClassNames.Add(classDef.FullCsName);
         }
-        context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
+        context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle"]);
 
         // Register hand-written Foundation enums (not in AST)
         context.EnumBackingTypes.TryAdd("NSComparisonResult", "long");
@@ -195,34 +212,6 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         foreach (ClassDef c in context.Classes)
         {
             classByName[c.FullCsName] = c;
-        }
-
-        // Build a map of class name → property names for inheritance detection
-        Dictionary<string, HashSet<string>> classPropertyMap = [];
-        foreach (ClassDef classDef in context.Classes)
-        {
-            classPropertyMap[classDef.FullCsName] =
-            [
-                .. classDef.Methods.Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget && m.IsConst)
-                                   .Select(m => TypeMapper.ToPascalCase(m.Name))
-            ];
-        }
-
-        // Build inherited property names by walking the inheritance chain
-        HashSet<string> GetInheritedProperties(string csClassName)
-        {
-            HashSet<string> result = [];
-            if (!classByName.TryGetValue(csClassName, out ClassDef? classDef))
-            {
-                return result;
-            }
-            string? current = classDef.BaseClassName;
-            while (current != null && context.KnownClassNames.Contains(current) && classPropertyMap.TryGetValue(current, out HashSet<string>? parentProps))
-            {
-                result.UnionWith(parentProps);
-                current = classByName.TryGetValue(current, out ClassDef? parentDef) ? parentDef.BaseClassName : null;
-            }
-            return result;
         }
 
         // Build lookup of free functions per target class
@@ -263,9 +252,8 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         foreach (ClassDef classDef in context.Classes)
         {
             string csClassName = classDef.FullCsName;
-            HashSet<string> inheritedProps = GetInheritedProperties(csClassName);
             freeFuncsByClass.TryGetValue(csClassName, out List<FreeFunctionDef>? classFuncs);
-            GenerateClass(classDef, inheritedProps, knownDelegateNames, classFuncs ?? []);
+            GenerateClass(classDef, classByName, knownDelegateNames, classFuncs ?? []);
         }
 
         GenerateObjectiveCFile();

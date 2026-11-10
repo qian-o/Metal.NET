@@ -1,19 +1,26 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerTask(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CompilerTask>
+public readonly struct MTL4CompilerTask(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CompilerTask Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CompilerTask New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CompilerTask value) => new(value.NativePtr);
+
+    public MTL4CompilerTask Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTL4Compiler Compiler
     {
-        get => GetProperty(ref field, MTL4CompilerTaskBindings.Compiler);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerTaskBindings.Compiler));
     }
 
     public MTL4CompilerTaskStatus Status

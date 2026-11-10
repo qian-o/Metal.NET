@@ -1,18 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIndirectCommandBufferDescriptor>
+public readonly struct MTLIndirectCommandBufferDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIndirectCommandBufferDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIndirectCommandBufferDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIndirectCommandBufferDescriptor value) => new(value.NativePtr);
+
+    public MTLIndirectCommandBufferDescriptor() : this(ObjectiveC.AllocInit(MTLIndirectCommandBufferDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLIndirectCommandBufferDescriptor() : this(ObjectiveC.AllocInit(MTLIndirectCommandBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLIndirectCommandBufferDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLIndirectCommandType CommandTypes

@@ -1,18 +1,47 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership) : MTLResourceViewPool(nativePtr, ownership), INativeObject<MTLTextureViewPool>
+public readonly struct MTLTextureViewPool(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTextureViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTextureViewPool New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLResourceViewPool(MTLTextureViewPool value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLTextureViewPool value) => new(value.NativePtr);
+
+    public MTLTextureViewPool() : this(ObjectiveC.AllocInit(MTLTextureViewPoolBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLTextureViewPool() : this(ObjectiveC.AllocInit(MTLTextureViewPoolBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTextureViewPool Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public MTLResourceID BaseResourceID
+    {
+        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.BaseResourceID);
+    }
+
+    public nuint ResourceViewCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureViewPoolBindings.ResourceViewCount);
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureViewPoolBindings.Device));
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureViewPoolBindings.Label));
     }
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
@@ -29,11 +58,26 @@ public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership)
     {
         return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewFromBuffer_Descriptor_Offset_BytesPerRow_AtIndex, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
     }
+
+    public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
+    {
+        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.CopyResourceViewsFromPool_SourceRange_DestinationIndex, sourcePool.NativePtr, sourceRange, destinationIndex);
+    }
 }
 
 file static class MTLTextureViewPoolBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLTextureViewPool");
+
+    public static readonly Selector BaseResourceID = "baseResourceID";
+
+    public static readonly Selector CopyResourceViewsFromPool_SourceRange_DestinationIndex = "copyResourceViewsFromPool:sourceRange:destinationIndex:";
+
+    public static readonly Selector Device = "device";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector ResourceViewCount = "resourceViewCount";
 
     public static readonly Selector SetTextureView_AtIndex = "setTextureView:atIndex:";
 

@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingAttribute(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingAttribute>
+public readonly struct MTLFunctionStitchingAttribute(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionStitchingAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionStitchingAttribute New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunctionStitchingAttribute value) => new(value.NativePtr);
+
+    public MTLFunctionStitchingAttribute Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 }
 
 file static class MTLFunctionStitchingAttributeBindings

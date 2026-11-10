@@ -1,20 +1,40 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : MTLEvent(nativePtr, ownership), INativeObject<MTLSharedEvent>
+public readonly struct MTLSharedEvent(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLSharedEvent Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLSharedEvent New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLEvent(MTLSharedEvent value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLSharedEvent value) => new(value.NativePtr);
+
+    public MTLSharedEvent Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public ulong SignaledValue
     {
         get => ObjectiveC.MsgSendULong(NativePtr, MTLSharedEventBindings.SignaledValue);
         set => ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, value);
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventBindings.Device));
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.SetLabel, value.NativePtr);
     }
 
     public void Notify(MTLSharedEventListener listener, ulong value, MTLSharedEventNotificationBlock block)
@@ -26,7 +46,7 @@ public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : M
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public bool Wait(ulong value, ulong milliseconds)
@@ -37,9 +57,15 @@ public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : M
 
 file static class MTLSharedEventBindings
 {
+    public static readonly Selector Device = "device";
+
+    public static readonly Selector Label = "label";
+
     public static readonly Selector NewSharedEventHandle = "newSharedEventHandle";
 
     public static readonly Selector NotifyListener_AtValue_Block = "notifyListener:atValue:block:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector SetSignaledValue = "setSignaledValue:";
 

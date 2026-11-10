@@ -2,24 +2,30 @@
 
 namespace Metal.NET;
 
-public partial class DispatchData(nint nativePtr, NativeObjectOwnership ownership) : DispatchObject(nativePtr, ownership), INativeObject<DispatchData>
+public readonly partial struct DispatchData(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static DispatchData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static DispatchData New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public void Dispose()
     {
-        return new(nativePtr, ownership);
+        if (!IsNull)
+        {
+            DispatchRelease(NativePtr);
+        }
     }
-    #endregion
 
     public static unsafe DispatchData Create<T>(ReadOnlySpan<T> data) where T : unmanaged
     {
         fixed (T* pData = data)
         {
-            return new(DispatchDataCreate((nint)pData, (nuint)(data.Length * sizeof(T)), 0, 0), NativeObjectOwnership.Managed);
+            return new(DispatchDataCreate((nint)pData, (nuint)(data.Length * sizeof(T)), 0, 0));
         }
     }
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
+    private static partial void DispatchRelease(nint @object);
 
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_create")]
     private static partial nint DispatchDataCreate(nint buffer, nuint size, nint queue, nint destructor);

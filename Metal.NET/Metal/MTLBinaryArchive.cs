@@ -1,32 +1,39 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBinaryArchive>
+public readonly struct MTLBinaryArchive(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLBinaryArchive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLBinaryArchive New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLBinaryArchive value) => new(value.NativePtr);
+
+    public MTLBinaryArchive Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLBinaryArchiveBindings.Label);
-        set => SetProperty(ref field, MTLBinaryArchiveBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBinaryArchiveBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLBinaryArchiveBindings.SetLabel, value.NativePtr);
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBinaryArchiveBindings.Device));
     }
 
     public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctionsWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
         return result;
     }
@@ -35,7 +42,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctionsWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
         return result;
     }
@@ -44,7 +51,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctionsWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
         return result;
     }
@@ -53,7 +60,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctionsWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
         return result;
     }
@@ -62,7 +69,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibraryWithDescriptor_Error, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
         return result;
     }
@@ -71,7 +78,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL_Error, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
         return result;
     }
@@ -80,7 +87,7 @@ public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) :
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunctionWithDescriptor_Library_Error, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
         return result;
     }

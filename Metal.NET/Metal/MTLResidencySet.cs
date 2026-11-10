@@ -1,24 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResidencySet>
+public readonly struct MTLResidencySet(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLResidencySet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLResidencySet New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLResidencySet value) => new(value.NativePtr);
+
+    public MTLResidencySet Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLResidencySetBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResidencySetBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLResidencySetBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResidencySetBindings.Label));
     }
 
     public ulong AllocatedSize
@@ -28,7 +35,7 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public NSArray<MTLAllocation> AllAllocations
     {
-        get => GetProperty(ref field, MTLResidencySetBindings.AllAllocations);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResidencySetBindings.AllAllocations));
     }
 
     public nuint AllocationCount
@@ -51,15 +58,12 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
         ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocation, allocation.NativePtr);
     }
 
-    public unsafe void AddAllocations(MTLAllocation[] allocations)
+    public unsafe void AddAllocations(ReadOnlySpan<MTLAllocation> allocations)
     {
-        nint* pAllocations = stackalloc nint[allocations.Length];
-        for (int i = 0; i < allocations.Length; i++)
+        fixed (MTLAllocation* pAllocations = allocations)
         {
-            pAllocations[i] = allocations[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocations_Count, (nint)pAllocations, (nuint)allocations.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocations_Count, (nint)pAllocations, (nuint)allocations.Length);
     }
 
     public void RemoveAllocation(MTLAllocation allocation)
@@ -67,15 +71,12 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
         ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocation, allocation.NativePtr);
     }
 
-    public unsafe void RemoveAllocations(MTLAllocation[] allocations)
+    public unsafe void RemoveAllocations(ReadOnlySpan<MTLAllocation> allocations)
     {
-        nint* pAllocations = stackalloc nint[allocations.Length];
-        for (int i = 0; i < allocations.Length; i++)
+        fixed (MTLAllocation* pAllocations = allocations)
         {
-            pAllocations[i] = allocations[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocations_Count, (nint)pAllocations, (nuint)allocations.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocations_Count, (nint)pAllocations, (nuint)allocations.Length);
     }
 
     public void RemoveAllAllocations()

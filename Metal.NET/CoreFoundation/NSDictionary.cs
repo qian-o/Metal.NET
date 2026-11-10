@@ -1,13 +1,20 @@
 namespace Metal.NET;
 
-public class NSDictionary(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSDictionary>
+public readonly struct NSDictionary(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new NSDictionary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new NSDictionary New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(NSDictionary value) => new(value.NativePtr);
+
+    public NSDictionary Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 }

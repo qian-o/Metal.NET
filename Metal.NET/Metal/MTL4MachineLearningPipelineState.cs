@@ -1,39 +1,55 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTL4MachineLearningPipelineState>
+public readonly struct MTL4MachineLearningPipelineState(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4MachineLearningPipelineState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4MachineLearningPipelineState New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAllocation(MTL4MachineLearningPipelineState value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4MachineLearningPipelineState value) => new(value.NativePtr);
+
+    public MTL4MachineLearningPipelineState Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineStateBindings.Label));
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineStateBindings.Device));
     }
 
     public MTL4MachineLearningPipelineReflection Reflection
     {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Reflection);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineStateBindings.Reflection));
     }
 
     public nuint IntermediatesHeapSize
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateBindings.IntermediatesHeapSize);
     }
+
+    public nuint AllocatedSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateBindings.AllocatedSize);
+    }
 }
 
 file static class MTL4MachineLearningPipelineStateBindings
 {
+    public static readonly Selector AllocatedSize = "allocatedSize";
+
     public static readonly Selector Device = "device";
 
     public static readonly Selector IntermediatesHeapSize = "intermediatesHeapSize";

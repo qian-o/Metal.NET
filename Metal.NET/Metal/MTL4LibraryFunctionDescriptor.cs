@@ -1,30 +1,39 @@
 ﻿namespace Metal.NET;
 
-public class MTL4LibraryFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4FunctionDescriptor(nativePtr, ownership), INativeObject<MTL4LibraryFunctionDescriptor>
+public readonly struct MTL4LibraryFunctionDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4LibraryFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4LibraryFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4FunctionDescriptor(MTL4LibraryFunctionDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4LibraryFunctionDescriptor value) => new(value.NativePtr);
+
+    public MTL4LibraryFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4LibraryFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4LibraryFunctionDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Name);
-        set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetName, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4LibraryFunctionDescriptorBindings.Name));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetName, value.NativePtr);
     }
 
     public MTLLibrary Library
     {
-        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Library);
-        set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4LibraryFunctionDescriptorBindings.Library));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value.NativePtr);
     }
 }
 

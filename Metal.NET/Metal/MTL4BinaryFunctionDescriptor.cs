@@ -1,30 +1,37 @@
 ﻿namespace Metal.NET;
 
-public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4BinaryFunctionDescriptor>
+public readonly struct MTL4BinaryFunctionDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4BinaryFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4BinaryFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4BinaryFunctionDescriptor value) => new(value.NativePtr);
+
+    public MTL4BinaryFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4BinaryFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4BinaryFunctionDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.Name);
-        set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetName, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4BinaryFunctionDescriptorBindings.Name));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetName, value.NativePtr);
     }
 
     public MTL4FunctionDescriptor FunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.FunctionDescriptor);
-        set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4BinaryFunctionDescriptorBindings.FunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4BinaryFunctionOptions Options

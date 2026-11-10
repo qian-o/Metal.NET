@@ -1,26 +1,53 @@
+using System.Buffers;
 using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Metal.NET;
 
-public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSString>
+public readonly struct NSString(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new NSString Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new NSString New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(NSString value) => new(value.NativePtr);
+
+    public NSString Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public static unsafe implicit operator NSString(string value)
     {
-        fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))
-        {
-            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringInteropBindings.Class), NSStringInteropBindings.InitWithUtf8String, (nint)utf8);
+        int maxByteCount = Encoding.UTF8.GetMaxByteCount(value.Length) + 1;
+        byte[]? rented = null;
+        Span<byte> buffer = maxByteCount <= 512
+            ? stackalloc byte[maxByteCount]
+            : (rented = ArrayPool<byte>.Shared.Rent(maxByteCount));
 
-            return new(nativePtr, NativeObjectOwnership.Managed);
+        try
+        {
+            int written = Encoding.UTF8.GetBytes(value, buffer);
+            buffer[written] = 0;
+
+            fixed (byte* utf8 = buffer)
+            {
+                nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringInteropBindings.Class), NSStringInteropBindings.InitWithUtf8String, (nint)utf8);
+
+                return new(nativePtr);
+            }
+        }
+        finally
+        {
+            if (rented is not null)
+            {
+                ArrayPool<byte>.Shared.Return(rented);
+            }
         }
     }
 

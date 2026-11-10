@@ -1,18 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingInputNode(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionStitchingNode(nativePtr, ownership), INativeObject<MTLFunctionStitchingInputNode>
+public readonly struct MTLFunctionStitchingInputNode(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionStitchingInputNode Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionStitchingInputNode New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLFunctionStitchingNode(MTLFunctionStitchingInputNode value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLFunctionStitchingInputNode value) => new(value.NativePtr);
+
+    public MTLFunctionStitchingInputNode() : this(ObjectiveC.AllocInit(MTLFunctionStitchingInputNodeBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLFunctionStitchingInputNode() : this(ObjectiveC.AllocInit(MTLFunctionStitchingInputNodeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionStitchingInputNode Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public nuint ArgumentIndex
@@ -25,7 +34,7 @@ public class MTLFunctionStitchingInputNode(nint nativePtr, NativeObjectOwnership
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLFunctionStitchingInputNodeBindings.Class), MTLFunctionStitchingInputNodeBindings.InitWithArgumentIndex, argument);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 }
 

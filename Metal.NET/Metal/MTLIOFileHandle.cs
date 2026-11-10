@@ -1,20 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOFileHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOFileHandle>
+public readonly struct MTLIOFileHandle(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIOFileHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIOFileHandle New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIOFileHandle value) => new(value.NativePtr);
+
+    public MTLIOFileHandle Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLIOFileHandleBindings.Label);
-        set => SetProperty(ref field, MTLIOFileHandleBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIOFileHandleBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIOFileHandleBindings.SetLabel, value.NativePtr);
     }
 }
 

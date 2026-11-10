@@ -1,24 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLDepthStencilState(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDepthStencilState>
+public readonly struct MTLDepthStencilState(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLDepthStencilState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLDepthStencilState New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLDepthStencilState value) => new(value.NativePtr);
+
+    public MTLDepthStencilState Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLDepthStencilStateBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLDepthStencilStateBindings.Label));
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLDepthStencilStateBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLDepthStencilStateBindings.Device));
     }
 
     public MTLResourceID GpuResourceID

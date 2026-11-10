@@ -1,15 +1,26 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLTensor>
+public readonly struct MTLTensor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLResource(MTLTensor value) => new(value.NativePtr);
+
+    public static implicit operator MTLAllocation(MTLTensor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLTensor value) => new(value.NativePtr);
+
+    public MTLTensor Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLResourceID GpuResourceID
     {
@@ -18,7 +29,7 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLBuffer Buffer
     {
-        get => GetProperty(ref field, MTLTensorBindings.Buffer);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorBindings.Buffer));
     }
 
     public nuint BufferOffset
@@ -28,12 +39,12 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLTensorExtents Strides
     {
-        get => GetProperty(ref field, MTLTensorBindings.Strides);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorBindings.Strides));
     }
 
     public MTLTensorExtents Dimensions
     {
-        get => GetProperty(ref field, MTLTensorBindings.Dimensions);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorBindings.Dimensions));
     }
 
     public MTLTensorDataType DataType
@@ -48,7 +59,53 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public NSArray<MTLTensorAuxiliaryPlane> AuxiliaryPlanes
     {
-        get => GetProperty(ref field, MTLTensorBindings.AuxiliaryPlanes);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorBindings.AuxiliaryPlanes));
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorBindings.Device));
+    }
+
+    public MTLCPUCacheMode CpuCacheMode
+    {
+        get => (MTLCPUCacheMode)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.CpuCacheMode);
+    }
+
+    public MTLStorageMode StorageMode
+    {
+        get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.StorageMode);
+    }
+
+    public MTLHazardTrackingMode HazardTrackingMode
+    {
+        get => (MTLHazardTrackingMode)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.HazardTrackingMode);
+    }
+
+    public MTLResourceOptions ResourceOptions
+    {
+        get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.ResourceOptions);
+    }
+
+    public MTLHeap Heap
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorBindings.Heap));
+    }
+
+    public nuint HeapOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorBindings.HeapOffset);
+    }
+
+    public nuint AllocatedSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorBindings.AllocatedSize);
     }
 
     public void Replace(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
@@ -70,17 +127,43 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
     {
         ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.ReplaceSliceOrigin_SliceDimensions_Plane_WithBytes_Strides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, (nint)plane, bytes, strides.NativePtr);
     }
+
+    public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
+    {
+        return (MTLPurgeableState)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindings.SetPurgeableState, (nuint)state);
+    }
+
+    public void MakeAliasable()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLTensorBindings.MakeAliasable);
+    }
+
+    public bool IsAliasable()
+    {
+        return ObjectiveC.MsgSendBool(NativePtr, MTLTensorBindings.IsAliasable);
+    }
+
+    public int SetOwnerWithIdentity(uint taskIdToken)
+    {
+        return ObjectiveC.MsgSendInt(NativePtr, MTLTensorBindings.SetOwnerWithIdentity, taskIdToken);
+    }
 }
 
 file static class MTLTensorBindings
 {
+    public static readonly Selector AllocatedSize = "allocatedSize";
+
     public static readonly Selector AuxiliaryPlanes = "auxiliaryPlanes";
 
     public static readonly Selector Buffer = "buffer";
 
     public static readonly Selector BufferOffset = "bufferOffset";
 
+    public static readonly Selector CpuCacheMode = "cpuCacheMode";
+
     public static readonly Selector DataType = "dataType";
+
+    public static readonly Selector Device = "device";
 
     public static readonly Selector Dimensions = "dimensions";
 
@@ -90,9 +173,31 @@ file static class MTLTensorBindings
 
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
+    public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
+
+    public static readonly Selector Heap = "heap";
+
+    public static readonly Selector HeapOffset = "heapOffset";
+
+    public static readonly Selector IsAliasable = "isAliasable";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector MakeAliasable = "makeAliasable";
+
     public static readonly Selector ReplaceSliceOrigin_SliceDimensions_Plane_WithBytes_Strides = "replaceSliceOrigin:sliceDimensions:plane:withBytes:strides:";
 
     public static readonly Selector ReplaceSliceOrigin_SliceDimensions_WithBytes_Strides = "replaceSliceOrigin:sliceDimensions:withBytes:strides:";
+
+    public static readonly Selector ResourceOptions = "resourceOptions";
+
+    public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector SetOwnerWithIdentity = "setOwnerWithIdentity:";
+
+    public static readonly Selector SetPurgeableState = "setPurgeableState:";
+
+    public static readonly Selector StorageMode = "storageMode";
 
     public static readonly Selector Strides = "strides";
 

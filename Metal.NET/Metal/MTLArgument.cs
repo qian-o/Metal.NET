@@ -1,20 +1,27 @@
 ﻿namespace Metal.NET;
 
 [Obsolete("Use MTLBinding instead")]
-public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLArgument>
+public readonly struct MTLArgument(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLArgument Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLArgument New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLArgument value) => new(value.NativePtr);
+
+    public MTLArgument Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLArgumentBindings.Name);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentBindings.Name));
     }
 
     public MTLArgumentType Type
@@ -54,12 +61,12 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public MTLStructType BufferStructType
     {
-        get => GetProperty(ref field, MTLArgumentBindings.BufferStructType);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentBindings.BufferStructType));
     }
 
     public MTLPointerType BufferPointerType
     {
-        get => GetProperty(ref field, MTLArgumentBindings.BufferPointerType);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentBindings.BufferPointerType));
     }
 
     public nuint ThreadgroupMemoryAlignment

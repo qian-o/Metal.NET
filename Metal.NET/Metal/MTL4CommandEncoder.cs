@@ -1,25 +1,32 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandEncoder>
+public readonly struct MTL4CommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CommandEncoder value) => new(value.NativePtr);
+
+    public MTL4CommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4CommandEncoderBindings.Label);
-        set => SetProperty(ref field, MTL4CommandEncoderBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CommandEncoderBindings.SetLabel, value.NativePtr);
     }
 
     public MTL4CommandBuffer CommandBuffer
     {
-        get => GetProperty(ref field, MTL4CommandEncoderBindings.CommandBuffer);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandEncoderBindings.CommandBuffer));
     }
 
     public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages, MTL4VisibilityOptions visibilityOptions)

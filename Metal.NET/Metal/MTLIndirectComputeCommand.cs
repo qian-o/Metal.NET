@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIndirectComputeCommand>
+public readonly struct MTLIndirectComputeCommand(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIndirectComputeCommand Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIndirectComputeCommand New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIndirectComputeCommand value) => new(value.NativePtr);
+
+    public MTLIndirectComputeCommand Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public void SetComputePipelineState(MTLComputePipelineState pipelineState)
     {

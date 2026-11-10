@@ -1,30 +1,37 @@
 ﻿namespace Metal.NET;
 
-public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTileRenderPipelineDescriptor>
+public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTileRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTileRenderPipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTileRenderPipelineDescriptor value) => new(value.NativePtr);
+
+    public MTLTileRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTLTileRenderPipelineDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLTileRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTLTileRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTileRenderPipelineDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public MTLFunction TileFunction
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileFunction);
-        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetTileFunction, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.TileFunction));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetTileFunction, value.NativePtr);
     }
 
     public nuint RasterSampleCount
@@ -35,7 +42,7 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.ColorAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.ColorAttachments));
     }
 
     public Bool8 ThreadgroupSizeMatchesTileSize
@@ -46,7 +53,7 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
 
     public MTLPipelineBufferDescriptorArray TileBuffers
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileBuffers);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.TileBuffers));
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -57,20 +64,20 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
 
     public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.BinaryArchives));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value.NativePtr);
     }
 
     public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
-        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value.NativePtr);
     }
 
     public MTLLinkedFunctions LinkedFunctions
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
-        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value.NativePtr);
     }
 
     public Bool8 SupportAddingBinaryFunctions

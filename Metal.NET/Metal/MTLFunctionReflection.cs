@@ -1,24 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionReflection>
+public readonly struct MTLFunctionReflection(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionReflection New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunctionReflection value) => new(value.NativePtr);
+
+    public MTLFunctionReflection Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSArray<MTLBinding> Bindings
     {
-        get => GetProperty(ref field, MTLFunctionReflectionBindings.Bindings);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionReflectionBindings.Bindings));
     }
 
     public NSString UserAnnotation
     {
-        get => GetProperty(ref field, MTLFunctionReflectionBindings.UserAnnotation);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionReflectionBindings.UserAnnotation));
     }
 }
 

@@ -6,7 +6,7 @@ namespace Metal.NET;
 /// Base class for Objective-C block wrappers. Allocates a native block struct
 /// on the unmanaged heap that conforms to the Objective-C block ABI.
 /// </summary>
-public abstract unsafe class NativeBlock : NativeObject
+public abstract unsafe class NativeBlock : IDisposable
 {
     private static readonly nint isa;
     private static readonly nint descriptor;
@@ -19,15 +19,42 @@ public abstract unsafe class NativeBlock : NativeObject
         new nuint[] { 0, (nuint)sizeof(Block) }.CopyTo(new Span<nuint>((void*)descriptor, 2));
     }
 
-    private readonly GCHandle handle;
+    private GCHandle handle;
+    private uint disposed;
 
-    protected NativeBlock(nint invoke, object context) : base(AllocBlock(invoke, context, out GCHandle handle), NativeObjectOwnership.Managed)
+    protected NativeBlock(nint invoke, object context)
     {
-        this.handle = handle;
+        NativePtr = AllocBlock(invoke, context, out handle);
     }
 
-    protected override void ReleaseNative()
+    ~NativeBlock()
     {
+        Release();
+    }
+
+    public nint NativePtr { get; }
+
+    public bool IsNull => NativePtr is 0;
+
+    public void Dispose()
+    {
+        if (IsNull)
+        {
+            return;
+        }
+
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (Interlocked.Exchange(ref disposed, 1) is not 0)
+        {
+            return;
+        }
+
         NativeMemory.Free((void*)NativePtr);
 
         handle.Free();

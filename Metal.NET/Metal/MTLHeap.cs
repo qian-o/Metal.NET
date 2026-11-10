@@ -1,25 +1,34 @@
 ﻿namespace Metal.NET;
 
-public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLHeap>
+public readonly struct MTLHeap(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLHeap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLHeap New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAllocation(MTLHeap value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLHeap value) => new(value.NativePtr);
+
+    public MTLHeap Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLHeapBindings.Label);
-        set => SetProperty(ref field, MTLHeapBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapBindings.SetLabel, value.NativePtr);
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLHeapBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.Device));
     }
 
     public MTLStorageMode StorageMode
@@ -62,6 +71,11 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
         get => (MTLHeapType)ObjectiveC.MsgSendLong(NativePtr, MTLHeapBindings.Type);
     }
 
+    public nuint AllocatedSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLHeapBindings.AllocatedSize);
+    }
+
     public nuint MaxAvailableSize(nuint alignment)
     {
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLHeapBindings.MaxAvailableSizeWithAlignment, alignment);
@@ -71,14 +85,14 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewBufferWithLength_Options, length, (nuint)options);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLTexture MakeTexture(MTLTextureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTextureWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
@@ -90,47 +104,49 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewBufferWithLength_Options_Offset, length, (nuint)options, offset);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLTexture MakeTexture(MTLTextureDescriptor descriptor, nuint offset)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTextureWithDescriptor_Offset, descriptor.NativePtr, offset);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLAccelerationStructure MakeAccelerationStructure(nuint size)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSize, size);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLAccelerationStructure MakeAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLAccelerationStructure MakeAccelerationStructure(nuint size, nuint offset)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSize_Offset, size, offset);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLAccelerationStructure MakeAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptor_Offset, descriptor.NativePtr, offset);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 
 file static class MTLHeapBindings
 {
+    public static readonly Selector AllocatedSize = "allocatedSize";
+
     public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
     public static readonly Selector CurrentAllocatedSize = "currentAllocatedSize";

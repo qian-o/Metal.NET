@@ -1,46 +1,53 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandQueue>
+public readonly struct MTLCommandQueue(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCommandQueue New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCommandQueue value) => new(value.NativePtr);
+
+    public MTLCommandQueue Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLCommandQueueBindings.Label);
-        set => SetProperty(ref field, MTLCommandQueueBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.SetLabel, value.NativePtr);
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLCommandQueueBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.Device));
     }
 
     public MTLCommandBuffer MakeCommandBuffer()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBuffer);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLCommandBuffer MakeCommandBuffer(MTLCommandBufferDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLCommandBuffer MakeCommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     /// <summary>
@@ -57,15 +64,12 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySet, residencySet.NativePtr);
     }
 
-    public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
+    public unsafe void AddResidencySets(ReadOnlySpan<MTLResidencySet> residencySets)
     {
-        nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++)
+        fixed (MTLResidencySet* pResidencySets = residencySets)
         {
-            pResidencySets[i] = residencySets[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
@@ -73,15 +77,12 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
     }
 
-    public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
+    public unsafe void RemoveResidencySets(ReadOnlySpan<MTLResidencySet> residencySets)
     {
-        nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++)
+        fixed (MTLResidencySet* pResidencySets = residencySets)
         {
-            pResidencySets[i] = residencySets[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 }
 

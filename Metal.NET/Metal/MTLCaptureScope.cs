@@ -1,35 +1,42 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureScope>
+public readonly struct MTLCaptureScope(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCaptureScope Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCaptureScope New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCaptureScope value) => new(value.NativePtr);
+
+    public MTLCaptureScope Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLCaptureScopeBindings.Label);
-        set => SetProperty(ref field, MTLCaptureScopeBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureScopeBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.SetLabel, value.NativePtr);
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLCaptureScopeBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureScopeBindings.Device));
     }
 
     public MTLCommandQueue CommandQueue
     {
-        get => GetProperty(ref field, MTLCaptureScopeBindings.CommandQueue);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureScopeBindings.CommandQueue));
     }
 
     public MTL4CommandQueue Mtl4CommandQueue
     {
-        get => GetProperty(ref field, MTLCaptureScopeBindings.Mtl4CommandQueue);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureScopeBindings.Mtl4CommandQueue));
     }
 
     public void Begin()

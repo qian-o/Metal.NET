@@ -21,20 +21,18 @@ public enum CGColorSpaceName
     AdobeRGB1998
 }
 
-public partial class CGColorSpace(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CGColorSpace>
+public readonly partial struct CGColorSpace(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static CGColorSpace Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static CGColorSpace New(nint nativePtr, NativeObjectOwnership ownership)
-    {
-        return new(nativePtr, ownership);
-    }
-    #endregion
+    public bool IsNull => NativePtr is 0;
 
-    protected override void ReleaseNative()
+    public void Dispose()
     {
-        CGColorSpaceRelease(NativePtr);
+        if (!IsNull)
+        {
+            CGColorSpaceRelease(NativePtr);
+        }
     }
 
     public static CGColorSpace Create(CGColorSpaceName name)
@@ -52,22 +50,22 @@ public partial class CGColorSpace(nint nativePtr, NativeObjectOwnership ownershi
             CGColorSpaceName.GenericRGBLinear => "kCGColorSpaceGenericRGBLinear",
             CGColorSpaceName.AdobeRGB1998 => "kCGColorSpaceAdobeRGB1998",
             _ => throw new ArgumentOutOfRangeException(nameof(name), name, null)
-        }))), NativeObjectOwnership.Managed);
+        }))));
     }
 
     public static CGColorSpace CreateDeviceRGB()
     {
-        return new(CGColorSpaceCreateDeviceRGB(), NativeObjectOwnership.Managed);
+        return new(CGColorSpaceCreateDeviceRGB());
     }
 
     public static CGColorSpace CreateDeviceGray()
     {
-        return new(CGColorSpaceCreateDeviceGray(), NativeObjectOwnership.Managed);
+        return new(CGColorSpaceCreateDeviceGray());
     }
 
     public static CGColorSpace CreateDeviceCMYK()
     {
-        return new(CGColorSpaceCreateDeviceCMYK(), NativeObjectOwnership.Managed);
+        return new(CGColorSpaceCreateDeviceCMYK());
     }
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceRelease")]

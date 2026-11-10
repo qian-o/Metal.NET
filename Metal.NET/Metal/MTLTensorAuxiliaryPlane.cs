@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorAuxiliaryPlane(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorAuxiliaryPlane>
+public readonly struct MTLTensorAuxiliaryPlane(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensorAuxiliaryPlane Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensorAuxiliaryPlane New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTensorAuxiliaryPlane value) => new(value.NativePtr);
+
+    public MTLTensorAuxiliaryPlane Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLTensorDataType DataType
     {
@@ -18,12 +25,12 @@ public class MTLTensorAuxiliaryPlane(nint nativePtr, NativeObjectOwnership owner
 
     public MTLTensorExtents BlockFactors
     {
-        get => GetProperty(ref field, MTLTensorAuxiliaryPlaneBindings.BlockFactors);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorAuxiliaryPlaneBindings.BlockFactors));
     }
 
     public MTLBuffer Buffer
     {
-        get => GetProperty(ref field, MTLTensorAuxiliaryPlaneBindings.Buffer);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorAuxiliaryPlaneBindings.Buffer));
     }
 
     public nuint BufferOffset

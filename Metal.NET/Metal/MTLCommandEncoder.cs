@@ -1,25 +1,32 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandEncoder>
+public readonly struct MTLCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCommandEncoder value) => new(value.NativePtr);
+
+    public MTLCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLCommandEncoderBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCommandEncoderBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLCommandEncoderBindings.Label);
-        set => SetProperty(ref field, MTLCommandEncoderBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.SetLabel, value.NativePtr);
     }
 
     public void EndEncoding()

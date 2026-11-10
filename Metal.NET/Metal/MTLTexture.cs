@@ -1,15 +1,26 @@
 ﻿namespace Metal.NET;
 
-public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLTexture>
+public readonly struct MTLTexture(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTexture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTexture New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLResource(MTLTexture value) => new(value.NativePtr);
+
+    public static implicit operator MTLAllocation(MTLTexture value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLTexture value) => new(value.NativePtr);
+
+    public MTLTexture Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     /// <summary>
     /// Deprecated: Use parentTexture or buffer instead
@@ -17,12 +28,12 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
     [Obsolete("Use parentTexture or buffer instead")]
     public MTLResource RootResource
     {
-        get => GetProperty(ref field, MTLTextureBindings.RootResource);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.RootResource));
     }
 
     public MTLTexture Parent
     {
-        get => GetProperty(ref field, MTLTextureBindings.ParentTexture);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.ParentTexture));
     }
 
     public nuint ParentRelativeLevel
@@ -37,7 +48,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
 
     public MTLBuffer Buffer
     {
-        get => GetProperty(ref field, MTLTextureBindings.Buffer);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Buffer));
     }
 
     public nuint BufferOffset
@@ -151,7 +162,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
     [Obsolete("Not applicable on Apple Silicon")]
     public MTLTexture RemoteStorageTexture
     {
-        get => GetProperty(ref field, MTLTextureBindings.RemoteStorageTexture);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.RemoteStorageTexture));
     }
 
     public MTLTextureSwizzleChannels Swizzle
@@ -167,6 +178,52 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
     public float MinLOD
     {
         get => ObjectiveC.MsgSendFloat(NativePtr, MTLTextureBindings.MinLOD);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Device));
+    }
+
+    public MTLCPUCacheMode CpuCacheMode
+    {
+        get => (MTLCPUCacheMode)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.CpuCacheMode);
+    }
+
+    public MTLStorageMode StorageMode
+    {
+        get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.StorageMode);
+    }
+
+    public MTLHazardTrackingMode HazardTrackingMode
+    {
+        get => (MTLHazardTrackingMode)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.HazardTrackingMode);
+    }
+
+    public MTLResourceOptions ResourceOptions
+    {
+        get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.ResourceOptions);
+    }
+
+    public MTLHeap Heap
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Heap));
+    }
+
+    public nuint HeapOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.HeapOffset);
+    }
+
+    public nuint AllocatedSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.AllocatedSize);
     }
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
@@ -193,28 +250,28 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormat, (nuint)pixelFormat);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLTexture MakeTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormat_TextureType_Levels_Slices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLSharedTextureHandle MakeSharedTextureHandle()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewSharedTextureHandle);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLTexture MakeTextureView(MTLTextureViewDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     /// <summary>
@@ -225,19 +282,41 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewRemoteTextureViewForDevice, device.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLTexture MakeTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormat_TextureType_Levels_Slices_Swizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
+    }
+
+    public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
+    {
+        return (MTLPurgeableState)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindings.SetPurgeableState, (nuint)state);
+    }
+
+    public void MakeAliasable()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLTextureBindings.MakeAliasable);
+    }
+
+    public bool IsAliasable()
+    {
+        return ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.IsAliasable);
+    }
+
+    public int SetOwnerWithIdentity(uint taskIdToken)
+    {
+        return ObjectiveC.MsgSendInt(NativePtr, MTLTextureBindings.SetOwnerWithIdentity, taskIdToken);
     }
 }
 
 file static class MTLTextureBindings
 {
+    public static readonly Selector AllocatedSize = "allocatedSize";
+
     public static readonly Selector AllowGPUOptimizedContents = "allowGPUOptimizedContents";
 
     public static readonly Selector ArrayLength = "arrayLength";
@@ -250,7 +329,11 @@ file static class MTLTextureBindings
 
     public static readonly Selector CompressionType = "compressionType";
 
+    public static readonly Selector CpuCacheMode = "cpuCacheMode";
+
     public static readonly Selector Depth = "depth";
+
+    public static readonly Selector Device = "device";
 
     public static readonly Selector FirstMipmapInTail = "firstMipmapInTail";
 
@@ -260,17 +343,29 @@ file static class MTLTextureBindings
 
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
+    public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
+
+    public static readonly Selector Heap = "heap";
+
+    public static readonly Selector HeapOffset = "heapOffset";
+
     public static readonly Selector Height = "height";
 
     public static readonly Selector Iosurface = "iosurface";
 
     public static readonly Selector IosurfacePlane = "iosurfacePlane";
 
+    public static readonly Selector IsAliasable = "isAliasable";
+
     public static readonly Selector IsFramebufferOnly = "isFramebufferOnly";
 
     public static readonly Selector IsShareable = "isShareable";
 
     public static readonly Selector IsSparse = "isSparse";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector MakeAliasable = "makeAliasable";
 
     public static readonly Selector MinLOD = "minLOD";
 
@@ -302,11 +397,21 @@ file static class MTLTextureBindings
 
     public static readonly Selector ReplaceRegion_MipmapLevel_WithBytes_BytesPerRow = "replaceRegion:mipmapLevel:withBytes:bytesPerRow:";
 
+    public static readonly Selector ResourceOptions = "resourceOptions";
+
     public static readonly Selector RootResource = "rootResource";
 
     public static readonly Selector SampleCount = "sampleCount";
 
+    public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector SetOwnerWithIdentity = "setOwnerWithIdentity:";
+
+    public static readonly Selector SetPurgeableState = "setPurgeableState:";
+
     public static readonly Selector SparseTextureTier = "sparseTextureTier";
+
+    public static readonly Selector StorageMode = "storageMode";
 
     public static readonly Selector Swizzle = "swizzle";
 

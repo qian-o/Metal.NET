@@ -1,24 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMap>
+public readonly struct MTLRasterizationRateMap(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRasterizationRateMap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRasterizationRateMap New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRasterizationRateMap value) => new(value.NativePtr);
+
+    public MTLRasterizationRateMap Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLRasterizationRateMapBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLRasterizationRateMapBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapBindings.Label));
     }
 
     public MTLSize ScreenSize

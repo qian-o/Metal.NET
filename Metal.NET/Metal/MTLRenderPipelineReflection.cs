@@ -1,39 +1,46 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPipelineReflection>
+public readonly struct MTLRenderPipelineReflection(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRenderPipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRenderPipelineReflection New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRenderPipelineReflection value) => new(value.NativePtr);
+
+    public MTLRenderPipelineReflection Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSArray<MTLBinding> VertexBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexBindings);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineReflectionBindings.VertexBindings));
     }
 
     public NSArray<MTLBinding> FragmentBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentBindings);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineReflectionBindings.FragmentBindings));
     }
 
     public NSArray<MTLBinding> TileBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileBindings);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineReflectionBindings.TileBindings));
     }
 
     public NSArray<MTLBinding> ObjectBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.ObjectBindings);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineReflectionBindings.ObjectBindings));
     }
 
     public NSArray<MTLBinding> MeshBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.MeshBindings);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineReflectionBindings.MeshBindings));
     }
 
     /// <summary>
@@ -42,7 +49,7 @@ public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership o
     [Obsolete("Use vertexBindings instead")]
     public NSArray<MTLArgument> VertexArguments
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexArguments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineReflectionBindings.VertexArguments));
     }
 
     /// <summary>
@@ -51,7 +58,7 @@ public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership o
     [Obsolete("Use fragmentBindings instead")]
     public NSArray<MTLArgument> FragmentArguments
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentArguments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineReflectionBindings.FragmentArguments));
     }
 
     /// <summary>
@@ -60,7 +67,7 @@ public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership o
     [Obsolete("Use tileBindings instead")]
     public NSArray<MTLArgument> TileArguments
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileArguments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineReflectionBindings.TileArguments));
     }
 }
 

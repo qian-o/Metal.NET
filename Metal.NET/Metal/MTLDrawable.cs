@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDrawable>
+public readonly struct MTLDrawable(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLDrawable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLDrawable New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLDrawable value) => new(value.NativePtr);
+
+    public MTLDrawable Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public double PresentedTime
     {

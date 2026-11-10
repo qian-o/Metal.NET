@@ -24,7 +24,7 @@ partial class CSharpEmitter
     /// </summary>
     MarshalledCall MarshalParameters(
         MethodInfo method, string csClassName, string csMethodName,
-        HashSet<string>? knownDelegateNames, bool isInit)
+        List<string>? ancestors, HashSet<string>? knownDelegateNames, bool isInit)
     {
         MarshalledCall mc = new();
         mc.HasOutError = method.Parameters.Any(p => p.Type.Contains("Error**"));
@@ -74,18 +74,13 @@ partial class CSharpEmitter
                 string elemCsType = TypeMapper.MapType(elemType + "*");
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
-                mc.CsParams.Add($"{elemCsType}[] {csParamName}");
+                mc.CsParams.Add($"ReadOnlySpan<{elemCsType}> {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
                     method.Parameters[pi + 1] is { Type: "NS::UInteger" or ParamDef.ArrayParam, Name: "count" };
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
-                if (mc.ArraySetupLines.Count > 0) mc.ArraySetupLines.Add("");
-                mc.ArraySetupLines.Add($"        nint* {ptrVar} = stackalloc nint[{csParamName}.Length];");
-                mc.ArraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
-                mc.ArraySetupLines.Add("        {");
-                mc.ArraySetupLines.Add($"            {ptrVar}[i] = {csParamName}[i].NativePtr;");
-                mc.ArraySetupLines.Add("        }");
+                mc.FixedStatements.Add($"fixed ({elemCsType}* {ptrVar} = {csParamName})");
 
                 mc.CallArgs.Add($"(nint){ptrVar}");
                 mc.CallArgTypes.Add("nint");
@@ -105,15 +100,10 @@ partial class CSharpEmitter
                 string elemType = param.Type[ParamDef.PrimArray.Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
-                mc.CsParams.Add($"{elemType}[] {csParamName}");
+                mc.CsParams.Add($"ReadOnlySpan<{elemType}> {csParamName}");
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
-                if (mc.ArraySetupLines.Count > 0) mc.ArraySetupLines.Add("");
-                mc.ArraySetupLines.Add($"        {elemType}* {ptrVar} = stackalloc {elemType}[{csParamName}.Length];");
-                mc.ArraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
-                mc.ArraySetupLines.Add("        {");
-                mc.ArraySetupLines.Add($"            {ptrVar}[i] = {csParamName}[i];");
-                mc.ArraySetupLines.Add("        }");
+                mc.FixedStatements.Add($"fixed ({elemType}* {ptrVar} = {csParamName})");
 
                 mc.CallArgs.Add($"(nint){ptrVar}");
                 mc.CallArgTypes.Add("nint");
@@ -127,7 +117,7 @@ partial class CSharpEmitter
                 string elemCsType = TypeMapper.MapType(elemType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
-                mc.CsParams.Add($"{elemCsType}[] {csParamName}");
+                mc.CsParams.Add($"ReadOnlySpan<{elemCsType}> {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
                     method.Parameters[pi + 1] is { Type: "NS::UInteger" or ParamDef.ArrayParam, Name: "count" };
@@ -208,7 +198,7 @@ partial class CSharpEmitter
 
             if (csParamType == "NSArray")
             {
-                string? paramArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName);
+                string? paramArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName, ancestors);
                 if (paramArrayElemType != null)
                 {
                     mc.CsParams[^1] = $"NSArray<{paramArrayElemType}> {paramName}";
@@ -267,12 +257,12 @@ partial class CSharpEmitter
         foreach ((_, string csParamName, string ptrVar) in mc.AutoreleasedOutParams)
         {
             sb.AppendLine();
-            sb.AppendLine($"{indent}{csParamName} = new({ptrVar}, NativeObjectOwnership.Owned);");
+            sb.AppendLine($"{indent}{csParamName} = new({ptrVar});");
         }
         if (mc.HasOutError)
         {
             sb.AppendLine();
-            sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
+            sb.AppendLine($"{indent}error = new(errorPtr);");
         }
     }
 
@@ -289,7 +279,7 @@ partial class CSharpEmitter
     /// <summary>
     /// Emits a single instance or class method: parameter marshalling, MsgSend dispatch, return handling.
     /// </summary>
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> knownDelegateNames)
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, List<string> ancestors, SortedDictionary<string, string> selectors, HashSet<string> knownDelegateNames)
     {
         string csMethodName = TypeMapper.ToPascalCase(method.Name);
 
@@ -308,7 +298,7 @@ partial class CSharpEmitter
         string? returnArrayElemType = null;
         if (returnType == "NSArray")
         {
-            returnArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName);
+            returnArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName, ancestors);
             if (returnArrayElemType == null) return;
         }
         bool returnsArray = returnArrayElemType != null;
@@ -320,7 +310,7 @@ partial class CSharpEmitter
         bool isVoid = returnType == "void";
 
         // --- Parameter marshalling ---
-        MarshalledCall mc = MarshalParameters(method, csClassName, csMethodName, knownDelegateNames, isInit: false);
+        MarshalledCall mc = MarshalParameters(method, csClassName, csMethodName, ancestors, knownDelegateNames, isInit: false);
         mc.CallArgs.InsertRange(0, [target, selectorRef]);
 
         string paramStr = string.Join(", ", mc.CsParams);
@@ -390,9 +380,7 @@ partial class CSharpEmitter
             sb.AppendLine($"{indent}nint nativePtr = {msgSendExpr};");
             EmitOutParamCleanup(sb, indent, mc);
             sb.AppendLine();
-            sb.AppendLine(returnsArray
-                ? $"{indent}return new(nativePtr, NativeObjectOwnership.Borrowed);"
-                : $"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
+            sb.AppendLine($"{indent}return new(nativePtr);");
         }
         else if (mc.HasOutError || mc.AutoreleasedOutParams.Count > 0)
         {
@@ -448,7 +436,7 @@ partial class CSharpEmitter
 
     /// <summary>
     /// Emits a static factory method from an ObjC <c>init</c> method.
-    /// Always returns <c>new(nativePtr, NativeObjectOwnership.Managed)</c>.
+    /// Always returns <c>new(nativePtr)</c>.
     /// </summary>
     void EmitInitStaticMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors)
     {
@@ -460,7 +448,7 @@ partial class CSharpEmitter
         string csMethodName = TypeMapper.ToPascalCase(method.Name);
 
         // --- Parameter marshalling ---
-        MarshalledCall mc = MarshalParameters(method, csClassName, csMethodName, knownDelegateNames: null, isInit: true);
+        MarshalledCall mc = MarshalParameters(method, csClassName, csMethodName, ancestors: null, knownDelegateNames: null, isInit: true);
         mc.CallArgs.InsertRange(0, [$"ObjectiveC.Alloc({csClassName}Bindings.Class)", selectorRef]);
 
         string paramStr = string.Join(", ", mc.CsParams);
@@ -482,7 +470,7 @@ partial class CSharpEmitter
         sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendNInt({argsStr});");
         EmitOutParamCleanup(sb, indent, mc);
         sb.AppendLine();
-        sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Managed);");
+        sb.AppendLine($"{indent}return new(nativePtr);");
 
         EmitBodyEpilogue(sb, mc);
         sb.AppendLine("    }");

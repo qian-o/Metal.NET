@@ -1,30 +1,81 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalDrawable(nint nativePtr, NativeObjectOwnership ownership) : MTLDrawable(nativePtr, ownership), INativeObject<CAMetalDrawable>
+public readonly struct CAMetalDrawable(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new CAMetalDrawable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new CAMetalDrawable New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLDrawable(CAMetalDrawable value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(CAMetalDrawable value) => new(value.NativePtr);
+
+    public CAMetalDrawable Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLTexture Texture
     {
-        get => GetProperty(ref field, CAMetalDrawableBindings.Texture);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, CAMetalDrawableBindings.Texture));
     }
 
     public CAMetalLayer Layer
     {
-        get => GetProperty(ref field, CAMetalDrawableBindings.Layer);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, CAMetalDrawableBindings.Layer));
+    }
+
+    public double PresentedTime
+    {
+        get => ObjectiveC.MsgSendDouble(NativePtr, CAMetalDrawableBindings.PresentedTime);
+    }
+
+    public nuint DrawableID
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, CAMetalDrawableBindings.DrawableID);
+    }
+
+    public void Present()
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalDrawableBindings.Present);
+    }
+
+    public void PresentAtTime(double presentationTime)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalDrawableBindings.PresentAtTime, presentationTime);
+    }
+
+    public void PresentAfterMinimumDuration(double duration)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalDrawableBindings.PresentAfterMinimumDuration, duration);
+    }
+
+    public void AddPresentedHandler(MTLDrawablePresentedHandler block)
+    {
+        ObjectiveC.MsgSend(NativePtr, CAMetalDrawableBindings.AddPresentedHandler, block.NativePtr);
     }
 }
 
 file static class CAMetalDrawableBindings
 {
+    public static readonly Selector AddPresentedHandler = "addPresentedHandler:";
+
+    public static readonly Selector DrawableID = "drawableID";
+
     public static readonly Selector Layer = "layer";
+
+    public static readonly Selector Present = "present";
+
+    public static readonly Selector PresentAfterMinimumDuration = "presentAfterMinimumDuration:";
+
+    public static readonly Selector PresentAtTime = "presentAtTime:";
+
+    public static readonly Selector PresentedTime = "presentedTime";
 
     public static readonly Selector Texture = "texture";
 }

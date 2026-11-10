@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
+public readonly struct MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRenderPassColorAttachmentDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRenderPassColorAttachmentDescriptorArray New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRenderPassColorAttachmentDescriptorArray value) => new(value.NativePtr);
+
+    public MTLRenderPassColorAttachmentDescriptorArray Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLRenderPassColorAttachmentDescriptor this[nuint attachmentIndex]
     {
@@ -17,7 +24,7 @@ public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, NativeO
         {
             nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-            return new(nativePtr, NativeObjectOwnership.Borrowed);
+            return new(nativePtr);
         }
         set
         {

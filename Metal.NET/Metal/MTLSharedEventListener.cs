@@ -1,37 +1,44 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedEventListener>
+public readonly struct MTLSharedEventListener(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLSharedEventListener Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLSharedEventListener New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLSharedEventListener value) => new(value.NativePtr);
+
+    public MTLSharedEventListener() : this(ObjectiveC.AllocInit(MTLSharedEventListenerBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLSharedEventListener() : this(ObjectiveC.AllocInit(MTLSharedEventListenerBindings.Class), NativeObjectOwnership.Managed)
+    public MTLSharedEventListener Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public DispatchQueue DispatchQueue
     {
-        get => GetProperty(ref field, MTLSharedEventListenerBindings.DispatchQueue);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventListenerBindings.DispatchQueue));
     }
 
     public static MTLSharedEventListener Shared()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public static MTLSharedEventListener InitWithDispatchQueue(DispatchQueue dispatchQueue)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLSharedEventListenerBindings.Class), MTLSharedEventListenerBindings.InitWithDispatchQueue, dispatchQueue.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 }
 

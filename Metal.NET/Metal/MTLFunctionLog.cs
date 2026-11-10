@@ -1,15 +1,22 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLog(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionLog>
+public readonly struct MTLFunctionLog(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionLog Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionLog New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunctionLog value) => new(value.NativePtr);
+
+    public MTLFunctionLog Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLFunctionLogType Type
     {
@@ -18,17 +25,17 @@ public class MTLFunctionLog(nint nativePtr, NativeObjectOwnership ownership) : N
 
     public NSString EncoderLabel
     {
-        get => GetProperty(ref field, MTLFunctionLogBindings.EncoderLabel);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionLogBindings.EncoderLabel));
     }
 
     public MTLFunction Function
     {
-        get => GetProperty(ref field, MTLFunctionLogBindings.Function);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionLogBindings.Function));
     }
 
     public MTLFunctionLogDebugLocation DebugLocation
     {
-        get => GetProperty(ref field, MTLFunctionLogBindings.DebugLocation);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionLogBindings.DebugLocation));
     }
 }
 

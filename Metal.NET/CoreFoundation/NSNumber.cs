@@ -1,15 +1,22 @@
 namespace Metal.NET;
 
-public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSNumber>
+public readonly struct NSNumber(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new NSNumber New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(NSNumber value) => new(value.NativePtr);
+
+    public NSNumber Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public bool BoolValue
     {
@@ -50,49 +57,49 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithBool, value);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 
     public static implicit operator NSNumber(int value)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithInt, value);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 
     public static implicit operator NSNumber(uint value)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithUnsignedInt, value);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 
     public static implicit operator NSNumber(long value)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithLongLong, value);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 
     public static implicit operator NSNumber(ulong value)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithUnsignedLongLong, value);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 
     public static implicit operator NSNumber(float value)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithFloat, value);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 
     public static implicit operator NSNumber(double value)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithDouble, value);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 
     public static implicit operator bool(NSNumber value)

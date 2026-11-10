@@ -1,35 +1,42 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4RenderPassDescriptor>
+public readonly struct MTL4RenderPassDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4RenderPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4RenderPassDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4RenderPassDescriptor value) => new(value.NativePtr);
+
+    public MTL4RenderPassDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPassDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4RenderPassDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4RenderPassDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
     {
-        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.ColorAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPassDescriptorBindings.ColorAttachments));
     }
 
     public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
     {
-        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.DepthAttachment);
-        set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPassDescriptorBindings.DepthAttachment));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value.NativePtr);
     }
 
     public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
     {
-        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.StencilAttachment);
-        set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPassDescriptorBindings.StencilAttachment));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value.NativePtr);
     }
 
     public nuint RenderTargetArrayLength
@@ -82,14 +89,14 @@ public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public MTLRasterizationRateMap RasterizationRateMap
     {
-        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.RasterizationRateMap);
-        set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPassDescriptorBindings.RasterizationRateMap));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value.NativePtr);
     }
 
     public MTLBuffer VisibilityResultBuffer
     {
-        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer);
-        set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value.NativePtr);
     }
 
     public MTLVisibilityResultType VisibilityResultType
@@ -104,7 +111,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership owne
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
-    public unsafe void SetSamplePositions(MTLSamplePosition[] positions)
+    public unsafe void SetSamplePositions(ReadOnlySpan<MTLSamplePosition> positions)
     {
         fixed (MTLSamplePosition* pPositions = positions)
         {
@@ -112,7 +119,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership owne
         }
     }
 
-    public unsafe nuint GetSamplePositions(MTLSamplePosition[] positions)
+    public unsafe nuint GetSamplePositions(ReadOnlySpan<MTLSamplePosition> positions)
     {
         fixed (MTLSamplePosition* pPositions = positions)
         {

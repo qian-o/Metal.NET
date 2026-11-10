@@ -1,15 +1,24 @@
 ﻿namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLPointerType>
+public readonly struct MTLPointerType(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLPointerType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLPointerType New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLType(MTLPointerType value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLPointerType value) => new(value.NativePtr);
+
+    public MTLPointerType Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public MTLDataType ElementType
     {
@@ -36,18 +45,23 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
         get => ObjectiveC.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
     }
 
+    public MTLDataType DataType
+    {
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.DataType);
+    }
+
     public MTLStructType ElementStructType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementStructType);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLArrayType ElementArrayType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementArrayType);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 
@@ -58,6 +72,8 @@ file static class MTLPointerTypeBindings
     public static readonly Selector Alignment = "alignment";
 
     public static readonly Selector DataSize = "dataSize";
+
+    public static readonly Selector DataType = "dataType";
 
     public static readonly Selector ElementArrayType = "elementArrayType";
 

@@ -1,15 +1,35 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLAccelerationStructureCommandEncoder>
+public readonly struct MTLAccelerationStructureCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLAccelerationStructureCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLAccelerationStructureCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLCommandEncoder(MTLAccelerationStructureCommandEncoder value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLAccelerationStructureCommandEncoder value) => new(value.NativePtr);
+
+    public MTLAccelerationStructureCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureCommandEncoderBindings.Device));
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureCommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.SetLabel, value.NativePtr);
+    }
 
     public void Build(MTLAccelerationStructure accelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLBuffer scratchBuffer, nuint scratchBufferOffset)
     {
@@ -61,15 +81,12 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr, NativeObject
         ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseResource_Usage, resource.NativePtr, (nuint)usage);
     }
 
-    public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
+    public unsafe void UseResources(ReadOnlySpan<MTLResource> resources, MTLResourceUsage usage)
     {
-        nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++)
+        fixed (MTLResource* pResources = resources)
         {
-            pResources[i] = resources[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseResources_Count_Usage, (nint)pResources, (nuint)resources.Length, (nuint)usage);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseResources_Count_Usage, (nint)pResources, (nuint)resources.Length, (nuint)usage);
     }
 
     public void UseHeap(MTLHeap heap)
@@ -77,36 +94,74 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr, NativeObject
         ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseHeap, heap.NativePtr);
     }
 
-    public unsafe void UseHeaps(MTLHeap[] heaps)
+    public unsafe void UseHeaps(ReadOnlySpan<MTLHeap> heaps)
     {
-        nint* pHeaps = stackalloc nint[heaps.Length];
-        for (int i = 0; i < heaps.Length; i++)
+        fixed (MTLHeap* pHeaps = heaps)
         {
-            pHeaps[i] = heaps[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseHeaps_Count, (nint)pHeaps, (nuint)heaps.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseHeaps_Count, (nint)pHeaps, (nuint)heaps.Length);
     }
 
     public void SampleCounters(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
         ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.SampleCountersInBuffer_AtSampleIndex_WithBarrier, sampleBuffer.NativePtr, sampleIndex, barrier);
     }
+
+    public void EndEncoding()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.EndEncoding);
+    }
+
+    public void Barrier(MTLStages afterQueueStages, MTLStages beforeStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.BarrierAfterQueueStages_BeforeStages, (nuint)afterQueueStages, (nuint)beforeStages);
+    }
+
+    public void InsertDebugSignpost(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+    }
+
+    public void PushDebugGroup(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+    }
+
+    public void PopDebugGroup()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.PopDebugGroup);
+    }
 }
 
 file static class MTLAccelerationStructureCommandEncoderBindings
 {
+    public static readonly Selector BarrierAfterQueueStages_BeforeStages = "barrierAfterQueueStages:beforeStages:";
+
     public static readonly Selector BuildAccelerationStructure_Descriptor_ScratchBuffer_ScratchBufferOffset = "buildAccelerationStructure:descriptor:scratchBuffer:scratchBufferOffset:";
 
     public static readonly Selector CopyAccelerationStructure_ToAccelerationStructure = "copyAccelerationStructure:toAccelerationStructure:";
 
     public static readonly Selector CopyAndCompactAccelerationStructure_ToAccelerationStructure = "copyAndCompactAccelerationStructure:toAccelerationStructure:";
 
+    public static readonly Selector Device = "device";
+
+    public static readonly Selector EndEncoding = "endEncoding";
+
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
+
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
+
     public static readonly Selector RefitAccelerationStructure_Descriptor_Destination_ScratchBuffer_ScratchBufferOffset = "refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:";
 
     public static readonly Selector RefitAccelerationStructure_Descriptor_Destination_ScratchBuffer_ScratchBufferOffset_Options = "refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:options:";
 
     public static readonly Selector SampleCountersInBuffer_AtSampleIndex_WithBarrier = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector UpdateFence = "updateFence:";
 

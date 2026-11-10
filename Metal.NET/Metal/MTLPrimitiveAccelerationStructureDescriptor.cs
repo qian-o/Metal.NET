@@ -1,24 +1,33 @@
 ﻿namespace Metal.NET;
 
-public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTLPrimitiveAccelerationStructureDescriptor>
+public readonly struct MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLPrimitiveAccelerationStructureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLPrimitiveAccelerationStructureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAccelerationStructureDescriptor(MTLPrimitiveAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLPrimitiveAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLPrimitiveAccelerationStructureDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSArray<MTLAccelerationStructureGeometryDescriptor> GeometryDescriptors
     {
-        get => GetProperty(ref field, MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
-        set => SetProperty(ref field, MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors));
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value.NativePtr);
     }
 
     public MTLMotionBorderMode MotionStartBorderMode
@@ -49,6 +58,12 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeO
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionKeyframeCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionKeyframeCount, value);
+    }
+
+    public MTLAccelerationStructureUsage Usage
+    {
+        get => (MTLAccelerationStructureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.Usage);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
     }
 
     public static nint Descriptor()
@@ -86,4 +101,8 @@ file static class MTLPrimitiveAccelerationStructureDescriptorBindings
     public static readonly Selector SetMotionStartBorderMode = "setMotionStartBorderMode:";
 
     public static readonly Selector SetMotionStartTime = "setMotionStartTime:";
+
+    public static readonly Selector SetUsage = "setUsage:";
+
+    public static readonly Selector Usage = "usage";
 }

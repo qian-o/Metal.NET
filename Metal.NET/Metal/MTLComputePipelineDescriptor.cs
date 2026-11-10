@@ -1,30 +1,37 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLComputePipelineDescriptor>
+public readonly struct MTLComputePipelineDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLComputePipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLComputePipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLComputePipelineDescriptor value) => new(value.NativePtr);
+
+    public MTLComputePipelineDescriptor() : this(ObjectiveC.AllocInit(MTLComputePipelineDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLComputePipelineDescriptor() : this(ObjectiveC.AllocInit(MTLComputePipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLComputePipelineDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public MTLFunction ComputeFunction
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.ComputeFunction);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetComputeFunction, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineDescriptorBindings.ComputeFunction));
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetComputeFunction, value.NativePtr);
     }
 
     public Bool8 ThreadGroupSizeIsMultipleOfThreadExecutionWidth
@@ -41,13 +48,13 @@ public class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTLStageInputOutputDescriptor StageInputDescriptor
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.StageInputDescriptor);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetStageInputDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineDescriptorBindings.StageInputDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetStageInputDescriptor, value.NativePtr);
     }
 
     public MTLPipelineBufferDescriptorArray Buffers
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.Buffers);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineDescriptorBindings.Buffers));
     }
 
     public Bool8 SupportIndirectCommandBuffers
@@ -62,26 +69,26 @@ public class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership 
     [Obsolete("Use preloadedLibraries instead")]
     public NSArray<MTLDynamicLibrary> InsertLibraries
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.InsertLibraries);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineDescriptorBindings.InsertLibraries));
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value.NativePtr);
     }
 
     public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineDescriptorBindings.PreloadedLibraries));
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value.NativePtr);
     }
 
     public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineDescriptorBindings.BinaryArchives));
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value.NativePtr);
     }
 
     public MTLLinkedFunctions LinkedFunctions
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.LinkedFunctions);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetLinkedFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineDescriptorBindings.LinkedFunctions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetLinkedFunctions, value.NativePtr);
     }
 
     public Bool8 SupportAddingBinaryFunctions

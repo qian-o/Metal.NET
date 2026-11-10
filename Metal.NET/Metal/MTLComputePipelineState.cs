@@ -1,29 +1,38 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLComputePipelineState>
+public readonly struct MTLComputePipelineState(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLComputePipelineState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLComputePipelineState New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAllocation(MTLComputePipelineState value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLComputePipelineState value) => new(value.NativePtr);
+
+    public MTLComputePipelineState Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLComputePipelineStateBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.Label));
     }
 
     public MTLComputePipelineReflection Reflection
     {
-        get => GetProperty(ref field, MTLComputePipelineStateBindings.Reflection);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.Reflection));
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLComputePipelineStateBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.Device));
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -66,27 +75,32 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         get => (MTLForwardProgressUsage)ObjectiveC.MsgSendLong(NativePtr, MTLComputePipelineStateBindings.ForwardProgressUsage);
     }
 
+    public nuint AllocatedSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.AllocatedSize);
+    }
+
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithName, name.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLComputePipelineState MakeComputePipelineState(NSArray<MTL4BinaryFunction> additionalBinaryFunctions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions_Error, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
@@ -98,30 +112,30 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLComputePipelineState MakeComputePipelineStateWithAdditionalBinaryFunctions(NSArray<MTLFunction> functions, out NSError error)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithAdditionalBinaryFunctions_Error, functions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLVisibleFunctionTable MakeVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLIntersectionFunctionTable MakeIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTableWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public nuint RecommendedPersistentThreadgroupsPerGrid(MTLSize threadsPerThreadgroup)
@@ -132,6 +146,8 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
 file static class MTLComputePipelineStateBindings
 {
+    public static readonly Selector AllocatedSize = "allocatedSize";
+
     public static readonly Selector Device = "device";
 
     public static readonly Selector ForwardProgressUsage = "forwardProgressUsage";

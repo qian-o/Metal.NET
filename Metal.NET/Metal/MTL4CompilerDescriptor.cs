@@ -1,30 +1,37 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CompilerDescriptor>
+public readonly struct MTL4CompilerDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CompilerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CompilerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CompilerDescriptor value) => new(value.NativePtr);
+
+    public MTL4CompilerDescriptor() : this(ObjectiveC.AllocInit(MTL4CompilerDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4CompilerDescriptor() : this(ObjectiveC.AllocInit(MTL4CompilerDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CompilerDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4CompilerDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CompilerDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
     {
-        get => GetProperty(ref field, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
-        set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value.NativePtr);
     }
 }
 

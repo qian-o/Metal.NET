@@ -1,41 +1,48 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassDescriptor>
+public readonly struct MTLRenderPassDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRenderPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRenderPassDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRenderPassDescriptor value) => new(value.NativePtr);
+
+    public MTLRenderPassDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLRenderPassDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPassDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
     {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.ColorAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassDescriptorBindings.ColorAttachments));
     }
 
     public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
     {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.DepthAttachment);
-        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetDepthAttachment, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassDescriptorBindings.DepthAttachment));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDepthAttachment, value.NativePtr);
     }
 
     public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
     {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.StencilAttachment);
-        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetStencilAttachment, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassDescriptorBindings.StencilAttachment));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetStencilAttachment, value.NativePtr);
     }
 
     public MTLBuffer VisibilityResultBuffer
     {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.VisibilityResultBuffer);
-        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassDescriptorBindings.VisibilityResultBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, value.NativePtr);
     }
 
     public nuint RenderTargetArrayLength
@@ -88,13 +95,13 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
 
     public MTLRasterizationRateMap RasterizationRateMap
     {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.RasterizationRateMap);
-        set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassDescriptorBindings.RasterizationRateMap));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, value.NativePtr);
     }
 
     public MTLRenderPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
-        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.SampleBufferAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassDescriptorBindings.SampleBufferAttachments));
     }
 
     public MTLVisibilityResultType VisibilityResultType
@@ -109,7 +116,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
-    public unsafe void SetSamplePositions(MTLSamplePosition[] positions)
+    public unsafe void SetSamplePositions(ReadOnlySpan<MTLSamplePosition> positions)
     {
         fixed (MTLSamplePosition* pPositions = positions)
         {
@@ -117,7 +124,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
         }
     }
 
-    public unsafe nuint GetSamplePositions(MTLSamplePosition[] positions)
+    public unsafe nuint GetSamplePositions(ReadOnlySpan<MTLSamplePosition> positions)
     {
         fixed (MTLSamplePosition* pPositions = positions)
         {
@@ -129,7 +136,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

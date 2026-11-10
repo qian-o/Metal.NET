@@ -1,24 +1,33 @@
 ﻿namespace Metal.NET;
 
-public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4TileRenderPipelineDescriptor>
+public readonly struct MTL4TileRenderPipelineDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4TileRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4TileRenderPipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4PipelineDescriptor(MTL4TileRenderPipelineDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4TileRenderPipelineDescriptor value) => new(value.NativePtr);
+
+    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4TileRenderPipelineDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTL4FunctionDescriptor TileFunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.TileFunctionDescriptor);
-        set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetTileFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.TileFunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetTileFunctionDescriptor, value.NativePtr);
     }
 
     public nuint RasterSampleCount
@@ -29,7 +38,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
-        get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.ColorAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.ColorAttachments));
     }
 
     public Bool8 ThreadgroupSizeMatchesTileSize
@@ -52,14 +61,26 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     public MTL4StaticLinkingDescriptor StaticLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.StaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.StaticLinkingDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetStaticLinkingDescriptor, value.NativePtr);
     }
 
     public Bool8 SupportBinaryLinking
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SupportBinaryLinking);
         set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetSupportBinaryLinking, value);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTL4PipelineOptions Options
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.Options));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetOptions, value.NativePtr);
     }
 
     public void Reset()
@@ -74,7 +95,11 @@ file static class MTL4TileRenderPipelineDescriptorBindings
 
     public static readonly Selector ColorAttachments = "colorAttachments";
 
+    public static readonly Selector Label = "label";
+
     public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
+
+    public static readonly Selector Options = "options";
 
     public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
@@ -82,7 +107,11 @@ file static class MTL4TileRenderPipelineDescriptorBindings
 
     public static readonly Selector Reset = "reset";
 
+    public static readonly Selector SetLabel = "setLabel:";
+
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
+
+    public static readonly Selector SetOptions = "setOptions:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 

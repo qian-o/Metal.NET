@@ -1,48 +1,19 @@
 ﻿namespace Metal.NET;
 
-public static class NSObjectExtensions
+public readonly struct NSObject(nint nativePtr) : IDisposable
 {
-    extension<T>(T @this) where T : NSObject, INativeObject<T>
+    public readonly nint NativePtr = nativePtr;
+
+    public bool IsNull => NativePtr is 0;
+
+    public NSObject Retain()
     {
-        public T Retain()
-        {
-            return T.New(ObjectiveC.Retain(@this.NativePtr), NativeObjectOwnership.Managed);
-        }
-    }
-}
-
-public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSObject>
-{
-    #region INativeObject
-    public static NSObject Null { get; } = new(0, NativeObjectOwnership.Borrowed);
-
-    public static NSObject New(nint nativePtr, NativeObjectOwnership ownership)
-    {
-        return new(nativePtr, ownership);
-    }
-    #endregion
-
-    protected T GetProperty<T>(ref T? field, Selector selector) where T : NativeObject, INativeObject<T>
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, selector);
-
-        if (field is null || field.NativePtr != nativePtr)
-        {
-            field = T.New(nativePtr, NativeObjectOwnership.Borrowed);
-        }
-
-        return field;
+        return new(ObjectiveC.Retain(NativePtr));
     }
 
-    protected void SetProperty<T>(ref T? field, Selector selector, T value) where T : NativeObject, INativeObject<T>
-    {
-        ObjectiveC.MsgSend(NativePtr, selector, value.NativePtr);
-
-        field = T.New(value.NativePtr, NativeObjectOwnership.Borrowed);
-    }
-
-    protected override void ReleaseNative()
+    public void Dispose()
     {
         ObjectiveC.Release(NativePtr);
     }
 }
+

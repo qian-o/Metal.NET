@@ -1,19 +1,26 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLComputePipelineReflection>
+public readonly struct MTLComputePipelineReflection(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLComputePipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLComputePipelineReflection New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLComputePipelineReflection value) => new(value.NativePtr);
+
+    public MTLComputePipelineReflection Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSArray<MTLBinding> Bindings
     {
-        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Bindings);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineReflectionBindings.Bindings));
     }
 
     /// <summary>
@@ -22,7 +29,7 @@ public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership 
     [Obsolete("Use bindings instead")]
     public NSArray<MTLArgument> Arguments
     {
-        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Arguments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineReflectionBindings.Arguments));
     }
 }
 

@@ -1,20 +1,27 @@
-﻿namespace Metal.NET;
+﻿using System.Runtime.CompilerServices;
+
+namespace Metal.NET;
 
 /// <summary>
 /// A typed ordered collection of objects backed by an Objective-C NSArray.
 /// </summary>
-public class NSArray<T>(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSArray<T>> where T : NativeObject, INativeObject<T>
+public readonly struct NSArray<T>(nint nativePtr) : IDisposable where T : unmanaged, IDisposable
 {
-    #region INativeObject
-    public static new NSArray<T> Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new NSArray<T> New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(NSArray<T> value) => new(value.NativePtr);
+
+    public NSArray<T> Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
 
-    private T[]? cachedItems;
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public nuint Count
     {
@@ -25,28 +32,29 @@ public class NSArray<T>(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     {
         get
         {
-            cachedItems ??= new T[(int)Count];
-
             nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, NSArrayBindings.ObjectAtIndex, index);
 
-            if (cachedItems[index] is null || cachedItems[index].NativePtr != nativePtr)
-            {
-                cachedItems[index] = T.New(nativePtr, NativeObjectOwnership.Borrowed);
-            }
-
-            return cachedItems[index];
+            return Unsafe.BitCast<nint, T>(nativePtr);
         }
     }
 
     public static unsafe implicit operator NSArray<T>(T[] array)
     {
-        nint[] nativePtrs = [.. array.Select(static item => item.NativePtr)];
+        return FromSpan(array);
+    }
 
-        fixed (nint* pNativePtrs = nativePtrs)
+    public static unsafe implicit operator NSArray<T>(ReadOnlySpan<T> span)
+    {
+        return FromSpan(span);
+    }
+
+    public static unsafe NSArray<T> FromSpan(ReadOnlySpan<T> span)
+    {
+        fixed (T* pNativePtrs = span)
         {
-            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)array.Length);
+            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)span.Length);
 
-            return new(nativePtr, NativeObjectOwnership.Managed);
+            return new(nativePtr);
         }
     }
 

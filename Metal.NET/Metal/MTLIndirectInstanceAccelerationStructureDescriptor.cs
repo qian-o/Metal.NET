@@ -1,24 +1,33 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTLIndirectInstanceAccelerationStructureDescriptor>
+public readonly struct MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIndirectInstanceAccelerationStructureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIndirectInstanceAccelerationStructureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAccelerationStructureDescriptor(MTLIndirectInstanceAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLIndirectInstanceAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLIndirectInstanceAccelerationStructureDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public MTLBuffer InstanceDescriptorBuffer
     {
-        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
-        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value.NativePtr);
     }
 
     public nuint InstanceDescriptorBufferOffset
@@ -41,8 +50,8 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
 
     public MTLBuffer InstanceCountBuffer
     {
-        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer);
-        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value.NativePtr);
     }
 
     public nuint InstanceCountBufferOffset
@@ -59,8 +68,8 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
 
     public MTLBuffer MotionTransformBuffer
     {
-        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
-        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value.NativePtr);
     }
 
     public nuint MotionTransformBufferOffset
@@ -77,8 +86,8 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
 
     public MTLBuffer MotionTransformCountBuffer
     {
-        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBuffer);
-        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBuffer, value.NativePtr);
     }
 
     public nuint MotionTransformCountBufferOffset
@@ -103,6 +112,12 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformStride);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
+    }
+
+    public MTLAccelerationStructureUsage Usage
+    {
+        get => (MTLAccelerationStructureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.Usage);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
     }
 
     public static nint Descriptor()
@@ -176,4 +191,8 @@ file static class MTLIndirectInstanceAccelerationStructureDescriptorBindings
     public static readonly Selector SetMotionTransformStride = "setMotionTransformStride:";
 
     public static readonly Selector SetMotionTransformType = "setMotionTransformType:";
+
+    public static readonly Selector SetUsage = "setUsage:";
+
+    public static readonly Selector Usage = "usage";
 }

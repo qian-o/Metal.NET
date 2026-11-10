@@ -1,21 +1,41 @@
 ﻿namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLParallelRenderCommandEncoder>
+public readonly struct MTLParallelRenderCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLParallelRenderCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLParallelRenderCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLCommandEncoder(MTLParallelRenderCommandEncoder value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLParallelRenderCommandEncoder value) => new(value.NativePtr);
+
+    public MTLParallelRenderCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLParallelRenderCommandEncoderBindings.Device));
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLParallelRenderCommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetLabel, value.NativePtr);
+    }
 
     public MTLRenderCommandEncoder MakeRenderCommandEncoder()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
@@ -59,10 +79,49 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
     {
         ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetStencilStoreActionOptions, (nuint)storeActionOptions);
     }
+
+    public void EndEncoding()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.EndEncoding);
+    }
+
+    public void Barrier(MTLStages afterQueueStages, MTLStages beforeStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.BarrierAfterQueueStages_BeforeStages, (nuint)afterQueueStages, (nuint)beforeStages);
+    }
+
+    public void InsertDebugSignpost(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+    }
+
+    public void PushDebugGroup(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+    }
+
+    public void PopDebugGroup()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.PopDebugGroup);
+    }
 }
 
 file static class MTLParallelRenderCommandEncoderBindings
 {
+    public static readonly Selector BarrierAfterQueueStages_BeforeStages = "barrierAfterQueueStages:beforeStages:";
+
+    public static readonly Selector Device = "device";
+
+    public static readonly Selector EndEncoding = "endEncoding";
+
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
+
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
+
     public static readonly Selector RenderCommandEncoder = "renderCommandEncoder";
 
     public static readonly Selector SetColorStoreAction_AtIndex = "setColorStoreAction:atIndex:";
@@ -72,6 +131,8 @@ file static class MTLParallelRenderCommandEncoderBindings
     public static readonly Selector SetDepthStoreAction = "setDepthStoreAction:";
 
     public static readonly Selector SetDepthStoreActionOptions = "setDepthStoreActionOptions:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector SetStencilStoreAction = "setStencilStoreAction:";
 

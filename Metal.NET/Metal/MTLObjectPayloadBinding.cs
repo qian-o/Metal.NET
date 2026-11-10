@@ -1,15 +1,24 @@
 ﻿namespace Metal.NET;
 
-public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLObjectPayloadBinding>
+public readonly struct MTLObjectPayloadBinding(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLObjectPayloadBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLObjectPayloadBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLBinding(MTLObjectPayloadBinding value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLObjectPayloadBinding value) => new(value.NativePtr);
+
+    public MTLObjectPayloadBinding Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public nuint ObjectPayloadAlignment
     {
@@ -20,11 +29,53 @@ public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership owner
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadDataSize);
     }
+
+    public NSString Name
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLObjectPayloadBindingBindings.Name));
+    }
+
+    public MTLBindingType Type
+    {
+        get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLObjectPayloadBindingBindings.Type);
+    }
+
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLObjectPayloadBindingBindings.Access);
+    }
+
+    public nuint Index
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.Index);
+    }
+
+    public Bool8 IsUsed
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLObjectPayloadBindingBindings.IsUsed);
+    }
+
+    public Bool8 IsArgument
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLObjectPayloadBindingBindings.IsArgument);
+    }
 }
 
 file static class MTLObjectPayloadBindingBindings
 {
+    public static readonly Selector Access = "access";
+
+    public static readonly Selector Index = "index";
+
+    public static readonly Selector IsArgument = "isArgument";
+
+    public static readonly Selector IsUsed = "isUsed";
+
+    public static readonly Selector Name = "name";
+
     public static readonly Selector ObjectPayloadAlignment = "objectPayloadAlignment";
 
     public static readonly Selector ObjectPayloadDataSize = "objectPayloadDataSize";
+
+    public static readonly Selector Type = "type";
 }

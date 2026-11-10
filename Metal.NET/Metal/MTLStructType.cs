@@ -1,31 +1,47 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLStructType>
+public readonly struct MTLStructType(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLStructType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLStructType New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLType(MTLStructType value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLStructType value) => new(value.NativePtr);
+
+    public MTLStructType Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
 
     public NSArray<MTLStructMember> Members
     {
-        get => GetProperty(ref field, MTLStructTypeBindings.Members);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLStructTypeBindings.Members));
+    }
+
+    public MTLDataType DataType
+    {
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLStructTypeBindings.DataType);
     }
 
     public MTLStructMember MemberByName(NSString name)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 
 file static class MTLStructTypeBindings
 {
+    public static readonly Selector DataType = "dataType";
+
     public static readonly Selector MemberByName = "memberByName:";
 
     public static readonly Selector Members = "members";

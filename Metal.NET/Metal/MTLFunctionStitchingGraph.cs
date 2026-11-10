@@ -1,49 +1,56 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingGraph>
+public readonly struct MTLFunctionStitchingGraph(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionStitchingGraph Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionStitchingGraph New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunctionStitchingGraph value) => new(value.NativePtr);
+
+    public MTLFunctionStitchingGraph() : this(ObjectiveC.AllocInit(MTLFunctionStitchingGraphBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLFunctionStitchingGraph() : this(ObjectiveC.AllocInit(MTLFunctionStitchingGraphBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionStitchingGraph Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Dispose()
+    {
+        ObjectiveC.Release(NativePtr);
     }
 
     public NSString FunctionName
     {
-        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.FunctionName);
-        set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetFunctionName, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionStitchingGraphBindings.FunctionName));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetFunctionName, value.NativePtr);
     }
 
     public NSArray<MTLFunctionStitchingFunctionNode> Nodes
     {
-        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Nodes);
-        set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetNodes, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionStitchingGraphBindings.Nodes));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetNodes, value.NativePtr);
     }
 
     public MTLFunctionStitchingFunctionNode OutputNode
     {
-        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.OutputNode);
-        set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetOutputNode, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionStitchingGraphBindings.OutputNode));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetOutputNode, value.NativePtr);
     }
 
     public NSArray<MTLFunctionStitchingAttribute> Attributes
     {
-        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Attributes);
-        set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetAttributes, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionStitchingGraphBindings.Attributes));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetAttributes, value.NativePtr);
     }
 
     public static MTLFunctionStitchingGraph InitWithFunctionName(NSString functionName, NSArray<MTLFunctionStitchingFunctionNode> nodes, MTLFunctionStitchingFunctionNode outputNode, NSArray<MTLFunctionStitchingAttribute> attributes)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLFunctionStitchingGraphBindings.Class), MTLFunctionStitchingGraphBindings.InitWithFunctionName_Nodes_OutputNode_Attributes, functionName.NativePtr, nodes.NativePtr, outputNode.NativePtr, attributes.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 }
 
