@@ -4,8 +4,6 @@ public readonly struct NSNumber(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(NSNumber value) => new(value.NativePtr);
 
     public NSNumber(bool value) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithBool, value))

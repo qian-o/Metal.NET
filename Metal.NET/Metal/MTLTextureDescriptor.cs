@@ -4,8 +4,6 @@ public readonly struct MTLTextureDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLTextureDescriptor value) => new(value.NativePtr);
 
     public MTLTextureDescriptor() : this(ObjectiveC.AllocInit(MTLTextureDescriptorBindings.Class))

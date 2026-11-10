@@ -4,8 +4,6 @@ public readonly struct MTLParallelRenderCommandEncoder(nint nativePtr) : IDispos
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLCommandEncoder(MTLParallelRenderCommandEncoder value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLParallelRenderCommandEncoder value) => new(value.NativePtr);

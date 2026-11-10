@@ -4,8 +4,6 @@ public readonly struct MTL4RenderPassDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTL4RenderPassDescriptor value) => new(value.NativePtr);
 
     public MTL4RenderPassDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPassDescriptorBindings.Class))

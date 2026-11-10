@@ -4,8 +4,6 @@ public readonly struct MTLResidencySetDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLResidencySetDescriptor value) => new(value.NativePtr);
 
     public MTLResidencySetDescriptor() : this(ObjectiveC.AllocInit(MTLResidencySetDescriptorBindings.Class))

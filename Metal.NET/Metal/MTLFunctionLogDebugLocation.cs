@@ -4,8 +4,6 @@ public readonly struct MTLFunctionLogDebugLocation(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLFunctionLogDebugLocation value) => new(value.NativePtr);
 
     public MTLFunctionLogDebugLocation Retain()

@@ -4,8 +4,6 @@ public readonly struct MTL4InstanceAccelerationStructureDescriptor(nint nativePt
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTL4AccelerationStructureDescriptor(MTL4InstanceAccelerationStructureDescriptor value) => new(value.NativePtr);
 
     public static implicit operator MTLAccelerationStructureDescriptor(MTL4InstanceAccelerationStructureDescriptor value) => new(value.NativePtr);

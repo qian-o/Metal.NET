@@ -4,8 +4,6 @@ public readonly struct MTLArgumentDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLArgumentDescriptor value) => new(value.NativePtr);
 
     public MTLArgumentDescriptor() : this(ObjectiveC.AllocInit(MTLArgumentDescriptorBindings.Class))

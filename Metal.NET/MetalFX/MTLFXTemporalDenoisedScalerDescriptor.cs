@@ -4,8 +4,6 @@ public readonly struct MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr) : I
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLFXTemporalDenoisedScalerDescriptor value) => new(value.NativePtr);
 
     public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveC.AllocInit(MTLFXTemporalDenoisedScalerDescriptorBindings.Class))

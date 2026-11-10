@@ -4,8 +4,6 @@ public readonly struct MTLTextureBinding(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLBinding(MTLTextureBinding value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLTextureBinding value) => new(value.NativePtr);

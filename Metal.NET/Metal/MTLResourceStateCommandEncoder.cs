@@ -4,8 +4,6 @@ public readonly struct MTLResourceStateCommandEncoder(nint nativePtr) : IDisposa
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLCommandEncoder(MTLResourceStateCommandEncoder value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLResourceStateCommandEncoder value) => new(value.NativePtr);

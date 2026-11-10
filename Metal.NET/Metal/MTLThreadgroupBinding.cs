@@ -4,8 +4,6 @@ public readonly struct MTLThreadgroupBinding(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLBinding(MTLThreadgroupBinding value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLThreadgroupBinding value) => new(value.NativePtr);

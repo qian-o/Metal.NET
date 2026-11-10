@@ -4,8 +4,6 @@ public readonly struct MTLCommandQueueDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLCommandQueueDescriptor value) => new(value.NativePtr);
 
     public MTLCommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTLCommandQueueDescriptorBindings.Class))

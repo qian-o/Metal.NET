@@ -4,8 +4,6 @@ public readonly struct MTLAccelerationStructureCommandEncoder(nint nativePtr) : 
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLCommandEncoder(MTLAccelerationStructureCommandEncoder value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLAccelerationStructureCommandEncoder value) => new(value.NativePtr);

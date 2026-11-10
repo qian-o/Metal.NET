@@ -4,8 +4,6 @@ public readonly struct MTLSharedEventHandle(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLSharedEventHandle value) => new(value.NativePtr);
 
     public MTLSharedEventHandle Retain()

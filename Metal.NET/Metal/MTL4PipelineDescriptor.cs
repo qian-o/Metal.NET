@@ -4,8 +4,6 @@ public readonly struct MTL4PipelineDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTL4PipelineDescriptor value) => new(value.NativePtr);
 
     public MTL4PipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4PipelineDescriptorBindings.Class))

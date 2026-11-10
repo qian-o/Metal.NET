@@ -4,8 +4,6 @@ public readonly struct MTLRasterizationRateMapDescriptor(nint nativePtr) : IDisp
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLRasterizationRateMapDescriptor value) => new(value.NativePtr);
 
     public MTLRasterizationRateMapDescriptor() : this(ObjectiveC.AllocInit(MTLRasterizationRateMapDescriptorBindings.Class))

@@ -4,8 +4,6 @@ public readonly struct MTL4CounterHeapDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTL4CounterHeapDescriptor value) => new(value.NativePtr);
 
     public MTL4CounterHeapDescriptor() : this(ObjectiveC.AllocInit(MTL4CounterHeapDescriptorBindings.Class))

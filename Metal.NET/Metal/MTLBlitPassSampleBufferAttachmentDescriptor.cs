@@ -4,8 +4,6 @@ public readonly struct MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePt
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLBlitPassSampleBufferAttachmentDescriptor value) => new(value.NativePtr);
 
     public MTLBlitPassSampleBufferAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorBindings.Class))

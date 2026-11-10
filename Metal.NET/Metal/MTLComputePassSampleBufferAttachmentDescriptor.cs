@@ -4,8 +4,6 @@ public readonly struct MTLComputePassSampleBufferAttachmentDescriptor(nint nativ
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLComputePassSampleBufferAttachmentDescriptor value) => new(value.NativePtr);
 
     public MTLComputePassSampleBufferAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorBindings.Class))

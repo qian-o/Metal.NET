@@ -4,8 +4,6 @@ public readonly struct MTLLogStateDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLLogStateDescriptor value) => new(value.NativePtr);
 
     public MTLLogStateDescriptor() : this(ObjectiveC.AllocInit(MTLLogStateDescriptorBindings.Class))

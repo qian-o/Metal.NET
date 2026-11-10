@@ -4,8 +4,6 @@ public readonly struct MTLPipelineBufferDescriptorArray(nint nativePtr) : IDispo
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLPipelineBufferDescriptorArray value) => new(value.NativePtr);
 
     public MTLPipelineBufferDescriptorArray Retain()

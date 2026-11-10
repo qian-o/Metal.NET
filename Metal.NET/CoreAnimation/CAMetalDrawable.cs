@@ -4,8 +4,6 @@ public readonly struct CAMetalDrawable(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLDrawable(CAMetalDrawable value) => new(value.NativePtr);
 
     public static implicit operator NSObject(CAMetalDrawable value) => new(value.NativePtr);

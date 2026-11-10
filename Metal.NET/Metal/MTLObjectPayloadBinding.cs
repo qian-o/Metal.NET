@@ -4,8 +4,6 @@ public readonly struct MTLObjectPayloadBinding(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLBinding(MTLObjectPayloadBinding value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLObjectPayloadBinding value) => new(value.NativePtr);

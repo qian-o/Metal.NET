@@ -4,8 +4,6 @@ public readonly struct MTLResourceViewPoolDescriptor(nint nativePtr) : IDisposab
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLResourceViewPoolDescriptor value) => new(value.NativePtr);
 
     public MTLResourceViewPoolDescriptor() : this(ObjectiveC.AllocInit(MTLResourceViewPoolDescriptorBindings.Class))

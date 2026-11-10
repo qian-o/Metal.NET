@@ -4,8 +4,6 @@ public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr) : IDispo
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTL4PipelineDescriptor(MTL4MeshRenderPipelineDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTL4MeshRenderPipelineDescriptor value) => new(value.NativePtr);

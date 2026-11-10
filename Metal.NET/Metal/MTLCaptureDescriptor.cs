@@ -4,8 +4,6 @@ public readonly struct MTLCaptureDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLCaptureDescriptor value) => new(value.NativePtr);
 
     public MTLCaptureDescriptor() : this(ObjectiveC.AllocInit(MTLCaptureDescriptorBindings.Class))

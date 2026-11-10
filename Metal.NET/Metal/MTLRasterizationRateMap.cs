@@ -4,8 +4,6 @@ public readonly struct MTLRasterizationRateMap(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLRasterizationRateMap value) => new(value.NativePtr);
 
     public MTLRasterizationRateMap Retain()

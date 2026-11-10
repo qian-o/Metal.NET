@@ -4,8 +4,6 @@ public readonly struct MTLAttributeDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLAttributeDescriptor value) => new(value.NativePtr);
 
     public MTLAttributeDescriptor() : this(ObjectiveC.AllocInit(MTLAttributeDescriptorBindings.Class))

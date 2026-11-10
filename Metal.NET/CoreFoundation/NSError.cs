@@ -4,8 +4,6 @@ public readonly struct NSError(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(NSError value) => new(value.NativePtr);
 
     public NSError Retain()

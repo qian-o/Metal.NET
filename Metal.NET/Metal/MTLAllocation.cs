@@ -4,8 +4,6 @@ public readonly struct MTLAllocation(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLAllocation value) => new(value.NativePtr);
 
     public MTLAllocation Retain()

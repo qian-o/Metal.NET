@@ -4,8 +4,6 @@ public readonly struct MTLFXFrameInterpolatableScaler(nint nativePtr) : IDisposa
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLFXFrameInterpolatableScaler value) => new(value.NativePtr);
 
     public MTLFXFrameInterpolatableScaler Retain()

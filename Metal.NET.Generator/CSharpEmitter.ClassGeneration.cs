@@ -106,8 +106,6 @@ partial class CSharpEmitter
         sb.AppendLine($"public readonly {partialKeyword}struct {csClassName}(nint nativePtr) : IDisposable");
         sb.AppendLine("{");
         sb.AppendLine("    public readonly nint NativePtr = nativePtr;");
-        sb.AppendLine();
-        sb.AppendLine("    public bool IsNull => NativePtr is 0;");
 
         foreach (string ancestor in ancestorTypes)
         {

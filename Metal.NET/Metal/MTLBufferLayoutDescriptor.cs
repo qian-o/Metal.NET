@@ -4,8 +4,6 @@ public readonly struct MTLBufferLayoutDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLBufferLayoutDescriptor value) => new(value.NativePtr);
 
     public MTLBufferLayoutDescriptor() : this(ObjectiveC.AllocInit(MTLBufferLayoutDescriptorBindings.Class))

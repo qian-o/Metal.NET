@@ -4,8 +4,6 @@ public readonly struct MTLFunctionHandle(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLFunctionHandle value) => new(value.NativePtr);
 
     public MTLFunctionHandle Retain()

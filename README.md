@@ -38,7 +38,8 @@ using MTLCommandQueue queue = device.MakeCommandQueue();
 using MTLLibrary library = device.MakeDefaultLibrary();
 
 // Look up a compute function and create a pipeline state
-using MTLFunction kernel = library.MakeFunction("myKernel");
+using NSString kernelName = new("myKernel");
+using MTLFunction kernel = library.MakeFunction(kernelName);
 using MTLComputePipelineState pso = device.MakeComputePipelineState(kernel, out NSError error);
 
 // Create a buffer

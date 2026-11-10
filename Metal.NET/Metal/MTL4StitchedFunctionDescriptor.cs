@@ -4,8 +4,6 @@ public readonly struct MTL4StitchedFunctionDescriptor(nint nativePtr) : IDisposa
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTL4FunctionDescriptor(MTL4StitchedFunctionDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTL4StitchedFunctionDescriptor value) => new(value.NativePtr);

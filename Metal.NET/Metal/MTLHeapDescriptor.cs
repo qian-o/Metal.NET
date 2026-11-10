@@ -4,8 +4,6 @@ public readonly struct MTLHeapDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLHeapDescriptor value) => new(value.NativePtr);
 
     public MTLHeapDescriptor() : this(ObjectiveC.AllocInit(MTLHeapDescriptorBindings.Class))

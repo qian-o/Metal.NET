@@ -4,8 +4,6 @@ public readonly struct MTLBlitCommandEncoder(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLCommandEncoder(MTLBlitCommandEncoder value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLBlitCommandEncoder value) => new(value.NativePtr);

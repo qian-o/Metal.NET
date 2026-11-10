@@ -4,8 +4,6 @@ public readonly struct MTLIntersectionFunctionDescriptor(nint nativePtr) : IDisp
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLFunctionDescriptor(MTLIntersectionFunctionDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLIntersectionFunctionDescriptor value) => new(value.NativePtr);

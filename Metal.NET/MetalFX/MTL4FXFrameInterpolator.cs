@@ -4,8 +4,6 @@ public readonly struct MTL4FXFrameInterpolator(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLFXFrameInterpolatorBase(MTL4FXFrameInterpolator value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTL4FXFrameInterpolator value) => new(value.NativePtr);

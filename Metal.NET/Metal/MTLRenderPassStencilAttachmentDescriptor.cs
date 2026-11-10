@@ -4,8 +4,6 @@ public readonly struct MTLRenderPassStencilAttachmentDescriptor(nint nativePtr) 
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLRenderPassAttachmentDescriptor(MTLRenderPassStencilAttachmentDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLRenderPassStencilAttachmentDescriptor value) => new(value.NativePtr);

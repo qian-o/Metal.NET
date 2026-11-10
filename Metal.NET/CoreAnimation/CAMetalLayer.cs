@@ -4,8 +4,6 @@ public readonly struct CAMetalLayer(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(CAMetalLayer value) => new(value.NativePtr);
 
     public CAMetalLayer() : this(ObjectiveC.AllocInit(CAMetalLayerBindings.Class))

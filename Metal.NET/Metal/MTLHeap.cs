@@ -4,8 +4,6 @@ public readonly struct MTLHeap(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLAllocation(MTLHeap value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLHeap value) => new(value.NativePtr);

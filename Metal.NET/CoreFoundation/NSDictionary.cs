@@ -4,8 +4,6 @@ public readonly struct NSDictionary(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(NSDictionary value) => new(value.NativePtr);
 
     public NSDictionary Retain()

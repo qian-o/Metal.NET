@@ -4,8 +4,6 @@ public readonly struct MTLBlitPassDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLBlitPassDescriptor value) => new(value.NativePtr);
 
     public MTLBlitPassDescriptor() : this(ObjectiveC.AllocInit(MTLBlitPassDescriptorBindings.Class))

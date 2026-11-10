@@ -4,8 +4,6 @@ public readonly struct MTLCompileOptions(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLCompileOptions value) => new(value.NativePtr);
 
     public MTLCompileOptions() : this(ObjectiveC.AllocInit(MTLCompileOptionsBindings.Class))

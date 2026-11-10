@@ -4,8 +4,6 @@ public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTL4RenderPipelineDynamicLinkingDescriptor value) => new(value.NativePtr);
 
     public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class))

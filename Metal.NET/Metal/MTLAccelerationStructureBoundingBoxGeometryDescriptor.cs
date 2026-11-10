@@ -4,8 +4,6 @@ public readonly struct MTLAccelerationStructureBoundingBoxGeometryDescriptor(nin
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLAccelerationStructureGeometryDescriptor(MTLAccelerationStructureBoundingBoxGeometryDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLAccelerationStructureBoundingBoxGeometryDescriptor value) => new(value.NativePtr);

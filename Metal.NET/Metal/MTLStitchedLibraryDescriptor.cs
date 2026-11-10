@@ -4,8 +4,6 @@ public readonly struct MTLStitchedLibraryDescriptor(nint nativePtr) : IDisposabl
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLStitchedLibraryDescriptor value) => new(value.NativePtr);
 
     public MTLStitchedLibraryDescriptor() : this(ObjectiveC.AllocInit(MTLStitchedLibraryDescriptorBindings.Class))

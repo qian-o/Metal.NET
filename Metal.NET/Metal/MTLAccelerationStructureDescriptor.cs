@@ -4,8 +4,6 @@ public readonly struct MTLAccelerationStructureDescriptor(nint nativePtr) : IDis
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLAccelerationStructureDescriptor value) => new(value.NativePtr);
 
     public MTLAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructureDescriptorBindings.Class))

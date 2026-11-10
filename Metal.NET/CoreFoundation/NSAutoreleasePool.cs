@@ -7,8 +7,6 @@ public readonly struct NSAutoreleasePool(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(NSAutoreleasePool value) => new(value.NativePtr);
 
     public NSAutoreleasePool() : this(ObjectiveC.AllocInit(NSAutoreleasePoolBindings.Class))

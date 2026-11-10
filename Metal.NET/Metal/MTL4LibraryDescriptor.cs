@@ -4,8 +4,6 @@ public readonly struct MTL4LibraryDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTL4LibraryDescriptor value) => new(value.NativePtr);
 
     public MTL4LibraryDescriptor() : this(ObjectiveC.AllocInit(MTL4LibraryDescriptorBindings.Class))

@@ -4,8 +4,6 @@ public readonly struct MTLTensorAuxiliaryPlaneDescriptorMap(nint nativePtr) : ID
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLTensorAuxiliaryPlaneDescriptorMap value) => new(value.NativePtr);
 
     public MTLTensorAuxiliaryPlaneDescriptorMap() : this(ObjectiveC.AllocInit(MTLTensorAuxiliaryPlaneDescriptorMapBindings.Class))

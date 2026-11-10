@@ -4,8 +4,6 @@ public readonly struct MTLCommandBuffer(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLCommandBuffer value) => new(value.NativePtr);
 
     public MTLCommandBuffer Retain()

@@ -4,8 +4,6 @@ public readonly struct MTLTextureViewPool(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLResourceViewPool(MTLTextureViewPool value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLTextureViewPool value) => new(value.NativePtr);

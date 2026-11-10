@@ -4,8 +4,6 @@ public readonly struct MTLAccelerationStructure(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLResource(MTLAccelerationStructure value) => new(value.NativePtr);
 
     public static implicit operator MTLAllocation(MTLAccelerationStructure value) => new(value.NativePtr);

@@ -4,8 +4,6 @@ public readonly struct MTLRenderPassSampleBufferAttachmentDescriptor(nint native
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLRenderPassSampleBufferAttachmentDescriptor value) => new(value.NativePtr);
 
     public MTLRenderPassSampleBufferAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassSampleBufferAttachmentDescriptorBindings.Class))

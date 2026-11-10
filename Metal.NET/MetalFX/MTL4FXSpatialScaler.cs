@@ -4,8 +4,6 @@ public readonly struct MTL4FXSpatialScaler(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLFXSpatialScalerBase(MTL4FXSpatialScaler value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTL4FXSpatialScaler value) => new(value.NativePtr);

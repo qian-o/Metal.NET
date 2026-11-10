@@ -4,8 +4,6 @@ public readonly struct MTLBuffer(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLResource(MTLBuffer value) => new(value.NativePtr);
 
     public static implicit operator MTLAllocation(MTLBuffer value) => new(value.NativePtr);

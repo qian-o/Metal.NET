@@ -4,8 +4,6 @@ public readonly struct MTLTensor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLResource(MTLTensor value) => new(value.NativePtr);
 
     public static implicit operator MTLAllocation(MTLTensor value) => new(value.NativePtr);

@@ -4,8 +4,6 @@ public readonly struct MTLFXFrameInterpolatorDescriptor(nint nativePtr) : IDispo
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLFXFrameInterpolatorDescriptor value) => new(value.NativePtr);
 
     public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveC.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class))

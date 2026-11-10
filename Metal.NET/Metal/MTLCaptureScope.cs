@@ -4,8 +4,6 @@ public readonly struct MTLCaptureScope(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLCaptureScope value) => new(value.NativePtr);
 
     public MTLCaptureScope Retain()

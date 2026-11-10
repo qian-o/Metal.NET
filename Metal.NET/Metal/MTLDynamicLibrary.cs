@@ -4,8 +4,6 @@ public readonly struct MTLDynamicLibrary(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLDynamicLibrary value) => new(value.NativePtr);
 
     public MTLDynamicLibrary Retain()

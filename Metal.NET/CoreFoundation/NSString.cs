@@ -6,8 +6,6 @@ public readonly struct NSString(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(NSString value) => new(value.NativePtr);
 
     public NSString(string value) : this(Create(value))

@@ -4,8 +4,6 @@ public readonly struct MTLIOScratchBuffer(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLIOScratchBuffer value) => new(value.NativePtr);
 
     public MTLIOScratchBuffer Retain()

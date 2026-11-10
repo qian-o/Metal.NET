@@ -4,8 +4,6 @@ public readonly struct MTLFXTemporalScalerDescriptor(nint nativePtr) : IDisposab
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLFXTemporalScalerDescriptor value) => new(value.NativePtr);
 
     public MTLFXTemporalScalerDescriptor() : this(ObjectiveC.AllocInit(MTLFXTemporalScalerDescriptorBindings.Class))

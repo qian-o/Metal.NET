@@ -4,8 +4,6 @@ public readonly struct MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePt
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTL4RenderPipelineBinaryFunctionsDescriptor value) => new(value.NativePtr);
 
     public MTL4RenderPipelineBinaryFunctionsDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.Class))

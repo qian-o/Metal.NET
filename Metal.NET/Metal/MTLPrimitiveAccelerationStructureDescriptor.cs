@@ -4,8 +4,6 @@ public readonly struct MTLPrimitiveAccelerationStructureDescriptor(nint nativePt
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLAccelerationStructureDescriptor(MTLPrimitiveAccelerationStructureDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLPrimitiveAccelerationStructureDescriptor value) => new(value.NativePtr);

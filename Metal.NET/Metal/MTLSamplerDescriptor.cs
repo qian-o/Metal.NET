@@ -4,8 +4,6 @@ public readonly struct MTLSamplerDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLSamplerDescriptor value) => new(value.NativePtr);
 
     public MTLSamplerDescriptor() : this(ObjectiveC.AllocInit(MTLSamplerDescriptorBindings.Class))

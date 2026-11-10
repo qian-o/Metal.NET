@@ -4,8 +4,6 @@ public readonly struct MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLRenderPipelineColorAttachmentDescriptor value) => new(value.NativePtr);
 
     public MTLRenderPipelineColorAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPipelineColorAttachmentDescriptorBindings.Class))

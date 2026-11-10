@@ -4,8 +4,6 @@ public readonly struct MTLRenderPipelineFunctionsDescriptor(nint nativePtr) : ID
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLRenderPipelineFunctionsDescriptor value) => new(value.NativePtr);
 
     public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class))

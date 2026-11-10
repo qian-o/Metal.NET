@@ -4,8 +4,6 @@ public readonly struct MTL4FXTemporalScaler(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLFXTemporalScalerBase(MTL4FXTemporalScaler value) => new(value.NativePtr);
 
     public static implicit operator MTLFXFrameInterpolatableScaler(MTL4FXTemporalScaler value) => new(value.NativePtr);

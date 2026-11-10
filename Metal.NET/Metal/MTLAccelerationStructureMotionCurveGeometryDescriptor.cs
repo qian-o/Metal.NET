@@ -4,8 +4,6 @@ public readonly struct MTLAccelerationStructureMotionCurveGeometryDescriptor(nin
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLAccelerationStructureGeometryDescriptor(MTLAccelerationStructureMotionCurveGeometryDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLAccelerationStructureMotionCurveGeometryDescriptor value) => new(value.NativePtr);

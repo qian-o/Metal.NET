@@ -4,8 +4,6 @@ public readonly struct MTLFunctionStitchingFunctionNode(nint nativePtr) : IDispo
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLFunctionStitchingNode(MTLFunctionStitchingFunctionNode value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLFunctionStitchingFunctionNode value) => new(value.NativePtr);

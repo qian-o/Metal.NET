@@ -4,8 +4,6 @@ public readonly struct MTLIntersectionFunctionTableDescriptor(nint nativePtr) : 
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLIntersectionFunctionTableDescriptor value) => new(value.NativePtr);
 
     public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveC.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class))

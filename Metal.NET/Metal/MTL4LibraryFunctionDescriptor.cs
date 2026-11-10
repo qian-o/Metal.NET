@@ -4,8 +4,6 @@ public readonly struct MTL4LibraryFunctionDescriptor(nint nativePtr) : IDisposab
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTL4FunctionDescriptor(MTL4LibraryFunctionDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTL4LibraryFunctionDescriptor value) => new(value.NativePtr);

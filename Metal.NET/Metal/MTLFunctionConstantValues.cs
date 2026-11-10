@@ -4,8 +4,6 @@ public readonly struct MTLFunctionConstantValues(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTLFunctionConstantValues value) => new(value.NativePtr);
 
     public MTLFunctionConstantValues() : this(ObjectiveC.AllocInit(MTLFunctionConstantValuesBindings.Class))

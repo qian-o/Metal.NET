@@ -4,8 +4,6 @@ public readonly struct MTL4MachineLearningPipelineState(nint nativePtr) : IDispo
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator MTLAllocation(MTL4MachineLearningPipelineState value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTL4MachineLearningPipelineState value) => new(value.NativePtr);

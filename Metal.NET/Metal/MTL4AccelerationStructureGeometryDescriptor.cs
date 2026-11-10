@@ -4,8 +4,6 @@ public readonly struct MTL4AccelerationStructureGeometryDescriptor(nint nativePt
 {
     public readonly nint NativePtr = nativePtr;
 
-    public bool IsNull => NativePtr is 0;
-
     public static implicit operator NSObject(MTL4AccelerationStructureGeometryDescriptor value) => new(value.NativePtr);
 
     public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveC.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class))
