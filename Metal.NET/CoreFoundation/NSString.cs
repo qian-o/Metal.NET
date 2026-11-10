@@ -1,6 +1,4 @@
-using System.Buffers;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Metal.NET;
 
@@ -12,6 +10,10 @@ public readonly struct NSString(nint nativePtr) : IDisposable
 
     public static implicit operator NSObject(NSString value) => new(value.NativePtr);
 
+    public unsafe NSString(string value) : this(Create(value))
+    {
+    }
+
     public NSString Retain()
     {
         return new(ObjectiveC.Retain(NativePtr));
@@ -22,35 +24,6 @@ public readonly struct NSString(nint nativePtr) : IDisposable
         ObjectiveC.Release(NativePtr);
     }
 
-    public static unsafe implicit operator NSString(string value)
-    {
-        int maxByteCount = Encoding.UTF8.GetMaxByteCount(value.Length) + 1;
-        byte[]? rented = null;
-        Span<byte> buffer = maxByteCount <= 512
-            ? stackalloc byte[maxByteCount]
-            : (rented = ArrayPool<byte>.Shared.Rent(maxByteCount));
-
-        try
-        {
-            int written = Encoding.UTF8.GetBytes(value, buffer);
-            buffer[written] = 0;
-
-            fixed (byte* utf8 = buffer)
-            {
-                nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringInteropBindings.Class), NSStringInteropBindings.InitWithUtf8String, (nint)utf8);
-
-                return new(nativePtr);
-            }
-        }
-        finally
-        {
-            if (rented is not null)
-            {
-                ArrayPool<byte>.Shared.Return(rented);
-            }
-        }
-    }
-
     public static implicit operator string(NSString value)
     {
         return value.ToString();
@@ -58,15 +31,28 @@ public readonly struct NSString(nint nativePtr) : IDisposable
 
     public override string ToString()
     {
-        return Marshal.PtrToStringUTF8(ObjectiveC.MsgSendNInt(NativePtr, NSStringInteropBindings.Utf8String)) ?? string.Empty;
+        return Marshal.PtrToStringUTF8(ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.UTF8String)) ?? string.Empty;
+    }
+
+    private static unsafe nint Create(string value)
+    {
+        if (value is null)
+        {
+            return 0;
+        }
+
+        fixed (char* pChars = value)
+        {
+            return ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCharacters_Length, (nint)pChars, (nuint)value.Length);
+        }
     }
 }
 
-file static class NSStringInteropBindings
+file static class NSStringBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSString");
 
-    public static readonly Selector Utf8String = "UTF8String";
+    public static readonly Selector InitWithCharacters_Length = "initWithCharacters:length:";
 
-    public static readonly Selector InitWithUtf8String = "initWithUTF8String:";
+    public static readonly Selector UTF8String = "UTF8String";
 }

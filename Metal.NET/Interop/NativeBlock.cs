@@ -14,9 +14,8 @@ public abstract unsafe class NativeBlock : IDisposable
     static NativeBlock()
     {
         isa = NativeLibrary.GetExport(NativeLibrary.Load("/usr/lib/libobjc.A.dylib"), "_NSConcreteGlobalBlock");
-        descriptor = (nint)NativeMemory.Alloc((uint)(sizeof(nuint) * 2));
-
-        new nuint[] { 0, (nuint)sizeof(Block) }.CopyTo(new Span<nuint>((void*)descriptor, 2));
+        descriptor = (nint)NativeMemory.AllocZeroed((uint)(sizeof(nuint) * 2));
+        ((nuint*)descriptor)[1] = (nuint)sizeof(Block);
     }
 
     private GCHandle handle;

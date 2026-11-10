@@ -241,6 +241,7 @@ partial class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapp
         RecordMsgSend("MsgSendNInt", "long");
         RecordMsgSend("MsgSendNInt", "nint");
         RecordMsgSend("MsgSendNInt", "nint", "nint");
+        RecordMsgSend("MsgSendNInt", "nint", "nuint");
         RecordMsgSend("MsgSendNInt", "nuint");
         RecordMsgSend("MsgSendNInt", "uint");
         RecordMsgSend("MsgSendNInt", "ulong");

@@ -45,9 +45,9 @@ file static class NSAutoreleasePoolBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSAutoreleasePool");
 
-    public static readonly Selector Drain = "drain";
-
     public static readonly Selector AddObject = "addObject:";
+
+    public static readonly Selector Drain = "drain";
 
     public static readonly Selector ShowPools = "showPools";
 }

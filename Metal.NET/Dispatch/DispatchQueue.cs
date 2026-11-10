@@ -18,12 +18,12 @@ public readonly partial struct DispatchQueue(nint nativePtr) : IDisposable
 
     public static DispatchQueue Create(string label, nint attr)
     {
-        return new DispatchQueue(DispatchQueueCreate(label, attr));
+        return new(DispatchQueueCreate(label, attr));
     }
 
     public static DispatchQueue GetGlobalQueue(nint identifier, nuint flags)
     {
-        return new DispatchQueue(DispatchGetGlobalQueue(identifier, flags));
+        return new(DispatchGetGlobalQueue(identifier, flags));
     }
 
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]

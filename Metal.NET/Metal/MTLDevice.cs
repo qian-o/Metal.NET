@@ -983,49 +983,25 @@ public readonly partial struct MTLDevice(nint nativePtr) : IDisposable
         return new(nativePtr);
     }
 
-    public static MTLOrigin OriginMake(nuint x, nuint y, nuint z)
-    {
-        return MTLOriginMake(x, y, z);
-    }
-
-    public static MTLSize SizeMake(nuint width, nuint height, nuint depth)
-    {
-        return MTLSizeMake(width, height, depth);
-    }
-
-    public static MTLRegion RegionMake1D(nuint x, nuint width)
-    {
-        return MTLRegionMake1D(x, width);
-    }
-
-    public static MTLRegion RegionMake2D(nuint x, nuint y, nuint width, nuint height)
-    {
-        return MTLRegionMake2D(x, y, width, height);
-    }
-
-    public static MTLRegion RegionMake3D(nuint x, nuint y, nuint z, nuint width, nuint height, nuint depth)
-    {
-        return MTLRegionMake3D(x, y, z, width, height, depth);
-    }
-
-    public static MTLSamplePosition SamplePositionMake(float x, float y)
-    {
-        return MTLSamplePositionMake(x, y);
-    }
-
-    public static MTLSamplePosition Coordinate2DMake(float x, float y)
-    {
-        return MTLCoordinate2DMake(x, y);
-    }
-
-    public static MTLTextureSwizzleChannels TextureSwizzleChannelsMake(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a)
-    {
-        return MTLTextureSwizzleChannelsMake(r, g, b, a);
-    }
-
     public static MTLDevice CreateSystemDefaultDevice()
     {
         nint nativePtr = MTLCreateSystemDefaultDevice();
+
+        return new(nativePtr);
+    }
+
+    public static NSArray<MTLDevice> CopyAllDevices()
+    {
+        nint nativePtr = MTLCopyAllDevices();
+
+        return new(nativePtr);
+    }
+
+    public static NSArray<MTLDevice> CopyAllDevicesWithObserver(out NSObject observer, MTLDeviceNotificationHandler handler)
+    {
+        nint nativePtr = MTLCopyAllDevicesWithObserver(out nint observerPtr, handler.NativePtr);
+
+        observer = new(observerPtr);
 
         return new(nativePtr);
     }
@@ -1035,72 +1011,22 @@ public readonly partial struct MTLDevice(nint nativePtr) : IDisposable
         MTLRemoveDeviceObserver(observer.NativePtr);
     }
 
-    public static MTLClearColor ClearColorMake(double red, double green, double blue, double alpha)
-    {
-        return MTLClearColorMake(red, green, blue, alpha);
-    }
-
-    public static MTLPackedFloat3 PackedFloat3Make(float x, float y, float z)
-    {
-        return MTLPackedFloat3Make(x, y, z);
-    }
-
-    public static MTLPackedFloatQuaternion PackedFloatQuaternionMake(float x, float y, float z, float w)
-    {
-        return MTLPackedFloatQuaternionMake(x, y, z, w);
-    }
-
-    public static MTLIndirectCommandBufferExecutionRange IndirectCommandBufferExecutionRangeMake(uint location, uint length)
-    {
-        return MTLIndirectCommandBufferExecutionRangeMake(location, length);
-    }
-
     public static nuint IOCompressionContextDefaultChunkSize()
     {
         return MTLIOCompressionContextDefaultChunkSize();
     }
 
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLOriginMake")]
-    private static partial MTLOrigin MTLOriginMake(nuint x, nuint y, nuint z);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLSizeMake")]
-    private static partial MTLSize MTLSizeMake(nuint width, nuint height, nuint depth);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake1D")]
-    private static partial MTLRegion MTLRegionMake1D(nuint x, nuint width);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake2D")]
-    private static partial MTLRegion MTLRegionMake2D(nuint x, nuint y, nuint width, nuint height);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRegionMake3D")]
-    private static partial MTLRegion MTLRegionMake3D(nuint x, nuint y, nuint z, nuint width, nuint height, nuint depth);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLSamplePositionMake")]
-    private static partial MTLSamplePosition MTLSamplePositionMake(float x, float y);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCoordinate2DMake")]
-    private static partial MTLSamplePosition MTLCoordinate2DMake(float x, float y);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLTextureSwizzleChannelsMake")]
-    private static partial MTLTextureSwizzleChannels MTLTextureSwizzleChannelsMake(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a);
-
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCreateSystemDefaultDevice")]
     private static partial nint MTLCreateSystemDefaultDevice();
 
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevices")]
+    private static partial nint MTLCopyAllDevices();
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevicesWithObserver")]
+    private static partial nint MTLCopyAllDevicesWithObserver(out nint observer, nint handler);
+
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRemoveDeviceObserver")]
     private static partial void MTLRemoveDeviceObserver(nint observer);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLClearColorMake")]
-    private static partial MTLClearColor MTLClearColorMake(double red, double green, double blue, double alpha);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLPackedFloat3Make")]
-    private static partial MTLPackedFloat3 MTLPackedFloat3Make(float x, float y, float z);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLPackedFloatQuaternionMake")]
-    private static partial MTLPackedFloatQuaternion MTLPackedFloatQuaternionMake(float x, float y, float z, float w);
-
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLIndirectCommandBufferExecutionRangeMake")]
-    private static partial MTLIndirectCommandBufferExecutionRange MTLIndirectCommandBufferExecutionRangeMake(uint location, uint length);
 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLIOCompressionContextDefaultChunkSize")]
     private static partial nuint MTLIOCompressionContextDefaultChunkSize();

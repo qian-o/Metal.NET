@@ -10,7 +10,6 @@ partial class CSharpEmitter
         public List<string> CsParams { get; } = [];
         public List<string> CallArgs { get; } = [];
         public List<string> CallArgTypes { get; } = [];
-        public List<string> ArraySetupLines { get; } = [];
         public List<string> FixedStatements { get; } = [];
         public List<(string CsType, string CsParamName, string PtrVarName)> AutoreleasedOutParams { get; } = [];
         public bool NeedsUnsafeContext { get; set; }
@@ -227,19 +226,9 @@ partial class CSharpEmitter
         return mc;
     }
 
-    /// <summary>Emits array setup lines, opens fixed blocks, and returns the current indent string.</summary>
+    /// <summary>Opens fixed blocks and returns the current indent string.</summary>
     static string EmitBodyPrologue(StringBuilder sb, MarshalledCall mc)
     {
-        foreach (string line in mc.ArraySetupLines)
-        {
-            sb.AppendLine(line);
-        }
-
-        if (mc.ArraySetupLines.Count > 0)
-        {
-            sb.AppendLine();
-        }
-
         string indent = "        ";
         foreach (string fixedStmt in mc.FixedStatements)
         {

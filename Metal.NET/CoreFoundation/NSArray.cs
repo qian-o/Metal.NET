@@ -13,6 +13,10 @@ public readonly struct NSArray<T>(nint nativePtr) : IDisposable where T : unmana
 
     public static implicit operator NSObject(NSArray<T> value) => new(value.NativePtr);
 
+    public unsafe NSArray(ReadOnlySpan<T> span) : this(Create(span))
+    {
+    }
+
     public NSArray<T> Retain()
     {
         return new(ObjectiveC.Retain(NativePtr));
@@ -38,26 +42,6 @@ public readonly struct NSArray<T>(nint nativePtr) : IDisposable where T : unmana
         }
     }
 
-    public static unsafe implicit operator NSArray<T>(T[] array)
-    {
-        return FromSpan(array);
-    }
-
-    public static unsafe implicit operator NSArray<T>(ReadOnlySpan<T> span)
-    {
-        return FromSpan(span);
-    }
-
-    public static unsafe NSArray<T> FromSpan(ReadOnlySpan<T> span)
-    {
-        fixed (T* pNativePtrs = span)
-        {
-            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)span.Length);
-
-            return new(nativePtr);
-        }
-    }
-
     public static implicit operator T[](NSArray<T> array)
     {
         int count = (int)array.Count;
@@ -75,6 +59,14 @@ public readonly struct NSArray<T>(nint nativePtr) : IDisposable where T : unmana
     public Enumerator GetEnumerator()
     {
         return new(this);
+    }
+
+    private static unsafe nint Create(ReadOnlySpan<T> span)
+    {
+        fixed (T* pNativePtrs = span)
+        {
+            return ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjects_Count, (nint)pNativePtrs, (nuint)span.Length);
+        }
     }
 
     public struct Enumerator(NSArray<T> array)
@@ -99,7 +91,7 @@ file static class NSArrayBindings
 
     public static readonly Selector Count = "count";
 
-    public static readonly Selector ObjectAtIndex = "objectAtIndex:";
+    public static readonly Selector InitWithObjects_Count = "initWithObjects:count:";
 
-    public static readonly Selector InitWithObjectsCount = "initWithObjects:count:";
+    public static readonly Selector ObjectAtIndex = "objectAtIndex:";
 }

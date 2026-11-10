@@ -28,6 +28,17 @@ partial class AstJsonParser
             return $"{ParamDef.ObjArray}{idConstPtrMatch.Groups[1].Value}";
         }
 
+        // id<NSObject> * → AutoreleasedNSObject* (out parameter)
+        if (t.StartsWith("id<") && t.EndsWith('*'))
+        {
+            string inner = t.TrimEnd('*', ' ').Trim();
+            Match idPtrMatch = IdProtocolRegex().Match(inner);
+            if (idPtrMatch.Success)
+            {
+                return $"Autoreleased{idPtrMatch.Groups[1].Value}*";
+            }
+        }
+
         // id<Protocol> → Protocol*
         Match idMatch = IdProtocolRegex().Match(t);
         if (idMatch.Success)

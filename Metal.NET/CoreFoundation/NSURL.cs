@@ -8,6 +8,10 @@ public readonly struct NSURL(nint nativePtr) : IDisposable
 
     public static implicit operator NSObject(NSURL value) => new(value.NativePtr);
 
+    public NSURL(NSString filePath) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath, filePath.NativePtr))
+    {
+    }
+
     public NSURL Retain()
     {
         return new(ObjectiveC.Retain(NativePtr));
@@ -17,16 +21,9 @@ public readonly struct NSURL(nint nativePtr) : IDisposable
     {
         ObjectiveC.Release(NativePtr);
     }
-
-    public static implicit operator NSURL(NSString value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLInteropBindings.Class), NSURLInteropBindings.InitFileURLWithPath, value.NativePtr);
-
-        return new(nativePtr);
-    }
 }
 
-file static class NSURLInteropBindings
+file static class NSURLBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSURL");
 
