@@ -41,11 +41,6 @@ public readonly struct NSString(nint nativePtr) : IDisposable
 
     private static unsafe nint Create(string value)
     {
-        if (value is null)
-        {
-            return 0;
-        }
-
         fixed (char* pChars = value)
         {
             return ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCharacters_Length, (nint)pChars, (nuint)value.Length);
