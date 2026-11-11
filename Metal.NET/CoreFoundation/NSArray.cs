@@ -9,6 +9,8 @@ public readonly struct NSArray<T>(nint nativePtr) : IDisposable where T : unmana
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(NSArray<T> value) => new(value.NativePtr);
 
     public NSArray(ReadOnlySpan<T> span) : this(Create(span))
@@ -20,9 +22,14 @@ public readonly struct NSArray<T>(nint nativePtr) : IDisposable where T : unmana
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint Count

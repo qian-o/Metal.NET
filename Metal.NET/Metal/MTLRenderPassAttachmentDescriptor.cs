@@ -4,6 +4,8 @@ public readonly struct MTLRenderPassAttachmentDescriptor(nint nativePtr) : IDisp
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLRenderPassAttachmentDescriptor value) => new(value.NativePtr);
 
     public MTLRenderPassAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLRenderPassAttachmentDescriptor(nint nativePtr) : IDisp
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLTexture Texture

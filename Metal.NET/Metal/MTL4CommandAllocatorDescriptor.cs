@@ -4,6 +4,8 @@ public readonly struct MTL4CommandAllocatorDescriptor(nint nativePtr) : IDisposa
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTL4CommandAllocatorDescriptor value) => new(value.NativePtr);
 
     public MTL4CommandAllocatorDescriptor() : this(ObjectiveC.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTL4CommandAllocatorDescriptor(nint nativePtr) : IDisposa
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Label

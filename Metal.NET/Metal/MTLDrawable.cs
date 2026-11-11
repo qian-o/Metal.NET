@@ -4,6 +4,8 @@ public readonly struct MTLDrawable(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLDrawable value) => new(value.NativePtr);
 
     public MTLDrawable Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLDrawable(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public double PresentedTime

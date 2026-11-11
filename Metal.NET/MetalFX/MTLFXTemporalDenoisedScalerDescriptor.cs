@@ -4,6 +4,8 @@ public readonly struct MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr) : I
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLFXTemporalDenoisedScalerDescriptor value) => new(value.NativePtr);
 
     public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveC.AllocInit(MTLFXTemporalDenoisedScalerDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr) : I
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLPixelFormat ColorTextureFormat

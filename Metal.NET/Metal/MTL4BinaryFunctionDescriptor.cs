@@ -4,6 +4,8 @@ public readonly struct MTL4BinaryFunctionDescriptor(nint nativePtr) : IDisposabl
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTL4BinaryFunctionDescriptor value) => new(value.NativePtr);
 
     public MTL4BinaryFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTL4BinaryFunctionDescriptor(nint nativePtr) : IDisposabl
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Name

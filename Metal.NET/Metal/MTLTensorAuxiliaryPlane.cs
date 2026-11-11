@@ -4,6 +4,8 @@ public readonly struct MTLTensorAuxiliaryPlane(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLTensorAuxiliaryPlane value) => new(value.NativePtr);
 
     public MTLTensorAuxiliaryPlane Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLTensorAuxiliaryPlane(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLTensorDataType DataType

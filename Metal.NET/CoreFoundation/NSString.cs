@@ -6,6 +6,8 @@ public readonly struct NSString(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(NSString value) => new(value.NativePtr);
 
     public NSString(string value) : this(Create(value))
@@ -17,9 +19,14 @@ public readonly struct NSString(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public static implicit operator string(NSString value)

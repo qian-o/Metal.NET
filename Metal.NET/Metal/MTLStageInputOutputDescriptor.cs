@@ -4,6 +4,8 @@ public readonly struct MTLStageInputOutputDescriptor(nint nativePtr) : IDisposab
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLStageInputOutputDescriptor value) => new(value.NativePtr);
 
     public MTLStageInputOutputDescriptor() : this(ObjectiveC.AllocInit(MTLStageInputOutputDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLStageInputOutputDescriptor(nint nativePtr) : IDisposab
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLBufferLayoutDescriptorArray Layouts

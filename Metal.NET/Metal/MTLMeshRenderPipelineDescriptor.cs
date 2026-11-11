@@ -4,6 +4,8 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr) : IDispos
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLMeshRenderPipelineDescriptor value) => new(value.NativePtr);
 
     public MTLMeshRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTLMeshRenderPipelineDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr) : IDispos
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Label

@@ -4,6 +4,8 @@ public readonly struct MTLIntersectionFunctionTable(nint nativePtr) : IDisposabl
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTLResource(MTLIntersectionFunctionTable value) => new(value.NativePtr);
 
     public static implicit operator MTLAllocation(MTLIntersectionFunctionTable value) => new(value.NativePtr);
@@ -15,9 +17,14 @@ public readonly struct MTLIntersectionFunctionTable(nint nativePtr) : IDisposabl
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLResourceID GpuResourceID

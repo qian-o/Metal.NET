@@ -4,6 +4,8 @@ public readonly struct MTL4MachineLearningPipelineReflection(nint nativePtr) : I
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTL4MachineLearningPipelineReflection value) => new(value.NativePtr);
 
     public MTL4MachineLearningPipelineReflection Retain()
@@ -11,9 +13,14 @@ public readonly struct MTL4MachineLearningPipelineReflection(nint nativePtr) : I
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSArray<MTLBinding> Bindings

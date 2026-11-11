@@ -4,6 +4,8 @@ public readonly struct MTLFunctionStitchingNode(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLFunctionStitchingNode value) => new(value.NativePtr);
 
     public MTLFunctionStitchingNode Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLFunctionStitchingNode(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 }
 

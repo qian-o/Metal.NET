@@ -4,6 +4,8 @@ public readonly struct MTLFXTemporalDenoisedScalerBase(nint nativePtr) : IDispos
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTLFXFrameInterpolatableScaler(MTLFXTemporalDenoisedScalerBase value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLFXTemporalDenoisedScalerBase value) => new(value.NativePtr);
@@ -13,9 +15,14 @@ public readonly struct MTLFXTemporalDenoisedScalerBase(nint nativePtr) : IDispos
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLTextureUsage ColorTextureUsage

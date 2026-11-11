@@ -4,6 +4,8 @@ public readonly struct MTLIndirectComputeCommandEncoder(nint nativePtr) : IDispo
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLIndirectComputeCommandEncoder value) => new(value.NativePtr);
 
     public MTLIndirectComputeCommandEncoder Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLIndirectComputeCommandEncoder(nint nativePtr) : IDispo
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 }
 

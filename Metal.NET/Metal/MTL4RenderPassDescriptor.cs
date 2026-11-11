@@ -4,6 +4,8 @@ public readonly struct MTL4RenderPassDescriptor(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTL4RenderPassDescriptor value) => new(value.NativePtr);
 
     public MTL4RenderPassDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPassDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTL4RenderPassDescriptor(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments

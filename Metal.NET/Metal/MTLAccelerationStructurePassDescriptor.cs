@@ -4,6 +4,8 @@ public readonly struct MTLAccelerationStructurePassDescriptor(nint nativePtr) : 
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLAccelerationStructurePassDescriptor value) => new(value.NativePtr);
 
     public MTLAccelerationStructurePassDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLAccelerationStructurePassDescriptor(nint nativePtr) : 
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments

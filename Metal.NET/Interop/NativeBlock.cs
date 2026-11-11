@@ -33,9 +33,11 @@ public abstract unsafe class NativeBlock : IDisposable
 
     public nint NativePtr { get; }
 
+    public bool IsNull => NativePtr is 0;
+
     public void Dispose()
     {
-        if (NativePtr is 0)
+        if (IsNull)
         {
             return;
         }

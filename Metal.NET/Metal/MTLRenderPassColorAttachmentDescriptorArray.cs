@@ -4,6 +4,8 @@ public readonly struct MTLRenderPassColorAttachmentDescriptorArray(nint nativePt
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLRenderPassColorAttachmentDescriptorArray value) => new(value.NativePtr);
 
     public MTLRenderPassColorAttachmentDescriptorArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLRenderPassColorAttachmentDescriptorArray(nint nativePt
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLRenderPassColorAttachmentDescriptor this[nuint attachmentIndex]

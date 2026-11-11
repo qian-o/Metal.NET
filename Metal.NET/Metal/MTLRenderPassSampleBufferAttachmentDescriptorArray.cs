@@ -4,6 +4,8 @@ public readonly struct MTLRenderPassSampleBufferAttachmentDescriptorArray(nint n
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLRenderPassSampleBufferAttachmentDescriptorArray value) => new(value.NativePtr);
 
     public MTLRenderPassSampleBufferAttachmentDescriptorArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLRenderPassSampleBufferAttachmentDescriptorArray(nint n
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLRenderPassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]

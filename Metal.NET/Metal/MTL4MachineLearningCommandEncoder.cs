@@ -4,6 +4,8 @@ public readonly struct MTL4MachineLearningCommandEncoder(nint nativePtr) : IDisp
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTL4CommandEncoder(MTL4MachineLearningCommandEncoder value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTL4MachineLearningCommandEncoder value) => new(value.NativePtr);
@@ -13,9 +15,14 @@ public readonly struct MTL4MachineLearningCommandEncoder(nint nativePtr) : IDisp
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Label

@@ -4,6 +4,8 @@ public readonly struct MTLVertexAttributeDescriptorArray(nint nativePtr) : IDisp
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLVertexAttributeDescriptorArray value) => new(value.NativePtr);
 
     public MTLVertexAttributeDescriptorArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLVertexAttributeDescriptorArray(nint nativePtr) : IDisp
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLVertexAttributeDescriptor this[nuint index]

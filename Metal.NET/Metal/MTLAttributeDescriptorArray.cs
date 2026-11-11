@@ -4,6 +4,8 @@ public readonly struct MTLAttributeDescriptorArray(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLAttributeDescriptorArray value) => new(value.NativePtr);
 
     public MTLAttributeDescriptorArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLAttributeDescriptorArray(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLAttributeDescriptor this[nuint index]

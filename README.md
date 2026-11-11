@@ -57,10 +57,10 @@ Hand-written wrappers are included for CoreFoundation (`NSObject`, `NSString`, `
 
 ## Memory Management
 
-All wrapper types are 8-byte `readonly struct` handles (`unmanaged`) with zero GC allocation overhead. Native object lifetimes follow standard Objective-C reference counting (`Retain()` / `Dispose()`):
+All wrapper types are 8-byte `readonly struct` handles (`unmanaged`) with zero GC allocation overhead. Native object lifetimes follow standard Objective-C reference counting (`Retain()` / `Release()` / `Dispose()`):
 
-| Origin | `Dispose()` | Typical Usage |
-|--------|:-----------:|---|
+| Origin | `Release()` / `Dispose()` | Typical Usage |
+|--------|:-------------------------:|---|
 | `new()` (`AllocInit`) / `Init*` | ✓ | Descriptors and explicitly allocated objects (`new MTLTextureDescriptor()`) |
 | `Make*` / `New*` / `Copy*` | ✓ | Factory methods returning retained objects (`device.MakeBuffer(...)`, `device.MakeDefaultLibrary()`) |
 | Property getters / `NextDrawable()` / transient encoders | — | Autoreleased or borrowed references managed by parent or `NSAutoreleasePool` |

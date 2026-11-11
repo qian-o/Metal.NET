@@ -6,12 +6,19 @@ public readonly partial struct DispatchData(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public void Dispose()
+    public bool IsNull => NativePtr is 0;
+
+    public void Release()
     {
-        if (NativePtr is not 0)
+        if (!IsNull)
         {
             DispatchRelease(NativePtr);
         }
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public static unsafe DispatchData Create<T>(ReadOnlySpan<T> data) where T : unmanaged

@@ -4,6 +4,8 @@ public readonly struct MTLInstanceAccelerationStructureDescriptor(nint nativePtr
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTLAccelerationStructureDescriptor(MTLInstanceAccelerationStructureDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLInstanceAccelerationStructureDescriptor value) => new(value.NativePtr);
@@ -17,9 +19,14 @@ public readonly struct MTLInstanceAccelerationStructureDescriptor(nint nativePtr
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLBuffer InstanceDescriptorBuffer

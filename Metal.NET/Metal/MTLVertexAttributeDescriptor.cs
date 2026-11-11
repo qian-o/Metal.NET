@@ -4,6 +4,8 @@ public readonly struct MTLVertexAttributeDescriptor(nint nativePtr) : IDisposabl
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLVertexAttributeDescriptor value) => new(value.NativePtr);
 
     public MTLVertexAttributeDescriptor() : this(ObjectiveC.AllocInit(MTLVertexAttributeDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLVertexAttributeDescriptor(nint nativePtr) : IDisposabl
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLVertexFormat Format

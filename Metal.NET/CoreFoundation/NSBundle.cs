@@ -4,6 +4,8 @@ public readonly struct NSBundle(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(NSBundle value) => new(value.NativePtr);
 
     public NSBundle Retain()
@@ -11,8 +13,13 @@ public readonly struct NSBundle(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 }

@@ -4,6 +4,8 @@ public readonly struct MTLRasterizationRateSampleArray(nint nativePtr) : IDispos
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLRasterizationRateSampleArray value) => new(value.NativePtr);
 
     public MTLRasterizationRateSampleArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLRasterizationRateSampleArray(nint nativePtr) : IDispos
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSNumber this[nuint index]

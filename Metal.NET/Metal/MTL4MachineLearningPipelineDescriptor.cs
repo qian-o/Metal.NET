@@ -4,6 +4,8 @@ public readonly struct MTL4MachineLearningPipelineDescriptor(nint nativePtr) : I
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTL4PipelineDescriptor(MTL4MachineLearningPipelineDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTL4MachineLearningPipelineDescriptor value) => new(value.NativePtr);
@@ -17,9 +19,14 @@ public readonly struct MTL4MachineLearningPipelineDescriptor(nint nativePtr) : I
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Label

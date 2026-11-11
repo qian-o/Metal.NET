@@ -4,6 +4,8 @@ public readonly struct MTLSharedEventListener(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLSharedEventListener value) => new(value.NativePtr);
 
     public MTLSharedEventListener() : this(ObjectiveC.AllocInit(MTLSharedEventListenerBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLSharedEventListener(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public DispatchQueue DispatchQueue

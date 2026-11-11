@@ -4,6 +4,8 @@ public readonly struct MTLAccelerationStructureTriangleGeometryDescriptor(nint n
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTLAccelerationStructureGeometryDescriptor(MTLAccelerationStructureTriangleGeometryDescriptor value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLAccelerationStructureTriangleGeometryDescriptor value) => new(value.NativePtr);
@@ -17,9 +19,14 @@ public readonly struct MTLAccelerationStructureTriangleGeometryDescriptor(nint n
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLBuffer VertexBuffer

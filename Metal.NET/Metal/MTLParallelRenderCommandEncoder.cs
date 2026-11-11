@@ -4,6 +4,8 @@ public readonly struct MTLParallelRenderCommandEncoder(nint nativePtr) : IDispos
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTLCommandEncoder(MTLParallelRenderCommandEncoder value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLParallelRenderCommandEncoder value) => new(value.NativePtr);
@@ -13,9 +15,14 @@ public readonly struct MTLParallelRenderCommandEncoder(nint nativePtr) : IDispos
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLDevice Device

@@ -4,6 +4,8 @@ public readonly struct MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr)
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTLFunctionStitchingAttribute(MTLFunctionStitchingAttributeAlwaysInline value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLFunctionStitchingAttributeAlwaysInline value) => new(value.NativePtr);
@@ -13,9 +15,14 @@ public readonly struct MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr)
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 }
 

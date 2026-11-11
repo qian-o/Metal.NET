@@ -4,6 +4,8 @@ public readonly struct MTLAccelerationStructurePassSampleBufferAttachmentDescrip
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray value) => new(value.NativePtr);
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLAccelerationStructurePassSampleBufferAttachmentDescrip
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]

@@ -4,6 +4,8 @@ public readonly struct MTLRenderPipelineFunctionsDescriptor(nint nativePtr) : ID
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLRenderPipelineFunctionsDescriptor value) => new(value.NativePtr);
 
     public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLRenderPipelineFunctionsDescriptor(nint nativePtr) : ID
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSArray<MTLFunction> VertexAdditionalBinaryFunctions

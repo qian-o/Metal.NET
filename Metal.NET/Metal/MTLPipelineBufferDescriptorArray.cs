@@ -4,6 +4,8 @@ public readonly struct MTLPipelineBufferDescriptorArray(nint nativePtr) : IDispo
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLPipelineBufferDescriptorArray value) => new(value.NativePtr);
 
     public MTLPipelineBufferDescriptorArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLPipelineBufferDescriptorArray(nint nativePtr) : IDispo
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLPipelineBufferDescriptor this[nuint bufferIndex]

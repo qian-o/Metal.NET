@@ -4,6 +4,8 @@ public readonly struct MTLResourceStatePassDescriptor(nint nativePtr) : IDisposa
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLResourceStatePassDescriptor value) => new(value.NativePtr);
 
     public MTLResourceStatePassDescriptor() : this(ObjectiveC.AllocInit(MTLResourceStatePassDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLResourceStatePassDescriptor(nint nativePtr) : IDisposa
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments

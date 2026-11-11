@@ -4,6 +4,8 @@ public readonly struct MTLVertexBufferLayoutDescriptorArray(nint nativePtr) : ID
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLVertexBufferLayoutDescriptorArray value) => new(value.NativePtr);
 
     public MTLVertexBufferLayoutDescriptorArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLVertexBufferLayoutDescriptorArray(nint nativePtr) : ID
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLVertexBufferLayoutDescriptor this[nuint index]

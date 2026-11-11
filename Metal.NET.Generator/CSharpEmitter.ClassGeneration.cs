@@ -106,6 +106,8 @@ partial class CSharpEmitter
         sb.AppendLine($"public readonly {partialKeyword}struct {csClassName}(nint nativePtr) : IDisposable");
         sb.AppendLine("{");
         sb.AppendLine("    public readonly nint NativePtr = nativePtr;");
+        sb.AppendLine();
+        sb.AppendLine("    public bool IsNull => NativePtr is 0;");
 
         foreach (string ancestor in ancestorTypes)
         {
@@ -132,9 +134,14 @@ partial class CSharpEmitter
         sb.AppendLine("        return new(ObjectiveC.Retain(NativePtr));");
         sb.AppendLine("    }");
         sb.AppendLine();
-        sb.AppendLine("    public void Dispose()");
+        sb.AppendLine("    public void Release()");
         sb.AppendLine("    {");
         sb.AppendLine("        ObjectiveC.Release(NativePtr);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public void Dispose()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        Release();");
         sb.AppendLine("    }");
 
         // === Properties (in JSON order, deduplicated across hierarchy) ===

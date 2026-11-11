@@ -4,6 +4,8 @@ public readonly struct MTLIndirectComputeCommand(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLIndirectComputeCommand value) => new(value.NativePtr);
 
     public MTLIndirectComputeCommand Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLIndirectComputeCommand(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public void SetComputePipelineState(MTLComputePipelineState pipelineState)

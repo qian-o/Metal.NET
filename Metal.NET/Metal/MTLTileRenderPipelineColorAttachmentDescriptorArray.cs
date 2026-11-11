@@ -4,6 +4,8 @@ public readonly struct MTLTileRenderPipelineColorAttachmentDescriptorArray(nint 
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLTileRenderPipelineColorAttachmentDescriptorArray value) => new(value.NativePtr);
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLTileRenderPipelineColorAttachmentDescriptorArray(nint 
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptor this[nuint attachmentIndex]

@@ -4,6 +4,8 @@ public readonly struct MTLTensorBufferAttachments(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLTensorBufferAttachments value) => new(value.NativePtr);
 
     public MTLTensorBufferAttachments() : this(ObjectiveC.AllocInit(MTLTensorBufferAttachmentsBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLTensorBufferAttachments(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, MTLTensorPlaneType plane)

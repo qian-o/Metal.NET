@@ -4,6 +4,8 @@ public readonly struct MTLRasterizationRateLayerArray(nint nativePtr) : IDisposa
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLRasterizationRateLayerArray value) => new(value.NativePtr);
 
     public MTLRasterizationRateLayerArray Retain()
@@ -11,9 +13,14 @@ public readonly struct MTLRasterizationRateLayerArray(nint nativePtr) : IDisposa
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLRasterizationRateLayerDescriptor this[nuint layerIndex]

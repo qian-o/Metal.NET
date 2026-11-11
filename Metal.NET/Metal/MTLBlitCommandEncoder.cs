@@ -4,6 +4,8 @@ public readonly struct MTLBlitCommandEncoder(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator MTLCommandEncoder(MTLBlitCommandEncoder value) => new(value.NativePtr);
 
     public static implicit operator NSObject(MTLBlitCommandEncoder value) => new(value.NativePtr);
@@ -13,9 +15,14 @@ public readonly struct MTLBlitCommandEncoder(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLDevice Device

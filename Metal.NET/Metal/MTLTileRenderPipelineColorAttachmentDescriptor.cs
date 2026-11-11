@@ -4,6 +4,8 @@ public readonly struct MTLTileRenderPipelineColorAttachmentDescriptor(nint nativ
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLTileRenderPipelineColorAttachmentDescriptor value) => new(value.NativePtr);
 
     public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLTileRenderPipelineColorAttachmentDescriptor(nint nativ
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLPixelFormat PixelFormat

@@ -4,6 +4,8 @@ public readonly struct MTL4AccelerationStructureGeometryDescriptor(nint nativePt
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTL4AccelerationStructureGeometryDescriptor value) => new(value.NativePtr);
 
     public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveC.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTL4AccelerationStructureGeometryDescriptor(nint nativePt
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint IntersectionFunctionTableOffset

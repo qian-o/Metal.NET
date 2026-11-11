@@ -4,6 +4,8 @@ public readonly struct MTLTensorExtents(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLTensorExtents value) => new(value.NativePtr);
 
     public MTLTensorExtents() : this(ObjectiveC.AllocInit(MTLTensorExtentsBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLTensorExtents(nint nativePtr) : IDisposable
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint Rank

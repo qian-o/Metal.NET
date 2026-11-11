@@ -25,12 +25,19 @@ public readonly partial struct CGColorSpace(nint nativePtr) : IDisposable
 {
     public readonly nint NativePtr = nativePtr;
 
-    public void Dispose()
+    public bool IsNull => NativePtr is 0;
+
+    public void Release()
     {
-        if (NativePtr is not 0)
+        if (!IsNull)
         {
             CGColorSpaceRelease(NativePtr);
         }
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public static CGColorSpace Create(CGColorSpaceName name)

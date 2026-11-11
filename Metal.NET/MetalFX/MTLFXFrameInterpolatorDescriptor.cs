@@ -4,6 +4,8 @@ public readonly struct MTLFXFrameInterpolatorDescriptor(nint nativePtr) : IDispo
 {
     public readonly nint NativePtr = nativePtr;
 
+    public bool IsNull => NativePtr is 0;
+
     public static implicit operator NSObject(MTLFXFrameInterpolatorDescriptor value) => new(value.NativePtr);
 
     public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveC.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class))
@@ -15,9 +17,14 @@ public readonly struct MTLFXFrameInterpolatorDescriptor(nint nativePtr) : IDispo
         return new(ObjectiveC.Retain(NativePtr));
     }
 
-    public void Dispose()
+    public void Release()
     {
         ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLPixelFormat ColorTextureFormat
