@@ -27,12 +27,14 @@ public readonly partial struct CGColorSpace(nint nativePtr) : IDisposable
 
     public bool IsNull => NativePtr is 0;
 
+    public CGColorSpace Retain()
+    {
+        return new(CGColorSpaceRetain(NativePtr));
+    }
+
     public void Release()
     {
-        if (!IsNull)
-        {
-            CGColorSpaceRelease(NativePtr);
-        }
+        CGColorSpaceRelease(NativePtr);
     }
 
     public void Dispose()
@@ -72,6 +74,9 @@ public readonly partial struct CGColorSpace(nint nativePtr) : IDisposable
     {
         return new(CGColorSpaceCreateDeviceCMYK());
     }
+
+    [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceRetain")]
+    private static partial nint CGColorSpaceRetain(nint colorSpace);
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceRelease")]
     private static partial void CGColorSpaceRelease(nint colorSpace);

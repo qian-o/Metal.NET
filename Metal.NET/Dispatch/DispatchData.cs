@@ -8,12 +8,16 @@ public readonly partial struct DispatchData(nint nativePtr) : IDisposable
 
     public bool IsNull => NativePtr is 0;
 
+    public DispatchData Retain()
+    {
+        DispatchRetain(NativePtr);
+
+        return this;
+    }
+
     public void Release()
     {
-        if (!IsNull)
-        {
-            DispatchRelease(NativePtr);
-        }
+        DispatchRelease(NativePtr);
     }
 
     public void Dispose()
@@ -28,6 +32,9 @@ public readonly partial struct DispatchData(nint nativePtr) : IDisposable
             return new(DispatchDataCreate((nint)pData, (nuint)(data.Length * sizeof(T)), 0, 0));
         }
     }
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_retain")]
+    private static partial void DispatchRetain(nint @object);
 
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
     private static partial void DispatchRelease(nint @object);

@@ -37,11 +37,6 @@ public abstract unsafe class NativeBlock : IDisposable
 
     public void Dispose()
     {
-        if (IsNull)
-        {
-            return;
-        }
-
         Release();
 
         GC.SuppressFinalize(this);
