@@ -10,14 +10,14 @@
         <Version>3.0.0</Version>
         <Authors>qian-o</Authors>
         <Copyright>Copyright (c) 2026 qian-o</Copyright>
-        <Description>C# bindings for Apple's Metal graphics API.</Description>
+        <Description>Low-level, zero-overhead C# bindings for Apple's Metal, Metal 4, and MetalFX frameworks.</Description>
 
         <RepositoryType>Git</RepositoryType>
         <RepositoryUrl>https://github.com/qian-o/Metal.NET.git</RepositoryUrl>
 
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageTags>Metal;Apple;Graphics;CSharp</PackageTags>
+        <PackageTags>Metal;Metal4;MetalFX;Apple;macOS;Graphics;GPU;CSharp</PackageTags>
         <PackageProjectUrl>https://github.com/qian-o/Metal.NET</PackageProjectUrl>
 
         <IncludeSymbols>true</IncludeSymbols>

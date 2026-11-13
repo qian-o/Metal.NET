@@ -38,7 +38,7 @@ partial class CSharpEmitter
                 // Trampoline receives the low-level type
                 trampolineArgs.Add($"{p.CsType} {p.Name}");
 
-                // If the strong type is a NativeObject, wrap it; otherwise pass through
+                // If the strong type is a wrapper struct, construct it; otherwise pass through
                 if (strongType != p.CsType)
                 {
                     callbackArgs.Add($"new {strongType}({p.Name})");
@@ -86,7 +86,7 @@ partial class CSharpEmitter
 
     /// <summary>
     /// Resolves the strong C# type for a block parameter.
-    /// Pointer types that map to known NativeObject classes get their class name;
+    /// Pointer types that map to known ObjC wrapper types get their struct name;
     /// value types (ulong, long, nuint, nint from void*) pass through unchanged.
     /// </summary>
     static string ResolveStrongType(BlockParam param)

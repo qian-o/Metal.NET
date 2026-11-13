@@ -2,7 +2,7 @@
 """Extract Metal / MetalFX API declarations from a Clang AST JSON dump.
 
 Usage:
-    python extract_metal_api.py <raw_ast.json> <output.json> <sdk_version> <sdk_path> [symbolgraph_dir]
+    python parse_metal_ast.py <raw_ast.json> <output.json> <sdk_version> <sdk_path> [symbolgraph_dir]
 
 Outputs a JSON file with the structure:
     { "sdkVersion": "...", "enums": [...], "protocols": [...],

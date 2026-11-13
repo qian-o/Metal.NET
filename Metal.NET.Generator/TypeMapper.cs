@@ -239,8 +239,8 @@ partial class TypeMapper(GeneratorContext context)
     }
 
     /// <summary>
-    /// Returns <see langword="true"/> if the C# type represents a <c>NativeObject</c> subclass
-    /// (not a primitive, struct, or enum).
+    /// Returns <see langword="true"/> if the C# type represents an ObjC object wrapper struct
+    /// (not a primitive, value struct, or enum).
     /// </summary>
     public bool IsNativeObjectType(string csType) =>
         csType is not ("void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long"
