@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorBufferAttachments(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorBufferAttachments>
+public readonly struct MTLTensorBufferAttachments(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensorBufferAttachments Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensorBufferAttachments New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTensorBufferAttachments value) => new(value.NativePtr);
+
+    public MTLTensorBufferAttachments() : this(ObjectiveC.AllocInit(MTLTensorBufferAttachmentsBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLTensorBufferAttachments() : this(ObjectiveC.AllocInit(MTLTensorBufferAttachmentsBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTensorBufferAttachments Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, MTLTensorPlaneType plane)
@@ -24,7 +36,7 @@ public class MTLTensorBufferAttachments(nint nativePtr, NativeObjectOwnership ow
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTensorBufferAttachmentsBindings.BufferForPlane, (nint)plane);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public nuint Offset(MTLTensorPlaneType plane)

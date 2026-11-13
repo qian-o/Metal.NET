@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySetDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResidencySetDescriptor>
+public readonly struct MTLResidencySetDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLResidencySetDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLResidencySetDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLResidencySetDescriptor value) => new(value.NativePtr);
+
+    public MTLResidencySetDescriptor() : this(ObjectiveC.AllocInit(MTLResidencySetDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLResidencySetDescriptor() : this(ObjectiveC.AllocInit(MTLResidencySetDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLResidencySetDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLResidencySetDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLResidencySetDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResidencySetDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public nuint InitialCapacity

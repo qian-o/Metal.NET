@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineStageDynamicLinkingDescriptor>
+public readonly struct MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4PipelineStageDynamicLinkingDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4PipelineStageDynamicLinkingDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4PipelineStageDynamicLinkingDescriptor value) => new(value.NativePtr);
+
+    public MTL4PipelineStageDynamicLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4PipelineStageDynamicLinkingDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4PipelineStageDynamicLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4PipelineStageDynamicLinkingDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4PipelineStageDynamicLinkingDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint MaxCallStackDepth
@@ -23,14 +35,14 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, NativeObj
 
     public NSArray<MTL4BinaryFunction> BinaryLinkedFunctions
     {
-        get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
-        set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value.NativePtr);
     }
 
     public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
-        get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
-        set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value.NativePtr);
     }
 }
 

@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXSpatialScalerBase(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXSpatialScalerBase>
+public readonly struct MTLFXSpatialScalerBase(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFXSpatialScalerBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFXSpatialScalerBase New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFXSpatialScalerBase value) => new(value.NativePtr);
+
+    public MTLFXSpatialScalerBase Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLTextureUsage ColorTextureUsage
     {
@@ -35,14 +47,14 @@ public class MTLFXSpatialScalerBase(nint nativePtr, NativeObjectOwnership owners
 
     public MTLTexture ColorTexture
     {
-        get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.ColorTexture);
-        set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetColorTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerBaseBindings.ColorTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetColorTexture, value.NativePtr);
     }
 
     public MTLTexture OutputTexture
     {
-        get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.OutputTexture);
-        set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetOutputTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerBaseBindings.OutputTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetOutputTexture, value.NativePtr);
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -82,8 +94,8 @@ public class MTLFXSpatialScalerBase(nint nativePtr, NativeObjectOwnership owners
 
     public MTLFence Fence
     {
-        get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.Fence);
-        set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetFence, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerBaseBindings.Fence));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetFence, value.NativePtr);
     }
 }
 

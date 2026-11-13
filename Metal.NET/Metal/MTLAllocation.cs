@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLAllocation(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAllocation>
+public readonly struct MTLAllocation(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLAllocation Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLAllocation New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLAllocation value) => new(value.NativePtr);
+
+    public MTLAllocation Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public nuint AllocatedSize
     {

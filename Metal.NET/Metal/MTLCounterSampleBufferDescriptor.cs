@@ -1,30 +1,42 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSampleBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounterSampleBufferDescriptor>
+public readonly struct MTLCounterSampleBufferDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCounterSampleBufferDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCounterSampleBufferDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCounterSampleBufferDescriptor value) => new(value.NativePtr);
+
+    public MTLCounterSampleBufferDescriptor() : this(ObjectiveC.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLCounterSampleBufferDescriptor() : this(ObjectiveC.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCounterSampleBufferDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLCounterSet CounterSet
     {
-        get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.CounterSet);
-        set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.CounterSet));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value.NativePtr);
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public MTLStorageMode StorageMode

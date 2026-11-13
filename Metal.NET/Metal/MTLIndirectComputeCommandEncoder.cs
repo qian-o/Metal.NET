@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectComputeCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIndirectComputeCommandEncoder>
+public readonly struct MTLIndirectComputeCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIndirectComputeCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIndirectComputeCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIndirectComputeCommandEncoder value) => new(value.NativePtr);
+
+    public MTLIndirectComputeCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 }
 
 file static class MTLIndirectComputeCommandEncoderBindings

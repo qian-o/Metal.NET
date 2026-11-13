@@ -1,15 +1,40 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTL4CommandEncoder(nativePtr, ownership), INativeObject<MTL4ComputeCommandEncoder>
+public readonly struct MTL4ComputeCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4ComputeCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4ComputeCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4CommandEncoder(MTL4ComputeCommandEncoder value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4ComputeCommandEncoder value) => new(value.NativePtr);
+
+    public MTL4ComputeCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4ComputeCommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTL4CommandBuffer CommandBuffer
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4ComputeCommandEncoderBindings.CommandBuffer));
+    }
 
     public MTLStages Stages()
     {
@@ -195,11 +220,64 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
     {
         ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.WriteTimestampWithGranularity_IntoHeap_AtIndex, (nint)granularity, counterHeap.NativePtr, index);
     }
+
+    public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.BarrierAfterQueueStages_BeforeStages_VisibilityOptions, (nuint)afterQueueStages, (nuint)beforeStages, (nuint)visibilityOptions);
+    }
+
+    public void BarrierAfterStages(MTLStages afterStages, MTLStages beforeQueueStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.BarrierAfterStages_BeforeQueueStages_VisibilityOptions, (nuint)afterStages, (nuint)beforeQueueStages, (nuint)visibilityOptions);
+    }
+
+    public void BarrierAfterEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.BarrierAfterEncoderStages_BeforeEncoderStages_VisibilityOptions, (nuint)afterEncoderStages, (nuint)beforeEncoderStages, (nuint)visibilityOptions);
+    }
+
+    public void UpdateFence(MTLFence fence, MTLStages afterEncoderStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.UpdateFence_AfterEncoderStages, fence.NativePtr, (nuint)afterEncoderStages);
+    }
+
+    public void WaitForFence(MTLFence fence, MTLStages beforeEncoderStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.WaitForFence_BeforeEncoderStages, fence.NativePtr, (nuint)beforeEncoderStages);
+    }
+
+    public void InsertDebugSignpost(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+    }
+
+    public void PushDebugGroup(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+    }
+
+    public void PopDebugGroup()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.PopDebugGroup);
+    }
+
+    public void EndEncoding()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.EndEncoding);
+    }
 }
 
 file static class MTL4ComputeCommandEncoderBindings
 {
+    public static readonly Selector BarrierAfterEncoderStages_BeforeEncoderStages_VisibilityOptions = "barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:";
+
+    public static readonly Selector BarrierAfterQueueStages_BeforeStages_VisibilityOptions = "barrierAfterQueueStages:beforeStages:visibilityOptions:";
+
+    public static readonly Selector BarrierAfterStages_BeforeQueueStages_VisibilityOptions = "barrierAfterStages:beforeQueueStages:visibilityOptions:";
+
     public static readonly Selector BuildAccelerationStructure_Descriptor_ScratchBuffer = "buildAccelerationStructure:descriptor:scratchBuffer:";
+
+    public static readonly Selector CommandBuffer = "commandBuffer";
 
     public static readonly Selector CopyAccelerationStructure_ToAccelerationStructure = "copyAccelerationStructure:toAccelerationStructure:";
 
@@ -235,6 +313,8 @@ file static class MTL4ComputeCommandEncoderBindings
 
     public static readonly Selector DispatchThreadsWithIndirectBuffer = "dispatchThreadsWithIndirectBuffer:";
 
+    public static readonly Selector EndEncoding = "endEncoding";
+
     public static readonly Selector ExecuteCommandsInBuffer_IndirectBuffer = "executeCommandsInBuffer:indirectBuffer:";
 
     public static readonly Selector ExecuteCommandsInBuffer_WithRange = "executeCommandsInBuffer:withRange:";
@@ -242,6 +322,10 @@ file static class MTL4ComputeCommandEncoderBindings
     public static readonly Selector FillBuffer_Range_Value = "fillBuffer:range:value:";
 
     public static readonly Selector GenerateMipmapsForTexture = "generateMipmapsForTexture:";
+
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
+
+    public static readonly Selector Label = "label";
 
     public static readonly Selector OptimizeContentsForCPUAccess = "optimizeContentsForCPUAccess:";
 
@@ -252,6 +336,10 @@ file static class MTL4ComputeCommandEncoderBindings
     public static readonly Selector OptimizeContentsForGPUAccess_Slice_Level = "optimizeContentsForGPUAccess:slice:level:";
 
     public static readonly Selector OptimizeIndirectCommandBuffer_WithRange = "optimizeIndirectCommandBuffer:withRange:";
+
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
+
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
     public static readonly Selector RefitAccelerationStructure_Descriptor_Destination_ScratchBuffer = "refitAccelerationStructure:descriptor:destination:scratchBuffer:";
 
@@ -265,9 +353,15 @@ file static class MTL4ComputeCommandEncoderBindings
 
     public static readonly Selector SetImageblockWidth_Height = "setImageblockWidth:height:";
 
+    public static readonly Selector SetLabel = "setLabel:";
+
     public static readonly Selector SetThreadgroupMemoryLength_AtIndex = "setThreadgroupMemoryLength:atIndex:";
 
     public static readonly Selector Stages = "stages";
+
+    public static readonly Selector UpdateFence_AfterEncoderStages = "updateFence:afterEncoderStages:";
+
+    public static readonly Selector WaitForFence_BeforeEncoderStages = "waitForFence:beforeEncoderStages:";
 
     public static readonly Selector WriteCompactedAccelerationStructureSize_ToBuffer = "writeCompactedAccelerationStructureSize:toBuffer:";
 

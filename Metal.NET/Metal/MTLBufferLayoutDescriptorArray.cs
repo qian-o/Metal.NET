@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBufferLayoutDescriptorArray>
+public readonly struct MTLBufferLayoutDescriptorArray(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLBufferLayoutDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLBufferLayoutDescriptorArray New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLBufferLayoutDescriptorArray value) => new(value.NativePtr);
+
+    public MTLBufferLayoutDescriptorArray Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLBufferLayoutDescriptor this[nuint index]
     {
@@ -17,7 +29,7 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnershi
         {
             nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
 
-            return new(nativePtr, NativeObjectOwnership.Borrowed);
+            return new(nativePtr);
         }
         set
         {

@@ -1,20 +1,32 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CounterHeap>
+public readonly struct MTL4CounterHeap(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CounterHeap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CounterHeap New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CounterHeap value) => new(value.NativePtr);
+
+    public MTL4CounterHeap Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4CounterHeapBindings.Label);
-        set => SetProperty(ref field, MTL4CounterHeapBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CounterHeapBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapBindings.SetLabel, value.NativePtr);
     }
 
     public nuint Count
@@ -31,7 +43,7 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public void InvalidateCounterRange(NSRange range)

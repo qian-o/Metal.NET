@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceViewPool>
+public readonly struct MTLResourceViewPool(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLResourceViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLResourceViewPool New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLResourceViewPool value) => new(value.NativePtr);
+
+    public MTLResourceViewPool Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLResourceID BaseResourceID
     {
@@ -23,12 +35,12 @@ public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLResourceViewPoolBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceViewPoolBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLResourceViewPoolBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceViewPoolBindings.Label));
     }
 
     public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)

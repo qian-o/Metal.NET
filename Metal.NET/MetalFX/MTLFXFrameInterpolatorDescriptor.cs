@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatorDescriptor>
+public readonly struct MTLFXFrameInterpolatorDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFXFrameInterpolatorDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFXFrameInterpolatorDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFXFrameInterpolatorDescriptor value) => new(value.NativePtr);
+
+    public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveC.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveC.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFXFrameInterpolatorDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -47,8 +59,8 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
 
     public MTLFXFrameInterpolatableScaler Scaler
     {
-        get => GetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.Scaler);
-        set => SetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.Scaler));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value.NativePtr);
     }
 
     public nuint InputWidth
@@ -91,14 +103,14 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwners
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevice, device.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTL4FXFrameInterpolator MakeFrameInterpolator(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevice_Compiler, device.NativePtr, compiler.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)

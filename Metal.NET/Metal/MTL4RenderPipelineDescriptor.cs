@@ -1,36 +1,50 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4RenderPipelineDescriptor>
+public readonly struct MTL4RenderPipelineDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4RenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4RenderPipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4PipelineDescriptor(MTL4RenderPipelineDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4RenderPipelineDescriptor value) => new(value.NativePtr);
+
+    public MTL4RenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4RenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4RenderPipelineDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTL4FunctionDescriptor VertexFunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.VertexFunctionDescriptor);
-        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDescriptorBindings.VertexFunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetVertexFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4FunctionDescriptor FragmentFunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
-        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDescriptorBindings.FragmentFunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value.NativePtr);
     }
 
     public MTLVertexDescriptor VertexDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.VertexDescriptor);
-        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDescriptorBindings.VertexDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetVertexDescriptor, value.NativePtr);
     }
 
     public nuint RasterSampleCount
@@ -65,7 +79,7 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.ColorAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDescriptorBindings.ColorAttachments));
     }
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
@@ -76,14 +90,14 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTL4StaticLinkingDescriptor VertexStaticLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.VertexStaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexStaticLinkingDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDescriptorBindings.VertexStaticLinkingDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetVertexStaticLinkingDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value.NativePtr);
     }
 
     public Bool8 SupportVertexBinaryLinking
@@ -108,6 +122,18 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
     {
         get => (MTL4IndirectCommandBufferSupportState)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTL4PipelineOptions Options
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDescriptorBindings.Options));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetOptions, value.NativePtr);
     }
 
     public void Reset()
@@ -136,7 +162,11 @@ file static class MTL4RenderPipelineDescriptorBindings
 
     public static readonly Selector IsRasterizationEnabled = "isRasterizationEnabled";
 
+    public static readonly Selector Label = "label";
+
     public static readonly Selector MaxVertexAmplificationCount = "maxVertexAmplificationCount";
+
+    public static readonly Selector Options = "options";
 
     public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
@@ -154,7 +184,11 @@ file static class MTL4RenderPipelineDescriptorBindings
 
     public static readonly Selector SetInputPrimitiveTopology = "setInputPrimitiveTopology:";
 
+    public static readonly Selector SetLabel = "setLabel:";
+
     public static readonly Selector SetMaxVertexAmplificationCount = "setMaxVertexAmplificationCount:";
+
+    public static readonly Selector SetOptions = "setOptions:";
 
     public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 

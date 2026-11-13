@@ -1,15 +1,29 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTextureReferenceType>
+public readonly struct MTLTextureReferenceType(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTextureReferenceType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTextureReferenceType New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLType(MTLTextureReferenceType value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLTextureReferenceType value) => new(value.NativePtr);
+
+    public MTLTextureReferenceType Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLDataType TextureDataType
     {
@@ -30,11 +44,18 @@ public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership owner
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
     }
+
+    public MTLDataType DataType
+    {
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.DataType);
+    }
 }
 
 file static class MTLTextureReferenceTypeBindings
 {
     public static readonly Selector Access = "access";
+
+    public static readonly Selector DataType = "dataType";
 
     public static readonly Selector IsDepthTexture = "isDepthTexture";
 

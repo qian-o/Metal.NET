@@ -1,42 +1,54 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPipelineDescriptor>
+public readonly struct MTLRenderPipelineDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRenderPipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRenderPipelineDescriptor value) => new(value.NativePtr);
+
+    public MTLRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPipelineDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPipelineDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public MTLFunction VertexFunction
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexFunction);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexFunction, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.VertexFunction));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexFunction, value.NativePtr);
     }
 
     public MTLFunction FragmentFunction
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentFunction);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentFunction, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.FragmentFunction));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentFunction, value.NativePtr);
     }
 
     public MTLVertexDescriptor VertexDescriptor
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexDescriptor);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.VertexDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexDescriptor, value.NativePtr);
     }
 
     /// <summary>
@@ -81,7 +93,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.ColorAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.ColorAttachments));
     }
 
     public MTLPixelFormat DepthAttachmentPixelFormat
@@ -146,12 +158,12 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLPipelineBufferDescriptorArray VertexBuffers
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexBuffers);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.VertexBuffers));
     }
 
     public MTLPipelineBufferDescriptorArray FragmentBuffers
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentBuffers);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.FragmentBuffers));
     }
 
     public Bool8 SupportIndirectCommandBuffers
@@ -162,32 +174,32 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.BinaryArchives));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value.NativePtr);
     }
 
     public NSArray<MTLDynamicLibrary> VertexPreloadedLibraries
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value.NativePtr);
     }
 
     public NSArray<MTLDynamicLibrary> FragmentPreloadedLibraries
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value.NativePtr);
     }
 
     public MTLLinkedFunctions VertexLinkedFunctions
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexLinkedFunctions);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.VertexLinkedFunctions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value.NativePtr);
     }
 
     public MTLLinkedFunctions FragmentLinkedFunctions
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineDescriptorBindings.FragmentLinkedFunctions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value.NativePtr);
     }
 
     public Bool8 SupportAddingVertexBinaryFunctions

@@ -1,30 +1,42 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorDescriptor>
+public readonly struct MTLTensorDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensorDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensorDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTensorDescriptor value) => new(value.NativePtr);
+
+    public MTLTensorDescriptor() : this(ObjectiveC.AllocInit(MTLTensorDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLTensorDescriptor() : this(ObjectiveC.AllocInit(MTLTensorDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTensorDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLTensorExtents Dimensions
     {
-        get => GetProperty(ref field, MTLTensorDescriptorBindings.Dimensions);
-        set => SetProperty(ref field, MTLTensorDescriptorBindings.SetDimensions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorDescriptorBindings.Dimensions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetDimensions, value.NativePtr);
     }
 
     public MTLTensorExtents Strides
     {
-        get => GetProperty(ref field, MTLTensorDescriptorBindings.Strides);
-        set => SetProperty(ref field, MTLTensorDescriptorBindings.SetStrides, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorDescriptorBindings.Strides));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetStrides, value.NativePtr);
     }
 
     public MTLTensorDataType DataType
@@ -41,8 +53,8 @@ public class MTLTensorDescriptor(nint nativePtr, NativeObjectOwnership ownership
 
     public MTLTensorAuxiliaryPlaneDescriptorMap AuxiliaryPlanes
     {
-        get => GetProperty(ref field, MTLTensorDescriptorBindings.AuxiliaryPlanes);
-        set => SetProperty(ref field, MTLTensorDescriptorBindings.SetAuxiliaryPlanes, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorDescriptorBindings.AuxiliaryPlanes));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetAuxiliaryPlanes, value.NativePtr);
     }
 
     public MTLResourceOptions ResourceOptions

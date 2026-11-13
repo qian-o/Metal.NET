@@ -1,36 +1,48 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionDescriptor>
+public readonly struct MTLFunctionDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunctionDescriptor value) => new(value.NativePtr);
+
+    public MTLFunctionDescriptor() : this(ObjectiveC.AllocInit(MTLFunctionDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLFunctionDescriptor() : this(ObjectiveC.AllocInit(MTLFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.Name);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetName, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionDescriptorBindings.Name));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetName, value.NativePtr);
     }
 
     public NSString SpecializedName
     {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.SpecializedName);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetSpecializedName, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionDescriptorBindings.SpecializedName));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetSpecializedName, value.NativePtr);
     }
 
     public MTLFunctionConstantValues ConstantValues
     {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.ConstantValues);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetConstantValues, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionDescriptorBindings.ConstantValues));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetConstantValues, value.NativePtr);
     }
 
     public MTLFunctionOptions Options
@@ -41,15 +53,15 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetBinaryArchives, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionDescriptorBindings.BinaryArchives));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetBinaryArchives, value.NativePtr);
     }
 
     public static MTLFunctionDescriptor FunctionDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

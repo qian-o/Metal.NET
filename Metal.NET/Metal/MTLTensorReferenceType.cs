@@ -1,15 +1,29 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTensorReferenceType>
+public readonly struct MTLTensorReferenceType(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensorReferenceType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensorReferenceType New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLType(MTLTensorReferenceType value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLTensorReferenceType value) => new(value.NativePtr);
+
+    public MTLTensorReferenceType Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLTensorDataType TensorDataType
     {
@@ -23,17 +37,22 @@ public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership owners
 
     public MTLTensorExtents Dimensions
     {
-        get => GetProperty(ref field, MTLTensorReferenceTypeBindings.Dimensions);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorReferenceTypeBindings.Dimensions));
     }
 
     public NSArray<MTLTensorAuxiliaryPlaneType> AuxiliaryPlanes
     {
-        get => GetProperty(ref field, MTLTensorReferenceTypeBindings.AuxiliaryPlanes);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorReferenceTypeBindings.AuxiliaryPlanes));
     }
 
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.Access);
+    }
+
+    public MTLDataType DataType
+    {
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.DataType);
     }
 }
 
@@ -42,6 +61,8 @@ file static class MTLTensorReferenceTypeBindings
     public static readonly Selector Access = "access";
 
     public static readonly Selector AuxiliaryPlanes = "auxiliaryPlanes";
+
+    public static readonly Selector DataType = "dataType";
 
     public static readonly Selector Dimensions = "dimensions";
 

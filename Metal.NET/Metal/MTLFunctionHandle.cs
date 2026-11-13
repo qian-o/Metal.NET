@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionHandle>
+public readonly struct MTLFunctionHandle(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionHandle New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunctionHandle value) => new(value.NativePtr);
+
+    public MTLFunctionHandle Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLFunctionType FunctionType
     {
@@ -18,12 +30,12 @@ public class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) 
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLFunctionHandleBindings.Name);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionHandleBindings.Name));
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLFunctionHandleBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionHandleBindings.Device));
     }
 
     public MTLResourceID GpuResourceID

@@ -5,10 +5,10 @@ partial class CSharpEmitter
     #region Class Generation
 
     /// <summary>
-    /// Generates a single C# class file: constructor, properties, methods, indexer,
-    /// free-function wrappers, and the companion <c>Bindings</c> selector-lookup class.
+    /// Generates a single C# struct file: constructor, implicit base conversions,
+    /// properties, methods, indexer, free-function wrappers, and the companion <c>Bindings</c> selector-lookup class.
     /// </summary>
-    void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, HashSet<string> knownDelegateNames, List<FreeFunctionDef> freeFunctions)
+    void GenerateClass(ClassDef classDef, Dictionary<string, ClassDef> classByName, HashSet<string> knownDelegateNames, List<FreeFunctionDef> freeFunctions)
     {
         string csClassName = classDef.FullCsName;
 
@@ -23,10 +23,36 @@ partial class CSharpEmitter
 
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
+        // Collect inheritance chain (excluding NSObject): [immediate parent, grandparent, ...]
+        List<string> ancestorTypes = [];
+        List<ClassDef> hierarchyChain = [classDef];
+        {
+            string? currentBase = classDef.BaseClassName;
+            while (currentBase != null && currentBase != "NSObject" && context.KnownClassNames.Contains(currentBase))
+            {
+                ancestorTypes.Add(currentBase);
+                if (classByName.TryGetValue(currentBase, out ClassDef? baseDef))
+                {
+                    hierarchyChain.Add(baseDef);
+                    currentBase = baseDef.BaseClassName;
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+
+        // Flatten non-init methods from derived to base so derived members take precedence
+        List<MethodInfo> allNonInitMethods = [];
+        foreach (ClassDef def in hierarchyChain)
+        {
+            allNonInitMethods.AddRange(def.Methods.Where(m => !m.IsInit));
+        }
+
         List<MethodInfo> validMethods =
         [
-            .. classDef.Methods.Where(m => !m.IsInit
-                                            && !HasUnmergableArrayParam(m)
+            .. allNonInitMethods.Where(m => !HasUnmergableArrayParam(m)
                                             && !HasFunctionPointerParam(m, knownDelegateNames)
                                             && !HasUnmappableParam(m)
                                             && !m.ReturnType.Contains("UNKNOWN_BLOCK"))
@@ -67,9 +93,6 @@ partial class CSharpEmitter
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
-        string baseClass = classDef.BaseClassName != null && context.KnownClassNames.Contains(classDef.BaseClassName)
-            ? classDef.BaseClassName
-            : "NSObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
 
         // Class-level [Obsolete] from AST
@@ -80,17 +103,19 @@ partial class CSharpEmitter
                 : "[Obsolete]");
         }
 
-        sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
+        sb.AppendLine($"public readonly {partialKeyword}struct {csClassName}(nint nativePtr) : IDisposable");
         sb.AppendLine("{");
-        string newKeyword = baseClass is not "NativeObject" ? "new " : "";
-        sb.AppendLine("    #region INativeObject");
-        sb.AppendLine($"    public static {newKeyword}{csClassName} Null {{ get; }} = new(0, NativeObjectOwnership.Borrowed);");
+        sb.AppendLine("    public readonly nint NativePtr = nativePtr;");
         sb.AppendLine();
-        sb.AppendLine($"    public static {newKeyword}{csClassName} New(nint nativePtr, NativeObjectOwnership ownership)");
-        sb.AppendLine("    {");
-        sb.AppendLine("        return new(nativePtr, ownership);");
-        sb.AppendLine("    }");
-        sb.AppendLine("    #endregion");
+        sb.AppendLine("    public bool IsNull => NativePtr is 0;");
+
+        foreach (string ancestor in ancestorTypes)
+        {
+            sb.AppendLine();
+            sb.AppendLine($"    public static implicit operator {ancestor}({csClassName} value) => new(value.NativePtr);");
+        }
+        sb.AppendLine();
+        sb.AppendLine($"    public static implicit operator NSObject({csClassName} value) => new(value.NativePtr);");
 
         bool hasPrecedingMember = true;
 
@@ -98,13 +123,29 @@ partial class CSharpEmitter
         if (classDef.HasAllocInit)
         {
             sb.AppendLine();
-            sb.AppendLine($"    public {csClassName}() : this(ObjectiveC.AllocInit({csClassName}Bindings.Class), NativeObjectOwnership.Managed)");
+            sb.AppendLine($"    public {csClassName}() : this(ObjectiveC.AllocInit({csClassName}Bindings.Class))");
             sb.AppendLine("    {");
             sb.AppendLine("    }");
-            hasPrecedingMember = true;
         }
 
-        // === Properties (in JSON order, no grouping) ===
+        sb.AppendLine();
+        sb.AppendLine($"    public {csClassName} Retain()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return new(ObjectiveC.Retain(NativePtr));");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public void Release()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        ObjectiveC.Release(NativePtr);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public void Dispose()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        Release();");
+        sb.AppendLine("    }");
+
+        // === Properties (in JSON order, deduplicated across hierarchy) ===
+        HashSet<string> emittedProperties = [];
         foreach (PropertyDef prop in properties)
         {
             int prevLen = sb.Length;
@@ -113,7 +154,7 @@ partial class CSharpEmitter
                 sb.AppendLine();
             }
 
-            if (EmitProperty(sb, prop, csClassName, selectors, inheritedProperties))
+            if (EmitProperty(sb, prop, csClassName, ancestorTypes, selectors, emittedProperties))
             {
                 hasPrecedingMember = true;
             }
@@ -141,7 +182,7 @@ partial class CSharpEmitter
             sb.AppendLine("        {");
             sb.AppendLine($"            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, {csClassName}Bindings.Object, {indexParam});");
             sb.AppendLine();
-            sb.AppendLine("            return new(nativePtr, NativeObjectOwnership.Borrowed);");
+            sb.AppendLine("            return new(nativePtr);");
             sb.AppendLine("        }");
             RecordMsgSend("MsgSendNInt", "nuint");
 
@@ -178,7 +219,7 @@ partial class CSharpEmitter
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, selectors, knownDelegateNames);
+            EmitMethod(sb, method, csClassName, ancestorTypes, selectors, knownDelegateNames);
             hasPrecedingMember = true;
         }
 
@@ -199,7 +240,7 @@ partial class CSharpEmitter
                 sb.AppendLine();
             }
 
-            EmitMethod(sb, method, csClassName, selectors, knownDelegateNames);
+            EmitMethod(sb, method, csClassName, ancestorTypes, selectors, knownDelegateNames);
             hasPrecedingMember = true;
         }
 

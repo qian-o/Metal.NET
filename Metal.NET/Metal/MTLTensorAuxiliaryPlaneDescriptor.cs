@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorAuxiliaryPlaneDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorAuxiliaryPlaneDescriptor>
+public readonly struct MTLTensorAuxiliaryPlaneDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensorAuxiliaryPlaneDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensorAuxiliaryPlaneDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTensorAuxiliaryPlaneDescriptor value) => new(value.NativePtr);
+
+    public MTLTensorAuxiliaryPlaneDescriptor() : this(ObjectiveC.AllocInit(MTLTensorAuxiliaryPlaneDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLTensorAuxiliaryPlaneDescriptor() : this(ObjectiveC.AllocInit(MTLTensorAuxiliaryPlaneDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTensorAuxiliaryPlaneDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLTensorDataType DataType
@@ -23,8 +35,8 @@ public class MTLTensorAuxiliaryPlaneDescriptor(nint nativePtr, NativeObjectOwner
 
     public MTLTensorExtents BlockFactors
     {
-        get => GetProperty(ref field, MTLTensorAuxiliaryPlaneDescriptorBindings.BlockFactors);
-        set => SetProperty(ref field, MTLTensorAuxiliaryPlaneDescriptorBindings.SetBlockFactors, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorAuxiliaryPlaneDescriptorBindings.BlockFactors));
+        set => ObjectiveC.MsgSend(NativePtr, MTLTensorAuxiliaryPlaneDescriptorBindings.SetBlockFactors, value.NativePtr);
     }
 }
 

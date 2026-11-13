@@ -1,19 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounter(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounter>
+public readonly struct MTLCounter(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCounter Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCounter New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCounter value) => new(value.NativePtr);
+
+    public MTLCounter Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLCounterBindings.Name);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCounterBindings.Name));
     }
 }
 

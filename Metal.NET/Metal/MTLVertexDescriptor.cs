@@ -1,28 +1,40 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexDescriptor>
+public readonly struct MTLVertexDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLVertexDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLVertexDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLVertexDescriptor value) => new(value.NativePtr);
+
+    public MTLVertexDescriptor() : this(ObjectiveC.AllocInit(MTLVertexDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLVertexDescriptor() : this(ObjectiveC.AllocInit(MTLVertexDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVertexDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLVertexBufferLayoutDescriptorArray Layouts
     {
-        get => GetProperty(ref field, MTLVertexDescriptorBindings.Layouts);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLVertexDescriptorBindings.Layouts));
     }
 
     public MTLVertexAttributeDescriptorArray Attributes
     {
-        get => GetProperty(ref field, MTLVertexDescriptorBindings.Attributes);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLVertexDescriptorBindings.Attributes));
     }
 
     public void Reset()
@@ -34,7 +46,7 @@ public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

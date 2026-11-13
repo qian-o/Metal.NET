@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLAttributeDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAttributeDescriptor>
+public readonly struct MTLAttributeDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLAttributeDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLAttributeDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLAttributeDescriptor value) => new(value.NativePtr);
+
+    public MTLAttributeDescriptor() : this(ObjectiveC.AllocInit(MTLAttributeDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLAttributeDescriptor() : this(ObjectiveC.AllocInit(MTLAttributeDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLAttributeDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLAttributeFormat Format

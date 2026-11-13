@@ -1,24 +1,55 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4MachineLearningPipelineDescriptor>
+public readonly struct MTL4MachineLearningPipelineDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4MachineLearningPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4MachineLearningPipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4PipelineDescriptor(MTL4MachineLearningPipelineDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4MachineLearningPipelineDescriptor value) => new(value.NativePtr);
+
+    public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4MachineLearningPipelineDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4MachineLearningPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4MachineLearningPipelineDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public MTL4FunctionDescriptor MachineLearningFunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.MachineLearningFunctionDescriptor);
-        set => SetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.SetMachineLearningFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.MachineLearningFunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetMachineLearningFunctionDescriptor, value.NativePtr);
+    }
+
+    public MTL4PipelineOptions Options
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.Options));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetOptions, value.NativePtr);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetLabel, label.NativePtr);
     }
 
     public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
@@ -35,7 +66,7 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, NativeObjectO
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public void Reset()
@@ -50,7 +81,11 @@ file static class MTL4MachineLearningPipelineDescriptorBindings
 
     public static readonly Selector InputDimensionsAtBufferIndex = "inputDimensionsAtBufferIndex:";
 
+    public static readonly Selector Label = "label";
+
     public static readonly Selector MachineLearningFunctionDescriptor = "machineLearningFunctionDescriptor";
+
+    public static readonly Selector Options = "options";
 
     public static readonly Selector Reset = "reset";
 
@@ -58,5 +93,9 @@ file static class MTL4MachineLearningPipelineDescriptorBindings
 
     public static readonly Selector SetInputDimensions_WithRange = "setInputDimensions:withRange:";
 
+    public static readonly Selector SetLabel = "setLabel:";
+
     public static readonly Selector SetMachineLearningFunctionDescriptor = "setMachineLearningFunctionDescriptor:";
+
+    public static readonly Selector SetOptions = "setOptions:";
 }

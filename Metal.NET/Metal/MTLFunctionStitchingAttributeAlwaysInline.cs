@@ -1,15 +1,29 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionStitchingAttribute(nativePtr, ownership), INativeObject<MTLFunctionStitchingAttributeAlwaysInline>
+public readonly struct MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionStitchingAttributeAlwaysInline Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionStitchingAttributeAlwaysInline New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLFunctionStitchingAttribute(MTLFunctionStitchingAttributeAlwaysInline value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLFunctionStitchingAttributeAlwaysInline value) => new(value.NativePtr);
+
+    public MTLFunctionStitchingAttributeAlwaysInline Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 }
 
 file static class MTLFunctionStitchingAttributeAlwaysInlineBindings

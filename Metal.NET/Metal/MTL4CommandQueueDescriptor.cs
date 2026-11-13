@@ -1,30 +1,42 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandQueueDescriptor>
+public readonly struct MTL4CommandQueueDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CommandQueueDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CommandQueueDescriptor value) => new(value.NativePtr);
+
+    public MTL4CommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTL4CommandQueueDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4CommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTL4CommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CommandQueueDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandQueueDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public DispatchQueue FeedbackQueue
     {
-        get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
-        set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandQueueDescriptorBindings.FeedbackQueue));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value.NativePtr);
     }
 }
 

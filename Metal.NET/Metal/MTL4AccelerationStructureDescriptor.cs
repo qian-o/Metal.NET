@@ -1,22 +1,46 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTL4AccelerationStructureDescriptor>
+public readonly struct MTL4AccelerationStructureDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4AccelerationStructureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4AccelerationStructureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAccelerationStructureDescriptor(MTL4AccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4AccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public MTL4AccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTL4AccelerationStructureDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4AccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTL4AccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4AccelerationStructureDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
+
+    public MTLAccelerationStructureUsage Usage
+    {
+        get => (MTLAccelerationStructureUsage)ObjectiveC.MsgSendULong(NativePtr, MTL4AccelerationStructureDescriptorBindings.Usage);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
     }
 }
 
 file static class MTL4AccelerationStructureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTL4AccelerationStructureDescriptor");
+
+    public static readonly Selector SetUsage = "setUsage:";
+
+    public static readonly Selector Usage = "usage";
 }

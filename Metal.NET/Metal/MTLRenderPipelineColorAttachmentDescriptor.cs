@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPipelineColorAttachmentDescriptor>
+public readonly struct MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRenderPipelineColorAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRenderPipelineColorAttachmentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRenderPipelineColorAttachmentDescriptor value) => new(value.NativePtr);
+
+    public MTLRenderPipelineColorAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPipelineColorAttachmentDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLRenderPipelineColorAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPipelineColorAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPipelineColorAttachmentDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLPixelFormat PixelFormat

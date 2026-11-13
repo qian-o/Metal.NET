@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorAuxiliaryPlaneType(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorAuxiliaryPlaneType>
+public readonly struct MTLTensorAuxiliaryPlaneType(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensorAuxiliaryPlaneType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensorAuxiliaryPlaneType New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTensorAuxiliaryPlaneType value) => new(value.NativePtr);
+
+    public MTLTensorAuxiliaryPlaneType Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLTensorDataType DataType
     {
@@ -18,7 +30,7 @@ public class MTLTensorAuxiliaryPlaneType(nint nativePtr, NativeObjectOwnership o
 
     public MTLTensorExtents BlockFactors
     {
-        get => GetProperty(ref field, MTLTensorAuxiliaryPlaneTypeBindings.BlockFactors);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLTensorAuxiliaryPlaneTypeBindings.BlockFactors));
     }
 
     public MTLTensorPlaneType PlaneType

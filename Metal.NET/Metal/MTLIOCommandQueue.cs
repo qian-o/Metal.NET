@@ -1,20 +1,32 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOCommandQueue>
+public readonly struct MTLIOCommandQueue(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIOCommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIOCommandQueue New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIOCommandQueue value) => new(value.NativePtr);
+
+    public MTLIOCommandQueue Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLIOCommandQueueBindings.Label);
-        set => SetProperty(ref field, MTLIOCommandQueueBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueBindings.SetLabel, value.NativePtr);
     }
 
     public void EnqueueBarrier()
@@ -26,14 +38,14 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLIOCommandBuffer MakeCommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

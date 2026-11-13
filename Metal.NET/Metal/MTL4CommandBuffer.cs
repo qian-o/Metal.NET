@@ -1,25 +1,37 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandBuffer>
+public readonly struct MTL4CommandBuffer(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CommandBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CommandBuffer value) => new(value.NativePtr);
+
+    public MTL4CommandBuffer Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTL4CommandBufferBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4CommandBufferBindings.Label);
-        set => SetProperty(ref field, MTL4CommandBufferBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.SetLabel, value.NativePtr);
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
@@ -41,28 +53,28 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTL4RenderCommandEncoder MakeRenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptor_Options, descriptor.NativePtr, (nuint)options);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTL4ComputeCommandEncoder MakeComputeCommandEncoder()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTL4MachineLearningCommandEncoder MakeMachineLearningCommandEncoder()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
@@ -70,15 +82,12 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySet, residencySet.NativePtr);
     }
 
-    public unsafe void UseResidencySets(MTLResidencySet[] residencySets)
+    public unsafe void UseResidencySets(ReadOnlySpan<MTLResidencySet> residencySets)
     {
-        nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++)
+        fixed (MTLResidencySet* pResidencySets = residencySets)
         {
-            pResidencySets[i] = residencySets[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySets_Count, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void PushDebugGroup(NSString @string)

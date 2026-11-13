@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDepthStencilDescriptor>
+public readonly struct MTLDepthStencilDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLDepthStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLDepthStencilDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLDepthStencilDescriptor value) => new(value.NativePtr);
+
+    public MTLDepthStencilDescriptor() : this(ObjectiveC.AllocInit(MTLDepthStencilDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLDepthStencilDescriptor() : this(ObjectiveC.AllocInit(MTLDepthStencilDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLDepthStencilDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLCompareFunction DepthCompareFunction
@@ -29,20 +41,20 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
 
     public MTLStencilDescriptor FrontFaceStencil
     {
-        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.FrontFaceStencil);
-        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLDepthStencilDescriptorBindings.FrontFaceStencil));
+        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value.NativePtr);
     }
 
     public MTLStencilDescriptor BackFaceStencil
     {
-        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.BackFaceStencil);
-        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLDepthStencilDescriptorBindings.BackFaceStencil));
+        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value.NativePtr);
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLDepthStencilDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetLabel, value.NativePtr);
     }
 }
 

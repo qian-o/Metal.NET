@@ -1,36 +1,50 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4MeshRenderPipelineDescriptor>
+public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4MeshRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4MeshRenderPipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4PipelineDescriptor(MTL4MeshRenderPipelineDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4MeshRenderPipelineDescriptor value) => new(value.NativePtr);
+
+    public MTL4MeshRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4MeshRenderPipelineDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4MeshRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4MeshRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4MeshRenderPipelineDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTL4FunctionDescriptor ObjectFunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectFunctionDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ObjectFunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4FunctionDescriptor MeshFunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshFunctionDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MeshFunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4FunctionDescriptor FragmentFunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.FragmentFunctionDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value.NativePtr);
     }
 
     public nuint MaxTotalThreadsPerObjectThreadgroup
@@ -113,25 +127,25 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachments));
     }
 
     public MTL4StaticLinkingDescriptor ObjectStaticLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectStaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ObjectStaticLinkingDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor MeshStaticLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshStaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MeshStaticLinkingDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value.NativePtr);
     }
 
     public Bool8 SupportObjectBinaryLinking
@@ -164,6 +178,18 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
         set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
     }
 
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTL4PipelineOptions Options
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.Options));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetOptions, value.NativePtr);
+    }
+
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.Reset);
@@ -188,6 +214,8 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
 
     public static readonly Selector IsRasterizationEnabled = "isRasterizationEnabled";
 
+    public static readonly Selector Label = "label";
+
     public static readonly Selector MaxTotalThreadgroupsPerMeshGrid = "maxTotalThreadgroupsPerMeshGrid";
 
     public static readonly Selector MaxTotalThreadsPerMeshThreadgroup = "maxTotalThreadsPerMeshThreadgroup";
@@ -207,6 +235,8 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
     public static readonly Selector ObjectStaticLinkingDescriptor = "objectStaticLinkingDescriptor";
 
     public static readonly Selector ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "objectThreadgroupSizeIsMultipleOfThreadExecutionWidth";
+
+    public static readonly Selector Options = "options";
 
     public static readonly Selector PayloadMemoryLength = "payloadMemoryLength";
 
@@ -228,6 +258,8 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
 
     public static readonly Selector SetFragmentStaticLinkingDescriptor = "setFragmentStaticLinkingDescriptor:";
 
+    public static readonly Selector SetLabel = "setLabel:";
+
     public static readonly Selector SetMaxTotalThreadgroupsPerMeshGrid = "setMaxTotalThreadgroupsPerMeshGrid:";
 
     public static readonly Selector SetMaxTotalThreadsPerMeshThreadgroup = "setMaxTotalThreadsPerMeshThreadgroup:";
@@ -247,6 +279,8 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
     public static readonly Selector SetObjectStaticLinkingDescriptor = "setObjectStaticLinkingDescriptor:";
 
     public static readonly Selector SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:";
+
+    public static readonly Selector SetOptions = "setOptions:";
 
     public static readonly Selector SetPayloadMemoryLength = "setPayloadMemoryLength:";
 

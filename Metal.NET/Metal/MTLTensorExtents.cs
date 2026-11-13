@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorExtents>
+public readonly struct MTLTensorExtents(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLTensorExtents Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLTensorExtents New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLTensorExtents value) => new(value.NativePtr);
+
+    public MTLTensorExtents() : this(ObjectiveC.AllocInit(MTLTensorExtentsBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLTensorExtents() : this(ObjectiveC.AllocInit(MTLTensorExtentsBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTensorExtents Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint Rank
@@ -29,7 +41,7 @@ public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) :
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLTensorExtentsBindings.Class), MTLTensorExtentsBindings.InitWithRank_Values, rank, values);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 }
 

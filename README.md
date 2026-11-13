@@ -9,8 +9,10 @@ Low-level C# bindings for Apple's **Metal** and **MetalFX** frameworks — auto-
 
 - **Comprehensive coverage** — Metal, Metal 4 and MetalFX (257 generated files, including Objective-C interop), plus hand-written wrappers for CoreFoundation, CoreAnimation, CoreGraphics, GCD and SIMD types.
 - **Clang AST + Swift Symbol Graph** — bindings are extracted from SDK headers, not a hand-maintained IDL. Swift names provide human-readable method & parameter names where Clang only exposes selectors.
-- **Three ownership modes** — `Borrowed`, `Owned` and `Managed`, with deterministic `Dispose()` and an optional finalizer safety net.
-- **ObjC block support** — `NativeBlock<T>` uses `UnmanagedCallersOnly` function pointers for zero-overhead callbacks.
+- **Zero-overhead value-type wrappers** — All Objective-C and Metal objects are `readonly struct` handles wrapping a single `nint`, eliminating GC heap allocations, object headers, and finalizer queue pressure.
+- **Hierarchy flattening & implicit upcasting** — Inherited properties and methods are flattened directly onto derived structs, with zero-cost `implicit operator` conversions along the Objective-C inheritance chain.
+- **Zero-copy span marshalling** — Array-taking APIs accept `ReadOnlySpan<T>` and pin `unmanaged` wrapper structs directly without intermediate copying.
+- **ObjC block support** — `NativeBlock` uses `UnmanagedCallersOnly` function pointers for zero-overhead callbacks.
 - **Native AOT & trimming ready** — annotated with `IsAotCompatible` and `IsTrimmable`.
 
 ## Installation
@@ -36,7 +38,8 @@ using MTLCommandQueue queue = device.MakeCommandQueue();
 using MTLLibrary library = device.MakeDefaultLibrary();
 
 // Look up a compute function and create a pipeline state
-using MTLFunction kernel = library.MakeFunction("myKernel");
+using NSString kernelName = new("myKernel");
+using MTLFunction kernel = library.MakeFunction(kernelName);
 using MTLComputePipelineState pso = device.MakeComputePipelineState(kernel, out NSError error);
 
 // Create a buffer
@@ -54,21 +57,23 @@ Hand-written wrappers are included for CoreFoundation (`NSObject`, `NSString`, `
 
 ## Memory Management
 
-| Ownership | `Dispose()` | Finalizer | Typical Usage |
-|-----------|:-----------:|:---------:|---|
-| `Borrowed` | — | — | Property getters, indexed subscript |
-| `Owned` | ✓ | — | Method return values, `out NSError` |
-| `Managed` | ✓ | ✓ | `new` via `AllocInit` |
+All wrapper types are 8-byte `readonly struct` handles (`unmanaged`) with zero GC allocation overhead. Native object lifetimes follow standard Objective-C reference counting (`Retain()` / `Release()` / `Dispose()`):
+
+| Origin | `Release()` / `Dispose()` | Typical Usage |
+|--------|:-------------------------:|---|
+| `new()` (`AllocInit`) / `Init*` | ✓ | Descriptors and explicitly allocated objects (`new MTLTextureDescriptor()`) |
+| `Make*` / `New*` / `Copy*` | ✓ | Factory methods returning retained objects (`device.MakeBuffer(...)`, `device.MakeDefaultLibrary()`) |
+| Property getters / `NextDrawable()` / transient encoders | — | Autoreleased or borrowed references managed by parent or `NSAutoreleasePool` |
 
 ```csharp
-// Managed – finalizer will release if not disposed
-var desc = new MTLTextureDescriptor();
+// Allocated object – dispose when done
+using var desc = new MTLTextureDescriptor();
 
-// Owned – caller is responsible for disposal
+// Retained factory return – caller is responsible for disposal
 using MTLLibrary library = device.MakeDefaultLibrary();
 
-// Borrowed – do not dispose
-MTLDevice device = commandQueue.Device;
+// Borrowed property – do not dispose
+MTLDevice device = queue.Device;
 ```
 
 ## How It Works
@@ -110,7 +115,6 @@ Metal.NET.slnx
 │
 ├─ Metal.NET/                            Runtime library (NuGet package)
 │  ├─ Interop/                           Interop core (hand-written)
-│  │  ├─ NativeObject.cs                 Base class for all ObjC wrappers
 │  │  ├─ NativeBlock.cs                  ObjC block support (UnmanagedCallersOnly)
 │  │  ├─ ObjectiveC.cs                   Auto-generated objc_msgSend overloads
 │  │  ├─ Selector.cs                     Lazy selector handle

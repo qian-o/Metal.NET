@@ -1,15 +1,29 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTL4CommandEncoder(nativePtr, ownership), INativeObject<MTL4RenderCommandEncoder>
+public readonly struct MTL4RenderCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4RenderCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4RenderCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4CommandEncoder(MTL4RenderCommandEncoder value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4RenderCommandEncoder value) => new(value.NativePtr);
+
+    public MTL4RenderCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public nuint TileWidth
     {
@@ -19,6 +33,17 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
     public nuint TileHeight
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderBindings.TileHeight);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderCommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTL4CommandBuffer CommandBuffer
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderCommandEncoderBindings.CommandBuffer));
     }
 
     public void SetColorAttachmentMap(MTLLogicalToPhysicalColorAttachmentMap mapping)
@@ -36,7 +61,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetViewport, viewport);
     }
 
-    public unsafe void SetViewports(MTLViewport[] viewports)
+    public unsafe void SetViewports(ReadOnlySpan<MTLViewport> viewports)
     {
         fixed (MTLViewport* pViewports = viewports)
         {
@@ -74,7 +99,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRect, rect);
     }
 
-    public unsafe void SetScissorRects(MTLScissorRect[] scissorRects)
+    public unsafe void SetScissorRects(ReadOnlySpan<MTLScissorRect> scissorRects)
     {
         fixed (MTLScissorRect* pScissorRects = scissorRects)
         {
@@ -221,10 +246,63 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
     {
         ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.WriteTimestampWithGranularity_AfterStage_IntoHeap_AtIndex, (nint)granularity, (nuint)stage, counterHeap.NativePtr, index);
     }
+
+    public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.BarrierAfterQueueStages_BeforeStages_VisibilityOptions, (nuint)afterQueueStages, (nuint)beforeStages, (nuint)visibilityOptions);
+    }
+
+    public void BarrierAfterStages(MTLStages afterStages, MTLStages beforeQueueStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.BarrierAfterStages_BeforeQueueStages_VisibilityOptions, (nuint)afterStages, (nuint)beforeQueueStages, (nuint)visibilityOptions);
+    }
+
+    public void BarrierAfterEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.BarrierAfterEncoderStages_BeforeEncoderStages_VisibilityOptions, (nuint)afterEncoderStages, (nuint)beforeEncoderStages, (nuint)visibilityOptions);
+    }
+
+    public void UpdateFence(MTLFence fence, MTLStages afterEncoderStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.UpdateFence_AfterEncoderStages, fence.NativePtr, (nuint)afterEncoderStages);
+    }
+
+    public void WaitForFence(MTLFence fence, MTLStages beforeEncoderStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.WaitForFence_BeforeEncoderStages, fence.NativePtr, (nuint)beforeEncoderStages);
+    }
+
+    public void InsertDebugSignpost(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+    }
+
+    public void PushDebugGroup(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+    }
+
+    public void PopDebugGroup()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.PopDebugGroup);
+    }
+
+    public void EndEncoding()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.EndEncoding);
+    }
 }
 
 file static class MTL4RenderCommandEncoderBindings
 {
+    public static readonly Selector BarrierAfterEncoderStages_BeforeEncoderStages_VisibilityOptions = "barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:";
+
+    public static readonly Selector BarrierAfterQueueStages_BeforeStages_VisibilityOptions = "barrierAfterQueueStages:beforeStages:visibilityOptions:";
+
+    public static readonly Selector BarrierAfterStages_BeforeQueueStages_VisibilityOptions = "barrierAfterStages:beforeQueueStages:visibilityOptions:";
+
+    public static readonly Selector CommandBuffer = "commandBuffer";
+
     public static readonly Selector DispatchThreadsPerTile = "dispatchThreadsPerTile:";
 
     public static readonly Selector DrawIndexedPrimitives_IndexCount_IndexType_IndexBuffer_IndexBufferLength = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:";
@@ -249,9 +327,19 @@ file static class MTL4RenderCommandEncoderBindings
 
     public static readonly Selector DrawPrimitives_VertexStart_VertexCount_InstanceCount_BaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
 
+    public static readonly Selector EndEncoding = "endEncoding";
+
     public static readonly Selector ExecuteCommandsInBuffer_IndirectBuffer = "executeCommandsInBuffer:indirectBuffer:";
 
     public static readonly Selector ExecuteCommandsInBuffer_WithRange = "executeCommandsInBuffer:withRange:";
+
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
+
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
     public static readonly Selector SetArgumentTable_AtStages = "setArgumentTable:atStages:";
 
@@ -274,6 +362,8 @@ file static class MTL4RenderCommandEncoderBindings
     public static readonly Selector SetDepthTestMinBound_MaxBound = "setDepthTestMinBound:maxBound:";
 
     public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector SetObjectThreadgroupMemoryLength_AtIndex = "setObjectThreadgroupMemoryLength:atIndex:";
 
@@ -304,6 +394,10 @@ file static class MTL4RenderCommandEncoderBindings
     public static readonly Selector TileHeight = "tileHeight";
 
     public static readonly Selector TileWidth = "tileWidth";
+
+    public static readonly Selector UpdateFence_AfterEncoderStages = "updateFence:afterEncoderStages:";
+
+    public static readonly Selector WaitForFence_BeforeEncoderStages = "waitForFence:beforeEncoderStages:";
 
     public static readonly Selector WriteTimestampWithGranularity_AfterStage_IntoHeap_AtIndex = "writeTimestampWithGranularity:afterStage:intoHeap:atIndex:";
 }

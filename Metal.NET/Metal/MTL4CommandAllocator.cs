@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandAllocator>
+public readonly struct MTL4CommandAllocator(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CommandAllocator Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CommandAllocator New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CommandAllocator value) => new(value.NativePtr);
+
+    public MTL4CommandAllocator Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTL4CommandAllocatorBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandAllocatorBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4CommandAllocatorBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandAllocatorBindings.Label));
     }
 
     public ulong AllocatedSize()

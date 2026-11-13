@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4ArgumentTable>
+public readonly struct MTL4ArgumentTable(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4ArgumentTable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4ArgumentTable New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4ArgumentTable value) => new(value.NativePtr);
+
+    public MTL4ArgumentTable Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTL4ArgumentTableBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4ArgumentTableBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4ArgumentTableBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4ArgumentTableBindings.Label));
     }
 
     public void SetAddress(nuint gpuAddress, nuint bindingIndex)

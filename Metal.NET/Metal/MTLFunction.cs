@@ -1,25 +1,37 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunction>
+public readonly struct MTLFunction(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunction New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunction value) => new(value.NativePtr);
+
+    public MTLFunction Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLFunctionBindings.Label);
-        set => SetProperty(ref field, MTLFunctionBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionBindings.SetLabel, value.NativePtr);
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLFunctionBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.Device));
     }
 
     public MTLFunctionType FunctionType
@@ -39,22 +51,22 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public NSArray<MTLVertexAttribute> VertexAttributes
     {
-        get => GetProperty(ref field, MTLFunctionBindings.VertexAttributes);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.VertexAttributes));
     }
 
     public NSArray<MTLAttribute> StageInputAttributes
     {
-        get => GetProperty(ref field, MTLFunctionBindings.StageInputAttributes);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.StageInputAttributes));
     }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLFunctionBindings.Name);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.Name));
     }
 
     public NSDictionary FunctionConstantsDictionary
     {
-        get => GetProperty(ref field, MTLFunctionBindings.FunctionConstantsDictionary);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.FunctionConstantsDictionary));
     }
 
     public MTLFunctionOptions Options
@@ -66,7 +78,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoderWithBufferIndex, bufferIndex);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     /// <summary>
@@ -77,9 +89,9 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoderWithBufferIndex_Reflection, bufferIndex, out nint reflectionPtr);
 
-        reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
+        reflection = new(reflectionPtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

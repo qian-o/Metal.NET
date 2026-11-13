@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedTextureHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedTextureHandle>
+public readonly struct MTLSharedTextureHandle(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLSharedTextureHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLSharedTextureHandle New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLSharedTextureHandle value) => new(value.NativePtr);
+
+    public MTLSharedTextureHandle Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLSharedTextureHandleBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLSharedTextureHandleBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLSharedTextureHandleBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLSharedTextureHandleBindings.Label));
     }
 }
 

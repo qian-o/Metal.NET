@@ -1,43 +1,57 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionStitchingNode(nativePtr, ownership), INativeObject<MTLFunctionStitchingFunctionNode>
+public readonly struct MTLFunctionStitchingFunctionNode(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionStitchingFunctionNode Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionStitchingFunctionNode New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLFunctionStitchingNode(MTLFunctionStitchingFunctionNode value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLFunctionStitchingFunctionNode value) => new(value.NativePtr);
+
+    public MTLFunctionStitchingFunctionNode() : this(ObjectiveC.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLFunctionStitchingFunctionNode() : this(ObjectiveC.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionStitchingFunctionNode Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
-        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionStitchingFunctionNodeBindings.Name));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingFunctionNodeBindings.SetName, value.NativePtr);
     }
 
     public NSArray<MTLFunctionStitchingNode> Arguments
     {
-        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
-        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionStitchingFunctionNodeBindings.Arguments));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value.NativePtr);
     }
 
     public NSArray<MTLFunctionStitchingFunctionNode> ControlDependencies
     {
-        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
-        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies));
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value.NativePtr);
     }
 
     public static MTLFunctionStitchingFunctionNode InitWithName(NSString name, NSArray<MTLFunctionStitchingNode> arguments, NSArray<MTLFunctionStitchingFunctionNode> controlDependencies)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(MTLFunctionStitchingFunctionNodeBindings.Class), MTLFunctionStitchingFunctionNodeBindings.InitWithName_Arguments_ControlDependencies, name.NativePtr, arguments.NativePtr, controlDependencies.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        return new(nativePtr);
     }
 }
 

@@ -1,24 +1,40 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTL4PrimitiveAccelerationStructureDescriptor>
+public readonly struct MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4PrimitiveAccelerationStructureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4PrimitiveAccelerationStructureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTL4AccelerationStructureDescriptor(MTL4PrimitiveAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator MTLAccelerationStructureDescriptor(MTL4PrimitiveAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTL4PrimitiveAccelerationStructureDescriptor value) => new(value.NativePtr);
+
+    public MTL4PrimitiveAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTL4PrimitiveAccelerationStructureDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4PrimitiveAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTL4PrimitiveAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4PrimitiveAccelerationStructureDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSArray<MTL4AccelerationStructureGeometryDescriptor> GeometryDescriptors
     {
-        get => GetProperty(ref field, MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
-        set => SetProperty(ref field, MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value.NativePtr);
     }
 
     public MTLMotionBorderMode MotionStartBorderMode
@@ -50,6 +66,12 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr, Native
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.MotionKeyframeCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.SetMotionKeyframeCount, value);
     }
+
+    public MTLAccelerationStructureUsage Usage
+    {
+        get => (MTLAccelerationStructureUsage)ObjectiveC.MsgSendULong(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.Usage);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
+    }
 }
 
 file static class MTL4PrimitiveAccelerationStructureDescriptorBindings
@@ -79,4 +101,8 @@ file static class MTL4PrimitiveAccelerationStructureDescriptorBindings
     public static readonly Selector SetMotionStartBorderMode = "setMotionStartBorderMode:";
 
     public static readonly Selector SetMotionStartTime = "setMotionStartTime:";
+
+    public static readonly Selector SetUsage = "setUsage:";
+
+    public static readonly Selector Usage = "usage";
 }

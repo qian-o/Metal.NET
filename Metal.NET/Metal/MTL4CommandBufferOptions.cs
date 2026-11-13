@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandBufferOptions>
+public readonly struct MTL4CommandBufferOptions(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CommandBufferOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CommandBufferOptions New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CommandBufferOptions value) => new(value.NativePtr);
+
+    public MTL4CommandBufferOptions() : this(ObjectiveC.AllocInit(MTL4CommandBufferOptionsBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4CommandBufferOptions() : this(ObjectiveC.AllocInit(MTL4CommandBufferOptionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CommandBufferOptions Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLLogState LogState
     {
-        get => GetProperty(ref field, MTL4CommandBufferOptionsBindings.LogState);
-        set => SetProperty(ref field, MTL4CommandBufferOptionsBindings.SetLogState, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferOptionsBindings.LogState));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CommandBufferOptionsBindings.SetLogState, value.NativePtr);
     }
 }
 

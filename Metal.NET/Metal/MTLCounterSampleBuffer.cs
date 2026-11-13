@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounterSampleBuffer>
+public readonly struct MTLCounterSampleBuffer(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCounterSampleBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCounterSampleBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCounterSampleBuffer value) => new(value.NativePtr);
+
+    public MTLCounterSampleBuffer Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLCounterSampleBufferBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCounterSampleBufferBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLCounterSampleBufferBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCounterSampleBufferBindings.Label));
     }
 
     public nuint SampleCount
@@ -30,7 +42,7 @@ public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership owners
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCounterSampleBufferBindings.ResolveCounterRange, range);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

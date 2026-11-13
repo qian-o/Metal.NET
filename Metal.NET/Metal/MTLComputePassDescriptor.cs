@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLComputePassDescriptor>
+public readonly struct MTLComputePassDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLComputePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLComputePassDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLComputePassDescriptor value) => new(value.NativePtr);
+
+    public MTLComputePassDescriptor() : this(ObjectiveC.AllocInit(MTLComputePassDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLComputePassDescriptor() : this(ObjectiveC.AllocInit(MTLComputePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLComputePassDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLDispatchType DispatchType
@@ -23,14 +35,14 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
-        get => GetProperty(ref field, MTLComputePassDescriptorBindings.SampleBufferAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLComputePassDescriptorBindings.SampleBufferAttachments));
     }
 
     public static MTLComputePassDescriptor ComputePassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

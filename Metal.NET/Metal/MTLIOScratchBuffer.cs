@@ -1,19 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOScratchBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOScratchBuffer>
+public readonly struct MTLIOScratchBuffer(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLIOScratchBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLIOScratchBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLIOScratchBuffer value) => new(value.NativePtr);
+
+    public MTLIOScratchBuffer Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLBuffer Buffer
     {
-        get => GetProperty(ref field, MTLIOScratchBufferBindings.Buffer);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLIOScratchBufferBindings.Buffer));
     }
 }
 

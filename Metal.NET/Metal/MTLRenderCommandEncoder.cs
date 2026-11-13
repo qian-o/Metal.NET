@@ -1,15 +1,29 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLRenderCommandEncoder>
+public readonly struct MTLRenderCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRenderCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRenderCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLCommandEncoder(MTLRenderCommandEncoder value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLRenderCommandEncoder value) => new(value.NativePtr);
+
+    public MTLRenderCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public nuint TileWidth
     {
@@ -19,6 +33,17 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
     public nuint TileHeight
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderCommandEncoderBindings.TileHeight);
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderCommandEncoderBindings.Device));
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderCommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetLabel, value.NativePtr);
     }
 
     public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
@@ -41,21 +66,15 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBufferOffset_AtIndex, offset, index);
     }
 
-    public unsafe void SetVertexBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    public unsafe void SetVertexBuffers(ReadOnlySpan<MTLBuffer> buffers, ReadOnlySpan<nuint> offsets, NSRange range)
     {
-        nint* pBuffers = stackalloc nint[buffers.Length];
-        for (int i = 0; i < buffers.Length; i++)
+        fixed (MTLBuffer* pBuffers = buffers)
         {
-            pBuffers[i] = buffers[i].NativePtr;
+            fixed (nuint* pOffsets = offsets)
+            {
+                ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+            }
         }
-
-        nuint* pOffsets = stackalloc nuint[offsets.Length];
-        for (int i = 0; i < offsets.Length; i++)
-        {
-            pOffsets[i] = offsets[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
     }
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
@@ -63,27 +82,18 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBuffer_Offset_AttributeStride_AtIndex, buffer.NativePtr, offset, stride, index);
     }
 
-    public unsafe void SetVertexBuffers(MTLBuffer[] buffers, nuint[] offsets, nuint[] strides, NSRange range)
+    public unsafe void SetVertexBuffers(ReadOnlySpan<MTLBuffer> buffers, ReadOnlySpan<nuint> offsets, ReadOnlySpan<nuint> strides, NSRange range)
     {
-        nint* pBuffers = stackalloc nint[buffers.Length];
-        for (int i = 0; i < buffers.Length; i++)
+        fixed (MTLBuffer* pBuffers = buffers)
         {
-            pBuffers[i] = buffers[i].NativePtr;
+            fixed (nuint* pOffsets = offsets)
+            {
+                fixed (nuint* pStrides = strides)
+                {
+                    ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBuffers_Offsets_AttributeStrides_WithRange, (nint)pBuffers, (nint)pOffsets, (nint)pStrides, range);
+                }
+            }
         }
-
-        nuint* pOffsets = stackalloc nuint[offsets.Length];
-        for (int i = 0; i < offsets.Length; i++)
-        {
-            pOffsets[i] = offsets[i];
-        }
-
-        nuint* pStrides = stackalloc nuint[strides.Length];
-        for (int i = 0; i < strides.Length; i++)
-        {
-            pStrides[i] = strides[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexBuffers_Offsets_AttributeStrides_WithRange, (nint)pBuffers, (nint)pOffsets, (nint)pStrides, range);
     }
 
     public void SetVertexBufferOffset(nuint offset, nuint stride, nuint index)
@@ -101,15 +111,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexTexture_AtIndex, texture.NativePtr, index);
     }
 
-    public unsafe void SetVertexTextures(MTLTexture[] textures, NSRange range)
+    public unsafe void SetVertexTextures(ReadOnlySpan<MTLTexture> textures, NSRange range)
     {
-        nint* pTextures = stackalloc nint[textures.Length];
-        for (int i = 0; i < textures.Length; i++)
+        fixed (MTLTexture* pTextures = textures)
         {
-            pTextures[i] = textures[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexTextures_WithRange, (nint)pTextures, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetVertexSamplerState(MTLSamplerState sampler, nuint index)
@@ -117,15 +124,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
-    public unsafe void SetVertexSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    public unsafe void SetVertexSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerStates_WithRange, (nint)pSamplers, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerStates_WithRange, (nint)pSamplers, range);
     }
 
     public void SetVertexSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
@@ -133,27 +137,18 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
-    public unsafe void SetVertexSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    public unsafe void SetVertexSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, ReadOnlySpan<float> lodMinClamps, ReadOnlySpan<float> lodMaxClamps, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            fixed (float* pLodMinClamps = lodMinClamps)
+            {
+                fixed (float* pLodMaxClamps = lodMaxClamps)
+                {
+                    ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
+                }
+            }
         }
-
-        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
-        for (int i = 0; i < lodMinClamps.Length; i++)
-        {
-            pLodMinClamps[i] = lodMinClamps[i];
-        }
-
-        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
-        for (int i = 0; i < lodMaxClamps.Length; i++)
-        {
-            pLodMaxClamps[i] = lodMaxClamps[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void SetVertexVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -161,15 +156,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexVisibleFunctionTable_AtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
-    public unsafe void SetVertexVisibleFunctionTables(MTLVisibleFunctionTable[] functionTables, NSRange range)
+    public unsafe void SetVertexVisibleFunctionTables(ReadOnlySpan<MTLVisibleFunctionTable> functionTables, NSRange range)
     {
-        nint* pFunctionTables = stackalloc nint[functionTables.Length];
-        for (int i = 0; i < functionTables.Length; i++)
+        fixed (MTLVisibleFunctionTable* pFunctionTables = functionTables)
         {
-            pFunctionTables[i] = functionTables[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
     }
 
     public void SetVertexIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
@@ -177,15 +169,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexIntersectionFunctionTable_AtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
     }
 
-    public unsafe void SetVertexIntersectionFunctionTables(MTLIntersectionFunctionTable[] intersectionFunctionTables, NSRange range)
+    public unsafe void SetVertexIntersectionFunctionTables(ReadOnlySpan<MTLIntersectionFunctionTable> intersectionFunctionTables, NSRange range)
     {
-        nint* pIntersectionFunctionTables = stackalloc nint[intersectionFunctionTables.Length];
-        for (int i = 0; i < intersectionFunctionTables.Length; i++)
+        fixed (MTLIntersectionFunctionTable* pIntersectionFunctionTables = intersectionFunctionTables)
         {
-            pIntersectionFunctionTables[i] = intersectionFunctionTables[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
     }
 
     public void SetVertexAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
@@ -198,7 +187,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetViewport, viewport);
     }
 
-    public unsafe void SetViewports(MTLViewport[] viewports)
+    public unsafe void SetViewports(ReadOnlySpan<MTLViewport> viewports)
     {
         fixed (MTLViewport* pViewports = viewports)
         {
@@ -241,7 +230,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRect, rect);
     }
 
-    public unsafe void SetScissorRects(MTLScissorRect[] scissorRects)
+    public unsafe void SetScissorRects(ReadOnlySpan<MTLScissorRect> scissorRects)
     {
         fixed (MTLScissorRect* pScissorRects = scissorRects)
         {
@@ -269,21 +258,15 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentBufferOffset_AtIndex, offset, index);
     }
 
-    public unsafe void SetFragmentBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    public unsafe void SetFragmentBuffers(ReadOnlySpan<MTLBuffer> buffers, ReadOnlySpan<nuint> offsets, NSRange range)
     {
-        nint* pBuffers = stackalloc nint[buffers.Length];
-        for (int i = 0; i < buffers.Length; i++)
+        fixed (MTLBuffer* pBuffers = buffers)
         {
-            pBuffers[i] = buffers[i].NativePtr;
+            fixed (nuint* pOffsets = offsets)
+            {
+                ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+            }
         }
-
-        nuint* pOffsets = stackalloc nuint[offsets.Length];
-        for (int i = 0; i < offsets.Length; i++)
-        {
-            pOffsets[i] = offsets[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
     }
 
     public void SetFragmentTexture(MTLTexture texture, nuint index)
@@ -291,15 +274,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentTexture_AtIndex, texture.NativePtr, index);
     }
 
-    public unsafe void SetFragmentTextures(MTLTexture[] textures, NSRange range)
+    public unsafe void SetFragmentTextures(ReadOnlySpan<MTLTexture> textures, NSRange range)
     {
-        nint* pTextures = stackalloc nint[textures.Length];
-        for (int i = 0; i < textures.Length; i++)
+        fixed (MTLTexture* pTextures = textures)
         {
-            pTextures[i] = textures[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentTextures_WithRange, (nint)pTextures, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetFragmentSamplerState(MTLSamplerState sampler, nuint index)
@@ -307,15 +287,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
-    public unsafe void SetFragmentSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    public unsafe void SetFragmentSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerStates_WithRange, (nint)pSamplers, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerStates_WithRange, (nint)pSamplers, range);
     }
 
     public void SetFragmentSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
@@ -323,27 +300,18 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
-    public unsafe void SetFragmentSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    public unsafe void SetFragmentSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, ReadOnlySpan<float> lodMinClamps, ReadOnlySpan<float> lodMaxClamps, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            fixed (float* pLodMinClamps = lodMinClamps)
+            {
+                fixed (float* pLodMaxClamps = lodMaxClamps)
+                {
+                    ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
+                }
+            }
         }
-
-        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
-        for (int i = 0; i < lodMinClamps.Length; i++)
-        {
-            pLodMinClamps[i] = lodMinClamps[i];
-        }
-
-        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
-        for (int i = 0; i < lodMaxClamps.Length; i++)
-        {
-            pLodMaxClamps[i] = lodMaxClamps[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void SetFragmentVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -351,15 +319,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentVisibleFunctionTable_AtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
-    public unsafe void SetFragmentVisibleFunctionTables(MTLVisibleFunctionTable[] functionTables, NSRange range)
+    public unsafe void SetFragmentVisibleFunctionTables(ReadOnlySpan<MTLVisibleFunctionTable> functionTables, NSRange range)
     {
-        nint* pFunctionTables = stackalloc nint[functionTables.Length];
-        for (int i = 0; i < functionTables.Length; i++)
+        fixed (MTLVisibleFunctionTable* pFunctionTables = functionTables)
         {
-            pFunctionTables[i] = functionTables[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
     }
 
     public void SetFragmentIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
@@ -367,15 +332,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentIntersectionFunctionTable_AtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
     }
 
-    public unsafe void SetFragmentIntersectionFunctionTables(MTLIntersectionFunctionTable[] intersectionFunctionTables, NSRange range)
+    public unsafe void SetFragmentIntersectionFunctionTables(ReadOnlySpan<MTLIntersectionFunctionTable> intersectionFunctionTables, NSRange range)
     {
-        nint* pIntersectionFunctionTables = stackalloc nint[intersectionFunctionTables.Length];
-        for (int i = 0; i < intersectionFunctionTables.Length; i++)
+        fixed (MTLIntersectionFunctionTable* pIntersectionFunctionTables = intersectionFunctionTables)
         {
-            pIntersectionFunctionTables[i] = intersectionFunctionTables[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
     }
 
     public void SetFragmentAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
@@ -465,21 +427,15 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectBufferOffset_AtIndex, offset, index);
     }
 
-    public unsafe void SetObjectBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    public unsafe void SetObjectBuffers(ReadOnlySpan<MTLBuffer> buffers, ReadOnlySpan<nuint> offsets, NSRange range)
     {
-        nint* pBuffers = stackalloc nint[buffers.Length];
-        for (int i = 0; i < buffers.Length; i++)
+        fixed (MTLBuffer* pBuffers = buffers)
         {
-            pBuffers[i] = buffers[i].NativePtr;
+            fixed (nuint* pOffsets = offsets)
+            {
+                ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+            }
         }
-
-        nuint* pOffsets = stackalloc nuint[offsets.Length];
-        for (int i = 0; i < offsets.Length; i++)
-        {
-            pOffsets[i] = offsets[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
     }
 
     public void SetObjectTexture(MTLTexture texture, nuint index)
@@ -487,15 +443,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectTexture_AtIndex, texture.NativePtr, index);
     }
 
-    public unsafe void SetObjectTextures(MTLTexture[] textures, NSRange range)
+    public unsafe void SetObjectTextures(ReadOnlySpan<MTLTexture> textures, NSRange range)
     {
-        nint* pTextures = stackalloc nint[textures.Length];
-        for (int i = 0; i < textures.Length; i++)
+        fixed (MTLTexture* pTextures = textures)
         {
-            pTextures[i] = textures[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectTextures_WithRange, (nint)pTextures, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetObjectSamplerState(MTLSamplerState sampler, nuint index)
@@ -503,15 +456,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
-    public unsafe void SetObjectSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    public unsafe void SetObjectSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerStates_WithRange, (nint)pSamplers, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerStates_WithRange, (nint)pSamplers, range);
     }
 
     public void SetObjectSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
@@ -519,27 +469,18 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
-    public unsafe void SetObjectSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    public unsafe void SetObjectSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, ReadOnlySpan<float> lodMinClamps, ReadOnlySpan<float> lodMaxClamps, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            fixed (float* pLodMinClamps = lodMinClamps)
+            {
+                fixed (float* pLodMaxClamps = lodMaxClamps)
+                {
+                    ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
+                }
+            }
         }
-
-        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
-        for (int i = 0; i < lodMinClamps.Length; i++)
-        {
-            pLodMinClamps[i] = lodMinClamps[i];
-        }
-
-        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
-        for (int i = 0; i < lodMaxClamps.Length; i++)
-        {
-            pLodMaxClamps[i] = lodMaxClamps[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
@@ -562,21 +503,15 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshBufferOffset_AtIndex, offset, index);
     }
 
-    public unsafe void SetMeshBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    public unsafe void SetMeshBuffers(ReadOnlySpan<MTLBuffer> buffers, ReadOnlySpan<nuint> offsets, NSRange range)
     {
-        nint* pBuffers = stackalloc nint[buffers.Length];
-        for (int i = 0; i < buffers.Length; i++)
+        fixed (MTLBuffer* pBuffers = buffers)
         {
-            pBuffers[i] = buffers[i].NativePtr;
+            fixed (nuint* pOffsets = offsets)
+            {
+                ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+            }
         }
-
-        nuint* pOffsets = stackalloc nuint[offsets.Length];
-        for (int i = 0; i < offsets.Length; i++)
-        {
-            pOffsets[i] = offsets[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
     }
 
     public void SetMeshTexture(MTLTexture texture, nuint index)
@@ -584,15 +519,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshTexture_AtIndex, texture.NativePtr, index);
     }
 
-    public unsafe void SetMeshTextures(MTLTexture[] textures, NSRange range)
+    public unsafe void SetMeshTextures(ReadOnlySpan<MTLTexture> textures, NSRange range)
     {
-        nint* pTextures = stackalloc nint[textures.Length];
-        for (int i = 0; i < textures.Length; i++)
+        fixed (MTLTexture* pTextures = textures)
         {
-            pTextures[i] = textures[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshTextures_WithRange, (nint)pTextures, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetMeshSamplerState(MTLSamplerState sampler, nuint index)
@@ -600,15 +532,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
-    public unsafe void SetMeshSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    public unsafe void SetMeshSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerStates_WithRange, (nint)pSamplers, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerStates_WithRange, (nint)pSamplers, range);
     }
 
     public void SetMeshSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
@@ -616,27 +545,18 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
-    public unsafe void SetMeshSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    public unsafe void SetMeshSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, ReadOnlySpan<float> lodMinClamps, ReadOnlySpan<float> lodMaxClamps, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            fixed (float* pLodMinClamps = lodMinClamps)
+            {
+                fixed (float* pLodMaxClamps = lodMaxClamps)
+                {
+                    ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
+                }
+            }
         }
-
-        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
-        for (int i = 0; i < lodMinClamps.Length; i++)
-        {
-            pLodMinClamps[i] = lodMinClamps[i];
-        }
-
-        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
-        for (int i = 0; i < lodMaxClamps.Length; i++)
-        {
-            pLodMaxClamps[i] = lodMaxClamps[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetMeshSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -758,21 +678,15 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileBufferOffset_AtIndex, offset, index);
     }
 
-    public unsafe void SetTileBuffers(MTLBuffer[] buffers, nuint[] offsets, NSRange range)
+    public unsafe void SetTileBuffers(ReadOnlySpan<MTLBuffer> buffers, ReadOnlySpan<nuint> offsets, NSRange range)
     {
-        nint* pBuffers = stackalloc nint[buffers.Length];
-        for (int i = 0; i < buffers.Length; i++)
+        fixed (MTLBuffer* pBuffers = buffers)
         {
-            pBuffers[i] = buffers[i].NativePtr;
+            fixed (nuint* pOffsets = offsets)
+            {
+                ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
+            }
         }
-
-        nuint* pOffsets = stackalloc nuint[offsets.Length];
-        for (int i = 0; i < offsets.Length; i++)
-        {
-            pOffsets[i] = offsets[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileBuffers_Offsets_WithRange, (nint)pBuffers, (nint)pOffsets, range);
     }
 
     public void SetTileTexture(MTLTexture texture, nuint index)
@@ -780,15 +694,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileTexture_AtIndex, texture.NativePtr, index);
     }
 
-    public unsafe void SetTileTextures(MTLTexture[] textures, NSRange range)
+    public unsafe void SetTileTextures(ReadOnlySpan<MTLTexture> textures, NSRange range)
     {
-        nint* pTextures = stackalloc nint[textures.Length];
-        for (int i = 0; i < textures.Length; i++)
+        fixed (MTLTexture* pTextures = textures)
         {
-            pTextures[i] = textures[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileTextures_WithRange, (nint)pTextures, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileTextures_WithRange, (nint)pTextures, range);
     }
 
     public void SetTileSamplerState(MTLSamplerState sampler, nuint index)
@@ -796,15 +707,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerState_AtIndex, sampler.NativePtr, index);
     }
 
-    public unsafe void SetTileSamplerStates(MTLSamplerState[] samplers, NSRange range)
+    public unsafe void SetTileSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerStates_WithRange, (nint)pSamplers, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerStates_WithRange, (nint)pSamplers, range);
     }
 
     public void SetTileSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
@@ -812,27 +720,18 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerState_LodMinClamp_LodMaxClamp_AtIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
     }
 
-    public unsafe void SetTileSamplerStates(MTLSamplerState[] samplers, float[] lodMinClamps, float[] lodMaxClamps, NSRange range)
+    public unsafe void SetTileSamplerStates(ReadOnlySpan<MTLSamplerState> samplers, ReadOnlySpan<float> lodMinClamps, ReadOnlySpan<float> lodMaxClamps, NSRange range)
     {
-        nint* pSamplers = stackalloc nint[samplers.Length];
-        for (int i = 0; i < samplers.Length; i++)
+        fixed (MTLSamplerState* pSamplers = samplers)
         {
-            pSamplers[i] = samplers[i].NativePtr;
+            fixed (float* pLodMinClamps = lodMinClamps)
+            {
+                fixed (float* pLodMaxClamps = lodMaxClamps)
+                {
+                    ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
+                }
+            }
         }
-
-        float* pLodMinClamps = stackalloc float[lodMinClamps.Length];
-        for (int i = 0; i < lodMinClamps.Length; i++)
-        {
-            pLodMinClamps[i] = lodMinClamps[i];
-        }
-
-        float* pLodMaxClamps = stackalloc float[lodMaxClamps.Length];
-        for (int i = 0; i < lodMaxClamps.Length; i++)
-        {
-            pLodMaxClamps[i] = lodMaxClamps[i];
-        }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileSamplerStates_LodMinClamps_LodMaxClamps_WithRange, (nint)pSamplers, (nint)pLodMinClamps, (nint)pLodMaxClamps, range);
     }
 
     public void SetTileVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -840,15 +739,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileVisibleFunctionTable_AtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
-    public unsafe void SetTileVisibleFunctionTables(MTLVisibleFunctionTable[] functionTables, NSRange range)
+    public unsafe void SetTileVisibleFunctionTables(ReadOnlySpan<MTLVisibleFunctionTable> functionTables, NSRange range)
     {
-        nint* pFunctionTables = stackalloc nint[functionTables.Length];
-        for (int i = 0; i < functionTables.Length; i++)
+        fixed (MTLVisibleFunctionTable* pFunctionTables = functionTables)
         {
-            pFunctionTables[i] = functionTables[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileVisibleFunctionTables_WithBufferRange, (nint)pFunctionTables, range);
     }
 
     public void SetTileIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
@@ -856,15 +752,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileIntersectionFunctionTable_AtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
     }
 
-    public unsafe void SetTileIntersectionFunctionTables(MTLIntersectionFunctionTable[] intersectionFunctionTables, NSRange range)
+    public unsafe void SetTileIntersectionFunctionTables(ReadOnlySpan<MTLIntersectionFunctionTable> intersectionFunctionTables, NSRange range)
     {
-        nint* pIntersectionFunctionTables = stackalloc nint[intersectionFunctionTables.Length];
-        for (int i = 0; i < intersectionFunctionTables.Length; i++)
+        fixed (MTLIntersectionFunctionTable* pIntersectionFunctionTables = intersectionFunctionTables)
         {
-            pIntersectionFunctionTables[i] = intersectionFunctionTables[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileIntersectionFunctionTables_WithBufferRange, (nint)pIntersectionFunctionTables, range);
     }
 
     public void SetTileAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
@@ -895,15 +788,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
     /// Deprecated: Use useResources:count:usage:stages: instead
     /// </summary>
     [Obsolete("Use useResources:count:usage:stages: instead")]
-    public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
+    public unsafe void UseResources(ReadOnlySpan<MTLResource> resources, MTLResourceUsage usage)
     {
-        nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++)
+        fixed (MTLResource* pResources = resources)
         {
-            pResources[i] = resources[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResources_Count_Usage, (nint)pResources, (nuint)resources.Length, (nuint)usage);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResources_Count_Usage, (nint)pResources, (nuint)resources.Length, (nuint)usage);
     }
 
     public void UseResource(MTLResource resource, MTLResourceUsage usage, MTLRenderStages stages)
@@ -911,15 +801,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResource_Usage_Stages, resource.NativePtr, (nuint)usage, (nuint)stages);
     }
 
-    public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage, MTLRenderStages stages)
+    public unsafe void UseResources(ReadOnlySpan<MTLResource> resources, MTLResourceUsage usage, MTLRenderStages stages)
     {
-        nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++)
+        fixed (MTLResource* pResources = resources)
         {
-            pResources[i] = resources[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResources_Count_Usage_Stages, (nint)pResources, (nuint)resources.Length, (nuint)usage, (nuint)stages);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResources_Count_Usage_Stages, (nint)pResources, (nuint)resources.Length, (nuint)usage, (nuint)stages);
     }
 
     /// <summary>
@@ -935,15 +822,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
     /// Deprecated: Use useHeaps:count:stages: instead
     /// </summary>
     [Obsolete("Use useHeaps:count:stages: instead")]
-    public unsafe void UseHeaps(MTLHeap[] heaps)
+    public unsafe void UseHeaps(ReadOnlySpan<MTLHeap> heaps)
     {
-        nint* pHeaps = stackalloc nint[heaps.Length];
-        for (int i = 0; i < heaps.Length; i++)
+        fixed (MTLHeap* pHeaps = heaps)
         {
-            pHeaps[i] = heaps[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeaps_Count, (nint)pHeaps, (nuint)heaps.Length);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeaps_Count, (nint)pHeaps, (nuint)heaps.Length);
     }
 
     public void UseHeap(MTLHeap heap, MTLRenderStages stages)
@@ -951,15 +835,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeap_Stages, heap.NativePtr, (nuint)stages);
     }
 
-    public unsafe void UseHeaps(MTLHeap[] heaps, MTLRenderStages stages)
+    public unsafe void UseHeaps(ReadOnlySpan<MTLHeap> heaps, MTLRenderStages stages)
     {
-        nint* pHeaps = stackalloc nint[heaps.Length];
-        for (int i = 0; i < heaps.Length; i++)
+        fixed (MTLHeap* pHeaps = heaps)
         {
-            pHeaps[i] = heaps[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeaps_Count_Stages, (nint)pHeaps, (nuint)heaps.Length, (nuint)stages);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeaps_Count_Stages, (nint)pHeaps, (nuint)heaps.Length, (nuint)stages);
     }
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
@@ -977,15 +858,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithScope_AfterStages_BeforeStages, (nuint)scope, (nuint)after, (nuint)before);
     }
 
-    public unsafe void MemoryBarrierWithResources(MTLResource[] resources, MTLRenderStages after, MTLRenderStages before)
+    public unsafe void MemoryBarrierWithResources(ReadOnlySpan<MTLResource> resources, MTLRenderStages after, MTLRenderStages before)
     {
-        nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++)
+        fixed (MTLResource* pResources = resources)
         {
-            pResources[i] = resources[i].NativePtr;
+            ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithResources_Count_AfterStages_BeforeStages, (nint)pResources, (nuint)resources.Length, (nuint)after, (nuint)before);
         }
-
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithResources_Count_AfterStages_BeforeStages, (nint)pResources, (nuint)resources.Length, (nuint)after, (nuint)before);
     }
 
     public void SampleCounters(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
@@ -997,10 +875,39 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
     {
         ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetColorAttachmentMap, mapping.NativePtr);
     }
+
+    public void EndEncoding()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.EndEncoding);
+    }
+
+    public void Barrier(MTLStages afterQueueStages, MTLStages beforeStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.BarrierAfterQueueStages_BeforeStages, (nuint)afterQueueStages, (nuint)beforeStages);
+    }
+
+    public void InsertDebugSignpost(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+    }
+
+    public void PushDebugGroup(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+    }
+
+    public void PopDebugGroup()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.PopDebugGroup);
+    }
 }
 
 file static class MTLRenderCommandEncoderBindings
 {
+    public static readonly Selector BarrierAfterQueueStages_BeforeStages = "barrierAfterQueueStages:beforeStages:";
+
+    public static readonly Selector Device = "device";
+
     public static readonly Selector DispatchThreadsPerTile = "dispatchThreadsPerTile:";
 
     public static readonly Selector DrawIndexedPatches_PatchIndexBuffer_PatchIndexBufferOffset_ControlPointIndexBuffer_ControlPointIndexBufferOffset_IndirectBuffer_IndirectBufferOffset = "drawIndexedPatches:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:indirectBuffer:indirectBufferOffset:";
@@ -1033,13 +940,23 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector DrawPrimitives_VertexStart_VertexCount_InstanceCount_BaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
 
+    public static readonly Selector EndEncoding = "endEncoding";
+
     public static readonly Selector ExecuteCommandsInBuffer_IndirectBuffer_IndirectBufferOffset = "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:";
 
     public static readonly Selector ExecuteCommandsInBuffer_WithRange = "executeCommandsInBuffer:withRange:";
 
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
+
+    public static readonly Selector Label = "label";
+
     public static readonly Selector MemoryBarrierWithResources_Count_AfterStages_BeforeStages = "memoryBarrierWithResources:count:afterStages:beforeStages:";
 
     public static readonly Selector MemoryBarrierWithScope_AfterStages_BeforeStages = "memoryBarrierWithScope:afterStages:beforeStages:";
+
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
+
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
     public static readonly Selector SampleCountersInBuffer_AtSampleIndex_WithBarrier = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
@@ -1096,6 +1013,8 @@ file static class MTLRenderCommandEncoderBindings
     public static readonly Selector SetFragmentVisibleFunctionTables_WithBufferRange = "setFragmentVisibleFunctionTables:withBufferRange:";
 
     public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector SetMeshBuffer_Offset_AtIndex = "setMeshBuffer:offset:atIndex:";
 

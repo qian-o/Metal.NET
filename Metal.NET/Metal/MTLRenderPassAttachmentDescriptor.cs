@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassAttachmentDescriptor>
+public readonly struct MTLRenderPassAttachmentDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRenderPassAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRenderPassAttachmentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRenderPassAttachmentDescriptor value) => new(value.NativePtr);
+
+    public MTLRenderPassAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLRenderPassAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPassAttachmentDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLTexture Texture
     {
-        get => GetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.Texture);
-        set => SetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.SetTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Texture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetTexture, value.NativePtr);
     }
 
     public nuint Level
@@ -41,8 +53,8 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwner
 
     public MTLTexture ResolveTexture
     {
-        get => GetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.ResolveTexture);
-        set => SetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.SetResolveTexture, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveTexture));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveTexture, value.NativePtr);
     }
 
     public nuint ResolveLevel

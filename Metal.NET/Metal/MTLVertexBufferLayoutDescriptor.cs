@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexBufferLayoutDescriptor>
+public readonly struct MTLVertexBufferLayoutDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLVertexBufferLayoutDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLVertexBufferLayoutDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLVertexBufferLayoutDescriptor value) => new(value.NativePtr);
+
+    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveC.AllocInit(MTLVertexBufferLayoutDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveC.AllocInit(MTLVertexBufferLayoutDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVertexBufferLayoutDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint Stride

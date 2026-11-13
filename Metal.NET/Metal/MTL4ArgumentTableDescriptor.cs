@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ArgumentTableDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4ArgumentTableDescriptor>
+public readonly struct MTL4ArgumentTableDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4ArgumentTableDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4ArgumentTableDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4ArgumentTableDescriptor value) => new(value.NativePtr);
+
+    public MTL4ArgumentTableDescriptor() : this(ObjectiveC.AllocInit(MTL4ArgumentTableDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4ArgumentTableDescriptor() : this(ObjectiveC.AllocInit(MTL4ArgumentTableDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4ArgumentTableDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint MaxBufferBindCount
@@ -47,8 +59,8 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTL4ArgumentTableDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4ArgumentTableDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetLabel, value.NativePtr);
     }
 }
 

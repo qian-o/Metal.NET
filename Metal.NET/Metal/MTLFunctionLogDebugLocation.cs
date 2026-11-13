@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionLogDebugLocation>
+public readonly struct MTLFunctionLogDebugLocation(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFunctionLogDebugLocation Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFunctionLogDebugLocation New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFunctionLogDebugLocation value) => new(value.NativePtr);
+
+    public MTLFunctionLogDebugLocation Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString FunctionName
     {
-        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.FunctionName);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionLogDebugLocationBindings.FunctionName));
     }
 
     public NSURL Url
     {
-        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.URL);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionLogDebugLocationBindings.URL));
     }
 
     public nuint Line

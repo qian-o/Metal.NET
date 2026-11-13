@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandBufferEncoderInfo(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandBufferEncoderInfo>
+public readonly struct MTLCommandBufferEncoderInfo(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCommandBufferEncoderInfo Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCommandBufferEncoderInfo New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCommandBufferEncoderInfo value) => new(value.NativePtr);
+
+    public MTLCommandBufferEncoderInfo Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.Label);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferEncoderInfoBindings.Label));
     }
 
     public NSArray<NSString> DebugSignposts
     {
-        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferEncoderInfoBindings.DebugSignposts));
     }
 
     public MTLCommandEncoderErrorState ErrorState

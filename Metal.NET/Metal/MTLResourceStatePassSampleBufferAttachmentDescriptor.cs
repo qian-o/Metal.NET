@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceStatePassSampleBufferAttachmentDescriptor>
+public readonly struct MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLResourceStatePassSampleBufferAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLResourceStatePassSampleBufferAttachmentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLResourceStatePassSampleBufferAttachmentDescriptor value) => new(value.NativePtr);
+
+    public MTLResourceStatePassSampleBufferAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLResourceStatePassSampleBufferAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLResourceStatePassSampleBufferAttachmentDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLCounterSampleBuffer SampleBuffer
     {
-        get => GetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
-        set => SetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SampleBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value.NativePtr);
     }
 
     public nuint StartOfEncoderSampleIndex

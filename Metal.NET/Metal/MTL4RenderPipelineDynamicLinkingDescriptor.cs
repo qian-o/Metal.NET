@@ -1,43 +1,55 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4RenderPipelineDynamicLinkingDescriptor>
+public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4RenderPipelineDynamicLinkingDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4RenderPipelineDynamicLinkingDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4RenderPipelineDynamicLinkingDescriptor value) => new(value.NativePtr);
+
+    public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4RenderPipelineDynamicLinkingDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor));
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor));
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor TileLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor));
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor));
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor));
     }
 }
 

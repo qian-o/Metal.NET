@@ -1,19 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTL4BinaryFunction(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4BinaryFunction>
+public readonly struct MTL4BinaryFunction(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4BinaryFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4BinaryFunction New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4BinaryFunction value) => new(value.NativePtr);
+
+    public MTL4BinaryFunction Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTL4BinaryFunctionBindings.Name);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4BinaryFunctionBindings.Name));
     }
 
     public MTLFunctionType FunctionType

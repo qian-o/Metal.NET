@@ -1,37 +1,49 @@
 ﻿namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDynamicLibrary>
+public readonly struct MTLDynamicLibrary(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLDynamicLibrary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLDynamicLibrary New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLDynamicLibrary value) => new(value.NativePtr);
+
+    public MTLDynamicLibrary Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLDynamicLibraryBindings.Label);
-        set => SetProperty(ref field, MTLDynamicLibraryBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLDynamicLibraryBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLDynamicLibraryBindings.SetLabel, value.NativePtr);
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLDynamicLibraryBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLDynamicLibraryBindings.Device));
     }
 
     public NSString InstallName
     {
-        get => GetProperty(ref field, MTLDynamicLibraryBindings.InstallName);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLDynamicLibraryBindings.InstallName));
     }
 
     public bool Serialize(NSURL url, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL_Error, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Owned);
+        error = new(errorPtr);
 
         return result;
     }

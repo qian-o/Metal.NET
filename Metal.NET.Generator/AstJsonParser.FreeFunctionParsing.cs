@@ -19,11 +19,38 @@ partial class AstJsonParser
                 continue;
             }
 
-            // Skip free functions returning NSArray (static class, can't be returned)
-            if (returnType.StartsWith("NSArray"))
+            // Skip C header static-inline struct constructor helpers (e.g., MTLOriginMake, MTLRegionMake2D).
+            // They are NS_INLINE in the SDK headers and have no exported symbols in Metal.framework,
+            // and the generated C# structs already provide constructors.
+            if (TypeMapper.StructTypes.Contains(TypeMapper.MapType(returnType)))
             {
                 continue;
             }
+
+            // Determine correct prefix: try longest prefixes first (MTL4FX, MTL4, MTLFX, MTL, NS, CA)
+            string funcNs = InferNamespaceFromName(func.Name);
+            string prefix = funcNs != "" ? TypeMapper.GetPrefix(funcNs) : "";
+
+            string name = func.Name.StartsWith(prefix) && prefix.Length > 0
+                ? func.Name[prefix.Length..]
+                : func.Name;
+
+            // Determine target class name from function name
+            string targetClassName = DeriveTargetClassName(prefix);
+
+            // For NSArray-returning free functions, extract the element type from AST generics
+            if (returnType.StartsWith("NSArray"))
+            {
+                string? elemType = ExtractNSArrayElementType(func.ReturnType);
+                if (elemType == null)
+                {
+                    continue;
+                }
+
+                context.NSArrayReturnTypes.TryAdd((targetClassName, name), TypeMapper.MapType(elemType));
+            }
+
+            string ns = funcNs != "" ? funcNs : FrameworkToNamespace(func.Framework);
 
             List<ParamDef> parameters = [];
             bool skip = false;
@@ -52,19 +79,6 @@ partial class AstJsonParser
             }
 
             string libraryPath = FrameworkToLibraryPath(func.Framework);
-
-            // Determine correct prefix: try longest prefixes first (MTL4FX, MTL4, MTLFX, MTL, NS, CA)
-            string funcNs = InferNamespaceFromName(func.Name);
-            string prefix = funcNs != "" ? TypeMapper.GetPrefix(funcNs) : "";
-
-            string name = func.Name.StartsWith(prefix) && prefix.Length > 0
-                ? func.Name[prefix.Length..]
-                : func.Name;
-
-            // Determine target class name from function name
-            string targetClassName = DeriveTargetClassName(prefix);
-
-            string ns = funcNs != "" ? funcNs : FrameworkToNamespace(func.Framework);
 
             context.FreeFunctions.Add(new FreeFunctionDef(
                 func.Name, returnType, name, parameters,

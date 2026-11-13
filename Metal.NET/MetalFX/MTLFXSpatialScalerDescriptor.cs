@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXSpatialScalerDescriptor>
+public readonly struct MTLFXSpatialScalerDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLFXSpatialScalerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLFXSpatialScalerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLFXSpatialScalerDescriptor value) => new(value.NativePtr);
+
+    public MTLFXSpatialScalerDescriptor() : this(ObjectiveC.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLFXSpatialScalerDescriptor() : this(ObjectiveC.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFXSpatialScalerDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -61,14 +73,14 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOwnership 
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevice, device.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTL4FXSpatialScaler MakeSpatialScaler(MTLDevice device, MTL4Compiler compiler)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevice_Compiler, device.NativePtr, compiler.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)

@@ -1,36 +1,48 @@
 ﻿namespace Metal.NET;
 
-public class MTL4StaticLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4StaticLinkingDescriptor>
+public readonly struct MTL4StaticLinkingDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4StaticLinkingDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4StaticLinkingDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4StaticLinkingDescriptor value) => new(value.NativePtr);
+
+    public MTL4StaticLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4StaticLinkingDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTL4StaticLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4StaticLinkingDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4StaticLinkingDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSArray<MTL4FunctionDescriptor> FunctionDescriptors
     {
-        get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
-        set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value.NativePtr);
     }
 
     public NSArray<MTL4FunctionDescriptor> PrivateFunctionDescriptors
     {
-        get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
-        set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value.NativePtr);
     }
 
     public NSDictionary Groups
     {
-        get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.Groups);
-        set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetGroups, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4StaticLinkingDescriptorBindings.Groups));
+        set => ObjectiveC.MsgSend(NativePtr, MTL4StaticLinkingDescriptorBindings.SetGroups, value.NativePtr);
     }
 }
 

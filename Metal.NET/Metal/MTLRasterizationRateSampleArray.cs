@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateSampleArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateSampleArray>
+public readonly struct MTLRasterizationRateSampleArray(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRasterizationRateSampleArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRasterizationRateSampleArray New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRasterizationRateSampleArray value) => new(value.NativePtr);
+
+    public MTLRasterizationRateSampleArray Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSNumber this[nuint index]
     {
@@ -17,7 +29,7 @@ public class MTLRasterizationRateSampleArray(nint nativePtr, NativeObjectOwnersh
         {
             nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateSampleArrayBindings.Object, index);
 
-            return new(nativePtr, NativeObjectOwnership.Borrowed);
+            return new(nativePtr);
         }
         set
         {

@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPoolDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceViewPoolDescriptor>
+public readonly struct MTLResourceViewPoolDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLResourceViewPoolDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLResourceViewPoolDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLResourceViewPoolDescriptor value) => new(value.NativePtr);
+
+    public MTLResourceViewPoolDescriptor() : this(ObjectiveC.AllocInit(MTLResourceViewPoolDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLResourceViewPoolDescriptor() : this(ObjectiveC.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLResourceViewPoolDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint ResourceViewCount
@@ -23,8 +35,8 @@ public class MTLResourceViewPoolDescriptor(nint nativePtr, NativeObjectOwnership
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLResourceViewPoolDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLResourceViewPoolDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceViewPoolDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetLabel, value.NativePtr);
     }
 }
 

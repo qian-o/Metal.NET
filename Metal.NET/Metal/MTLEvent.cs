@@ -1,25 +1,37 @@
 ﻿namespace Metal.NET;
 
-public class MTLEvent(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLEvent>
+public readonly struct MTLEvent(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLEvent Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLEvent New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLEvent value) => new(value.NativePtr);
+
+    public MTLEvent Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, MTLEventBindings.Device);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLEventBindings.Device));
     }
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLEventBindings.Label);
-        set => SetProperty(ref field, MTLEventBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLEventBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLEventBindings.SetLabel, value.NativePtr);
     }
 }
 

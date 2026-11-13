@@ -1,19 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexAttribute>
+public readonly struct MTLVertexAttribute(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLVertexAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLVertexAttribute New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLVertexAttribute value) => new(value.NativePtr);
+
+    public MTLVertexAttribute Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLVertexAttributeBindings.Name));
     }
 
     public nuint AttributeIndex

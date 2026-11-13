@@ -1,30 +1,42 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceStatePassDescriptor>
+public readonly struct MTLResourceStatePassDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLResourceStatePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLResourceStatePassDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLResourceStatePassDescriptor value) => new(value.NativePtr);
+
+    public MTLResourceStatePassDescriptor() : this(ObjectiveC.AllocInit(MTLResourceStatePassDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLResourceStatePassDescriptor() : this(ObjectiveC.AllocInit(MTLResourceStatePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLResourceStatePassDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
-        get => GetProperty(ref field, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments));
     }
 
     public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

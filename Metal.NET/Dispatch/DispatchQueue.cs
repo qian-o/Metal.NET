@@ -2,26 +2,44 @@
 
 namespace Metal.NET;
 
-public partial class DispatchQueue(nint nativePtr, NativeObjectOwnership ownership) : DispatchObject(nativePtr, ownership), INativeObject<DispatchQueue>
+public readonly partial struct DispatchQueue(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static DispatchQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static DispatchQueue New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public DispatchQueue Retain()
     {
-        return new(nativePtr, ownership);
+        DispatchRetain(NativePtr);
+
+        return this;
     }
-    #endregion
+
+    public void Release()
+    {
+        DispatchRelease(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public static DispatchQueue Create(string label, nint attr)
     {
-        return new DispatchQueue(DispatchQueueCreate(label, attr), NativeObjectOwnership.Managed);
+        return new(DispatchQueueCreate(label, attr));
     }
 
     public static DispatchQueue GetGlobalQueue(nint identifier, nuint flags)
     {
-        return new DispatchQueue(DispatchGetGlobalQueue(identifier, flags), NativeObjectOwnership.Borrowed);
+        return new(DispatchGetGlobalQueue(identifier, flags));
     }
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_retain")]
+    private static partial void DispatchRetain(nint @object);
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
+    private static partial void DispatchRelease(nint @object);
 
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_queue_create", StringMarshalling = StringMarshalling.Utf8)]
     private static partial nint DispatchQueueCreate(string label, nint attr);

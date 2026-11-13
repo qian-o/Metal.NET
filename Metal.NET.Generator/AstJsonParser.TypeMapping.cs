@@ -10,7 +10,7 @@ partial class AstJsonParser
     /// Handles <c>id&lt;Protocol&gt;</c>, <c>NSArray</c>/<c>NSDictionary</c> generics,
     /// block handler types, inline blocks, and standard ObjC → C++ style type names.
     /// </summary>
-    static string MapObjCTypeForModel(string objcType)
+    internal static string MapObjCTypeForModel(string objcType)
     {
         string t = StripNullability(objcType).Trim();
 
@@ -26,6 +26,17 @@ partial class AstJsonParser
         if (idConstPtrMatch.Success)
         {
             return $"{ParamDef.ObjArray}{idConstPtrMatch.Groups[1].Value}";
+        }
+
+        // id<NSObject> * → AutoreleasedNSObject* (out parameter)
+        if (t.StartsWith("id<") && t.EndsWith('*'))
+        {
+            string inner = t.TrimEnd('*', ' ').Trim();
+            Match idPtrMatch = IdProtocolRegex().Match(inner);
+            if (idPtrMatch.Success)
+            {
+                return $"Autoreleased{idPtrMatch.Groups[1].Value}*";
+            }
         }
 
         // id<Protocol> → Protocol*

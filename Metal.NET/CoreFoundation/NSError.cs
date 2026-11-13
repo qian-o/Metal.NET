@@ -1,15 +1,27 @@
 namespace Metal.NET;
 
-public class NSError(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSError>
+public readonly struct NSError(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new NSError Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new NSError New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(NSError value) => new(value.NativePtr);
+
+    public NSError Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public int Code
     {
@@ -18,12 +30,12 @@ public class NSError(nint nativePtr, NativeObjectOwnership ownership) : NSObject
 
     public NSString Domain
     {
-        get => GetProperty(ref field, NSErrorBindings.Domain);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, NSErrorBindings.Domain));
     }
 
     public NSString LocalizedDescription
     {
-        get => GetProperty(ref field, NSErrorBindings.LocalizedDescription);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, NSErrorBindings.LocalizedDescription));
     }
 }
 

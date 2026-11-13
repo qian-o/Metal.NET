@@ -1,19 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStructMember>
+public readonly struct MTLStructMember(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLStructMember Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLStructMember New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLStructMember value) => new(value.NativePtr);
+
+    public MTLStructMember Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSString Name
     {
-        get => GetProperty(ref field, MTLStructMemberBindings.Name);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.Name));
     }
 
     public nuint Offset
@@ -35,35 +47,35 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.StructType);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLArrayType ArrayType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.ArrayType);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLTextureReferenceType TextureReferenceType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.TextureReferenceType);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLPointerType PointerType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.PointerType);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public MTLTensorReferenceType TensorReferenceType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.TensorReferenceType);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

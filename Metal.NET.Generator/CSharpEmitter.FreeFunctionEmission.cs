@@ -7,7 +7,7 @@ partial class CSharpEmitter
     /// <summary>
     /// Builds the shared parameter lists for a free function (P/Invoke params, wrapper params, call args).
     /// </summary>
-    (string PInvokeReturnType, string PInvokeParams, string WrapperParams, string CallArgs, string CsReturnType, string? ArrayElemType)
+    (string PInvokeReturnType, string PInvokeParams, string WrapperParams, string CallArgs, string CsReturnType, string? ArrayElemType, List<(string CsType, string CsName, string PtrVar)> OutParams)
         BuildFreeFunctionSignature(FreeFunctionDef func, string csClassName)
     {
         string csReturnType = TypeMapper.MapType(func.ReturnType);
@@ -23,22 +23,35 @@ partial class CSharpEmitter
         List<string> pinvokeParams = [];
         List<string> wrapperParams = [];
         List<string> callArgs = [];
+        List<(string CsType, string CsName, string PtrVar)> outParams = [];
 
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = TypeMapper.MapType(p.Type);
             string csName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name));
 
-            if (typeMapper.IsNativeObjectType(csType))
+            if (p.Type.StartsWith("Autoreleased"))
+            {
+                string csType = TypeMapper.MapType(p.Type["Autoreleased".Length..]);
+                string ptrVar = $"{csName}Ptr";
+                pinvokeParams.Add($"out nint {csName}");
+                wrapperParams.Add($"out {csType} {csName}");
+                callArgs.Add($"out nint {ptrVar}");
+                outParams.Add((csType, csName, ptrVar));
+                continue;
+            }
+
+            string csParamType = TypeMapper.MapType(p.Type);
+
+            if (typeMapper.IsNativeObjectType(csParamType) || context.BlockTypeAliases.Any(b => b.CsDelegateName == csParamType))
             {
                 pinvokeParams.Add($"nint {csName}");
-                wrapperParams.Add($"{csType} {csName}");
+                wrapperParams.Add($"{csParamType} {csName}");
                 callArgs.Add($"{csName}.NativePtr");
             }
             else
             {
-                pinvokeParams.Add($"{csType} {csName}");
-                wrapperParams.Add($"{csType} {csName}");
+                pinvokeParams.Add($"{csParamType} {csName}");
+                wrapperParams.Add($"{csParamType} {csName}");
                 callArgs.Add(csName);
             }
         }
@@ -46,7 +59,7 @@ partial class CSharpEmitter
         string pinvokeReturnType = (nullable || returnsArray) ? "nint" : csReturnType;
 
         return (pinvokeReturnType, string.Join(", ", pinvokeParams), string.Join(", ", wrapperParams),
-            string.Join(", ", callArgs), csReturnType, returnArrayElemType);
+            string.Join(", ", callArgs), csReturnType, returnArrayElemType, outParams);
     }
 
     /// <summary>
@@ -60,20 +73,18 @@ partial class CSharpEmitter
 
         string csFullReturnType = returnsArray ? $"NSArray<{sig.ArrayElemType}>" : sig.CsReturnType;
 
-        if (returnsArray)
-        {
-            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({sig.WrapperParams})");
-            sb.AppendLine("    {");
-            sb.AppendLine($"        return new({func.CEntryPoint}({sig.CallArgs}), NativeObjectOwnership.Owned);");
-            sb.AppendLine("    }");
-        }
-        else if (nullable)
+        if (returnsArray || nullable)
         {
             sb.AppendLine($"    public static {csFullReturnType} {func.Name}({sig.WrapperParams})");
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({sig.CallArgs});");
+            foreach ((_, string csName, string ptrVar) in sig.OutParams)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"        {csName} = new({ptrVar});");
+            }
             sb.AppendLine();
-            sb.AppendLine("        return new(nativePtr, NativeObjectOwnership.Owned);");
+            sb.AppendLine("        return new(nativePtr);");
             sb.AppendLine("    }");
         }
         else if (sig.CsReturnType == "void")

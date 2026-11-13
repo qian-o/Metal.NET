@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchiveDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBinaryArchiveDescriptor>
+public readonly struct MTLBinaryArchiveDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLBinaryArchiveDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLBinaryArchiveDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLBinaryArchiveDescriptor value) => new(value.NativePtr);
+
+    public MTLBinaryArchiveDescriptor() : this(ObjectiveC.AllocInit(MTLBinaryArchiveDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLBinaryArchiveDescriptor() : this(ObjectiveC.AllocInit(MTLBinaryArchiveDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLBinaryArchiveDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSURL Url
     {
-        get => GetProperty(ref field, MTLBinaryArchiveDescriptorBindings.Url);
-        set => SetProperty(ref field, MTLBinaryArchiveDescriptorBindings.SetUrl, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBinaryArchiveDescriptorBindings.Url));
+        set => ObjectiveC.MsgSend(NativePtr, MTLBinaryArchiveDescriptorBindings.SetUrl, value.NativePtr);
     }
 }
 

@@ -6,14 +6,14 @@ partial class CSharpEmitter
 
     /// <summary>
     /// Emits a single property (getter + optional setter) into <paramref name="sb"/>.
-    /// Returns <see langword="false"/> if the property is inherited and should be skipped.
+    /// Returns <see langword="false"/> if the property was already emitted or cannot be resolved.
     /// </summary>
-    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
+    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, List<string> ancestors, SortedDictionary<string, string> selectors, HashSet<string> emittedProperties)
     {
         MethodInfo getter = prop.Getter;
         string csPropName = TypeMapper.ToPascalCase(getter.Name);
 
-        if (inheritedProperties.Contains(csPropName))
+        if (!emittedProperties.Add(csPropName))
         {
             return false;
         }
@@ -23,7 +23,7 @@ partial class CSharpEmitter
         string? nsArrayElemType = null;
         if (csType == "NSArray")
         {
-            nsArrayElemType = TryResolveNSArrayElementType(csClassName, csPropName);
+            nsArrayElemType = TryResolveNSArrayElementType(csClassName, csPropName, ancestors);
             if (nsArrayElemType == null) return false;
         }
 
@@ -57,23 +57,27 @@ partial class CSharpEmitter
 
         if (isNSArray)
         {
+            RecordMsgSend("MsgSendNInt");
             sb.AppendLine($"    public NSArray<{nsArrayElemType}> {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => GetProperty(ref field, {selectorRef});");
+            sb.AppendLine($"        get => new(ObjectiveC.MsgSendNInt({Target}, {selectorRef}));");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => SetProperty(ref field, {csClassName}Bindings.{setSelName}, value);");
+                RecordMsgSend("MsgSend", "nint");
+                sb.AppendLine($"        set => ObjectiveC.MsgSend({Target}, {csClassName}Bindings.{setSelName}, value.NativePtr);");
             }
             sb.AppendLine("    }");
         }
         else if (nullable)
         {
+            RecordMsgSend("MsgSendNInt");
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => GetProperty(ref field, {selectorRef});");
+            sb.AppendLine($"        get => new(ObjectiveC.MsgSendNInt({Target}, {selectorRef}));");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => SetProperty(ref field, {csClassName}Bindings.{setSelName}, value);");
+                RecordMsgSend("MsgSend", "nint");
+                sb.AppendLine($"        set => ObjectiveC.MsgSend({Target}, {csClassName}Bindings.{setSelName}, value.NativePtr);");
             }
             sb.AppendLine("    }");
         }

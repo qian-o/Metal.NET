@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassSampleBufferAttachmentDescriptor>
+public readonly struct MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRenderPassSampleBufferAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRenderPassSampleBufferAttachmentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRenderPassSampleBufferAttachmentDescriptor value) => new(value.NativePtr);
+
+    public MTLRenderPassSampleBufferAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassSampleBufferAttachmentDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLRenderPassSampleBufferAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassSampleBufferAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPassSampleBufferAttachmentDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLCounterSampleBuffer SampleBuffer
     {
-        get => GetProperty(ref field, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
-        set => SetProperty(ref field, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SampleBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value.NativePtr);
     }
 
     public nuint StartOfVertexSampleIndex

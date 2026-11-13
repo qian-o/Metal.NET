@@ -6,7 +6,7 @@ partial class CSharpEmitter
 
     /// <summary>
     /// Generates the auto-generated Interop/ObjectiveC.cs file containing all required
-    /// MsgSend overloads using delegate* unmanaged function pointers, null-guard wrappers,
+    /// MsgSend overloads using delegate* unmanaged function pointers,
     /// and Alloc/Init/Release helpers.
     /// Signatures are collected during property/method emission via RecordMsgSend().
     /// </summary>
@@ -31,10 +31,8 @@ partial class CSharpEmitter
         sb.AppendLine("        [");
         sb.AppendLine("            \"CoreGraphics\",");
         sb.AppendLine("            \"QuartzCore\",");
-        sb.AppendLine("            \"AppKit\",");
         sb.AppendLine("            \"Metal\",");
-        sb.AppendLine("            \"MetalFX\",");
-        sb.AppendLine("            \"MetalKit\"");
+        sb.AppendLine("            \"MetalFX\"");
         sb.AppendLine("        ];");
         sb.AppendLine();
         sb.AppendLine("        foreach (string framework in frameworks)");
@@ -48,30 +46,10 @@ partial class CSharpEmitter
         sb.AppendLine("    #region Class and Selector Lookups");
         sb.AppendLine();
         sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_getClass\", StringMarshalling = StringMarshalling.Utf8)]");
-        sb.AppendLine("    private static partial nint _GetClass(string name);");
+        sb.AppendLine("    public static partial nint GetClass(string name);");
         sb.AppendLine();
         sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"sel_registerName\", StringMarshalling = StringMarshalling.Utf8)]");
-        sb.AppendLine("    private static partial Selector _RegisterName(string name);");
-        sb.AppendLine();
-        sb.AppendLine("    public static nint GetClass(string name)");
-        sb.AppendLine("    {");
-        sb.AppendLine("        if (string.IsNullOrEmpty(name))");
-        sb.AppendLine("        {");
-        sb.AppendLine("            return 0;");
-        sb.AppendLine("        }");
-        sb.AppendLine();
-        sb.AppendLine("        return _GetClass(name);");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-        sb.AppendLine("    public static Selector RegisterName(string name)");
-        sb.AppendLine("    {");
-        sb.AppendLine("        if (string.IsNullOrEmpty(name))");
-        sb.AppendLine("        {");
-        sb.AppendLine("            return default;");
-        sb.AppendLine("        }");
-        sb.AppendLine();
-        sb.AppendLine("        return _RegisterName(name);");
-        sb.AppendLine("    }");
+        sb.AppendLine("    public static partial Selector RegisterName(string name);");
         sb.AppendLine();
         sb.AppendLine("    #endregion");
 
@@ -93,21 +71,15 @@ partial class CSharpEmitter
                 sb.AppendLine($"    public static {returnType} {group}(nint receiver, Selector selector{BuildPublicParams(parameters)})");
                 sb.AppendLine("    {");
 
-                // Null guard
-                sb.AppendLine("        if (receiver is 0)");
-                sb.AppendLine("        {");
                 var outGuardParams = parameters.Where(p => p.Kind == ParamKind.Out).ToList();
                 foreach (var p in outGuardParams)
                 {
-                    sb.AppendLine($"            {p.Letter} = default;");
+                    sb.AppendLine($"        {p.Letter} = default;");
                 }
-                if (outGuardParams.Count > 1)
+                if (outGuardParams.Count > 0)
                 {
                     sb.AppendLine();
                 }
-                sb.AppendLine(isVoid ? "            return;" : "            return default;");
-                sb.AppendLine("        }");
-                sb.AppendLine();
 
                 // Build and emit call expression
                 string delegateType = BuildDelegateUnmanagedType(parameters, returnType);

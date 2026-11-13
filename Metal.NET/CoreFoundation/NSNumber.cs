@@ -1,98 +1,89 @@
 namespace Metal.NET;
 
-public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSNumber>
+public readonly struct NSNumber(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new NSNumber New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(NSNumber value) => new(value.NativePtr);
+
+    public NSNumber(bool value) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithBool, value))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
+
+    public NSNumber(int value) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithInt, value))
+    {
+    }
+
+    public NSNumber(uint value) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedInt, value))
+    {
+    }
+
+    public NSNumber(long value) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithLongLong, value))
+    {
+    }
+
+    public NSNumber(ulong value) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedLongLong, value))
+    {
+    }
+
+    public NSNumber(float value) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithFloat, value))
+    {
+    }
+
+    public NSNumber(double value) : this(ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithDouble, value))
+    {
+    }
+
+    public NSNumber Retain()
+    {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public bool BoolValue
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, NSNumberInteropBindings.BoolValue);
+        get => ObjectiveC.MsgSendBool(NativePtr, NSNumberBindings.BoolValue);
     }
 
     public int IntValue
     {
-        get => ObjectiveC.MsgSendInt(NativePtr, NSNumberInteropBindings.IntValue);
+        get => ObjectiveC.MsgSendInt(NativePtr, NSNumberBindings.IntValue);
     }
 
     public uint UnsignedIntValue
     {
-        get => ObjectiveC.MsgSendUInt(NativePtr, NSNumberInteropBindings.UnsignedIntValue);
+        get => ObjectiveC.MsgSendUInt(NativePtr, NSNumberBindings.UnsignedIntValue);
     }
 
     public long LongLongValue
     {
-        get => ObjectiveC.MsgSendLong(NativePtr, NSNumberInteropBindings.LongLongValue);
+        get => ObjectiveC.MsgSendLong(NativePtr, NSNumberBindings.LongLongValue);
     }
 
     public ulong UnsignedLongLongValue
     {
-        get => ObjectiveC.MsgSendULong(NativePtr, NSNumberInteropBindings.UnsignedLongLongValue);
+        get => ObjectiveC.MsgSendULong(NativePtr, NSNumberBindings.UnsignedLongLongValue);
     }
 
     public float FloatValue
     {
-        get => ObjectiveC.MsgSendFloat(NativePtr, NSNumberInteropBindings.FloatValue);
+        get => ObjectiveC.MsgSendFloat(NativePtr, NSNumberBindings.FloatValue);
     }
 
     public double DoubleValue
     {
-        get => ObjectiveC.MsgSendDouble(NativePtr, NSNumberInteropBindings.DoubleValue);
-    }
-
-    public static implicit operator NSNumber(bool value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithBool, value);
-
-        return new(nativePtr, NativeObjectOwnership.Managed);
-    }
-
-    public static implicit operator NSNumber(int value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithInt, value);
-
-        return new(nativePtr, NativeObjectOwnership.Managed);
-    }
-
-    public static implicit operator NSNumber(uint value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithUnsignedInt, value);
-
-        return new(nativePtr, NativeObjectOwnership.Managed);
-    }
-
-    public static implicit operator NSNumber(long value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithLongLong, value);
-
-        return new(nativePtr, NativeObjectOwnership.Managed);
-    }
-
-    public static implicit operator NSNumber(ulong value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithUnsignedLongLong, value);
-
-        return new(nativePtr, NativeObjectOwnership.Managed);
-    }
-
-    public static implicit operator NSNumber(float value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithFloat, value);
-
-        return new(nativePtr, NativeObjectOwnership.Managed);
-    }
-
-    public static implicit operator NSNumber(double value)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NSNumberInteropBindings.Class, NSNumberInteropBindings.NumberWithDouble, value);
-
-        return new(nativePtr, NativeObjectOwnership.Managed);
+        get => ObjectiveC.MsgSendDouble(NativePtr, NSNumberBindings.DoubleValue);
     }
 
     public static implicit operator bool(NSNumber value)
@@ -131,35 +122,35 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
     }
 }
 
-file static class NSNumberInteropBindings
+file static class NSNumberBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSNumber");
 
-    public static readonly Selector NumberWithBool = "numberWithBool:";
-
-    public static readonly Selector NumberWithInt = "numberWithInt:";
-
-    public static readonly Selector NumberWithUnsignedInt = "numberWithUnsignedInt:";
-
-    public static readonly Selector NumberWithLongLong = "numberWithLongLong:";
-
-    public static readonly Selector NumberWithUnsignedLongLong = "numberWithUnsignedLongLong:";
-
-    public static readonly Selector NumberWithFloat = "numberWithFloat:";
-
-    public static readonly Selector NumberWithDouble = "numberWithDouble:";
-
     public static readonly Selector BoolValue = "boolValue";
 
-    public static readonly Selector IntValue = "intValue";
-
-    public static readonly Selector UnsignedIntValue = "unsignedIntValue";
-
-    public static readonly Selector LongLongValue = "longLongValue";
-
-    public static readonly Selector UnsignedLongLongValue = "unsignedLongLongValue";
+    public static readonly Selector DoubleValue = "doubleValue";
 
     public static readonly Selector FloatValue = "floatValue";
 
-    public static readonly Selector DoubleValue = "doubleValue";
+    public static readonly Selector InitWithBool = "initWithBool:";
+
+    public static readonly Selector InitWithDouble = "initWithDouble:";
+
+    public static readonly Selector InitWithFloat = "initWithFloat:";
+
+    public static readonly Selector InitWithInt = "initWithInt:";
+
+    public static readonly Selector InitWithLongLong = "initWithLongLong:";
+
+    public static readonly Selector InitWithUnsignedInt = "initWithUnsignedInt:";
+
+    public static readonly Selector InitWithUnsignedLongLong = "initWithUnsignedLongLong:";
+
+    public static readonly Selector IntValue = "intValue";
+
+    public static readonly Selector LongLongValue = "longLongValue";
+
+    public static readonly Selector UnsignedIntValue = "unsignedIntValue";
+
+    public static readonly Selector UnsignedLongLongValue = "unsignedLongLongValue";
 }

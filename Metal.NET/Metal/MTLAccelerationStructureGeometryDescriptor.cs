@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAccelerationStructureGeometryDescriptor>
+public readonly struct MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLAccelerationStructureGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLAccelerationStructureGeometryDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLAccelerationStructureGeometryDescriptor value) => new(value.NativePtr);
+
+    public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructureGeometryDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructureGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLAccelerationStructureGeometryDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint IntersectionFunctionTableOffset
@@ -35,14 +47,14 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, NativeOb
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public MTLBuffer PrimitiveDataBuffer
     {
-        get => GetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, value.NativePtr);
     }
 
     public nuint PrimitiveDataBufferOffset

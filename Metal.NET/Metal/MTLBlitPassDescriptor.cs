@@ -1,30 +1,42 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBlitPassDescriptor>
+public readonly struct MTLBlitPassDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLBlitPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLBlitPassDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLBlitPassDescriptor value) => new(value.NativePtr);
+
+    public MTLBlitPassDescriptor() : this(ObjectiveC.AllocInit(MTLBlitPassDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLBlitPassDescriptor() : this(ObjectiveC.AllocInit(MTLBlitPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLBlitPassDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLBlitPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
-        get => GetProperty(ref field, MTLBlitPassDescriptorBindings.SampleBufferAttachments);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBlitPassDescriptorBindings.SampleBufferAttachments));
     }
 
     public static MTLBlitPassDescriptor BlitPassDescriptor()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

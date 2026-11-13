@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLMotionKeyframeData>
+public readonly struct MTLMotionKeyframeData(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLMotionKeyframeData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLMotionKeyframeData New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLMotionKeyframeData value) => new(value.NativePtr);
+
+    public MTLMotionKeyframeData() : this(ObjectiveC.AllocInit(MTLMotionKeyframeDataBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLMotionKeyframeData() : this(ObjectiveC.AllocInit(MTLMotionKeyframeDataBindings.Class), NativeObjectOwnership.Managed)
+    public MTLMotionKeyframeData Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLBuffer Buffer
     {
-        get => GetProperty(ref field, MTLMotionKeyframeDataBindings.Buffer);
-        set => SetProperty(ref field, MTLMotionKeyframeDataBindings.SetBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLMotionKeyframeDataBindings.Buffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetBuffer, value.NativePtr);
     }
 
     public nuint Offset

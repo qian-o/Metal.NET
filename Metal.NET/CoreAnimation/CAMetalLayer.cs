@@ -1,29 +1,41 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<CAMetalLayer>
+public readonly struct CAMetalLayer(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new CAMetalLayer New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(CAMetalLayer value) => new(value.NativePtr);
+
+    public CAMetalLayer() : this(ObjectiveC.AllocInit(CAMetalLayerBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public CAMetalLayer() : this(ObjectiveC.AllocInit(CAMetalLayerBindings.Class), NativeObjectOwnership.Managed)
+    public CAMetalLayer Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLDevice Device
     {
-        get => GetProperty(ref field, CAMetalLayerBindings.Device);
-        set => SetProperty(ref field, CAMetalLayerBindings.SetDevice, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.Device));
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDevice, value.NativePtr);
     }
 
     public MTLDevice PreferredDevice
     {
-        get => GetProperty(ref field, CAMetalLayerBindings.PreferredDevice);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.PreferredDevice));
     }
 
     public MTLPixelFormat PixelFormat
@@ -58,8 +70,8 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public CGColorSpace Colorspace
     {
-        get => GetProperty(ref field, CAMetalLayerBindings.Colorspace);
-        set => SetProperty(ref field, CAMetalLayerBindings.SetColorspace, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.Colorspace));
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetColorspace, value.NativePtr);
     }
 
     public Bool8 WantsExtendedDynamicRangeContent
@@ -70,8 +82,8 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public CAEDRMetadata EDRMetadata
     {
-        get => GetProperty(ref field, CAMetalLayerBindings.EDRMetadata);
-        set => SetProperty(ref field, CAMetalLayerBindings.SetEDRMetadata, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.EDRMetadata));
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetEDRMetadata, value.NativePtr);
     }
 
     public Bool8 DisplaySyncEnabled
@@ -88,20 +100,20 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public NSDictionary DeveloperHUDProperties
     {
-        get => GetProperty(ref field, CAMetalLayerBindings.DeveloperHUDProperties);
-        set => SetProperty(ref field, CAMetalLayerBindings.SetDeveloperHUDProperties, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.DeveloperHUDProperties));
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDeveloperHUDProperties, value.NativePtr);
     }
 
     public MTLResidencySet ResidencySet
     {
-        get => GetProperty(ref field, CAMetalLayerBindings.ResidencySet);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.ResidencySet));
     }
 
     public CAMetalDrawable NextDrawable()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.NextDrawable);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

@@ -1,24 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
+public readonly struct MTLCaptureDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCaptureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCaptureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCaptureDescriptor value) => new(value.NativePtr);
+
+    public MTLCaptureDescriptor() : this(ObjectiveC.AllocInit(MTLCaptureDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLCaptureDescriptor() : this(ObjectiveC.AllocInit(MTLCaptureDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCaptureDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSObject CaptureObject
     {
-        get => GetProperty(ref field, MTLCaptureDescriptorBindings.CaptureObject);
-        set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetCaptureObject, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureDescriptorBindings.CaptureObject));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetCaptureObject, value.NativePtr);
     }
 
     public MTLCaptureDestination Destination
@@ -29,8 +41,8 @@ public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public NSURL OutputURL
     {
-        get => GetProperty(ref field, MTLCaptureDescriptorBindings.OutputURL);
-        set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetOutputURL, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureDescriptorBindings.OutputURL));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetOutputURL, value.NativePtr);
     }
 }
 

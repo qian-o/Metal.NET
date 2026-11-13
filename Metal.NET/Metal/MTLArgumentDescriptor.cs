@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLArgumentDescriptor>
+public readonly struct MTLArgumentDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLArgumentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLArgumentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLArgumentDescriptor value) => new(value.NativePtr);
+
+    public MTLArgumentDescriptor() : this(ObjectiveC.AllocInit(MTLArgumentDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLArgumentDescriptor() : this(ObjectiveC.AllocInit(MTLArgumentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLArgumentDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLDataType DataType
@@ -55,7 +67,7 @@ public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownersh
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

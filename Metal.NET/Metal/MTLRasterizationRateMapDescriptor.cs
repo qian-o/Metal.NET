@@ -1,23 +1,35 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMapDescriptor>
+public readonly struct MTLRasterizationRateMapDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLRasterizationRateMapDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLRasterizationRateMapDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLRasterizationRateMapDescriptor value) => new(value.NativePtr);
+
+    public MTLRasterizationRateMapDescriptor() : this(ObjectiveC.AllocInit(MTLRasterizationRateMapDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLRasterizationRateMapDescriptor() : this(ObjectiveC.AllocInit(MTLRasterizationRateMapDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRasterizationRateMapDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLRasterizationRateLayerArray Layers
     {
-        get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Layers);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.Layers));
     }
 
     public MTLSize ScreenSize
@@ -28,8 +40,8 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
 
     public NSString Label
     {
-        get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.SetLabel, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorBindings.SetLabel, value.NativePtr);
     }
 
     public nuint LayerCount
@@ -41,7 +53,7 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateMapDescriptorBindings.LayerAtIndex, layerIndex);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
@@ -53,27 +65,24 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwner
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize, screenSize);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize_Layer, screenSize, layer.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 
-    public static unsafe MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, nuint layerCount, MTLRasterizationRateLayerDescriptor[] layers)
+    public static unsafe MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptorWithScreenSize(MTLSize screenSize, nuint layerCount, ReadOnlySpan<MTLRasterizationRateLayerDescriptor> layers)
     {
-        nint* pLayers = stackalloc nint[layers.Length];
-        for (int i = 0; i < layers.Length; i++)
+        fixed (MTLRasterizationRateLayerDescriptor* pLayers = layers)
         {
-            pLayers[i] = layers[i].NativePtr;
+            nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize_LayerCount_Layers, screenSize, layerCount, (nint)pLayers);
+
+            return new(nativePtr);
         }
-
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRasterizationRateMapDescriptorBindings.Class, MTLRasterizationRateMapDescriptorBindings.RasterizationRateMapDescriptorWithScreenSize_LayerCount_Layers, screenSize, layerCount, (nint)pLayers);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLogicalToPhysicalColorAttachmentMap>
+public readonly struct MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLLogicalToPhysicalColorAttachmentMap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLLogicalToPhysicalColorAttachmentMap New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLLogicalToPhysicalColorAttachmentMap value) => new(value.NativePtr);
+
+    public MTLLogicalToPhysicalColorAttachmentMap Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
     {

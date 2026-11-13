@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLVisibleFunctionTableDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVisibleFunctionTableDescriptor>
+public readonly struct MTLVisibleFunctionTableDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLVisibleFunctionTableDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLVisibleFunctionTableDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLVisibleFunctionTableDescriptor value) => new(value.NativePtr);
+
+    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveC.AllocInit(MTLVisibleFunctionTableDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveC.AllocInit(MTLVisibleFunctionTableDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVisibleFunctionTableDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public nuint FunctionCount
@@ -25,7 +37,7 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr, NativeObjectOwner
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr);
     }
 }
 

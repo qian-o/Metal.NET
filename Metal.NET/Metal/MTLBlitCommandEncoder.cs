@@ -1,15 +1,40 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLBlitCommandEncoder>
+public readonly struct MTLBlitCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLBlitCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLBlitCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLCommandEncoder(MTLBlitCommandEncoder value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLBlitCommandEncoder value) => new(value.NativePtr);
+
+    public MTLBlitCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBlitCommandEncoderBindings.Device));
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLBlitCommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.SetLabel, value.NativePtr);
+    }
 
     /// <summary>
     /// Deprecated: Managed storage has no effect on Apple Silicon, use Shared storage instead
@@ -161,10 +186,37 @@ public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownersh
     {
         ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.CopyFromTensor_SourceOrigin_SourceDimensions_SourcePlane_ToTensor_DestinationOrigin_DestinationDimensions_DestinationPlane, sourceTensor.NativePtr, sourceOrigin.NativePtr, sourceDimensions.NativePtr, (nint)sourcePlane, destinationTensor.NativePtr, destinationOrigin.NativePtr, destinationDimensions.NativePtr, (nint)destinationPlane);
     }
+
+    public void EndEncoding()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.EndEncoding);
+    }
+
+    public void Barrier(MTLStages afterQueueStages, MTLStages beforeStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.BarrierAfterQueueStages_BeforeStages, (nuint)afterQueueStages, (nuint)beforeStages);
+    }
+
+    public void InsertDebugSignpost(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+    }
+
+    public void PushDebugGroup(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+    }
+
+    public void PopDebugGroup()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.PopDebugGroup);
+    }
 }
 
 file static class MTLBlitCommandEncoderBindings
 {
+    public static readonly Selector BarrierAfterQueueStages_BeforeStages = "barrierAfterQueueStages:beforeStages:";
+
     public static readonly Selector CopyFromBuffer_SourceOffset_SourceBytesPerRow_SourceBytesPerImage_SourceSize_ToTexture_DestinationSlice_DestinationLevel_DestinationOrigin = "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:";
 
     public static readonly Selector CopyFromBuffer_SourceOffset_SourceBytesPerRow_SourceBytesPerImage_SourceSize_ToTexture_DestinationSlice_DestinationLevel_DestinationOrigin_Options = "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:options:";
@@ -187,11 +239,19 @@ file static class MTLBlitCommandEncoderBindings
 
     public static readonly Selector CopyIndirectCommandBuffer_SourceRange_Destination_DestinationIndex = "copyIndirectCommandBuffer:sourceRange:destination:destinationIndex:";
 
+    public static readonly Selector Device = "device";
+
+    public static readonly Selector EndEncoding = "endEncoding";
+
     public static readonly Selector FillBuffer_Range_Value = "fillBuffer:range:value:";
 
     public static readonly Selector GenerateMipmapsForTexture = "generateMipmapsForTexture:";
 
     public static readonly Selector GetTextureAccessCounters_Region_MipLevel_Slice_ResetCounters_CountersBuffer_CountersBufferOffset = "getTextureAccessCounters:region:mipLevel:slice:resetCounters:countersBuffer:countersBufferOffset:";
+
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
+
+    public static readonly Selector Label = "label";
 
     public static readonly Selector OptimizeContentsForCPUAccess = "optimizeContentsForCPUAccess:";
 
@@ -203,6 +263,10 @@ file static class MTLBlitCommandEncoderBindings
 
     public static readonly Selector OptimizeIndirectCommandBuffer_WithRange = "optimizeIndirectCommandBuffer:withRange:";
 
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
+
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
+
     public static readonly Selector ResetCommandsInBuffer_WithRange = "resetCommandsInBuffer:withRange:";
 
     public static readonly Selector ResetTextureAccessCounters_Region_MipLevel_Slice = "resetTextureAccessCounters:region:mipLevel:slice:";
@@ -210,6 +274,8 @@ file static class MTLBlitCommandEncoderBindings
     public static readonly Selector ResolveCounters_InRange_DestinationBuffer_DestinationOffset = "resolveCounters:inRange:destinationBuffer:destinationOffset:";
 
     public static readonly Selector SampleCountersInBuffer_AtSampleIndex_WithBarrier = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector SynchronizeResource = "synchronizeResource:";
 

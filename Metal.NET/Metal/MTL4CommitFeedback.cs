@@ -1,19 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommitFeedback(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommitFeedback>
+public readonly struct MTL4CommitFeedback(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTL4CommitFeedback Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTL4CommitFeedback New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTL4CommitFeedback value) => new(value.NativePtr);
+
+    public MTL4CommitFeedback Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public NSError Error
     {
-        get => GetProperty(ref field, MTL4CommitFeedbackBindings.Error);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTL4CommitFeedbackBindings.Error));
     }
 
     public double GpuStartTime

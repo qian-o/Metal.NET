@@ -1,36 +1,48 @@
 ﻿namespace Metal.NET;
 
-public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStitchedLibraryDescriptor>
+public readonly struct MTLStitchedLibraryDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLStitchedLibraryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLStitchedLibraryDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLStitchedLibraryDescriptor value) => new(value.NativePtr);
+
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveC.AllocInit(MTLStitchedLibraryDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLStitchedLibraryDescriptor() : this(ObjectiveC.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLStitchedLibraryDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public NSArray<MTLFunctionStitchingGraph> FunctionGraphs
     {
-        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
-        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLStitchedLibraryDescriptorBindings.FunctionGraphs));
+        set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value.NativePtr);
     }
 
     public NSArray<MTLFunction> Functions
     {
-        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.Functions);
-        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLStitchedLibraryDescriptorBindings.Functions));
+        set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetFunctions, value.NativePtr);
     }
 
     public NSArray<MTLBinaryArchive> BinaryArchives
     {
-        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLStitchedLibraryDescriptorBindings.BinaryArchives));
+        set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value.NativePtr);
     }
 
     public MTLStitchedLibraryOptions Options

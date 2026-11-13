@@ -1,15 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAttributeDescriptorArray>
+public readonly struct MTLAttributeDescriptorArray(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLAttributeDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLAttributeDescriptorArray New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLAttributeDescriptorArray value) => new(value.NativePtr);
+
+    public MTLAttributeDescriptorArray Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
 
     public MTLAttributeDescriptor this[nuint index]
     {
@@ -17,7 +29,7 @@ public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership o
         {
             nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
 
-            return new(nativePtr, NativeObjectOwnership.Borrowed);
+            return new(nativePtr);
         }
         set
         {

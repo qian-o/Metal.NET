@@ -1,18 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandBufferDescriptor>
+public readonly struct MTLCommandBufferDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLCommandBufferDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLCommandBufferDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(MTLCommandBufferDescriptor value) => new(value.NativePtr);
+
+    public MTLCommandBufferDescriptor() : this(ObjectiveC.AllocInit(MTLCommandBufferDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLCommandBufferDescriptor() : this(ObjectiveC.AllocInit(MTLCommandBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCommandBufferDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public Bool8 RetainedReferences
@@ -29,8 +41,8 @@ public class MTLCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ow
 
     public MTLLogState LogState
     {
-        get => GetProperty(ref field, MTLCommandBufferDescriptorBindings.LogState);
-        set => SetProperty(ref field, MTLCommandBufferDescriptorBindings.SetLogState, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLCommandBufferDescriptorBindings.LogState));
+        set => ObjectiveC.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetLogState, value.NativePtr);
     }
 }
 

@@ -1,27 +1,32 @@
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace Metal.NET;
 
-public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSString>
+public readonly struct NSString(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new NSString Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new NSString New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator NSObject(NSString value) => new(value.NativePtr);
+
+    public NSString(string value) : this(Create(value))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public static unsafe implicit operator NSString(string value)
+    public NSString Retain()
     {
-        fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))
-        {
-            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringInteropBindings.Class), NSStringInteropBindings.InitWithUtf8String, (nint)utf8);
+        return new(ObjectiveC.Retain(NativePtr));
+    }
 
-            return new(nativePtr, NativeObjectOwnership.Managed);
-        }
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public static implicit operator string(NSString value)
@@ -31,15 +36,23 @@ public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
 
     public override string ToString()
     {
-        return Marshal.PtrToStringUTF8(ObjectiveC.MsgSendNInt(NativePtr, NSStringInteropBindings.Utf8String)) ?? string.Empty;
+        return Marshal.PtrToStringUTF8(ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.UTF8String)) ?? string.Empty;
+    }
+
+    private static unsafe nint Create(string value)
+    {
+        fixed (char* pChars = value)
+        {
+            return ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithCharacters_Length, (nint)pChars, (nuint)value.Length);
+        }
     }
 }
 
-file static class NSStringInteropBindings
+file static class NSStringBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("NSString");
 
-    public static readonly Selector Utf8String = "UTF8String";
+    public static readonly Selector InitWithCharacters_Length = "initWithCharacters:length:";
 
-    public static readonly Selector InitWithUtf8String = "initWithUTF8String:";
+    public static readonly Selector UTF8String = "UTF8String";
 }

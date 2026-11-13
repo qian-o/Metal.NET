@@ -41,7 +41,7 @@ partial class CSharpEmitter
                 // If the strong type is a NativeObject, wrap it; otherwise pass through
                 if (strongType != p.CsType)
                 {
-                    callbackArgs.Add($"new {strongType}({p.Name}, NativeObjectOwnership.Borrowed)");
+                    callbackArgs.Add($"new {strongType}({p.Name})");
                 }
                 else
                 {
@@ -93,6 +93,12 @@ partial class CSharpEmitter
     {
         // Normalize: strip nullability annotations so both typedef and inline blocks behave consistently
         string objcType = AstJsonParser.StripNullability(param.ObjCType).Trim();
+
+        // id<Protocol> → Protocol (via model mapping)
+        if (objcType.StartsWith("id<") && objcType.EndsWith('>'))
+        {
+            return TypeMapper.MapType(AstJsonParser.MapObjCTypeForModel(objcType));
+        }
 
         // Value types pass through directly
         if (!objcType.EndsWith('*'))

@@ -1,15 +1,40 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceStateCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLResourceStateCommandEncoder>
+public readonly struct MTLResourceStateCommandEncoder(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLResourceStateCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLResourceStateCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLCommandEncoder(MTLResourceStateCommandEncoder value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLResourceStateCommandEncoder value) => new(value.NativePtr);
+
+    public MTLResourceStateCommandEncoder Retain()
     {
-        return new(nativePtr, ownership);
+        return new(ObjectiveC.Retain(NativePtr));
     }
-    #endregion
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
+    }
+
+    public MTLDevice Device
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceStateCommandEncoderBindings.Device));
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLResourceStateCommandEncoderBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.SetLabel, value.NativePtr);
+    }
 
     public void UpdateTextureMappings(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLRegion regions, nint mipLevels, nint slices, nuint numRegions)
     {
@@ -40,11 +65,52 @@ public class MTLResourceStateCommandEncoder(nint nativePtr, NativeObjectOwnershi
     {
         ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.MoveTextureMappingsFromTexture_SourceSlice_SourceLevel_SourceOrigin_SourceSize_ToTexture_DestinationSlice_DestinationLevel_DestinationOrigin, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, destinationSlice, destinationLevel, destinationOrigin);
     }
+
+    public void EndEncoding()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.EndEncoding);
+    }
+
+    public void Barrier(MTLStages afterQueueStages, MTLStages beforeStages)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.BarrierAfterQueueStages_BeforeStages, (nuint)afterQueueStages, (nuint)beforeStages);
+    }
+
+    public void InsertDebugSignpost(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+    }
+
+    public void PushDebugGroup(NSString @string)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+    }
+
+    public void PopDebugGroup()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.PopDebugGroup);
+    }
 }
 
 file static class MTLResourceStateCommandEncoderBindings
 {
+    public static readonly Selector BarrierAfterQueueStages_BeforeStages = "barrierAfterQueueStages:beforeStages:";
+
+    public static readonly Selector Device = "device";
+
+    public static readonly Selector EndEncoding = "endEncoding";
+
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
+
+    public static readonly Selector Label = "label";
+
     public static readonly Selector MoveTextureMappingsFromTexture_SourceSlice_SourceLevel_SourceOrigin_SourceSize_ToTexture_DestinationSlice_DestinationLevel_DestinationOrigin = "moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:";
+
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
+
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector UpdateFence = "updateFence:";
 

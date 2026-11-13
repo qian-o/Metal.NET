@@ -1,24 +1,38 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureTriangleGeometryDescriptor>
+public readonly struct MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : IDisposable
 {
-    #region INativeObject
-    public static new MTLAccelerationStructureTriangleGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public readonly nint NativePtr = nativePtr;
 
-    public static new MTLAccelerationStructureTriangleGeometryDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public bool IsNull => NativePtr is 0;
+
+    public static implicit operator MTLAccelerationStructureGeometryDescriptor(MTLAccelerationStructureTriangleGeometryDescriptor value) => new(value.NativePtr);
+
+    public static implicit operator NSObject(MTLAccelerationStructureTriangleGeometryDescriptor value) => new(value.NativePtr);
+
+    public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class))
     {
-        return new(nativePtr, ownership);
     }
-    #endregion
 
-    public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLAccelerationStructureTriangleGeometryDescriptor Retain()
     {
+        return new(ObjectiveC.Retain(NativePtr));
+    }
+
+    public void Release()
+    {
+        ObjectiveC.Release(NativePtr);
+    }
+
+    public void Dispose()
+    {
+        Release();
     }
 
     public MTLBuffer VertexBuffer
     {
-        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBuffer, value.NativePtr);
     }
 
     public nuint VertexBufferOffset
@@ -41,8 +55,8 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, 
 
     public MTLBuffer IndexBuffer
     {
-        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBuffer, value.NativePtr);
     }
 
     public nuint IndexBufferOffset
@@ -65,8 +79,8 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, 
 
     public MTLBuffer TransformationMatrixBuffer
     {
-        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value);
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value.NativePtr);
     }
 
     public nuint TransformationMatrixBufferOffset
@@ -81,6 +95,54 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, 
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixLayout, (nint)value);
     }
 
+    public nuint IntersectionFunctionTableOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IntersectionFunctionTableOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIntersectionFunctionTableOffset, value);
+    }
+
+    public Bool8 Opaque
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Opaque);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetOpaque, value);
+    }
+
+    public Bool8 AllowDuplicateIntersectionFunctionInvocation
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.AllowDuplicateIntersectionFunctionInvocation);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, value);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Label));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetLabel, value.NativePtr);
+    }
+
+    public MTLBuffer PrimitiveDataBuffer
+    {
+        get => new(ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.PrimitiveDataBuffer));
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetPrimitiveDataBuffer, value.NativePtr);
+    }
+
+    public nuint PrimitiveDataBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.PrimitiveDataBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetPrimitiveDataBufferOffset, value);
+    }
+
+    public nuint PrimitiveDataStride
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.PrimitiveDataStride);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetPrimitiveDataStride, value);
+    }
+
+    public nuint PrimitiveDataElementSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.PrimitiveDataElementSize);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetPrimitiveDataElementSize, value);
+    }
+
     public static nint Descriptor()
     {
         return ObjectiveC.MsgSendNInt(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Descriptor);
@@ -91,6 +153,8 @@ file static class MTLAccelerationStructureTriangleGeometryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLAccelerationStructureTriangleGeometryDescriptor");
 
+    public static readonly Selector AllowDuplicateIntersectionFunctionInvocation = "allowDuplicateIntersectionFunctionInvocation";
+
     public static readonly Selector Descriptor = "descriptor";
 
     public static readonly Selector IndexBuffer = "indexBuffer";
@@ -99,11 +163,41 @@ file static class MTLAccelerationStructureTriangleGeometryDescriptorBindings
 
     public static readonly Selector IndexType = "indexType";
 
+    public static readonly Selector IntersectionFunctionTableOffset = "intersectionFunctionTableOffset";
+
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector Opaque = "opaque";
+
+    public static readonly Selector PrimitiveDataBuffer = "primitiveDataBuffer";
+
+    public static readonly Selector PrimitiveDataBufferOffset = "primitiveDataBufferOffset";
+
+    public static readonly Selector PrimitiveDataElementSize = "primitiveDataElementSize";
+
+    public static readonly Selector PrimitiveDataStride = "primitiveDataStride";
+
+    public static readonly Selector SetAllowDuplicateIntersectionFunctionInvocation = "setAllowDuplicateIntersectionFunctionInvocation:";
+
     public static readonly Selector SetIndexBuffer = "setIndexBuffer:";
 
     public static readonly Selector SetIndexBufferOffset = "setIndexBufferOffset:";
 
     public static readonly Selector SetIndexType = "setIndexType:";
+
+    public static readonly Selector SetIntersectionFunctionTableOffset = "setIntersectionFunctionTableOffset:";
+
+    public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector SetOpaque = "setOpaque:";
+
+    public static readonly Selector SetPrimitiveDataBuffer = "setPrimitiveDataBuffer:";
+
+    public static readonly Selector SetPrimitiveDataBufferOffset = "setPrimitiveDataBufferOffset:";
+
+    public static readonly Selector SetPrimitiveDataElementSize = "setPrimitiveDataElementSize:";
+
+    public static readonly Selector SetPrimitiveDataStride = "setPrimitiveDataStride:";
 
     public static readonly Selector SetTransformationMatrixBuffer = "setTransformationMatrixBuffer:";
 
